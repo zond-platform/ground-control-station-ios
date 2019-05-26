@@ -1,0 +1,16 @@
+PODS:
+  - DJI-SDK-iOS (4.9.1)
+
+DEPENDENCIES:
+  - DJI-SDK-iOS (~> 4.9)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - DJI-SDK-iOS
+
+SPEC CHECKSUMS:
+  DJI-SDK-iOS: 2c7f4cc888909dd0996c4ae38bb25b979d76ce19
+
+PODFILE CHECKSUM: 2653edf597949e28f4ef2c61cf4f48396e7f24cb
+
+COCOAPODS: 1.6.1

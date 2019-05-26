@@ -6,8 +6,28 @@
 	<dict>
 		<key>DroneMap.xcscheme_^#shared#^_</key>
 		<dict>
+			<key>isShown</key>
+			<true/>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>2</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>EC950E8221B81EA600B3A03D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EC950E9621B81EA700B3A03D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EC950EA121B81EA800B3A03D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

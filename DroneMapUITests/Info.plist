@@ -18,5 +18,7 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>DJISDKAppKey</key>
+	<string>634b8fe64fabc80f214e67fe</string>
 </dict>
 </plist>
