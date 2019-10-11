@@ -61,11 +61,11 @@ extension NavigationViewController : NavigationViewDelegate {
     }
     
     func takeOffRequested() {
-        env.commandService().takeOff()
+        env.commandService().doAction(.takeoff)
     }
     
     func landingRequested() {
-        env.commandService().land()
+        env.commandService().doAction(.land)
     }
 }
 

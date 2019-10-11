@@ -12,8 +12,3 @@ protocol ServiceProtocol {
     func start()
     func stop()
 }
-
-extension ServiceProtocol {
-    func start() {}
-    func stop() {}
-}

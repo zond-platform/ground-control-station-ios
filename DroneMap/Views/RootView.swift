@@ -62,7 +62,7 @@ class RootView : UIView {
         tabView.frame = CGRect(
             x: 0,
             y: 0,
-            width: screenWidth * 0.4,
+            width: screenWidth * 0.7,
             height: screenHeight
         )
     }

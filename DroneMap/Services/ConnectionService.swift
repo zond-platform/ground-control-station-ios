@@ -50,6 +50,8 @@ extension ConnectionService : ServiceProtocol {
 
 /*************************************************************************************************/
 extension ConnectionService : DJISDKManagerDelegate {
+    func didUpdateDatabaseDownloadProgress(_ progress: Progress) {}
+    
     func appRegisteredWithError(_ error: Error?) {
         if error != nil {
             env.logger.logError("SDK registration failed: \(error!.localizedDescription)", .connection)

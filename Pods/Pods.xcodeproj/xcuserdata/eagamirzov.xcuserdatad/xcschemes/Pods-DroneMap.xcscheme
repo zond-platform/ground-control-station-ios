@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7A281DFEF4BA835DD45E3CB821034B68"
+               BlueprintIdentifier = "C816B892DB9C2444C0EDAEADB93BB2CF"
                BuildableName = "libPods-DroneMap.a"
                BlueprintName = "Pods-DroneMap"
                ReferencedContainer = "container:Pods.xcodeproj">

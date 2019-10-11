@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		1C45AB7BA6A8A8FF554B466A84FCC1A6 /* DJI-SDK-iOS */ = {
+		6D72D25C203F68284F9FF3A11DEB60C9 /* DJI-SDK-iOS */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 7EA99F6E470DF4C742094A070D78AF3E /* Build configuration list for PBXAggregateTarget "DJI-SDK-iOS" */;
 			buildPhases = (
@@ -19,34 +19,34 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		C384A3FD6AE4D404C9C98B79DA7D117F /* Pods-DroneMap-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 74063A2451EE0AC77A75F8CBAEA6392A /* Pods-DroneMap-dummy.m */; };
+		C558E25511F8089020B08F2551AC29C6 /* Pods-DroneMap-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 666F51F52B2DA7D60725349EBD7BE0CD /* Pods-DroneMap-dummy.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		E82DCFC3E3E00799435A171ED765F033 /* PBXContainerItemProxy */ = {
+		B0E46E8B3D56BF5DC72D5D0D422F9B1B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 1C45AB7BA6A8A8FF554B466A84FCC1A6;
+			remoteGlobalIDString = 6D72D25C203F68284F9FF3A11DEB60C9;
 			remoteInfo = "DJI-SDK-iOS";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		147BE36BA59450FC64F3E3A7ADBB028C /* Pods-DroneMap-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-DroneMap-frameworks.sh"; sourceTree = "<group>"; };
-		1BB2EB5B4BB308DDA5070F9FEDAF4FEB /* Pods-DroneMap-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DroneMap-acknowledgements.plist"; sourceTree = "<group>"; };
-		7314D4C5BB1DBBD608A0F01DCDF659F6 /* libPods-DroneMap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-DroneMap.a"; path = "libPods-DroneMap.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		74063A2451EE0AC77A75F8CBAEA6392A /* Pods-DroneMap-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-DroneMap-dummy.m"; sourceTree = "<group>"; };
-		7FA5839252941C3D3C752D6100913A10 /* Pods-DroneMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DroneMap.release.xcconfig"; sourceTree = "<group>"; };
+		02CFC4CCCEF0791246A32D8DDCC1581D /* Pods-DroneMap-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DroneMap-acknowledgements.plist"; sourceTree = "<group>"; };
+		666F51F52B2DA7D60725349EBD7BE0CD /* Pods-DroneMap-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-DroneMap-dummy.m"; sourceTree = "<group>"; };
+		79E8721B307A6B26B9B5732F7CD56D84 /* Pods-DroneMap-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-DroneMap-acknowledgements.markdown"; sourceTree = "<group>"; };
+		85D6A22BD2D5798FECEE9B1F1BA1D352 /* Pods-DroneMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DroneMap.release.xcconfig"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		AC482A2A0FEA2C2E3AD5C0CACF677849 /* DJISDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DJISDK.framework; path = iOS_Mobile_SDK/DJISDK.framework; sourceTree = "<group>"; };
+		BD4E97EFD9B6A184071E268D56B5EBDA /* Pods-DroneMap-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-DroneMap-frameworks.sh"; sourceTree = "<group>"; };
+		C49EF9147C2ED51ED287A23E02099CFB /* libPods-DroneMap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-DroneMap.a"; path = "libPods-DroneMap.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E778174ADD37147FF3FEB5E70DC0D3D2 /* Pods-DroneMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DroneMap.debug.xcconfig"; sourceTree = "<group>"; };
 		F5749F77F3BB0E0FD5D11758965367B9 /* DJI-SDK-iOS.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "DJI-SDK-iOS.xcconfig"; sourceTree = "<group>"; };
-		FA8DD406041970C47C340F2C27CEC47D /* Pods-DroneMap-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-DroneMap-acknowledgements.markdown"; sourceTree = "<group>"; };
-		FDE53130BA26AAD44C1898600C0A75A4 /* Pods-DroneMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DroneMap.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		5EC7F15DC57B34468A2D07101E7FDD3E /* Frameworks */ = {
+		86BC001AEDDA7AE4830FE253C3A77C24 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -67,7 +67,7 @@
 		46152EE95296A5854A88F425C89F9E33 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7314D4C5BB1DBBD608A0F01DCDF659F6 /* libPods-DroneMap.a */,
+				C49EF9147C2ED51ED287A23E02099CFB /* libPods-DroneMap.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -75,23 +75,9 @@
 		48CDA13CB70D437B0B9E6EBF0B2B0853 /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				589D5EA591A08ADDF7F6F4E387FCE94C /* Pods-DroneMap */,
+				CD8EFAFC1F08AAEF61B4C1D03A72A5C6 /* Pods-DroneMap */,
 			);
 			name = "Targets Support Files";
-			sourceTree = "<group>";
-		};
-		589D5EA591A08ADDF7F6F4E387FCE94C /* Pods-DroneMap */ = {
-			isa = PBXGroup;
-			children = (
-				FA8DD406041970C47C340F2C27CEC47D /* Pods-DroneMap-acknowledgements.markdown */,
-				1BB2EB5B4BB308DDA5070F9FEDAF4FEB /* Pods-DroneMap-acknowledgements.plist */,
-				74063A2451EE0AC77A75F8CBAEA6392A /* Pods-DroneMap-dummy.m */,
-				147BE36BA59450FC64F3E3A7ADBB028C /* Pods-DroneMap-frameworks.sh */,
-				FDE53130BA26AAD44C1898600C0A75A4 /* Pods-DroneMap.debug.xcconfig */,
-				7FA5839252941C3D3C752D6100913A10 /* Pods-DroneMap.release.xcconfig */,
-			);
-			name = "Pods-DroneMap";
-			path = "Target Support Files/Pods-DroneMap";
 			sourceTree = "<group>";
 		};
 		6E9CB034860F0F75722F869874C02BAF /* Frameworks */ = {
@@ -100,6 +86,20 @@
 				AC482A2A0FEA2C2E3AD5C0CACF677849 /* DJISDK.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CD8EFAFC1F08AAEF61B4C1D03A72A5C6 /* Pods-DroneMap */ = {
+			isa = PBXGroup;
+			children = (
+				79E8721B307A6B26B9B5732F7CD56D84 /* Pods-DroneMap-acknowledgements.markdown */,
+				02CFC4CCCEF0791246A32D8DDCC1581D /* Pods-DroneMap-acknowledgements.plist */,
+				666F51F52B2DA7D60725349EBD7BE0CD /* Pods-DroneMap-dummy.m */,
+				BD4E97EFD9B6A184071E268D56B5EBDA /* Pods-DroneMap-frameworks.sh */,
+				E778174ADD37147FF3FEB5E70DC0D3D2 /* Pods-DroneMap.debug.xcconfig */,
+				85D6A22BD2D5798FECEE9B1F1BA1D352 /* Pods-DroneMap.release.xcconfig */,
+			);
+			name = "Pods-DroneMap";
+			path = "Target Support Files/Pods-DroneMap";
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
@@ -142,7 +142,7 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		2D8755E527B2190072D2784415001F9E /* Headers */ = {
+		B749136BB7A74FF1C889F67BD2D5DC4D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -152,22 +152,22 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		7A281DFEF4BA835DD45E3CB821034B68 /* Pods-DroneMap */ = {
+		C816B892DB9C2444C0EDAEADB93BB2CF /* Pods-DroneMap */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3812BBE1B3CAE36B8CFC69F7D96F2881 /* Build configuration list for PBXNativeTarget "Pods-DroneMap" */;
+			buildConfigurationList = F2364FE9A239941CA97197CE63939936 /* Build configuration list for PBXNativeTarget "Pods-DroneMap" */;
 			buildPhases = (
-				2D8755E527B2190072D2784415001F9E /* Headers */,
-				C464795CF020C683A1AE43919BC08911 /* Sources */,
-				5EC7F15DC57B34468A2D07101E7FDD3E /* Frameworks */,
+				B749136BB7A74FF1C889F67BD2D5DC4D /* Headers */,
+				099C511A262182BBA7795E3B1E0EF2EE /* Sources */,
+				86BC001AEDDA7AE4830FE253C3A77C24 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				A0F7926714FC4126257D053E0F3EE485 /* PBXTargetDependency */,
+				AE79A8AF1D75539725A58423C6A812D7 /* PBXTargetDependency */,
 			);
 			name = "Pods-DroneMap";
 			productName = "Pods-DroneMap";
-			productReference = 7314D4C5BB1DBBD608A0F01DCDF659F6 /* libPods-DroneMap.a */;
+			productReference = C49EF9147C2ED51ED287A23E02099CFB /* libPods-DroneMap.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -176,12 +176,12 @@
 		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0930;
-				LastUpgradeCheck = 0930;
+				LastSwiftUpdateCheck = 1100;
+				LastUpgradeCheck = 1100;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -191,34 +191,172 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1C45AB7BA6A8A8FF554B466A84FCC1A6 /* DJI-SDK-iOS */,
-				7A281DFEF4BA835DD45E3CB821034B68 /* Pods-DroneMap */,
+				6D72D25C203F68284F9FF3A11DEB60C9 /* DJI-SDK-iOS */,
+				C816B892DB9C2444C0EDAEADB93BB2CF /* Pods-DroneMap */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		C464795CF020C683A1AE43919BC08911 /* Sources */ = {
+		099C511A262182BBA7795E3B1E0EF2EE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C384A3FD6AE4D404C9C98B79DA7D117F /* Pods-DroneMap-dummy.m in Sources */,
+				C558E25511F8089020B08F2551AC29C6 /* Pods-DroneMap-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		A0F7926714FC4126257D053E0F3EE485 /* PBXTargetDependency */ = {
+		AE79A8AF1D75539725A58423C6A812D7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "DJI-SDK-iOS";
-			target = 1C45AB7BA6A8A8FF554B466A84FCC1A6 /* DJI-SDK-iOS */;
-			targetProxy = E82DCFC3E3E00799435A171ED765F033 /* PBXContainerItemProxy */;
+			target = 6D72D25C203F68284F9FF3A11DEB60C9 /* DJI-SDK-iOS */;
+			targetProxy = B0E46E8B3D56BF5DC72D5D0D422F9B1B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		4093433A309EFE160336AC736594AB22 /* Debug */ = {
+		05735CB2D1A130744C877B97E45F54E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E778174ADD37147FF3FEB5E70DC0D3D2 /* Pods-DroneMap.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1422B121EAEAEA11307496903FA623C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		7582E88040F133E062BF105750CDDFA6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F5749F77F3BB0E0FD5D11758965367B9 /* DJI-SDK-iOS.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A9C6CD1B4A252B423F2972F9905B78BB /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 85D6A22BD2D5798FECEE9B1F1BA1D352 /* Pods-DroneMap.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D94AA9DC0FFF9F1AC676FF7D237D4149 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F5749F77F3BB0E0FD5D11758965367B9 /* DJI-SDK-iOS.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		ED7888FA6713EABBF66D26A8003AD1CA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -269,7 +407,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -277,166 +415,19 @@
 				STRIP_INSTALLED_PRODUCT = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Debug;
-		};
-		7582E88040F133E062BF105750CDDFA6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F5749F77F3BB0E0FD5D11758965367B9 /* DJI-SDK-iOS.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		924D56B1D59CD3049300EAEEA256114E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"POD_CONFIGURATION_RELEASE=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 4.2;
-				SYMROOT = "${SRCROOT}/../build";
-			};
-			name = Release;
-		};
-		96A0C1BAB569DD2AC56F59AA36BBFD3F /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7FA5839252941C3D3C752D6100913A10 /* Pods-DroneMap.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		9F9CF986EA8225117FB34ECDFF8F71BE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FDE53130BA26AAD44C1898600C0A75A4 /* Pods-DroneMap.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		D94AA9DC0FFF9F1AC676FF7D237D4149 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F5749F77F3BB0E0FD5D11758965367B9 /* DJI-SDK-iOS.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3812BBE1B3CAE36B8CFC69F7D96F2881 /* Build configuration list for PBXNativeTarget "Pods-DroneMap" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9F9CF986EA8225117FB34ECDFF8F71BE /* Debug */,
-				96A0C1BAB569DD2AC56F59AA36BBFD3F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4093433A309EFE160336AC736594AB22 /* Debug */,
-				924D56B1D59CD3049300EAEEA256114E /* Release */,
+				ED7888FA6713EABBF66D26A8003AD1CA /* Debug */,
+				1422B121EAEAEA11307496903FA623C6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -446,6 +437,15 @@
 			buildConfigurations = (
 				7582E88040F133E062BF105750CDDFA6 /* Debug */,
 				D94AA9DC0FFF9F1AC676FF7D237D4149 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F2364FE9A239941CA97197CE63939936 /* Build configuration list for PBXNativeTarget "Pods-DroneMap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				05735CB2D1A130744C877B97E45F54E9 /* Debug */,
+				A9C6CD1B4A252B423F2972F9905B78BB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
