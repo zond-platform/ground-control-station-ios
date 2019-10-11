@@ -1,8 +1,8 @@
 //
-//  TableView.swift
+//  ConsoleView.swift
 //  DroneMap
 //
-//  Created by Evgeny Agamirzov on 4/22/19.
+//  Created by Evgeny Agamirzov on 5/25/19.
 //  Copyright © 2019 Evgeny Agamirzov. All rights reserved.
 //
 
@@ -11,6 +11,45 @@ import UIKit
 enum TableViewStyle {
     case status
     case console
+}
+
+/*************************************************************************************************/
+class ConsoleView : UIView {
+    let statusViewHeight: CGFloat = 116.0
+    private var statusView = UIView()
+    private var consoleView = UIView()
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    init() {
+        super.init(frame: CGRect())
+    }
+    
+    func addSubviews(_ statusView: UIView,
+                     _ consoleView: UIView) {
+        self.statusView.addSubview(statusView)
+        self.consoleView.addSubview(consoleView)
+        addSubview(self.statusView)
+        addSubview(self.consoleView)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        statusView.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: frame.width,
+            height: statusViewHeight
+        )
+        consoleView.frame = CGRect(
+            x: 0,
+            y: statusViewHeight,
+            width: frame.width,
+            height: frame.height - statusViewHeight
+        )
+    }
 }
 
 /*************************************************************************************************/
@@ -29,8 +68,8 @@ class TableView : UITableView {
         frame = CGRect(
             x: 0,
             y: 0,
-            width: superview!.frame.width,
-            height: superview!.frame.height
+            width: superview?.frame.width ?? 0,
+            height: superview?.frame.height ?? 0
         )
     }
     

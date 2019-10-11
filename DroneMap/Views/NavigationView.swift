@@ -78,8 +78,8 @@ class NavigationView : UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let viewWidth = superview!.frame.width
-        let viewHeight = superview!.frame.height
+        let viewWidth = superview?.frame.width ?? 0
+        let viewHeight = superview?.frame.height ?? 0
         frame = CGRect(
             x: 0,
             y: 0,

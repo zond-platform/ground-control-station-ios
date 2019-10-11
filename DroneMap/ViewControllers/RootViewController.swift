@@ -20,8 +20,8 @@ class RootViewController : UIViewController {
         super.init(nibName: nil, bundle: nil)
         rootView = RootView(env.mapViewController().view,
                             env.navigationViewConroller().view,
-                            env.statusViewController().view,
-                            env.consoleViewController().view)
+                            env.consoleStatusViewController().view,
+                            env.consoleLogViewController().view)
         view = rootView
     }
     
@@ -29,7 +29,7 @@ class RootViewController : UIViewController {
         super.viewDidLoad()
     }
     
-    func showTabView(_ show: Bool) {
-        rootView.showTabView(show);
+    func showConsoleView(_ show: Bool) {
+        rootView.showConsoleView(show);
     }
 }

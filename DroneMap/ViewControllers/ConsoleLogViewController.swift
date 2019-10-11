@@ -10,7 +10,7 @@ import UIKit
 import os.log
 
 /*************************************************************************************************/
-class ConsoleViewController : UIViewController {
+class ConsoleLogViewController : UIViewController {
     typealias LogEntry = (String, String, OSLogType)
 
     private let cellId: String = "Cell"
@@ -41,7 +41,7 @@ class ConsoleViewController : UIViewController {
 }
 
 /*************************************************************************************************/
-extension ConsoleViewController {
+extension ConsoleLogViewController {
     private func trimScrollback() {
         if logScrollback.count > maxScrollbackSize {
             logScrollback.removeObject(at: 0)
@@ -66,7 +66,7 @@ extension ConsoleViewController {
 }
 
 /*************************************************************************************************/
-extension ConsoleViewController : LoggerDelegate {
+extension ConsoleLogViewController : LoggerDelegate {
     func logConsole(_ message: String, _ context: String, _ level: OSLogType) {
         let logEntry: LogEntry = (message, context, level)
         logScrollback.add(logEntry)
@@ -75,10 +75,10 @@ extension ConsoleViewController : LoggerDelegate {
 }
 
 /*************************************************************************************************/
-extension ConsoleViewController : UITableViewDelegate {}
+extension ConsoleLogViewController : UITableViewDelegate {}
 
 /*************************************************************************************************/
-extension ConsoleViewController : UITableViewDataSource {
+extension ConsoleLogViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return logScrollback.count
     }

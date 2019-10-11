@@ -44,7 +44,7 @@ extension NavigationViewController : NavigationViewDelegate {
     }
     
     func consoleButtonSelected(_ selected: Bool) {
-        env.rootViewController().showTabView(selected)
+        env.rootViewController().showConsoleView(selected)
     }
     
     func simulatorButtonSelected(_ selected: Bool) {

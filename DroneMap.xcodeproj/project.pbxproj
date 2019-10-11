@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		EAB8DEAC428EE385E1B9C15E /* libPods-DroneMap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0A5FA8B00CB41927D89D276 /* libPods-DroneMap.a */; };
 		EC158057229B0A19000741DC /* CommandService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC158056229B0A19000741DC /* CommandService.swift */; };
-		EC15EAD0226DE8080032ACB9 /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EACF226DE8080032ACB9 /* TableView.swift */; };
 		EC15EAD2227080250032ACB9 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EAD1227080250032ACB9 /* MapViewController.swift */; };
 		EC15EAD42270E0B80032ACB9 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EAD32270E0B80032ACB9 /* RootViewController.swift */; };
 		EC15EAD62271CBF50032ACB9 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EAD52271CBF50032ACB9 /* RootView.swift */; };
@@ -19,14 +18,14 @@
 		EC15EADE227CD1D90032ACB9 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EADD227CD1D90032ACB9 /* NavigationView.swift */; };
 		EC15EAE02286FD530032ACB9 /* SimulatorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EADF2286FD530032ACB9 /* SimulatorService.swift */; };
 		EC1C66782291C07B00BEA440 /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C66772291C07B00BEA440 /* ServiceProtocol.swift */; };
-		EC46217E22998D7C00F08B5E /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46217D22998D7C00F08B5E /* StatusViewController.swift */; };
+		EC46217E22998D7C00F08B5E /* ConsoleStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46217D22998D7C00F08B5E /* ConsoleStatusViewController.swift */; };
 		EC950E8721B81EA600B3A03D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8621B81EA600B3A03D /* AppDelegate.swift */; };
 		EC950E8921B81EA600B3A03D /* ConnectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8821B81EA600B3A03D /* ConnectionService.swift */; };
 		EC950E8E21B81EA700B3A03D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC950E8D21B81EA700B3A03D /* Assets.xcassets */; };
 		EC950E9C21B81EA700B3A03D /* DroneMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E9B21B81EA700B3A03D /* DroneMapTests.swift */; };
 		EC950EA721B81EA800B3A03D /* DroneMapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950EA621B81EA800B3A03D /* DroneMapUITests.swift */; };
-		ECAAC83A2299B83700FB360F /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAAC8392299B83700FB360F /* TabView.swift */; };
-		ECDF4B7222593AC600C98F71 /* ConsoleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDF4B7122593AC600C98F71 /* ConsoleViewController.swift */; };
+		ECAAC83A2299B83700FB360F /* ConsoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAAC8392299B83700FB360F /* ConsoleView.swift */; };
+		ECDF4B7222593AC600C98F71 /* ConsoleLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDF4B7122593AC600C98F71 /* ConsoleLogViewController.swift */; };
 		ECEEEEE4225BCD39005A71C6 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEE3225BCD39005A71C6 /* Logger.swift */; };
 		ECEEEEE82267A24F005A71C6 /* BatteryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEE72267A24F005A71C6 /* BatteryService.swift */; };
 		ECEEEEEC2269DB2F005A71C6 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEEB2269DB2F005A71C6 /* Environment.swift */; };
@@ -56,7 +55,6 @@
 		9A2289144CFB654F00B72808 /* Pods-DroneMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DroneMap.debug.xcconfig"; path = "Target Support Files/Pods-DroneMap/Pods-DroneMap.debug.xcconfig"; sourceTree = "<group>"; };
 		C0A5FA8B00CB41927D89D276 /* libPods-DroneMap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DroneMap.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC158056229B0A19000741DC /* CommandService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandService.swift; sourceTree = "<group>"; };
-		EC15EACF226DE8080032ACB9 /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
 		EC15EAD1227080250032ACB9 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		EC15EAD32270E0B80032ACB9 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		EC15EAD52271CBF50032ACB9 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -66,7 +64,7 @@
 		EC15EADD227CD1D90032ACB9 /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 		EC15EADF2286FD530032ACB9 /* SimulatorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorService.swift; sourceTree = "<group>"; };
 		EC1C66772291C07B00BEA440 /* ServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocol.swift; sourceTree = "<group>"; };
-		EC46217D22998D7C00F08B5E /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
+		EC46217D22998D7C00F08B5E /* ConsoleStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleStatusViewController.swift; sourceTree = "<group>"; };
 		EC950E8321B81EA600B3A03D /* DroneMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DroneMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC950E8621B81EA600B3A03D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC950E8821B81EA600B3A03D /* ConnectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionService.swift; sourceTree = "<group>"; };
@@ -78,8 +76,8 @@
 		EC950EA221B81EA800B3A03D /* DroneMapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DroneMapUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC950EA621B81EA800B3A03D /* DroneMapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroneMapUITests.swift; sourceTree = "<group>"; };
 		EC950EA821B81EA800B3A03D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ECAAC8392299B83700FB360F /* TabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
-		ECDF4B7122593AC600C98F71 /* ConsoleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleViewController.swift; sourceTree = "<group>"; };
+		ECAAC8392299B83700FB360F /* ConsoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleView.swift; sourceTree = "<group>"; };
+		ECDF4B7122593AC600C98F71 /* ConsoleLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleLogViewController.swift; sourceTree = "<group>"; };
 		ECEEEEE3225BCD39005A71C6 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		ECEEEEE72267A24F005A71C6 /* BatteryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryService.swift; sourceTree = "<group>"; };
 		ECEEEEEB2269DB2F005A71C6 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
@@ -134,10 +132,9 @@
 			isa = PBXGroup;
 			children = (
 				EC15EAD52271CBF50032ACB9 /* RootView.swift */,
-				ECAAC8392299B83700FB360F /* TabView.swift */,
+				ECAAC8392299B83700FB360F /* ConsoleView.swift */,
 				EC15EAD7227498D20032ACB9 /* MapView.swift */,
 				EC15EADD227CD1D90032ACB9 /* NavigationView.swift */,
-				EC15EACF226DE8080032ACB9 /* TableView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -211,8 +208,8 @@
 			children = (
 				EC15EAD32270E0B80032ACB9 /* RootViewController.swift */,
 				EC15EAD1227080250032ACB9 /* MapViewController.swift */,
-				EC46217D22998D7C00F08B5E /* StatusViewController.swift */,
-				ECDF4B7122593AC600C98F71 /* ConsoleViewController.swift */,
+				EC46217D22998D7C00F08B5E /* ConsoleStatusViewController.swift */,
+				ECDF4B7122593AC600C98F71 /* ConsoleLogViewController.swift */,
 				EC15EADB227CCF570032ACB9 /* NavigationViewController.swift */,
 			);
 			path = ViewControllers;
@@ -409,21 +406,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC15EADA2274E6BE0032ACB9 /* LocationService.swift in Sources */,
-				EC46217E22998D7C00F08B5E /* StatusViewController.swift in Sources */,
+				EC46217E22998D7C00F08B5E /* ConsoleStatusViewController.swift in Sources */,
 				EC158057229B0A19000741DC /* CommandService.swift in Sources */,
 				EC15EADC227CCF570032ACB9 /* NavigationViewController.swift in Sources */,
 				EC950E8921B81EA600B3A03D /* ConnectionService.swift in Sources */,
-				EC15EAD0226DE8080032ACB9 /* TableView.swift in Sources */,
 				ECEEEEF0226A0E6E005A71C6 /* ProductService.swift in Sources */,
 				EC15EAD42270E0B80032ACB9 /* RootViewController.swift in Sources */,
 				EC15EAD8227498D20032ACB9 /* MapView.swift in Sources */,
 				EC15EAD2227080250032ACB9 /* MapViewController.swift in Sources */,
 				ECEEEEEC2269DB2F005A71C6 /* Environment.swift in Sources */,
-				ECAAC83A2299B83700FB360F /* TabView.swift in Sources */,
+				ECAAC83A2299B83700FB360F /* ConsoleView.swift in Sources */,
 				ECEEEEE82267A24F005A71C6 /* BatteryService.swift in Sources */,
 				EC15EADE227CD1D90032ACB9 /* NavigationView.swift in Sources */,
 				EC15EAE02286FD530032ACB9 /* SimulatorService.swift in Sources */,
-				ECDF4B7222593AC600C98F71 /* ConsoleViewController.swift in Sources */,
+				ECDF4B7222593AC600C98F71 /* ConsoleLogViewController.swift in Sources */,
 				EC15EAD62271CBF50032ACB9 /* RootView.swift in Sources */,
 				EC950E8721B81EA600B3A03D /* AppDelegate.swift in Sources */,
 				EC1C66782291C07B00BEA440 /* ServiceProtocol.swift in Sources */,

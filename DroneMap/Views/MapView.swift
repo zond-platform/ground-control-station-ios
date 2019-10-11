@@ -39,10 +39,8 @@ class MapView : MKMapView {
         frame = CGRect(
             x: 0,
             y: 0,
-//            width: superview!.frame.width,
-//            height: superview!.frame.height
-            width: 300,
-            height: 300
+            width: superview?.frame.width ?? 0,
+            height: superview?.frame.height ?? 0
         )
     }
 }

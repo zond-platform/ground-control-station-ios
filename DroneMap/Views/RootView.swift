@@ -13,7 +13,7 @@ class RootView : UIView {
     private let navigationViewWidth: CGFloat = 50.0
     private var mapView = UIView()
     private var navigationView = UIView()
-    private var tabView = TabView()
+    private var consoleView = ConsoleView()
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -22,19 +22,19 @@ class RootView : UIView {
     init(_ mapView: UIView,
          _ navigationView: UIView,
          _ statusView: UIView,
-         _ consoleView: UIView) {
+         _ logView: UIView) {
         
         super.init(frame: CGRect())
         
+        // Build view hirarchy
         self.mapView.addSubview(mapView)
         self.navigationView.addSubview(navigationView)
-        self.tabView.addSubviews(statusView, consoleView)
-        
+        self.consoleView.addSubviews(statusView, logView)
         addSubview(self.mapView)
         addSubview(self.navigationView)
-        addSubview(self.tabView)
+        addSubview(self.consoleView)
         
-        setStyle()
+        consoleView.isHidden = true
     }
     
     override func layoutSubviews() {
@@ -59,19 +59,15 @@ class RootView : UIView {
             width: 1.5 * navigationViewWidth,
             height: 0.5 * screenHeight
         )
-        tabView.frame = CGRect(
+        consoleView.frame = CGRect(
             x: 0,
             y: 0,
-            width: screenWidth * 0.7,
+            width: screenWidth * 0.6,
             height: screenHeight
         )
     }
     
-    func setStyle() {
-        tabView.isHidden = true
-    }
-    
-    func showTabView(_ show: Bool) {
-        tabView.isHidden = !show
+    func showConsoleView(_ show: Bool) {
+        consoleView.isHidden = !show
     }
 }

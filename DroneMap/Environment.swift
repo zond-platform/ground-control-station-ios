@@ -20,7 +20,7 @@ class Environment {
     
     enum ViewControllerType {
         case status
-        case console
+        case log
         case map
         case root
         case navigation
@@ -47,8 +47,8 @@ class Environment {
     }
     
     private func setupViewControllers() {
-        viewControllers[.status]     = StatusViewController(self)
-        viewControllers[.console]    = ConsoleViewController(self)
+        viewControllers[.status]     = ConsoleStatusViewController(self)
+        viewControllers[.log]        = ConsoleLogViewController(self)
         viewControllers[.map]        = MapViewController(self)
         viewControllers[.navigation] = NavigationViewController(self)
         viewControllers[.root]       = RootViewController(self)
@@ -86,12 +86,12 @@ class Environment {
         return viewControllers[.root] as! RootViewController
     }
     
-    func consoleViewController() -> ConsoleViewController {
-        return viewControllers[.console] as! ConsoleViewController
+    func consoleLogViewController() -> ConsoleLogViewController {
+        return viewControllers[.log] as! ConsoleLogViewController
     }
     
-    func statusViewController() -> StatusViewController {
-        return viewControllers[.status] as! StatusViewController
+    func consoleStatusViewController() -> ConsoleStatusViewController {
+        return viewControllers[.status] as! ConsoleStatusViewController
     }
     
     func mapViewController() -> MapViewController {

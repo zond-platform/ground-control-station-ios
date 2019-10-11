@@ -1,5 +1,5 @@
 //
-//  StatusViewController.swift
+//  ConsoleStatusViewController.swift
 //  DroneMap
 //
 //  Created by Evgeny Agamirzov on 5/25/19.
@@ -9,7 +9,7 @@
 import UIKit
 
 /*************************************************************************************************/
-class StatusViewController : UIViewController {
+class ConsoleStatusViewController : UIViewController {
     private let cellId: String = "Cell"
     private var entries: [Int:(Context,String)] = [
         0:(.product, "-"),
@@ -55,10 +55,10 @@ class StatusViewController : UIViewController {
 }
 
 /*************************************************************************************************/
-extension StatusViewController : UITableViewDelegate {}
+extension ConsoleStatusViewController : UITableViewDelegate {}
 
 /*************************************************************************************************/
-extension StatusViewController : UITableViewDataSource {
+extension ConsoleStatusViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return entries.count
     }
@@ -88,21 +88,21 @@ extension StatusViewController : UITableViewDataSource {
 }
 
 /*************************************************************************************************/
-extension StatusViewController : ProductServiceDelegate {
+extension ConsoleStatusViewController : ProductServiceDelegate {
     func modelChanged(_ model: String) {
         updateValue(.product, model)
     }
 }
 
 /*************************************************************************************************/
-extension StatusViewController : BatteryServiceDelegate {
+extension ConsoleStatusViewController : BatteryServiceDelegate {
     func batteryChargeChanged(_ charge: UInt) {
         updateValue(.battery, String(charge) + "%")
     }
 }
 
 /*************************************************************************************************/
-extension StatusViewController : LocationServiceDelegate {
+extension ConsoleStatusViewController : LocationServiceDelegate {
     func signalStatusChanged(_ status: String) {
         updateValue(.gps, status)
     }
