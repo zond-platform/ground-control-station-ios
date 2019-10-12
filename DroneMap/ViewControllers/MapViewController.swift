@@ -18,28 +18,38 @@ enum AnnotationType {
 
 extension AnnotationType : CaseIterable {}
 
+protocol HeadingDelegate : AnyObject {
+    func headingChanged(_ heading: CLLocationDirection)
+}
+
 /*************************************************************************************************/
 class MapViewController : UIViewController {
+    var userHeadingDelegate: HeadingDelegate?
+    var aircraftHeadingDelegate: HeadingDelegate?
+
     private var mapView: MapView!
     private var locationManager: CLLocationManager!
     private var env: Environment!
-    private var annotations: [AnnotationType:Annotation] = [:]
-    
+
+    private var userAnnotation: Annotation!
+    private var aircraftAnnotation: Annotation!
+    private var homeAnnotation: Annotation!
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
+
     init(_ env: Environment) {
         super.init(nibName: nil, bundle: nil)
         self.env = env
-        
+
         env.locationService().addDelegate(self)
-        
+
         mapView = MapView()
         mapView.delegate = self
-        mapView.register(MKAnnotationView.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(Annotation.self))
+        mapView.register(AnnotationView.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(Annotation.self))
         view = mapView
-        
+
         locationManager = CLLocationManager()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         locationManager.delegate = self;
@@ -51,44 +61,39 @@ class MapViewController : UIViewController {
         locationManager.startUpdatingLocation()
         locationManager.startUpdatingHeading()
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
-    private func updateAnnotation(_ location: CLLocation, _ annotationType: AnnotationType) {
-        if annotations[annotationType] == nil {
-            annotations[annotationType] = Annotation(location.coordinate, annotationType)
-            mapView.addAnnotation(annotations[annotationType]!)
-            
-            // Focus on user annotation when added
-            if annotationType == .user {
-                mapView.showAnnotations([annotations[annotationType]!], animated: true)
-            }
-        } else {
-            annotations[annotationType]!.coordinate = location.coordinate
-        }
-    }
-    
+
     func userLocation() -> CLLocationCoordinate2D? {
-        return annotations[.user]?.coordinate
+        return userAnnotation.coordinate
     }
 }
 
 /*************************************************************************************************/
 extension MapViewController : MKMapViewDelegate {    
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: NSStringFromClass(Annotation.self), for: annotation)
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {        
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: NSStringFromClass(Annotation.self))
+        if (annotationView == nil) {
+            annotationView = AnnotationView(annotation: annotation, reuseIdentifier: NSStringFromClass(Annotation.self))
+        } else {
+            annotationView!.annotation = annotation
+        }
+
         if let annotation = annotation as? Annotation {
             switch annotation.type {
                 case .user:
-                    annotationView.image = #imageLiteral(resourceName: "userPin")
+                    userHeadingDelegate = annotationView as? HeadingDelegate
+                    annotationView!.image = #imageLiteral(resourceName: "userPin")
                 case .aircraft:
-                    annotationView.image = #imageLiteral(resourceName: "dronePin")
+                    aircraftHeadingDelegate = annotationView as? HeadingDelegate
+                    annotationView!.image = #imageLiteral(resourceName: "dronePin")
                 case .home:
-                    annotationView.image = #imageLiteral(resourceName: "homePin")
+                    annotationView!.image = #imageLiteral(resourceName: "homePin")
             }
         }
+
         return annotationView
     }
 }
@@ -96,18 +101,41 @@ extension MapViewController : MKMapViewDelegate {
 /*************************************************************************************************/
 extension MapViewController : CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        updateAnnotation(locations[0], .user)
+        let newCoordinate = locations[0].coordinate
+        if (userAnnotation != nil) {
+            userAnnotation.coordinate = newCoordinate
+            return
+        }
+        userAnnotation = Annotation(newCoordinate, 0.0, .user)
+        mapView.addAnnotation(userAnnotation)
+        mapView.showAnnotations([userAnnotation], animated: true)
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        if (userAnnotation != nil) {
+            userHeadingDelegate?.headingChanged(newHeading.magneticHeading)
+        }
     }
 }
 
 /*************************************************************************************************/
 extension MapViewController : LocationServiceDelegate {
     func aircraftLocationChanged(_ location: CLLocation) {
-        updateAnnotation(location, .aircraft)
+        let newCoordinate = location.coordinate
+        if (aircraftAnnotation != nil) {
+            aircraftAnnotation.coordinate = newCoordinate
+            return
+        }
+        aircraftAnnotation = Annotation(newCoordinate, 0.0, .user)
+        mapView.addAnnotation(aircraftAnnotation)
     }
-    
-    func homeLocationChanged(_ location: CLLocation) {
-        updateAnnotation(location, .home)
+
+    func aircraftHeadingChanged(_ heading: CLLocationDirection) {
+        if (aircraftAnnotation != nil) {
+            aircraftHeadingDelegate?.headingChanged(heading)
+        }
     }
+
+    func homeLocationChanged(_ location: CLLocation) {}
 }
 

@@ -10,6 +10,7 @@ import DJISDK
 
 protocol LocationServiceDelegate : AnyObject {
     func aircraftLocationChanged(_ location: CLLocation)
+    func aircraftHeadingChanged(_ location: CLLocationDirection)
     func homeLocationChanged(_ location: CLLocation)
     func signalStatusChanged(_ status: String)
     func satelliteCountChanged(_ count: UInt)
@@ -20,6 +21,7 @@ protocol LocationServiceDelegate : AnyObject {
 // Make all protocol methods optional by adding default implementations
 extension LocationServiceDelegate {
     func aircraftLocationChanged(_ location: CLLocation) {}
+    func aircraftHeadingChanged(_ location: CLLocationDirection) {}
     func homeLocationChanged(_ location: CLLocation) {}
     func signalStatusChanged(_ status: String) {}
     func satelliteCountChanged(_ count: UInt) {}
@@ -35,6 +37,7 @@ class LocationService : ServiceBase {
         super.init(env)
         super.setKeyActionMap([
             DJIFlightControllerKey(param: DJIFlightControllerParamAircraftLocation):self.onAircraftLocationChanged,
+            DJIFlightControllerKey(param: DJIFlightControllerParamCompassHeading):self.onAircraftHeadingChanged,
             DJIFlightControllerKey(param: DJIFlightControllerParamHomeLocation):self.onHomeLocationChanged,
             DJIFlightControllerKey(param: DJIFlightControllerParamGPSSignalStatus):self.onGpsSignalStatusChanged,
             DJIFlightControllerKey(param: DJIFlightControllerParamSatelliteCount):self.onGpsSatelliteCountChanged,
@@ -50,16 +53,21 @@ extension LocationService {
         guard newValue != nil && newValue!.value != nil else {
             return
         }
-        let aircraftLocation = newValue!.value! as! CLLocation
-        notifyAircraftLocationChanged(aircraftLocation)
+        notifyAircraftLocationChanged(newValue!.value! as! CLLocation)
+    }
+
+    func onAircraftHeadingChanged(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) {
+        guard newValue != nil && newValue!.value != nil else {
+            return
+        }
+        notifyAircraftHeadingChanged(newValue!.value! as! CLLocationDirection)
     }
     
     func onHomeLocationChanged(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) {
         guard newValue != nil && newValue!.value != nil else {
             return
         }
-        let homeLocation = newValue!.value! as! CLLocation
-        notifyHomeLocationChanged(homeLocation)
+        notifyHomeLocationChanged(newValue!.value! as! CLLocation)
     }
     
     func onGpsSignalStatusChanged(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) {
@@ -99,6 +107,12 @@ extension LocationService {
     func notifyHomeLocationChanged(_ location: CLLocation) {
         for delegate in delegates {
             delegate?.homeLocationChanged(location)
+        }
+    }
+
+    func notifyAircraftHeadingChanged(_ location: CLLocationDirection) {
+        for delegate in delegates {
+            delegate?.aircraftHeadingChanged(location)
         }
     }
     

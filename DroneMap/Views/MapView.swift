@@ -12,12 +12,32 @@ import MapKit
 /*************************************************************************************************/
 class Annotation: NSObject, MKAnnotation {
     @objc dynamic var coordinate: CLLocationCoordinate2D
+    @objc dynamic var heading: CLLocationDirection
     var type: AnnotationType
     
-    init(_ coordinate: CLLocationCoordinate2D, _ type: AnnotationType) {
+    init(_ coordinate: CLLocationCoordinate2D, _ heading: CLLocationDirection,  _ type: AnnotationType) {
         self.coordinate = coordinate
+        self.heading = heading
         self.type = type
         super.init()
+    }
+}
+
+/*************************************************************************************************/
+class AnnotationView: MKAnnotationView , HeadingDelegate {
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
+    override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
+        super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
+    }
+
+    func headingChanged(_ heading: CLLocationDirection) {
+        UIView.animate(withDuration: 0.1, animations: { [unowned self] in
+            // Displace the heading by 90 degrees couterclockwise for landscape orientation (default)
+            self.transform = CGAffineTransform(rotationAngle: CGFloat((heading - 90) / 180 * .pi))
+        })
     }
 }
 
