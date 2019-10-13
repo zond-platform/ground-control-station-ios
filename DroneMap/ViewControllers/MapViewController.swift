@@ -18,15 +18,8 @@ enum AnnotationType {
 
 extension AnnotationType : CaseIterable {}
 
-protocol HeadingDelegate : AnyObject {
-    func headingChanged(_ heading: CLLocationDirection)
-}
-
 /*************************************************************************************************/
 class MapViewController : UIViewController {
-    var userHeadingDelegate: HeadingDelegate?
-    var aircraftHeadingDelegate: HeadingDelegate?
-
     private var mapView: MapView!
     private var locationManager: CLLocationManager!
     private var env: Environment!
@@ -44,6 +37,7 @@ class MapViewController : UIViewController {
         self.env = env
 
         env.locationService().addDelegate(self)
+        env.connectionService().addDelegate(self)
 
         mapView = MapView()
         mapView.delegate = self
@@ -84,11 +78,11 @@ extension MapViewController : MKMapViewDelegate {
         if let annotation = annotation as? Annotation {
             switch annotation.type {
                 case .user:
-                    userHeadingDelegate = annotationView as? HeadingDelegate
+                    annotation.headingDelegate = annotationView as? HeadingDelegate
                     annotationView!.image = #imageLiteral(resourceName: "userPin")
                 case .aircraft:
-                    aircraftHeadingDelegate = annotationView as? HeadingDelegate
-                    annotationView!.image = #imageLiteral(resourceName: "dronePin")
+                    annotation.headingDelegate = annotationView as? HeadingDelegate
+                    annotationView!.image = #imageLiteral(resourceName: "aircraftPin")
                 case .home:
                     annotationView!.image = #imageLiteral(resourceName: "homePin")
             }
@@ -113,7 +107,8 @@ extension MapViewController : CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         if (userAnnotation != nil) {
-            userHeadingDelegate?.headingChanged(newHeading.magneticHeading)
+            // Displace the heading by 90 degrees CCW for landscape orientation (applcation default)
+            userAnnotation.heading = newHeading.magneticHeading - 90
         }
     }
 }
@@ -121,21 +116,47 @@ extension MapViewController : CLLocationManagerDelegate {
 /*************************************************************************************************/
 extension MapViewController : LocationServiceDelegate {
     func aircraftLocationChanged(_ location: CLLocation) {
-        let newCoordinate = location.coordinate
-        if (aircraftAnnotation != nil) {
-            aircraftAnnotation.coordinate = newCoordinate
-            return
+        if (aircraftAnnotation == nil) {
+            aircraftAnnotation = Annotation(location.coordinate, 0.0, .aircraft)
         }
-        aircraftAnnotation = Annotation(newCoordinate, 0.0, .aircraft)
-        mapView.addAnnotation(aircraftAnnotation)
+
+        if (mapView.annotations.contains(where: { (annotation) -> Bool in
+            return annotation as? Annotation == aircraftAnnotation
+        })) {
+            aircraftAnnotation.coordinate = location.coordinate
+        } else {
+            mapView.addAnnotation(aircraftAnnotation)
+        }
     }
 
     func aircraftHeadingChanged(_ heading: CLLocationDirection) {
         if (aircraftAnnotation != nil) {
-            aircraftHeadingDelegate?.headingChanged(heading)
+            aircraftAnnotation.heading = heading
         }
     }
 
-    func homeLocationChanged(_ location: CLLocation) {}
+    func homeLocationChanged(_ location: CLLocation) {
+        if (homeAnnotation == nil) {
+            homeAnnotation = Annotation(location.coordinate, 0.0, .home)
+        }
+
+        if (mapView.annotations.contains(where: { (annotation) -> Bool in
+            return annotation as? Annotation == homeAnnotation
+        })) {
+            homeAnnotation.coordinate = location.coordinate
+        } else {
+            mapView.addAnnotation(homeAnnotation)
+        }
+    }
+}
+
+/*************************************************************************************************/
+extension MapViewController : ConnectionServiceDelegate {
+    func statusChanged(_ status: ConnectionStatus) {
+        if status == .disconnected {
+            mapView.removeAnnotation(aircraftAnnotation)
+            mapView.removeAnnotation(homeAnnotation)
+        }
+    }
 }
 

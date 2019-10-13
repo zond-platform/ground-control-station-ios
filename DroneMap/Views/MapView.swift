@@ -9,22 +9,30 @@
 import UIKit
 import MapKit
 
+protocol HeadingDelegate : AnyObject {
+    func headingChanged(_ heading: CLLocationDirection)
+}
+
 /*************************************************************************************************/
-class Annotation: NSObject, MKAnnotation {
-    @objc dynamic var coordinate: CLLocationCoordinate2D
-    @objc dynamic var heading: CLLocationDirection
+class Annotation : MKPointAnnotation {
+    weak var headingDelegate: HeadingDelegate?
     var type: AnnotationType
+    var heading: CLLocationDirection {
+        didSet {
+            headingDelegate?.headingChanged(heading)
+        }
+    }
     
     init(_ coordinate: CLLocationCoordinate2D, _ heading: CLLocationDirection,  _ type: AnnotationType) {
-        self.coordinate = coordinate
-        self.heading = heading
         self.type = type
+        self.heading = heading
         super.init()
+        self.coordinate = coordinate
     }
 }
 
 /*************************************************************************************************/
-class AnnotationView: MKAnnotationView , HeadingDelegate {
+class AnnotationView : MKAnnotationView , HeadingDelegate {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -35,8 +43,7 @@ class AnnotationView: MKAnnotationView , HeadingDelegate {
 
     func headingChanged(_ heading: CLLocationDirection) {
         UIView.animate(withDuration: 0.1, animations: { [unowned self] in
-            // Displace the heading by 90 degrees couterclockwise for landscape orientation (default)
-            self.transform = CGAffineTransform(rotationAngle: CGFloat((heading - 90) / 180 * .pi))
+            self.transform = CGAffineTransform(rotationAngle: CGFloat(heading / 180 * .pi))
         })
     }
 }
