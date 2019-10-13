@@ -107,7 +107,7 @@ extension MapViewController : CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         if (userAnnotation != nil) {
-            // Displace the heading by 90 degrees CCW for landscape orientation (applcation default)
+            // Displace user heading by -90 degrees for landscape orientation (applcation default)
             userAnnotation.heading = newHeading.magneticHeading - 90
         }
     }

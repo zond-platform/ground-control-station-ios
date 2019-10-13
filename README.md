@@ -16,7 +16,7 @@ to the aircraft and notify view controllers.
 
 * Remove Logger class and replace functionality with delegates
 * Refactor Environment class by adding public properties instead of getters
-* Replace map icons and make them show direction
+* ~~Replace map icons and make them show direction~~
 * Extend MapViewController with adding polygons on the map
 * Transform polygon's area into grid coordinates suitable for mission planning
 * Add commands for mission upload and execution
