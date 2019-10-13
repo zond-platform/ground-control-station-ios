@@ -126,7 +126,7 @@ extension MapViewController : LocationServiceDelegate {
             aircraftAnnotation.coordinate = newCoordinate
             return
         }
-        aircraftAnnotation = Annotation(newCoordinate, 0.0, .user)
+        aircraftAnnotation = Annotation(newCoordinate, 0.0, .aircraft)
         mapView.addAnnotation(aircraftAnnotation)
     }
 
