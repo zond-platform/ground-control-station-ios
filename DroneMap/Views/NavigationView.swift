@@ -14,6 +14,7 @@ enum ButtonName {
     case restart
     case takeoff
     case land
+    case mission
 }
 
 extension ButtonName : CaseIterable {}
@@ -24,6 +25,7 @@ protocol NavigationViewDelegate : AnyObject {
     func simulatorButtonSelected(_ selected: Bool)
     func takeOffRequested()
     func landingRequested()
+    func missionEditingMode(_ enable: Bool)
 }
 
 /*************************************************************************************************/
@@ -43,12 +45,6 @@ class SelectorButton : UIButton {
         isSelected = selected
         backgroundColor = isSelected ? UIColor(red: 0.2, green: 0.6, blue: 0.2, alpha: 0.8)
                                      : UIColor(white: 0.0, alpha: 0.6)
-    }
-    
-    func setHighlighted(_ highlighted: Bool) {
-        isHighlighted = highlighted
-        backgroundColor = isHighlighted ? UIColor(red: 0.2, green: 0.6, blue: 0.2, alpha: 0.8)
-                                        : UIColor(white: 0.0, alpha: 0.6)
     }
 }
 
@@ -137,6 +133,8 @@ extension NavigationView {
             case .land:
                 sender.setSelected(false)
                 delegate?.landingRequested()
+            case .mission:
+                delegate?.missionEditingMode(sender.isSelected)
         }
     }
 }

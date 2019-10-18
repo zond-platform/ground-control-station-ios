@@ -67,6 +67,10 @@ extension NavigationViewController : NavigationViewDelegate {
     func landingRequested() {
         env.commandService().doAction(.land)
     }
+    
+    func missionEditingMode(_ enabled: Bool) {
+        env.mapViewController().enableMissionEditing(enabled)
+    }
 }
 
 /*************************************************************************************************/

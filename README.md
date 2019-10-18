@@ -7,16 +7,17 @@ to be used for mapping missions. So far only the core functionality is there:
 * Running DJI on-board simulator
 * Executing take off and land commands
 
-The code conforms with Apple's MVC pattern architecture as much as possible i.e.
-"View" and "Model" communicate exclusively via the "Controller". In the context of
-this application the "Model" is represented by a bunch of services that connect
-to the aircraft and notify view controllers.
+The code conforms to Apple's MVC architectural pattern i.e. the "View" and the "Model"
+communicate exclusively via the "Controller". In the context of this application
+the "Model" is represented by a bunch of services that connect to the aircraft
+and notify view controllers.
 
 ## Todo
 
 * Remove Logger class and replace functionality with delegates
 * Refactor Environment class by adding public properties instead of getters
 * ~~Replace map icons and make them show direction~~
-* Extend MapViewController with adding polygons on the map
+* ~~Extend MapViewController with adding polygons on the map~~
 * Transform polygon's area into grid coordinates suitable for mission planning
 * Add commands for mission upload and execution
+* Reposition the views

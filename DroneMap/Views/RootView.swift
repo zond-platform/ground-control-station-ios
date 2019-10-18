@@ -11,6 +11,8 @@ import UIKit
 /*************************************************************************************************/
 class RootView : UIView {
     private let navigationViewWidth: CGFloat = 50.0
+    private let consoleViewWidthRate: CGFloat = 0.4
+    
     private var mapView = UIView()
     private var navigationView = UIView()
     private var consoleView = ConsoleView()
@@ -62,7 +64,7 @@ class RootView : UIView {
         consoleView.frame = CGRect(
             x: 0,
             y: 0,
-            width: screenWidth * 0.6,
+            width: screenWidth * consoleViewWidthRate,
             height: screenHeight
         )
     }

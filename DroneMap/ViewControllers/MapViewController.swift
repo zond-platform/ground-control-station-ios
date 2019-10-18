@@ -14,6 +14,7 @@ enum AnnotationType {
     case aircraft
     case home
     case user
+    case polygon
 }
 
 extension AnnotationType : CaseIterable {}
@@ -27,7 +28,10 @@ class MapViewController : UIViewController {
     private var userAnnotation: Annotation!
     private var aircraftAnnotation: Annotation!
     private var homeAnnotation: Annotation!
-
+    private var polygonAnnotations: [Annotation] = []
+    
+    private var polygon: MKPolygon!
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -63,12 +67,41 @@ class MapViewController : UIViewController {
     func userLocation() -> CLLocationCoordinate2D? {
         return userAnnotation.coordinate
     }
+    
+    func enableMissionEditing(_ enable: Bool) {
+        if !enable {
+            mapView.removeAnnotations(polygonAnnotations)
+            mapView.removeOverlay(polygon)
+            return
+        }
+        
+        // TODO: Build default polygon based on current map region
+        let lat = userAnnotation.coordinate.latitude
+        let lon = userAnnotation.coordinate.longitude
+        let polygonCoordinates = [CLLocationCoordinate2D(latitude: lat - 0.0001, longitude: lon - 0.0001),
+                                  CLLocationCoordinate2D(latitude: lat - 0.0001, longitude: lon + 0.0001),
+                                  CLLocationCoordinate2D(latitude: lat + 0.0001, longitude: lon + 0.0001),
+                                  CLLocationCoordinate2D(latitude: lat + 0.0001, longitude: lon - 0.0001)]
+        
+        if polygonAnnotations.isEmpty {
+            for id in 0..<polygonCoordinates.count {
+                polygonAnnotations.append(Annotation(polygonCoordinates[id], 0.0, .polygon, id))
+            }
+        }
+        
+        if polygon == nil {
+            polygon = MKPolygon(coordinates: polygonCoordinates, count: polygonCoordinates.count)
+        }
+        
+        mapView.addAnnotations(polygonAnnotations)
+        mapView.addOverlay(polygon)
+    }
 }
 
 /*************************************************************************************************/
 extension MapViewController : MKMapViewDelegate {    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {        
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: NSStringFromClass(Annotation.self))
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: NSStringFromClass(Annotation.self)) as? AnnotationView
         if (annotationView == nil) {
             annotationView = AnnotationView(annotation: annotation, reuseIdentifier: NSStringFromClass(Annotation.self))
         } else {
@@ -78,17 +111,55 @@ extension MapViewController : MKMapViewDelegate {
         if let annotation = annotation as? Annotation {
             switch annotation.type {
                 case .user:
-                    annotation.headingDelegate = annotationView as? HeadingDelegate
+                    annotation.headingDelegate = annotationView
                     annotationView!.image = #imageLiteral(resourceName: "userPin")
                 case .aircraft:
-                    annotation.headingDelegate = annotationView as? HeadingDelegate
+                    annotation.headingDelegate = annotationView
                     annotationView!.image = #imageLiteral(resourceName: "aircraftPin")
                 case .home:
                     annotationView!.image = #imageLiteral(resourceName: "homePin")
+                case .polygon:
+                    annotationView!.image = #imageLiteral(resourceName: "polygonPin")
+                    annotationView!.isDraggable = true
+                    annotationView!.positionDelegate = self
             }
         }
 
         return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
+        
+        // TODO: Try replacing with a ternary
+        switch newState {
+            case .starting:
+                view.dragState = .dragging
+            case .ending, .canceling:
+                view.dragState = .none
+            default:
+                break
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        return PolygonRenderer(overlay: overlay)
+    }
+}
+
+/*************************************************************************************************/
+extension MapViewController : PositionDelegate {
+    
+    // TODO: Consider sending position directly to the renderer
+    func positionChanged(_ position: CGPoint, _ id: Int) {
+        
+        // Change polygon point
+        let point = MKMapPoint(mapView.convert(position, toCoordinateFrom: self.view))
+        polygon.points()[id] = point
+        
+        // Re-draw the renderer
+        if let renderer = mapView.renderer(for: polygon) as? PolygonRenderer {
+            renderer.setNeedsDisplay()
+        }
     }
 }
 
@@ -107,8 +178,11 @@ extension MapViewController : CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         if (userAnnotation != nil) {
-            // Displace user heading by -90 degrees for landscape orientation (applcation default)
-            userAnnotation.heading = newHeading.magneticHeading - 90
+            // Displace user heading by 90 degrees because of the landscape orientation.
+            // Since only landscape orientation is allowed in the application settings
+            // there are only two options: left and right. Thus, only two possible offsets.
+            let offset = UIDevice.current.orientation == .landscapeLeft ? 90.0 : -90.0
+            userAnnotation.heading = newHeading.trueHeading + offset
         }
     }
 }
