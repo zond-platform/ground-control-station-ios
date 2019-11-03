@@ -18,50 +18,24 @@ protocol PositionDelegate : AnyObject {
 }
 
 /*************************************************************************************************/
-class Annotation : MKPointAnnotation {
+class MovingObject : MKPointAnnotation {
     weak var headingDelegate: HeadingDelegate?
-    var type: AnnotationType
-    var id: Int?
+    var type: MovingObjectType
     var heading: CLLocationDirection {
         didSet {
             headingDelegate?.headingChanged(heading)
         }
     }
     
-    init(_ coordinate: CLLocationCoordinate2D, _ heading: CLLocationDirection,  _ type: AnnotationType, _ id: Int? = .none) {
+    init(_ coordinate: CLLocationCoordinate2D, _ heading: CLLocationDirection,  _ type: MovingObjectType) {
         self.type = type
-        self.id = id
         self.heading = heading
         super.init()
         self.coordinate = coordinate
     }
 }
 
-/*************************************************************************************************/
-class AnnotationView : MKAnnotationView {
-    weak var positionDelegate: PositionDelegate?
-    override var center: CGPoint {
-        didSet {
-            guard let annotation = annotation as? Annotation else {
-                return
-            }
-            guard annotation.id != nil else {
-                return
-            }
-            positionDelegate?.positionChanged(center, annotation.id!)
-        }
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-
-    override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
-        super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
-    }
-}
-
-extension AnnotationView : HeadingDelegate {
+class MovingObjectView : MKAnnotationView , HeadingDelegate {
     func headingChanged(_ heading: CLLocationDirection) {
         UIView.animate(withDuration: 0.1, animations: { [unowned self] in
             self.transform = CGAffineTransform(rotationAngle: CGFloat(heading / 180 * .pi))
@@ -70,33 +44,72 @@ extension AnnotationView : HeadingDelegate {
 }
 
 /*************************************************************************************************/
+class PolygonVertex : MKPointAnnotation {
+    var id: Int
+    
+    init(_ coordinate: CLLocationCoordinate2D, _ id: Int) {
+        self.id = id
+        super.init()
+        self.coordinate = coordinate
+    }
+}
+
+class PolygonVertexView : MKAnnotationView {
+    weak var positionDelegate: PositionDelegate?
+    override var center: CGPoint {
+        didSet {
+            guard let annotation = annotation as? PolygonVertex else {
+                return
+            }
+            guard self.dragState == .dragging else {
+                return
+            }
+            
+            // TODO: Limit position update rate with a timer
+            positionDelegate?.positionChanged(center, annotation.id)
+        }
+    }
+}
+
+/*************************************************************************************************/
 class PolygonRenderer : MKOverlayRenderer {
+    var gridDelta: CGFloat
+    
+    init(_ overlay: MKOverlay, _ gridDelta: CGFloat) {
+        self.gridDelta = gridDelta
+        super.init(overlay: overlay)
+    }
+    
+    func setGridDelta(_ gridDelta: CGFloat) {
+        self.gridDelta = gridDelta
+    }
+    
     override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
         let polygon = self.overlay as? MKPolygon
         guard polygon != nil else {
             return
         }
+
+        var rawPoints: [CGPoint] = []
+        for id in 0..<polygon!.pointCount {
+            rawPoints.append(point(for: polygon!.points()[id]))
+        }
         
-        let rawPoints = self.rawPoints()
-        context.beginPath()
-        context.addLines(between: rawPoints)
-        context.addLine(to: rawPoints.first!)
+        let pointSet = PointSet(rawPoints, gridDelta)
+        
+        let polygonPath = CGMutablePath()
+        polygonPath.addLines(between: pointSet.hullPoints)
+        polygonPath.addLine(to: pointSet.hullPoints.first!)
+        context.addPath(polygonPath)
         context.setFillColor(red: 86.0, green: 167.0, blue: 20.0, alpha: 0.5)
         context.drawPath(using: .fill)
-    }
-    
-    private func rawPoints() -> [CGPoint] {
-        let polygon = self.overlay as? MKPolygon
-        guard polygon != nil else {
-            return []
-        }
         
-        var rawPoints: [CGPoint] = []
-        for idx in 0..<polygon!.pointCount {
-            rawPoints.append(point(for: polygon!.points()[idx]))
-        }
-        
-        return rawPoints
+        let gridPath = CGMutablePath()
+        gridPath.addLines(between: pointSet.gridPoints)
+        context.setStrokeColor(UIColor.yellow.cgColor)
+        context.setLineWidth(MKRoadWidthAtZoomScale(zoomScale) * 0.5)
+        context.addPath(gridPath)
+        context.drawPath(using: .stroke)
     }
 }
 

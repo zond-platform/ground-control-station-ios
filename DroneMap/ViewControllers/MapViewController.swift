@@ -10,14 +10,11 @@ import UIKit
 import MapKit
 import CoreLocation
 
-enum AnnotationType {
+enum MovingObjectType {
     case aircraft
     case home
     case user
-    case polygon
 }
-
-extension AnnotationType : CaseIterable {}
 
 /*************************************************************************************************/
 class MapViewController : UIViewController {
@@ -25,12 +22,14 @@ class MapViewController : UIViewController {
     private var locationManager: CLLocationManager!
     private var env: Environment!
 
-    private var userAnnotation: Annotation!
-    private var aircraftAnnotation: Annotation!
-    private var homeAnnotation: Annotation!
-    private var polygonAnnotations: [Annotation] = []
+    private var user: MovingObject!
+    private var aircraft: MovingObject!
+    private var home: MovingObject!
     
+    private var polygonVertices: [PolygonVertex] = []
     private var polygon: MKPolygon!
+    
+    private var surveyGridDelta: CGFloat = 10.0
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -45,7 +44,8 @@ class MapViewController : UIViewController {
 
         mapView = MapView()
         mapView.delegate = self
-        mapView.register(AnnotationView.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(Annotation.self))
+        mapView.register(MovingObjectView.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(MovingObject.self))
+        mapView.register(PolygonVertexView.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(PolygonVertex.self))
         view = mapView
 
         locationManager = CLLocationManager()
@@ -58,6 +58,9 @@ class MapViewController : UIViewController {
         }
         locationManager.startUpdatingLocation()
         locationManager.startUpdatingHeading()
+        
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
+        mapView.addGestureRecognizer(tapRecognizer)
     }
 
     override func viewDidLoad() {
@@ -65,27 +68,50 @@ class MapViewController : UIViewController {
     }
 
     func userLocation() -> CLLocationCoordinate2D? {
-        return userAnnotation.coordinate
+        return user.coordinate
     }
     
+    // TODO: Add distance calculation in any direction
+//    func setSurveyGridDelta(forDistance distance: Double) {
+//        let earthRadius = 6378137.0
+//        let latitude = user.coordinate.latitude
+//        let longitude = user.coordinate.longitude
+//        
+//        // Only latitude distance is calculated
+//        let latMetersDelta = distance
+//        let lonMetersDelta = 0.0
+//        
+//        let latitudeDelta = latMetersDelta / earthRadius
+//        let longitudeDelta = lonMetersDelta / (earthRadius * cos(Double.pi * latitude / 180.0))
+//        
+//        let newLatitude = latitude + latitudeDelta * 180.0 / Double.pi
+//        let newLongitude = longitude + longitudeDelta * 180.0 / Double.pi
+//        let referenceCoordinate = CLLocationCoordinate2D(latitude: newLatitude, longitude: newLongitude)
+//        
+//        let userPoint = mapView.convert(user.coordinate, toPointTo: mapView)
+//        let referencePoint = mapView.convert(referenceCoordinate, toPointTo: mapView)
+//        
+//        surveyGridDelta = sqrt(pow(userPoint.x - referencePoint.x, 2) + pow(userPoint.y - referencePoint.y, 2))
+//    }
+
     func enableMissionEditing(_ enable: Bool) {
         if !enable {
-            mapView.removeAnnotations(polygonAnnotations)
+            mapView.removeAnnotations(polygonVertices)
             mapView.removeOverlay(polygon)
             return
         }
         
         // TODO: Build default polygon based on current map region
-        let lat = userAnnotation.coordinate.latitude
-        let lon = userAnnotation.coordinate.longitude
-        let polygonCoordinates = [CLLocationCoordinate2D(latitude: lat - 0.0001, longitude: lon - 0.0001),
-                                  CLLocationCoordinate2D(latitude: lat - 0.0001, longitude: lon + 0.0001),
-                                  CLLocationCoordinate2D(latitude: lat + 0.0001, longitude: lon + 0.0001),
-                                  CLLocationCoordinate2D(latitude: lat + 0.0001, longitude: lon - 0.0001)]
+        let lat = user.coordinate.latitude
+        let lon = user.coordinate.longitude
+        let polygonCoordinates = [CLLocationCoordinate2D(latitude: lat - 0.0002, longitude: lon - 0.0002),
+                                  CLLocationCoordinate2D(latitude: lat - 0.0002, longitude: lon + 0.0002),
+                                  CLLocationCoordinate2D(latitude: lat + 0.0002, longitude: lon + 0.0002),
+                                  CLLocationCoordinate2D(latitude: lat + 0.0002, longitude: lon - 0.0002)]
         
-        if polygonAnnotations.isEmpty {
+        if polygonVertices.isEmpty {
             for id in 0..<polygonCoordinates.count {
-                polygonAnnotations.append(Annotation(polygonCoordinates[id], 0.0, .polygon, id))
+                polygonVertices.append(PolygonVertex(polygonCoordinates[id], id))
             }
         }
         
@@ -93,36 +119,37 @@ class MapViewController : UIViewController {
             polygon = MKPolygon(coordinates: polygonCoordinates, count: polygonCoordinates.count)
         }
         
-        mapView.addAnnotations(polygonAnnotations)
+        //setSurveyGridDelta(forDistance: 50.0)
+        mapView.addAnnotations(polygonVertices)
         mapView.addOverlay(polygon)
     }
 }
 
 /*************************************************************************************************/
 extension MapViewController : MKMapViewDelegate {    
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {        
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: NSStringFromClass(Annotation.self)) as? AnnotationView
-        if (annotationView == nil) {
-            annotationView = AnnotationView(annotation: annotation, reuseIdentifier: NSStringFromClass(Annotation.self))
-        } else {
-            annotationView!.annotation = annotation
-        }
-
-        if let annotation = annotation as? Annotation {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        var annotationView: MKAnnotationView?
+        
+        if let annotation = annotation as? MovingObject {
+            let movingObjectView = mapView.dequeueReusableAnnotationView(withIdentifier: NSStringFromClass(MovingObject.self), for: annotation) as? MovingObjectView
             switch annotation.type {
                 case .user:
-                    annotation.headingDelegate = annotationView
-                    annotationView!.image = #imageLiteral(resourceName: "userPin")
+                    annotation.headingDelegate = movingObjectView
+                    movingObjectView!.image = #imageLiteral(resourceName: "userPin")
                 case .aircraft:
-                    annotation.headingDelegate = annotationView
-                    annotationView!.image = #imageLiteral(resourceName: "aircraftPin")
+                    annotation.headingDelegate = movingObjectView
+                    movingObjectView!.image = #imageLiteral(resourceName: "aircraftPin")
                 case .home:
-                    annotationView!.image = #imageLiteral(resourceName: "homePin")
-                case .polygon:
-                    annotationView!.image = #imageLiteral(resourceName: "polygonPin")
-                    annotationView!.isDraggable = true
-                    annotationView!.positionDelegate = self
+                    movingObjectView!.image = #imageLiteral(resourceName: "homePin")
             }
+            annotationView = movingObjectView
+        } else if let annotation = annotation as? PolygonVertex {
+            let polygonVertexView = mapView.dequeueReusableAnnotationView(withIdentifier: NSStringFromClass(PolygonVertex.self), for: annotation) as? PolygonVertexView
+            polygonVertexView!.image = #imageLiteral(resourceName: "polygonPin")
+            polygonVertexView!.isDraggable = true
+            polygonVertexView!.positionDelegate = self
+            mapView.bringSubviewToFront(polygonVertexView!)
+            annotationView = polygonVertexView
         }
 
         return annotationView
@@ -142,7 +169,7 @@ extension MapViewController : MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        return PolygonRenderer(overlay: overlay)
+        return PolygonRenderer(overlay, surveyGridDelta)
     }
 }
 
@@ -155,7 +182,7 @@ extension MapViewController : PositionDelegate {
         // Change polygon point
         let point = MKMapPoint(mapView.convert(position, toCoordinateFrom: self.view))
         polygon.points()[id] = point
-        
+
         // Re-draw the renderer
         if let renderer = mapView.renderer(for: polygon) as? PolygonRenderer {
             renderer.setNeedsDisplay()
@@ -164,25 +191,35 @@ extension MapViewController : PositionDelegate {
 }
 
 /*************************************************************************************************/
+extension MapViewController {
+    @objc func handleTap(sender: UITapGestureRecognizer) {
+        if sender.state == .ended {
+            let _ = mapView.convert(sender.location(in: mapView), toCoordinateFrom: self.view)
+            // TODO: Handle map touch events
+        }
+    }
+}
+
+/*************************************************************************************************/
 extension MapViewController : CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let newCoordinate = locations[0].coordinate
-        if (userAnnotation != nil) {
-            userAnnotation.coordinate = newCoordinate
+        if (user != nil) {
+            user.coordinate = newCoordinate
             return
         }
-        userAnnotation = Annotation(newCoordinate, 0.0, .user)
-        mapView.addAnnotation(userAnnotation)
-        mapView.showAnnotations([userAnnotation], animated: true)
+        user = MovingObject(newCoordinate, 0.0, .user)
+        mapView.addAnnotation(user)
+        mapView.showAnnotations([user], animated: true)
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-        if (userAnnotation != nil) {
+        if (user != nil) {
             // Displace user heading by 90 degrees because of the landscape orientation.
             // Since only landscape orientation is allowed in the application settings
             // there are only two options: left and right. Thus, only two possible offsets.
             let offset = UIDevice.current.orientation == .landscapeLeft ? 90.0 : -90.0
-            userAnnotation.heading = newHeading.trueHeading + offset
+            user.heading = newHeading.trueHeading + offset
         }
     }
 }
@@ -190,36 +227,36 @@ extension MapViewController : CLLocationManagerDelegate {
 /*************************************************************************************************/
 extension MapViewController : LocationServiceDelegate {
     func aircraftLocationChanged(_ location: CLLocation) {
-        if (aircraftAnnotation == nil) {
-            aircraftAnnotation = Annotation(location.coordinate, 0.0, .aircraft)
+        if (aircraft == nil) {
+            aircraft = MovingObject(location.coordinate, 0.0, .aircraft)
         }
 
         if (mapView.annotations.contains(where: { (annotation) -> Bool in
-            return annotation as? Annotation == aircraftAnnotation
+            return annotation as? MovingObject == aircraft
         })) {
-            aircraftAnnotation.coordinate = location.coordinate
+            aircraft.coordinate = location.coordinate
         } else {
-            mapView.addAnnotation(aircraftAnnotation)
+            mapView.addAnnotation(aircraft)
         }
     }
 
     func aircraftHeadingChanged(_ heading: CLLocationDirection) {
-        if (aircraftAnnotation != nil) {
-            aircraftAnnotation.heading = heading
+        if (aircraft != nil) {
+            aircraft.heading = heading
         }
     }
 
     func homeLocationChanged(_ location: CLLocation) {
-        if (homeAnnotation == nil) {
-            homeAnnotation = Annotation(location.coordinate, 0.0, .home)
+        if (home == nil) {
+            home = MovingObject(location.coordinate, 0.0, .home)
         }
 
         if (mapView.annotations.contains(where: { (annotation) -> Bool in
-            return annotation as? Annotation == homeAnnotation
+            return annotation as? MovingObject == home
         })) {
-            homeAnnotation.coordinate = location.coordinate
+            home.coordinate = location.coordinate
         } else {
-            mapView.addAnnotation(homeAnnotation)
+            mapView.addAnnotation(home)
         }
     }
 }
@@ -228,8 +265,8 @@ extension MapViewController : LocationServiceDelegate {
 extension MapViewController : ConnectionServiceDelegate {
     func statusChanged(_ status: ConnectionStatus) {
         if status == .disconnected {
-            mapView.removeAnnotation(aircraftAnnotation)
-            mapView.removeAnnotation(homeAnnotation)
+            mapView.removeAnnotation(aircraft)
+            mapView.removeAnnotation(home)
         }
     }
 }

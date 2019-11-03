@@ -22,9 +22,10 @@
 		EC950E8721B81EA600B3A03D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8621B81EA600B3A03D /* AppDelegate.swift */; };
 		EC950E8921B81EA600B3A03D /* ConnectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8821B81EA600B3A03D /* ConnectionService.swift */; };
 		EC950E8E21B81EA700B3A03D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC950E8D21B81EA700B3A03D /* Assets.xcassets */; };
-		EC950E9C21B81EA700B3A03D /* DroneMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E9B21B81EA700B3A03D /* DroneMapTests.swift */; };
+		EC950E9C21B81EA700B3A03D /* GeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E9B21B81EA700B3A03D /* GeometryTests.swift */; };
 		EC950EA721B81EA800B3A03D /* DroneMapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950EA621B81EA800B3A03D /* DroneMapUITests.swift */; };
 		ECAAC83A2299B83700FB360F /* ConsoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAAC8392299B83700FB360F /* ConsoleView.swift */; };
+		ECD714902365B0F200958956 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD7148F2365B0F200958956 /* Geometry.swift */; };
 		ECDF4B7222593AC600C98F71 /* ConsoleLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDF4B7122593AC600C98F71 /* ConsoleLogViewController.swift */; };
 		ECEEEEE4225BCD39005A71C6 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEE3225BCD39005A71C6 /* Logger.swift */; };
 		ECEEEEE82267A24F005A71C6 /* BatteryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEE72267A24F005A71C6 /* BatteryService.swift */; };
@@ -71,12 +72,13 @@
 		EC950E8D21B81EA700B3A03D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC950E9221B81EA700B3A03D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC950E9721B81EA700B3A03D /* DroneMapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DroneMapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EC950E9B21B81EA700B3A03D /* DroneMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroneMapTests.swift; sourceTree = "<group>"; };
+		EC950E9B21B81EA700B3A03D /* GeometryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryTests.swift; sourceTree = "<group>"; };
 		EC950E9D21B81EA700B3A03D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC950EA221B81EA800B3A03D /* DroneMapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DroneMapUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC950EA621B81EA800B3A03D /* DroneMapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroneMapUITests.swift; sourceTree = "<group>"; };
 		EC950EA821B81EA800B3A03D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ECAAC8392299B83700FB360F /* ConsoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleView.swift; sourceTree = "<group>"; };
+		ECD7148F2365B0F200958956 /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
 		ECDF4B7122593AC600C98F71 /* ConsoleLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleLogViewController.swift; sourceTree = "<group>"; };
 		ECEEEEE3225BCD39005A71C6 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		ECEEEEE72267A24F005A71C6 /* BatteryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryService.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				ECEEEEEA2267A96A005A71C6 /* Services */,
 				ECEEEEE92267A959005A71C6 /* ViewControllers */,
 				EC15EACE226DE7E70032ACB9 /* Views */,
+				ECD7148E2365B09800958956 /* Utils */,
 				EC950E8D21B81EA700B3A03D /* Assets.xcassets */,
 				EC950E9221B81EA700B3A03D /* Info.plist */,
 			);
@@ -188,7 +191,7 @@
 		EC950E9A21B81EA700B3A03D /* DroneMapTests */ = {
 			isa = PBXGroup;
 			children = (
-				EC950E9B21B81EA700B3A03D /* DroneMapTests.swift */,
+				EC950E9B21B81EA700B3A03D /* GeometryTests.swift */,
 				EC950E9D21B81EA700B3A03D /* Info.plist */,
 			);
 			path = DroneMapTests;
@@ -201,6 +204,14 @@
 				EC950EA821B81EA800B3A03D /* Info.plist */,
 			);
 			path = DroneMapUITests;
+			sourceTree = "<group>";
+		};
+		ECD7148E2365B09800958956 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				ECD7148F2365B0F200958956 /* Geometry.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		ECEEEEE92267A959005A71C6 /* ViewControllers */ = {
@@ -406,6 +417,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC15EADA2274E6BE0032ACB9 /* LocationService.swift in Sources */,
+				ECD714902365B0F200958956 /* Geometry.swift in Sources */,
 				EC46217E22998D7C00F08B5E /* ConsoleStatusViewController.swift in Sources */,
 				EC158057229B0A19000741DC /* CommandService.swift in Sources */,
 				EC15EADC227CCF570032ACB9 /* NavigationViewController.swift in Sources */,
@@ -432,7 +444,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC950E9C21B81EA700B3A03D /* DroneMapTests.swift in Sources */,
+				EC950E9C21B81EA700B3A03D /* GeometryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,7 +523,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -566,7 +578,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -628,6 +640,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JF2NVCP8SN;
 				INFOPLIST_FILE = DroneMapTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -649,6 +662,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JF2NVCP8SN;
 				INFOPLIST_FILE = DroneMapTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -669,6 +683,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JF2NVCP8SN;
 				INFOPLIST_FILE = DroneMapUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -689,6 +704,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JF2NVCP8SN;
 				INFOPLIST_FILE = DroneMapUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
