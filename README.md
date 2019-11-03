@@ -17,17 +17,17 @@ and notify view controllers.
 General:
 * Remove Logger class and replace functionality with delegates
 * Refactor Environment class by adding public properties instead of getters
-* Rearrange the views to use tabs: one tab with the video feed and console and one with mission controls (5)
+* Rearrange the views to use tabs: one tab with the video feed and console and one with mission controls (4)
 
 Map:
 * ~~Replace map icons and make them show direction~~
 * ~~Extend MapViewController with adding polygons on the map~~
 * ~~Transform polygon's area into grid coordinates suitable for mission planning~~
-* Make polygons draggable (3)
-* Limit polygon update rate (1)
-* Build default polygon based on current map region (2)
-* Dynamically add and remove points from the polygon (4)
-* Set grid lines distance in meters (6)
+* Make polygons draggable (2)
+* ~~Limit polygon update rate~~
+* Build default polygon based on current map region (1)
+* Dynamically add and remove points from the polygon (3)
+* Set grid lines distance in meters (5)
 
 Mission:
 * Add commands for mission upload and execution

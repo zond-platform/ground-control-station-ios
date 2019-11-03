@@ -55,18 +55,32 @@ class PolygonVertex : MKPointAnnotation {
 }
 
 class PolygonVertexView : MKAnnotationView {
+    private var positionChangeFired = false
     weak var positionDelegate: PositionDelegate?
     override var center: CGPoint {
         didSet {
-            guard let annotation = annotation as? PolygonVertex else {
+            guard let annotation = self.annotation as? PolygonVertex else {
                 return
             }
             guard self.dragState == .dragging else {
                 return
             }
+            guard !positionChangeFired else {
+                return
+            }
             
-            // TODO: Limit position update rate with a timer
+            // The polygon renderer shall be redrawn every time the vertex position
+            // changes. Though, the position change rate is way too fast for heavy
+            // computations associated with the renderer update to keep up. As a result,
+            // computationally expensive operations are queued which slows down the
+            // entire application. Thus, limit the update rate to make redrawing smooth
+            // and unnoticable to the user.
+            positionChangeFired = true
             positionDelegate?.positionChanged(center, annotation.id)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                self.positionChangeFired = false
+                print("unlocking position change")
+            }
         }
     }
 }
