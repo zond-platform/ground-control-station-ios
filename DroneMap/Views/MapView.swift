@@ -79,7 +79,6 @@ class PolygonVertexView : MKAnnotationView {
             positionDelegate?.positionChanged(center, annotation.id)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
                 self.positionChangeFired = false
-                print("unlocking position change")
             }
         }
     }
