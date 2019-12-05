@@ -14,7 +14,7 @@ protocol HeadingDelegate : AnyObject {
 }
 
 protocol PositionDelegate : AnyObject {
-    func positionChanged(_ position: CGPoint, _ id: Int)
+    func vertexPositionChanged(_ position: CGPoint, _ id: Int)
 }
 
 /*************************************************************************************************/
@@ -27,7 +27,7 @@ class MovingObject : MKPointAnnotation {
         }
     }
     
-    init(_ coordinate: CLLocationCoordinate2D, _ heading: CLLocationDirection,  _ type: MovingObjectType) {
+    init(_ coordinate: CLLocationCoordinate2D, _ heading: CLLocationDirection, _ type: MovingObjectType) {
         self.type = type
         self.heading = heading
         super.init()
@@ -45,17 +45,28 @@ class MovingObjectView : MKAnnotationView , HeadingDelegate {
 
 /*************************************************************************************************/
 class PolygonVertex : MKPointAnnotation {
-    var id: Int
-    
+    public let id: Int
+    private var dLat: Double = 0.0
+    private var dLon: Double = 0.0
+
     init(_ coordinate: CLLocationCoordinate2D, _ id: Int) {
         self.id = id
         super.init()
         self.coordinate = coordinate
     }
+
+    func compute(displacementTo coordinate: CLLocationCoordinate2D) {
+        dLat = self.coordinate.latitude - coordinate.latitude
+        dLon = self.coordinate.longitude - coordinate.longitude
+    }
+
+    func move(relativeTo coordinate: CLLocationCoordinate2D) {
+        self.coordinate.latitude = coordinate.latitude + dLat
+        self.coordinate.longitude = coordinate.longitude + dLon
+    }
 }
 
 class PolygonVertexView : MKAnnotationView {
-    private var positionChangeFired = false
     weak var positionDelegate: PositionDelegate?
     override var center: CGPoint {
         didSet {
@@ -65,38 +76,58 @@ class PolygonVertexView : MKAnnotationView {
             guard self.dragState == .dragging else {
                 return
             }
-            guard !positionChangeFired else {
-                return
-            }
-            
-            // The polygon renderer shall be redrawn every time the vertex position
-            // changes. Though, the position change rate is way too fast for heavy
-            // computations associated with the renderer update to keep up. As a result,
-            // computationally expensive operations are queued which slows down the
-            // entire application. Thus, limit the update rate to make redrawing smooth
-            // and unnoticable to the user.
-            positionChangeFired = true
-            positionDelegate?.positionChanged(center, annotation.id)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-                self.positionChangeFired = false
-            }
+            positionDelegate?.vertexPositionChanged(center, annotation.id)
         }
     }
 }
 
 /*************************************************************************************************/
-class PolygonRenderer : MKOverlayRenderer {
+class PolygonRenderer : MKOverlayRenderer , PositionDelegate {
+    private var vertexPositionChangeFired = false
     var gridDelta: CGFloat
-    
-    init(_ overlay: MKOverlay, _ gridDelta: CGFloat) {
+    var pointSet: PointSet
+    var mapView: MapView
+
+    init(_ overlay: MKOverlay, _ gridDelta: CGFloat, _ mapView: MapView) {
         self.gridDelta = gridDelta
+        self.pointSet = PointSet()
+        self.mapView = mapView
         super.init(overlay: overlay)
     }
-    
-    func setGridDelta(_ gridDelta: CGFloat) {
-        self.gridDelta = gridDelta
+
+    func vertexPositionChanged(_ position: CGPoint, _ id: Int) {
+        let polygon = self.overlay as? MKPolygon
+        guard polygon != nil else {
+            return
+        }
+        polygon!.points()[id] = MKMapPoint(mapView.convert(position, toCoordinateFrom: mapView))
+        redraw()
     }
-    
+
+    func redraw() {
+        // The polygon renderer shall be redrawn every time the vertex position
+        // changes. Though, the position change rate is way too fast for heavy
+        // computations associated with the renderer update to keep up. As a result,
+        // computationally expensive operations are queued which slows down the
+        // entire application. Thus, limit the update rate to make redrawing smooth
+        // and unnoticable to the user.
+        if self.vertexPositionChangeFired == false {
+            vertexPositionChangeFired = true
+            self.setNeedsDisplay()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                self.vertexPositionChangeFired = false
+            }
+        }
+    }
+
+    func boundingRegion() -> MKMapRect {
+        let origin = mapPoint(for: CGPoint(x: Double(pointSet.leftmostPoint!.x),
+                                           y: Double(pointSet.lowermostPoint!.y)))
+        let size = MKMapSize(width: Double(pointSet.rightmostPoint!.x) - Double(pointSet.leftmostPoint!.x),
+                             height: Double(pointSet.uppermostPoint!.y) - Double(pointSet.lowermostPoint!.y))
+        return MKMapRect(origin: origin, size: size)
+    }
+
     override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
         let polygon = self.overlay as? MKPolygon
         guard polygon != nil else {
@@ -108,7 +139,7 @@ class PolygonRenderer : MKOverlayRenderer {
             rawPoints.append(point(for: polygon!.points()[id]))
         }
         
-        let pointSet = PointSet(rawPoints, gridDelta)
+        pointSet = PointSet(rawPoints, gridDelta)
         
         let polygonPath = CGMutablePath()
         polygonPath.addLines(between: pointSet.hullPoints)

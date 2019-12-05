@@ -29,8 +29,6 @@ class MapViewController : UIViewController {
     private var polygonVertices: [PolygonVertex] = []
     private var polygon: MKPolygon!
     
-    private var surveyGridDelta: CGFloat = 10.0
-    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -60,7 +58,13 @@ class MapViewController : UIViewController {
         locationManager.startUpdatingHeading()
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(sender:)))
+        tapRecognizer.delegate = self
+        panRecognizer.delegate = self
+        panRecognizer.minimumNumberOfTouches = 1
+        panRecognizer.maximumNumberOfTouches = 1
         mapView.addGestureRecognizer(tapRecognizer)
+        mapView.addGestureRecognizer(panRecognizer)
     }
 
     override func viewDidLoad() {
@@ -70,29 +74,6 @@ class MapViewController : UIViewController {
     func userLocation() -> CLLocationCoordinate2D? {
         return user.coordinate
     }
-    
-    // TODO: Add distance calculation in any direction
-//    func setSurveyGridDelta(forDistance distance: Double) {
-//        let earthRadius = 6378137.0
-//        let latitude = user.coordinate.latitude
-//        let longitude = user.coordinate.longitude
-//        
-//        // Only latitude distance is calculated
-//        let latMetersDelta = distance
-//        let lonMetersDelta = 0.0
-//        
-//        let latitudeDelta = latMetersDelta / earthRadius
-//        let longitudeDelta = lonMetersDelta / (earthRadius * cos(Double.pi * latitude / 180.0))
-//        
-//        let newLatitude = latitude + latitudeDelta * 180.0 / Double.pi
-//        let newLongitude = longitude + longitudeDelta * 180.0 / Double.pi
-//        let referenceCoordinate = CLLocationCoordinate2D(latitude: newLatitude, longitude: newLongitude)
-//        
-//        let userPoint = mapView.convert(user.coordinate, toPointTo: mapView)
-//        let referencePoint = mapView.convert(referenceCoordinate, toPointTo: mapView)
-//        
-//        surveyGridDelta = sqrt(pow(userPoint.x - referencePoint.x, 2) + pow(userPoint.y - referencePoint.y, 2))
-//    }
 
     func enableMissionEditing(_ enable: Bool) {
         if !enable {
@@ -118,10 +99,9 @@ class MapViewController : UIViewController {
         if polygon == nil {
             polygon = MKPolygon(coordinates: polygonCoordinates, count: polygonCoordinates.count)
         }
-        
-        //setSurveyGridDelta(forDistance: 50.0)
-        mapView.addAnnotations(polygonVertices)
+
         mapView.addOverlay(polygon)
+        mapView.addAnnotations(polygonVertices)
     }
 }
 
@@ -147,7 +127,7 @@ extension MapViewController : MKMapViewDelegate {
             let polygonVertexView = mapView.dequeueReusableAnnotationView(withIdentifier: NSStringFromClass(PolygonVertex.self), for: annotation) as? PolygonVertexView
             polygonVertexView!.image = #imageLiteral(resourceName: "polygonPin")
             polygonVertexView!.isDraggable = true
-            polygonVertexView!.positionDelegate = self
+            polygonVertexView!.positionDelegate = mapView.renderer(for: polygon) as? PolygonRenderer
             mapView.bringSubviewToFront(polygonVertexView!)
             annotationView = polygonVertexView
         }
@@ -156,8 +136,6 @@ extension MapViewController : MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
-        
-        // TODO: Try replacing with a ternary
         switch newState {
             case .starting:
                 view.dragState = .dragging
@@ -169,33 +147,69 @@ extension MapViewController : MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        return PolygonRenderer(overlay, surveyGridDelta)
+        return PolygonRenderer(overlay, 10.0, self.mapView)
     }
 }
 
 /*************************************************************************************************/
-extension MapViewController : PositionDelegate {
-    
-    // TODO: Consider sending position directly to the renderer
-    func positionChanged(_ position: CGPoint, _ id: Int) {
-        
-        // Change polygon point
-        let point = MKMapPoint(mapView.convert(position, toCoordinateFrom: self.view))
-        polygon.points()[id] = point
-
-        // Re-draw the renderer
-        if let renderer = mapView.renderer(for: polygon) as? PolygonRenderer {
-            renderer.setNeedsDisplay()
-        }
+extension MapViewController : UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
-}
 
-/*************************************************************************************************/
-extension MapViewController {
-    @objc func handleTap(sender: UITapGestureRecognizer) {
+    private func enableMapInteraction(_ enable: Bool) {
+        mapView.isScrollEnabled = enable
+        mapView.isZoomEnabled = enable
+        mapView.isUserInteractionEnabled = enable
+    }
+
+    @objc func handleTap(sender: UIGestureRecognizer) {
         if sender.state == .ended {
             let _ = mapView.convert(sender.location(in: mapView), toCoordinateFrom: self.view)
-            // TODO: Handle map touch events
+        }
+    }
+
+    @objc func handlePan(sender: UIGestureRecognizer) {
+        let viewPoint = sender.location(in: mapView)
+        let mapCoordinate = mapView.convert(viewPoint, toCoordinateFrom: self.view)
+        if polygon == nil {
+            enableMapInteraction(true)
+            return
+        }
+        let renderer = mapView.renderer(for: polygon)
+        if renderer == nil {
+            enableMapInteraction(true)
+            return
+        }
+        let polygonRenderer = renderer as? PolygonRenderer
+        if polygonRenderer == nil {
+            enableMapInteraction(true)
+            return
+        }
+        if !polygonRenderer!.boundingRegion().contains(MKMapPoint(mapCoordinate)) {
+            enableMapInteraction(true)
+            return
+        }
+        for vertex in polygonVertices {
+            if mapView.view(for: vertex)?.dragState == .dragging {
+                enableMapInteraction(true)
+                return
+            }
+        }
+
+        if sender.state == .began {
+            for vertex in polygonVertices {
+                vertex.compute(displacementTo: mapCoordinate)
+            }
+            enableMapInteraction(false)
+        } else if sender.state == .changed {
+            for vertex in polygonVertices {
+                vertex.move(relativeTo: mapCoordinate)
+                polygon.points()[vertex.id] = MKMapPoint(vertex.coordinate)
+                polygonRenderer!.redraw()
+            }
+        } else if sender.state == .ended {
+            enableMapInteraction(true)
         }
     }
 }

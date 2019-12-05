@@ -25,7 +25,7 @@ class Vector : Equatable {
     public let dx, dy: CGFloat
     public let minY, maxY: CGFloat
     
-    // Creates an identitiy vector parrallel to the y axis
+    // Creates a null vector
     convenience init() {
         self.init(CGPoint(x: 0, y: 0), CGPoint(x: 0, y: 0))
     }
@@ -48,7 +48,7 @@ class Vector : Equatable {
         self.maxY = comparison ? endPoint.y : startPoint.y
     }
     
-    // Returns a point on the vector that corresponds to the provided y value
+    // Returns an intersection point between a vector and the provided y value
     func point(y: CGFloat) -> CGPoint? {
         guard y >= minY && y <= maxY else {
             return nil
@@ -79,10 +79,11 @@ class PointSet {
     public var gridPoints: [CGPoint] = []
     
     public var leftmostPoint: CGPoint?
+    public var rightmostPoint: CGPoint?
     public var uppermostPoint: CGPoint?
     public var lowermostPoint: CGPoint?
     
-    init(_ points: [CGPoint], _ gridDelta: CGFloat = 10.0) {
+    init(_ points: [CGPoint] = [], _ gridDelta: CGFloat = 10.0) {
         self.points = points
         self.gridDelta = gridDelta
         guard points.count >= minNumPoints else {
@@ -90,6 +91,7 @@ class PointSet {
         }
 
         self.leftmostPoint = points.min{ a, b in a.x < b.x }!
+        self.rightmostPoint = points.min{ a, b in a.x > b.x }!
         self.uppermostPoint = points.min{ a, b in a.y > b.y }!
         self.lowermostPoint = points.min{ a, b in a.y < b.y }!
         
@@ -102,7 +104,6 @@ class PointSet {
     private func calculateHull() {
         var referenceVector = Vector(endPoint: leftmostPoint!)
         repeat {
-
             var nextVector = Vector()
             var minTheta = CGFloat.pi
 
@@ -120,11 +121,9 @@ class PointSet {
                     }
                 }
             }
-
             referenceVector = nextVector
             hullPoints.append(nextVector.endPoint)
             hullVectors.append(nextVector)
-
         } while referenceVector.endPoint != leftmostPoint!
     }
     
