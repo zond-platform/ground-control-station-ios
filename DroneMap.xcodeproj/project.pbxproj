@@ -18,6 +18,7 @@
 		EC15EADE227CD1D90032ACB9 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EADD227CD1D90032ACB9 /* NavigationView.swift */; };
 		EC15EAE02286FD530032ACB9 /* SimulatorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EADF2286FD530032ACB9 /* SimulatorService.swift */; };
 		EC1C66782291C07B00BEA440 /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C66772291C07B00BEA440 /* ServiceProtocol.swift */; };
+		EC32569623A7A6560080B006 /* MapObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC32569523A7A6560080B006 /* MapObjects.swift */; };
 		EC46217E22998D7C00F08B5E /* ConsoleStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46217D22998D7C00F08B5E /* ConsoleStatusViewController.swift */; };
 		EC950E8721B81EA600B3A03D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8621B81EA600B3A03D /* AppDelegate.swift */; };
 		EC950E8921B81EA600B3A03D /* ConnectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8821B81EA600B3A03D /* ConnectionService.swift */; };
@@ -65,6 +66,7 @@
 		EC15EADD227CD1D90032ACB9 /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 		EC15EADF2286FD530032ACB9 /* SimulatorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorService.swift; sourceTree = "<group>"; };
 		EC1C66772291C07B00BEA440 /* ServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocol.swift; sourceTree = "<group>"; };
+		EC32569523A7A6560080B006 /* MapObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapObjects.swift; sourceTree = "<group>"; };
 		EC46217D22998D7C00F08B5E /* ConsoleStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleStatusViewController.swift; sourceTree = "<group>"; };
 		EC950E8321B81EA600B3A03D /* DroneMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DroneMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC950E8621B81EA600B3A03D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -181,7 +183,7 @@
 				ECEEEEEA2267A96A005A71C6 /* Services */,
 				ECEEEEE92267A959005A71C6 /* ViewControllers */,
 				EC15EACE226DE7E70032ACB9 /* Views */,
-				ECD7148E2365B09800958956 /* Utils */,
+				ECD7148E2365B09800958956 /* Common */,
 				EC950E8D21B81EA700B3A03D /* Assets.xcassets */,
 				EC950E9221B81EA700B3A03D /* Info.plist */,
 			);
@@ -206,12 +208,13 @@
 			path = DroneMapUITests;
 			sourceTree = "<group>";
 		};
-		ECD7148E2365B09800958956 /* Utils */ = {
+		ECD7148E2365B09800958956 /* Common */ = {
 			isa = PBXGroup;
 			children = (
 				ECD7148F2365B0F200958956 /* Geometry.swift */,
+				EC32569523A7A6560080B006 /* MapObjects.swift */,
 			);
-			path = Utils;
+			path = Common;
 			sourceTree = "<group>";
 		};
 		ECEEEEE92267A959005A71C6 /* ViewControllers */ = {
@@ -437,6 +440,7 @@
 				EC1C66782291C07B00BEA440 /* ServiceProtocol.swift in Sources */,
 				ECEEEEE4225BCD39005A71C6 /* Logger.swift in Sources */,
 				ECEEEEF4226BA5E7005A71C6 /* ServiceBase.swift in Sources */,
+				EC32569623A7A6560080B006 /* MapObjects.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

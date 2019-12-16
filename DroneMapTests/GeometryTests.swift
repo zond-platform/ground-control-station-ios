@@ -60,7 +60,7 @@ class GeometryTests: XCTestCase {
         XCTAssertEqual(v.point(y: -0.5), CGPoint(x: 1.0, y: -0.5))
     }
     
-    func testPointSet() {
+    func testConvexHull() {
         // Standard case
         var points = [
             CGPoint(x: 2.0, y: 1.0),
@@ -78,11 +78,9 @@ class GeometryTests: XCTestCase {
             CGPoint(x: 0.0, y: 1.0),
         ]
         measure {
-            let pointSet = PointSet(points)
-            XCTAssertEqual(pointSet.leftmostPoint!, CGPoint(x: 0.0, y: 1.0))
-            XCTAssertEqual(pointSet.uppermostPoint!, CGPoint(x: 2.0, y: 1.0))
-            XCTAssertEqual(pointSet.lowermostPoint!, CGPoint(x: 0.0, y: 0.0))
-            XCTAssertEqual(pointSet.hullPoints, expected)
+            let hull = convexHull(points)
+            XCTAssertTrue(hull.isValid)
+            XCTAssertEqual(hull.points(), expected)
         }
         
         // Edge case, points on one line are legal
@@ -97,32 +95,32 @@ class GeometryTests: XCTestCase {
             CGPoint(x: 0.0, y: 1.0),
             CGPoint(x: 0.0, y: 0.0),
         ]
-        var pointSet = PointSet(points)
-        XCTAssertEqual(pointSet.leftmostPoint!, CGPoint(x: 0.0, y: 0.0))
-        XCTAssertEqual(pointSet.uppermostPoint!, CGPoint(x: 0.0, y: 2.0))
-        XCTAssertEqual(pointSet.lowermostPoint!, CGPoint(x: 0.0, y: 0.0))
-        XCTAssertEqual(pointSet.hullPoints, expected)
+        var hull = convexHull(points)
+        XCTAssertTrue(hull.isValid)
+        XCTAssertEqual(hull.points(), expected)
 
-        
-        // Edge case, empty point set if less than two points provided
-        points = [CGPoint(x: 0.0, y: 0.0),
-                  CGPoint(x: 0.0, y: 1.0)]
-        pointSet = PointSet(points)
-        XCTAssertEqual(pointSet.leftmostPoint, nil)
-        XCTAssertEqual(pointSet.uppermostPoint, nil)
-        XCTAssertEqual(pointSet.lowermostPoint, nil)
-        XCTAssertEqual(pointSet.hullPoints, [])
+        // Edge case, less than three points is illegal
+        points = [
+            CGPoint(x: 0.0, y: 0.0),
+            CGPoint(x: 0.0, y: 1.0)
+        ]
+        expected = [
+            CGPoint(x: 0.0, y: 1.0),
+            CGPoint(x: 0.0, y: 0.0)
+        ]
+        hull = convexHull(points)
+        XCTAssertFalse(hull.isValid)
     }
     
-    func testGrid() {
+    func testMissionGrid() {
         // Standard case
-        let points = [
+        var points = [
             CGPoint(x: -2.0, y: 0.0),
             CGPoint(x: 0.0, y: 2.0),
             CGPoint(x: 0.0, y: -2.0),
             CGPoint(x: 2.0, y: 0.0),
         ]
-        let expected = [
+        var expected = [
             CGPoint(x: -0.5, y: -1.5),
             CGPoint(x: 0.5, y: -1.5),
             CGPoint(x: 1.5, y: -0.5),
@@ -133,11 +131,20 @@ class GeometryTests: XCTestCase {
             CGPoint(x: -0.5, y: 1.5),
         ]
         measure {
-            let pointSet = PointSet(points, 4.0)
-            XCTAssertEqual(pointSet.leftmostPoint!, CGPoint(x: -2.0, y: 0.0))
-            XCTAssertEqual(pointSet.uppermostPoint!, CGPoint(x: 0.0, y: 2.0))
-            XCTAssertEqual(pointSet.lowermostPoint!, CGPoint(x: 0.0, y: -2.0))
-            XCTAssertEqual(pointSet.gridPoints, expected)
+            let hull = convexHull(points)
+            let grid = missionGrid(hull, 4.0)
+            XCTAssertEqual(grid, expected)
         }
+        
+        // Edge case, invalid hull
+        points = [
+            CGPoint(x: 0.0, y: 0.0),
+            CGPoint(x: 0.0, y: 1.0)
+        ]
+        expected = []
+        let hull = convexHull(points)
+        XCTAssertFalse(hull.isValid)
+        let grid = missionGrid(hull, 4.0)
+        XCTAssertEqual(grid, expected)
     }
 }
