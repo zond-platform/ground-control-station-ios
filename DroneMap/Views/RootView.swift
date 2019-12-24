@@ -8,34 +8,30 @@
 
 import UIKit
 
-/*************************************************************************************************/
 class RootView : UIView {
     private let navigationViewWidth: CGFloat = 50.0
     private let consoleViewWidthRate: CGFloat = 0.4
+    private let statusViewHeight: CGFloat = 20.0
     
     private var mapView = UIView()
     private var navigationView = UIView()
-    private var consoleView = ConsoleView()
+    private var statusView = UIView()
+    private var consoleView = UIView()
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    init(_ mapView: UIView,
-         _ navigationView: UIView,
-         _ statusView: UIView,
-         _ logView: UIView) {
-        
+    init(_ env: Environment) {
         super.init(frame: CGRect())
-        
-        // Build view hirarchy
-        self.mapView.addSubview(mapView)
-        self.navigationView.addSubview(navigationView)
-        self.consoleView.addSubviews(statusView, logView)
+        self.mapView.addSubview(env.mapViewController().view)
+        self.navigationView.addSubview(env.navigationViewConroller().view)
+        self.statusView.addSubview(env.statusViewController().view)
+        self.consoleView.addSubview(env.consoleViewController().view)
         addSubview(self.mapView)
         addSubview(self.navigationView)
+        addSubview(self.statusView)
         addSubview(self.consoleView)
-        
         consoleView.isHidden = true
     }
     
@@ -61,14 +57,22 @@ class RootView : UIView {
             width: 1.5 * navigationViewWidth,
             height: 0.5 * screenHeight
         )
-        consoleView.frame = CGRect(
+        statusView.frame = CGRect(
             x: 0,
             y: 0,
+            width: screenWidth,
+            height: statusViewHeight
+        )
+        consoleView.frame = CGRect(
+            x: 0,
+            y: statusViewHeight,
             width: screenWidth * consoleViewWidthRate,
             height: screenHeight
         )
     }
-    
+}
+
+extension RootView {
     func showConsoleView(_ show: Bool) {
         consoleView.isHidden = !show
     }

@@ -8,21 +8,6 @@
 
 import DJISDK
 
-/*
-
-New parameters to consider:
-
-DJIFlightControllerKey
-- DJIFlightControllerParamFlightMode
-- DJIFlightControllerParamFlightTimeInSeconds
-- DJIFlightControllerParamCompassHeading
-- DJIFlightControllerParamCompassState
-- DJIFlightControllerParamCompassHasError
-- DJIFlightControllerParamIMUState
-- DJIFlightControllerParamIMUAccelerometerState
-
-*/
-
 class ServiceBase {
     typealias KeyActionMap = [DJIKey?:(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) -> Void]
 

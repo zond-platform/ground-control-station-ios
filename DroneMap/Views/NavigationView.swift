@@ -30,7 +30,7 @@ protocol NavigationViewDelegate : AnyObject {
 
 /*************************************************************************************************/
 class SelectorButton : UIButton {
-    var name: ButtonName?
+    var name: ButtonName!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -51,7 +51,6 @@ class SelectorButton : UIButton {
 /*************************************************************************************************/
 class NavigationView : UIView {
     weak var delegate: NavigationViewDelegate?
-    private let annotationView = UIView()
     private var buttons: [ButtonName:SelectorButton] = [:]
     
     required init?(coder aDecoder: NSCoder) {
@@ -116,7 +115,7 @@ extension NavigationView {
 
     @objc func onButtonPress(_ sender: SelectorButton) {
         sender.setSelected(!sender.isSelected)
-        switch sender.name! {
+        switch sender.name {
             case .restart:
                 // Forbid interaction until the connection is re-established
                 sender.isUserInteractionEnabled = false
@@ -135,6 +134,8 @@ extension NavigationView {
                 delegate?.landingRequested()
             case .mission:
                 delegate?.missionEditingMode(sender.isSelected)
+            default:
+                return
         }
     }
 }

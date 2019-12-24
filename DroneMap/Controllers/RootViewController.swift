@@ -8,7 +8,6 @@
 
 import UIKit
 
-/*************************************************************************************************/
 class RootViewController : UIViewController {
     var rootView: RootView!
     
@@ -18,17 +17,17 @@ class RootViewController : UIViewController {
     
     init(_ env: Environment) {
         super.init(nibName: nil, bundle: nil)
-        rootView = RootView(env.mapViewController().view,
-                            env.navigationViewConroller().view,
-                            env.consoleStatusViewController().view,
-                            env.consoleLogViewController().view)
+        rootView = RootView(env)
         view = rootView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
+}
+
+// Public functions
+extension RootViewController {
     func showConsoleView(_ show: Bool) {
         rootView.showConsoleView(show);
     }

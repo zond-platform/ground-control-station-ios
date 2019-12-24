@@ -1,5 +1,5 @@
 //
-//  ConsoleView.swift
+//  ConsoleViewController.swift
 //  DroneMap
 //
 //  Created by Evgeny Agamirzov on 4/6/19.
@@ -9,46 +9,41 @@
 import UIKit
 import os.log
 
-/*************************************************************************************************/
-class ConsoleLogViewController : UIViewController {
+class ConsoleViewController : UIViewController {
     typealias LogEntry = (String, String, OSLogType)
 
-    private let cellId: String = "Cell"
     private let maxScrollbackSize: Int = 100
     private var logScrollback: NSMutableArray = []
-    
-    var consoleView: TableView!
-    
+
+    var consoleView: ConsoleView!
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
     init(_ env: Environment) {
         super.init(nibName: nil, bundle: nil)
-        
         env.logger.delegate = self
-        
-        consoleView = TableView(.console)
-        consoleView.register(TableViewCell.self, forCellReuseIdentifier: cellId)
+        consoleView = ConsoleView()
+        consoleView.register(ConsoleViewCell.self, forCellReuseIdentifier: NSStringFromClass(ConsoleViewCell.self))
         consoleView.dataSource = self
-        consoleView.delegate = self
         view = consoleView
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 }
 
-/*************************************************************************************************/
-extension ConsoleLogViewController {
+// Private functions
+extension ConsoleViewController {
     private func trimScrollback() {
         if logScrollback.count > maxScrollbackSize {
             logScrollback.removeObject(at: 0)
             consoleView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .none)
         }
     }
-    
+
     private func appendScrollback() {
         let backIndexPath = IndexPath(row: logScrollback.count - 1, section: 0)
         consoleView?.insertRows(at: [backIndexPath], with: .none)
@@ -65,8 +60,8 @@ extension ConsoleLogViewController {
     }
 }
 
-/*************************************************************************************************/
-extension ConsoleLogViewController : LoggerDelegate {
+// Process log requests
+extension ConsoleViewController : LoggerDelegate {
     func logConsole(_ message: String, _ context: String, _ level: OSLogType) {
         let logEntry: LogEntry = (message, context, level)
         logScrollback.add(logEntry)
@@ -74,17 +69,14 @@ extension ConsoleLogViewController : LoggerDelegate {
     }
 }
 
-/*************************************************************************************************/
-extension ConsoleLogViewController : UITableViewDelegate {}
-
-/*************************************************************************************************/
-extension ConsoleLogViewController : UITableViewDataSource {
+// Fill table view with data
+extension ConsoleViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return logScrollback.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! TableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(ConsoleViewCell.self), for: indexPath) as! ConsoleViewCell
         let logEntry: LogEntry = logScrollback[indexPath.row] as! LogEntry
         cell.messageLabel.text = "\(logEntry.0)"
         cell.contextLabel.text = "\(logEntry.1)"

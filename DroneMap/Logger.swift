@@ -8,17 +8,11 @@
 
 import os.log
 
-enum Context {
-    case altitude
+enum LogContext {
     case connection
     case simulator
     case battery
     case product
-    case gps
-    case satellites
-    case map
-    case navigation
-    case mode
     case command
 }
 
@@ -28,13 +22,11 @@ protocol LoggerDelegate : AnyObject {
 
 class Logger {
     weak var delegate: LoggerDelegate?
-    private let contextMap: [Context:String] = [
+    private let contextMap: [LogContext:String] = [
         .connection:"CONN",
         .simulator: "SIMU",
         .battery:   "BATT",
         .product:   "PROD",
-        .map:       "MAPP",
-        .navigation:"NAVI",
         .command:   "COMM"
     ]
     
@@ -45,15 +37,15 @@ class Logger {
         }
     }
     
-    func logInfo(_ message: String, _ context: Context, sendToConsole: Bool = true) {
+    func logInfo(_ message: String, _ context: LogContext, sendToConsole: Bool = true) {
         logSystem(message, contextMap[context]!, .info, sendToConsole)
     }
     
-    func logDebug(_ message: String, _ context: Context, sendToConsole: Bool = true) {
+    func logDebug(_ message: String, _ context: LogContext, sendToConsole: Bool = true) {
         logSystem(message, contextMap[context]!, .debug, sendToConsole)
     }
     
-    func logError(_ message: String, _ context: Context, sendToConsole: Bool = true) {
+    func logError(_ message: String, _ context: LogContext, sendToConsole: Bool = true) {
         logSystem(message, contextMap[context]!, .error, sendToConsole)
     }
 }

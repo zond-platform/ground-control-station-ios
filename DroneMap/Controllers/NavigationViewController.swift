@@ -52,7 +52,8 @@ extension NavigationViewController : NavigationViewDelegate {
             if let userLocation = env.mapViewController().userLocation() {
                 simulatorLocation = userLocation
             } else {
-                env.logger.logDebug("Using default simulator location", .navigation)
+                // TODO: Replace with a proper log via console
+                print("Using default simulator location")
             }
             env.simulatorService().startSimulator(simulatorLocation)
         } else {

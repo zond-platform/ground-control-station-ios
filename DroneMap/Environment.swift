@@ -24,19 +24,18 @@ class Environment {
         case map
         case root
         case navigation
+        case console
     }
     
     let logger: Logger = Logger()
     private var services: [ServiceType:ServiceProtocol] = [:]
-    private var viewControllers: [ViewControllerType:UIViewController] = [:]
+    private var controllers: [ViewControllerType:UIViewController] = [:]
     
     init () {
         setupServices()
-        setupViewControllers()
+        setupControllers()
     }
     
-// Initialization
-/*************************************************************************************************/
     private func setupServices() {
         services[.connection] = ConnectionService(self)
         services[.battery]    = BatteryService(self)
@@ -46,16 +45,17 @@ class Environment {
         services[.command]    = CommandService(self)
     }
     
-    private func setupViewControllers() {
-        viewControllers[.status]     = ConsoleStatusViewController(self)
-        viewControllers[.log]        = ConsoleLogViewController(self)
-        viewControllers[.map]        = MapViewController(self)
-        viewControllers[.navigation] = NavigationViewController(self)
-        viewControllers[.root]       = RootViewController(self)
+    private func setupControllers() {
+        controllers[.status]     = StatusViewController(self)
+        controllers[.log]        = ConsoleViewController(self)
+        controllers[.map]        = MapViewController(self)
+        controllers[.navigation] = NavigationViewController(self)
+        
+        // All the internal views and controllers should be already
+        // created by the time root view controller is initialized.
+        controllers[.root]       = RootViewController(self)
     }
 
-// Service getters
-/*************************************************************************************************/
     func connectionService() -> ConnectionService {
         return services[.connection] as! ConnectionService
     }
@@ -80,25 +80,23 @@ class Environment {
         return services[.command] as! CommandService
     }
     
-// Controller getters
-/*************************************************************************************************/
     func rootViewController() -> RootViewController {
-        return viewControllers[.root] as! RootViewController
+        return controllers[.root] as! RootViewController
     }
     
-    func consoleLogViewController() -> ConsoleLogViewController {
-        return viewControllers[.log] as! ConsoleLogViewController
+    func consoleViewController() -> ConsoleViewController {
+        return controllers[.log] as! ConsoleViewController
     }
     
-    func consoleStatusViewController() -> ConsoleStatusViewController {
-        return viewControllers[.status] as! ConsoleStatusViewController
+    func statusViewController() -> StatusViewController {
+        return controllers[.status] as! StatusViewController
     }
     
     func mapViewController() -> MapViewController {
-        return viewControllers[.map] as! MapViewController
+        return controllers[.map] as! MapViewController
     }
     
     func navigationViewConroller() -> NavigationViewController {
-        return viewControllers[.navigation] as! NavigationViewController
+        return controllers[.navigation] as! NavigationViewController
     }
 }

@@ -65,7 +65,10 @@ class MapViewController : UIViewController {
         mapView.addGestureRecognizer(tapRecognizer)
         mapView.addGestureRecognizer(panRecognizer)
     }
+}
 
+// Public functions
+extension MapViewController {
     func userLocation() -> CLLocationCoordinate2D? {
         return user.coordinate
     }
@@ -96,7 +99,10 @@ class MapViewController : UIViewController {
             mapView.removeOverlay(polygon)
         }
     }
-    
+}
+
+// Private functions
+extension MapViewController {
     private func enableMapInteraction(_ enable: Bool) {
         mapView.isScrollEnabled = enable
         mapView.isZoomEnabled = enable
@@ -277,4 +283,3 @@ extension MapViewController : ConnectionServiceDelegate {
         }
     }
 }
-
