@@ -21,14 +21,14 @@ class MissionRenderer : MKOverlayRenderer {
         if let polygon = self.overlay as? MissionPolygon {
             let hull = polygon.convexHull()
             let grid = polygon.missionGrid(for: hull, with: delta)
-            
+
             let polygonPath = CGMutablePath()
             polygonPath.addLines(between: hull.points())
             polygonPath.addLine(to: hull.points().first!)
             context.addPath(polygonPath)
             context.setFillColor(red: 86.0, green: 167.0, blue: 20.0, alpha: 0.5)
             context.drawPath(using: .fill)
-            
+
             let gridPath = CGMutablePath()
             gridPath.addLines(between: grid)
             context.setStrokeColor(UIColor.yellow.cgColor)

@@ -35,7 +35,7 @@ class ConsoleViewController : UIViewController {
     }
 }
 
-// Private functions
+// Private methods
 extension ConsoleViewController {
     private func trimScrollback() {
         if logScrollback.count > maxScrollbackSize {

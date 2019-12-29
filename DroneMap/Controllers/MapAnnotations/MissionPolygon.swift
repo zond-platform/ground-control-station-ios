@@ -18,6 +18,7 @@ protocol MissionPolygonDelegate : AnyObject {
 class MissionPolygon : MKPolygon {
     private weak var mapView: MKMapView!
     var verticies: [CGPoint] = []
+    var missionGrid: [CGPoint] = []
     weak var delegate: MissionPolygonDelegate? {
         didSet {
             verticies.removeAll(keepingCapacity: true)
@@ -34,14 +35,27 @@ class MissionPolygon : MKPolygon {
     }
 }
 
-// Public functions
+// Public methods
 extension MissionPolygon {
     func convexHull() -> ConvexHull {
         return DroneMap.convexHull(verticies)
     }
 
     func missionGrid(for hull: ConvexHull, with delta: CGFloat) -> [CGPoint] {
-        return DroneMap.missionGrid(hull, delta)
+        missionGrid = DroneMap.missionGrid(hull, delta)
+        return missionGrid
+    }
+    
+    func missionCoordinates() -> [CLLocationCoordinate2D] {
+        if delegate != nil {
+            var coordinates: [CLLocationCoordinate2D] = []
+            for point in missionGrid {
+                coordinates.append(delegate!.translateRawPoint(point).coordinate)
+            }
+            return coordinates
+        } else {
+            return []
+        }
     }
 
     func containsCoordinate(_ coordinate: CLLocationCoordinate2D) -> Bool {
@@ -50,15 +64,15 @@ extension MissionPolygon {
             let right = rightmost(verticies)
             let low = lowermost(verticies)
             let up = uppermost(verticies)
-            
+
             let origin = CGPoint(x: left.x, y: low.y)
             let width = Double(right.x) - Double(left.x)
             let height = Double(up.y) - Double(low.y)
-            
+
             let polygonOrigin = delegate!.translateRawPoint(origin)
             let polygonSize = MKMapSize(width: width, height: height)
             let polygonRect = MKMapRect(origin: polygonOrigin, size: polygonSize)
-            
+
             return polygonRect.contains(MKMapPoint(coordinate))
         } else {
             return false
@@ -66,7 +80,7 @@ extension MissionPolygon {
     }
 }
 
-// Private functions
+// Private methods
 extension MissionPolygon {
     private func updateVertex(_ newCoordinate: CLLocationCoordinate2D, _ id: Int) {
         if delegate != nil {

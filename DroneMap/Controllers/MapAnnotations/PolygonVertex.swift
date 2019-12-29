@@ -31,7 +31,7 @@ class PolygonVertex : MKPointAnnotation {
     }
 }
 
-// Public functions
+// Public methods
 extension PolygonVertex {
     func compute(displacementTo coordinate: CLLocationCoordinate2D) {
         dLat = self.coordinate.latitude - coordinate.latitude

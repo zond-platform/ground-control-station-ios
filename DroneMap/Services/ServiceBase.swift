@@ -18,7 +18,10 @@ class ServiceBase {
         self.env = env
         env.connectionService().addDelegate(self)
     }
-    
+}
+
+// Public methods
+extension ServiceBase {
     // Since actions are in fact member functions of the child class this map
     // cannot be set via the initializer and instead a setter is used.
     func setKeyActionMap(_ keyActionMap: KeyActionMap) {
@@ -26,7 +29,7 @@ class ServiceBase {
     }
 }
 
-/*************************************************************************************************/
+// Comply with generic service protocol
 extension ServiceBase : ServiceProtocol {
     func start() {
         for keyActionPair in keyActionMap {
@@ -53,7 +56,7 @@ extension ServiceBase : ServiceProtocol {
     }
 }
 
-/*************************************************************************************************/
+// Monitor connection status
 extension ServiceBase : ConnectionServiceDelegate {
     func statusChanged(_ status: ConnectionStatus) {
         if status == .connected {

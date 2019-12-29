@@ -12,7 +12,6 @@ protocol ProductServiceDelegate : AnyObject {
     func modelChanged(_ model: String)
 }
 
-/*************************************************************************************************/
 class ProductService : ServiceBase {
     var delegates: [ProductServiceDelegate?] = []
     
@@ -24,21 +23,21 @@ class ProductService : ServiceBase {
     }
 }
 
-/*************************************************************************************************/
-extension ProductService {
-    func onModelNameChanged(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) {
-        let model = newValue?.stringValue ?? "none"
-        notifyModelChanged(model)
-    }
-}
-
-/*************************************************************************************************/
+// Public methods
 extension ProductService {
     func addDelegate(_ delegate: ProductServiceDelegate) {
         delegates.append(delegate)
     }
+}
+
+// Private methods
+extension ProductService {
+    private func onModelNameChanged(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) {
+        let model = newValue?.stringValue ?? "none"
+        notifyModelChanged(model)
+    }
     
-    func notifyModelChanged(_ model: String) {
+    private func notifyModelChanged(_ model: String) {
         for delegate in delegates {
             delegate?.modelChanged(model)
         }

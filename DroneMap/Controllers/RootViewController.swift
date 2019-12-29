@@ -25,10 +25,3 @@ class RootViewController : UIViewController {
         super.viewDidLoad()
     }
 }
-
-// Public functions
-extension RootViewController {
-    func showConsoleView(_ show: Bool) {
-        rootView.showConsoleView(show);
-    }
-}

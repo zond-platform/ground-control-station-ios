@@ -35,27 +35,10 @@ class Environment {
         setupServices()
         setupControllers()
     }
-    
-    private func setupServices() {
-        services[.connection] = ConnectionService(self)
-        services[.battery]    = BatteryService(self)
-        services[.product]    = ProductService(self)
-        services[.location]   = LocationService(self)
-        services[.simulator]  = SimulatorService(self)
-        services[.command]    = CommandService(self)
-    }
-    
-    private func setupControllers() {
-        controllers[.status]     = StatusViewController(self)
-        controllers[.log]        = ConsoleViewController(self)
-        controllers[.map]        = MapViewController(self)
-        controllers[.navigation] = NavigationViewController(self)
-        
-        // All the internal views and controllers should be already
-        // created by the time root view controller is initialized.
-        controllers[.root]       = RootViewController(self)
-    }
+}
 
+// Public methods
+extension Environment {
     func connectionService() -> ConnectionService {
         return services[.connection] as! ConnectionService
     }
@@ -96,7 +79,30 @@ class Environment {
         return controllers[.map] as! MapViewController
     }
     
-    func navigationViewConroller() -> NavigationViewController {
-        return controllers[.navigation] as! NavigationViewController
+    func navigationViewConroller() -> ControlViewController {
+        return controllers[.navigation] as! ControlViewController
+    }
+}
+
+// Private methods
+extension Environment {
+    private func setupServices() {
+        services[.connection] = ConnectionService(self)
+        services[.battery]    = BatteryService(self)
+        services[.product]    = ProductService(self)
+        services[.location]   = LocationService(self)
+        services[.simulator]  = SimulatorService(self)
+        services[.command]    = CommandService(self)
+    }
+
+    private func setupControllers() {
+        controllers[.status]     = StatusViewController(self)
+        controllers[.log]        = ConsoleViewController(self)
+        controllers[.map]        = MapViewController(self)
+        controllers[.navigation] = ControlViewController(self)
+
+        // All the internal views and controllers should be already
+        // created by the time root view controller is initialized.
+        controllers[.root]       = RootViewController(self)
     }
 }

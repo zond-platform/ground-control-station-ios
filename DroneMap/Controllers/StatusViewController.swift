@@ -19,6 +19,7 @@ class StatusViewController : UIViewController {
         super.init(nibName: nil, bundle: nil)
         env.batteryService().addDelegate(self)
         env.locationService().addDelegate(self)
+        env.productService().addDelegate(self)
         statusView = StatusView()
         view = statusView
     }
@@ -51,5 +52,12 @@ extension StatusViewController : LocationServiceDelegate {
     
     func flightModeChanged(_ mode: String) {
         statusView.updateValue(.mode, mode)
+    }
+}
+
+// Handle vehicle model updates
+extension StatusViewController : ProductServiceDelegate {
+    func modelChanged(_ model: String) {
+        statusView.updateValue(.product, model)
     }
 }

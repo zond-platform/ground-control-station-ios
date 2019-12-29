@@ -12,7 +12,6 @@ protocol BatteryServiceDelegate : AnyObject {
     func batteryChargeChanged(_ charge: UInt)
 }
 
-/*************************************************************************************************/
 class BatteryService : ServiceBase {
     var delegates: [BatteryServiceDelegate?] = []
 
@@ -24,20 +23,20 @@ class BatteryService : ServiceBase {
     }
 }
 
-/*************************************************************************************************/
-extension BatteryService {
-    func onChargeChanged(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) {
-        notifyBatteryChargeChanged(newValue?.unsignedIntegerValue ?? 0)
-    }
-}
-
-/*************************************************************************************************/
+// Public methods
 extension BatteryService {
     func addDelegate(_ delegate: BatteryServiceDelegate) {
         delegates.append(delegate)
     }
+}
+
+// Private methods
+extension BatteryService {
+    private func onChargeChanged(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) {
+        notifyBatteryChargeChanged(newValue?.unsignedIntegerValue ?? 0)
+    }
     
-    func notifyBatteryChargeChanged(_ charge: UInt) {
+    private func notifyBatteryChargeChanged(_ charge: UInt) {
         for delegate in delegates {
             delegate?.batteryChargeChanged(charge)
         }

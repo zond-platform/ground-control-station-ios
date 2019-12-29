@@ -37,7 +37,7 @@ class Vector : Equatable {
     }
 }
 
-// Public functions
+// Public methods
 extension Vector {
     // Find an intersection point between a vector and the provided y value
     func point(y: CGFloat) -> CGPoint? {

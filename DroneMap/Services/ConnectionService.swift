@@ -18,7 +18,6 @@ protocol ConnectionServiceDelegate : AnyObject {
     func statusChanged(_ status: ConnectionStatus)
 }
 
-/*************************************************************************************************/
 class ConnectionService : NSObject {
     var delegates: [ConnectionServiceDelegate?] = []
     var env: Environment
@@ -26,7 +25,14 @@ class ConnectionService : NSObject {
     required init(_ env: Environment) {
         self.env = env
     }
-    
+}
+
+// Public methods
+extension ConnectionService {
+    func addDelegate(_ delegate: ConnectionServiceDelegate) {
+        delegates.append(delegate)
+    }
+
     func restart() {
         stop()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -35,7 +41,16 @@ class ConnectionService : NSObject {
     }
 }
 
-/*************************************************************************************************/
+// Private methods
+extension ConnectionService {
+    private func notifyConnectionStatusChanged(_ status: ConnectionStatus) {
+        for delegate in delegates {
+            delegate?.statusChanged(status)
+        }
+    }
+}
+
+// Comply with generic service protocol
 extension ConnectionService : ServiceProtocol {
     func start() {
         env.logger.logDebug("Starting connection service", .connection)
@@ -48,7 +63,7 @@ extension ConnectionService : ServiceProtocol {
     }
 }
 
-/*************************************************************************************************/
+// Comply with DJI SDK manager protocol
 extension ConnectionService : DJISDKManagerDelegate {
     func didUpdateDatabaseDownloadProgress(_ progress: Progress) {}
     
@@ -75,18 +90,5 @@ extension ConnectionService : DJISDKManagerDelegate {
     func productDisconnected() {
         env.logger.logInfo("Disconnected, stopping services", .connection)
         self.notifyConnectionStatusChanged(.disconnected)
-    }
-}
-
-/*************************************************************************************************/
-extension ConnectionService {
-    func addDelegate(_ delegate: ConnectionServiceDelegate) {
-        delegates.append(delegate)
-    }
-    
-    func notifyConnectionStatusChanged(_ status: ConnectionStatus) {
-        for delegate in delegates {
-            delegate?.statusChanged(status)
-        }
     }
 }

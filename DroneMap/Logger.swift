@@ -29,14 +29,10 @@ class Logger {
         .product:   "PROD",
         .command:   "COMM"
     ]
+}
     
-    private func logSystem(_ message: String, _ context: String, _ level: OSLogType, _ sendToConsole: Bool) {
-        os_log("%@", type: level, message)
-        if sendToConsole {
-            self.delegate?.logConsole(message, context, level)
-        }
-    }
-    
+// Public methods
+extension Logger {
     func logInfo(_ message: String, _ context: LogContext, sendToConsole: Bool = true) {
         logSystem(message, contextMap[context]!, .info, sendToConsole)
     }
@@ -47,5 +43,15 @@ class Logger {
     
     func logError(_ message: String, _ context: LogContext, sendToConsole: Bool = true) {
         logSystem(message, contextMap[context]!, .error, sendToConsole)
+    }
+}
+
+// Private methods
+extension Logger {
+    private func logSystem(_ message: String, _ context: String, _ level: OSLogType, _ sendToConsole: Bool) {
+        os_log("%@", type: level, message)
+        if sendToConsole {
+            self.delegate?.logConsole(message, context, level)
+        }
     }
 }

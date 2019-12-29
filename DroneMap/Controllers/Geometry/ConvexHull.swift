@@ -15,7 +15,7 @@ class ConvexHull : Equatable {
     var isValid = false
 }
 
-// Public functions
+// Public methods
 extension ConvexHull {
     func add(_ vector: Vector) {
         hullVectors.append(vector)

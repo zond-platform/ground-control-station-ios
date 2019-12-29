@@ -28,6 +28,8 @@ class MapViewController : UIViewController {
     private var polygonVertices: [PolygonVertex] = []
     private var polygon: MissionPolygon!
     
+    var missionEditingEnabled = false
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -67,14 +69,15 @@ class MapViewController : UIViewController {
     }
 }
 
-// Public functions
+// Public methods
 extension MapViewController {
     func userLocation() -> CLLocationCoordinate2D? {
         return user.coordinate
     }
 
     func enableMissionEditing(_ enable: Bool) {
-        if enable {
+        missionEditingEnabled = enable
+        if missionEditingEnabled {
             let lat = user.coordinate.latitude
             let lon = user.coordinate.longitude
             let polygonCoordinates = [
@@ -99,9 +102,17 @@ extension MapViewController {
             mapView.removeOverlay(polygon)
         }
     }
+    
+    func missionCoordinates() -> [CLLocationCoordinate2D] {
+        if missionEditingEnabled && polygon != nil {
+            return polygon.missionCoordinates()
+        } else {
+            return []
+        }
+    }
 }
 
-// Private functions
+// Private methods
 extension MapViewController {
     private func enableMapInteraction(_ enable: Bool) {
         mapView.isScrollEnabled = enable
@@ -177,7 +188,7 @@ extension MapViewController : MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        let renderer = MissionRenderer(overlay, 10.0)
+        let renderer = MissionRenderer(overlay, 2.0)
         if let overlay = overlay as? MissionPolygon {
             overlay.delegate = renderer
         }
