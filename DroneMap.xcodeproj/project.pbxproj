@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		EAB8DEAC428EE385E1B9C15E /* libPods-DroneMap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0A5FA8B00CB41927D89D276 /* libPods-DroneMap.a */; };
+		EC0B54F924339450003E9ECE /* ViewsUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0B54F824339450003E9ECE /* ViewsUtils.swift */; };
+		EC0B54FB2437B549003E9ECE /* SelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0B54FA2437B549003E9ECE /* SelectorView.swift */; };
+		EC0B54FF2437BC34003E9ECE /* SelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0B54FE2437BC34003E9ECE /* SelectorViewController.swift */; };
 		EC14731B23B1EE9300385067 /* MovingObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14731A23B1EE9300385067 /* MovingObject.swift */; };
 		EC14731D23B1EEAE00385067 /* PolygonVertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14731C23B1EEAE00385067 /* PolygonVertex.swift */; };
 		EC14731F23B1EED500385067 /* MissionPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14731E23B1EED500385067 /* MissionPolygon.swift */; };
@@ -16,7 +19,7 @@
 		EC14732623B1F07E00385067 /* MissionRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14732523B1F07E00385067 /* MissionRenderer.swift */; };
 		EC14732823B1F62000385067 /* ConvexHull.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14732723B1F62000385067 /* ConvexHull.swift */; };
 		EC14732A23B1F63000385067 /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14732923B1F63000385067 /* Vector.swift */; };
-		EC14732D23B229D000385067 /* SelectorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14732C23B229D000385067 /* SelectorButton.swift */; };
+		EC14732D23B229D000385067 /* ControlButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14732C23B229D000385067 /* ControlButton.swift */; };
 		EC14733023B4D19900385067 /* StatusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14732F23B4D19900385067 /* StatusLabel.swift */; };
 		EC14733323B4D2E400385067 /* ConsoleViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14733223B4D2E400385067 /* ConsoleViewCell.swift */; };
 		EC158057229B0A19000741DC /* CommandService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC158056229B0A19000741DC /* CommandService.swift */; };
@@ -37,7 +40,7 @@
 		EC950E9C21B81EA700B3A03D /* GeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E9B21B81EA700B3A03D /* GeometryTests.swift */; };
 		EC950EA721B81EA800B3A03D /* DroneMapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950EA621B81EA800B3A03D /* DroneMapUITests.swift */; };
 		ECAAC83A2299B83700FB360F /* ConsoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAAC8392299B83700FB360F /* ConsoleView.swift */; };
-		ECD714902365B0F200958956 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD7148F2365B0F200958956 /* Utils.swift */; };
+		ECD714902365B0F200958956 /* GeometryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD7148F2365B0F200958956 /* GeometryUtils.swift */; };
 		ECDF4B7222593AC600C98F71 /* ConsoleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDF4B7122593AC600C98F71 /* ConsoleViewController.swift */; };
 		ECEEEEE4225BCD39005A71C6 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEE3225BCD39005A71C6 /* Logger.swift */; };
 		ECEEEEE82267A24F005A71C6 /* BatteryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEE72267A24F005A71C6 /* BatteryService.swift */; };
@@ -67,6 +70,9 @@
 		36FCEE976A7521F8A5A31429 /* Pods-DroneMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DroneMap.release.xcconfig"; path = "Target Support Files/Pods-DroneMap/Pods-DroneMap.release.xcconfig"; sourceTree = "<group>"; };
 		9A2289144CFB654F00B72808 /* Pods-DroneMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DroneMap.debug.xcconfig"; path = "Target Support Files/Pods-DroneMap/Pods-DroneMap.debug.xcconfig"; sourceTree = "<group>"; };
 		C0A5FA8B00CB41927D89D276 /* libPods-DroneMap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DroneMap.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC0B54F824339450003E9ECE /* ViewsUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewsUtils.swift; sourceTree = "<group>"; };
+		EC0B54FA2437B549003E9ECE /* SelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorView.swift; sourceTree = "<group>"; };
+		EC0B54FE2437BC34003E9ECE /* SelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorViewController.swift; sourceTree = "<group>"; };
 		EC14731A23B1EE9300385067 /* MovingObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingObject.swift; sourceTree = "<group>"; };
 		EC14731C23B1EEAE00385067 /* PolygonVertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonVertex.swift; sourceTree = "<group>"; };
 		EC14731E23B1EED500385067 /* MissionPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionPolygon.swift; sourceTree = "<group>"; };
@@ -75,7 +81,7 @@
 		EC14732523B1F07E00385067 /* MissionRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionRenderer.swift; sourceTree = "<group>"; };
 		EC14732723B1F62000385067 /* ConvexHull.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexHull.swift; sourceTree = "<group>"; };
 		EC14732923B1F63000385067 /* Vector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
-		EC14732C23B229D000385067 /* SelectorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorButton.swift; sourceTree = "<group>"; };
+		EC14732C23B229D000385067 /* ControlButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButton.swift; sourceTree = "<group>"; };
 		EC14732F23B4D19900385067 /* StatusLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusLabel.swift; sourceTree = "<group>"; };
 		EC14733223B4D2E400385067 /* ConsoleViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleViewCell.swift; sourceTree = "<group>"; };
 		EC158056229B0A19000741DC /* CommandService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandService.swift; sourceTree = "<group>"; };
@@ -102,7 +108,7 @@
 		EC950EA621B81EA800B3A03D /* DroneMapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroneMapUITests.swift; sourceTree = "<group>"; };
 		EC950EA821B81EA800B3A03D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ECAAC8392299B83700FB360F /* ConsoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleView.swift; sourceTree = "<group>"; };
-		ECD7148F2365B0F200958956 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		ECD7148F2365B0F200958956 /* GeometryUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryUtils.swift; sourceTree = "<group>"; };
 		ECDF4B7122593AC600C98F71 /* ConsoleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleViewController.swift; sourceTree = "<group>"; };
 		ECEEEEE3225BCD39005A71C6 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		ECEEEEE72267A24F005A71C6 /* BatteryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryService.swift; sourceTree = "<group>"; };
@@ -174,26 +180,28 @@
 			path = MapAnnotationViews;
 			sourceTree = "<group>";
 		};
-		EC14732E23B4D17800385067 /* Subviews */ = {
+		EC14732E23B4D17800385067 /* GenericSubviews */ = {
 			isa = PBXGroup;
 			children = (
 				EC14733223B4D2E400385067 /* ConsoleViewCell.swift */,
-				EC14732C23B229D000385067 /* SelectorButton.swift */,
+				EC14732C23B229D000385067 /* ControlButton.swift */,
 				EC14732F23B4D19900385067 /* StatusLabel.swift */,
 			);
-			path = Subviews;
+			path = GenericSubviews;
 			sourceTree = "<group>";
 		};
 		EC15EACE226DE7E70032ACB9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				EC14732E23B4D17800385067 /* Subviews */,
+				EC14732E23B4D17800385067 /* GenericSubviews */,
 				EC14732023B1EFA600385067 /* MapAnnotationViews */,
 				EC15EAD52271CBF50032ACB9 /* RootView.swift */,
 				EC15EAD7227498D20032ACB9 /* MapView.swift */,
 				EC32569723ACCD320080B006 /* StatusView.swift */,
-				EC15EADD227CD1D90032ACB9 /* ControlView.swift */,
 				ECAAC8392299B83700FB360F /* ConsoleView.swift */,
+				EC15EADD227CD1D90032ACB9 /* ControlView.swift */,
+				EC0B54FA2437B549003E9ECE /* SelectorView.swift */,
+				EC0B54F824339450003E9ECE /* ViewsUtils.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -267,7 +275,7 @@
 			children = (
 				EC14732723B1F62000385067 /* ConvexHull.swift */,
 				EC14732923B1F63000385067 /* Vector.swift */,
-				ECD7148F2365B0F200958956 /* Utils.swift */,
+				ECD7148F2365B0F200958956 /* GeometryUtils.swift */,
 			);
 			path = Geometry;
 			sourceTree = "<group>";
@@ -282,6 +290,7 @@
 				EC46217D22998D7C00F08B5E /* StatusViewController.swift */,
 				ECDF4B7122593AC600C98F71 /* ConsoleViewController.swift */,
 				EC15EADB227CCF570032ACB9 /* ControlViewController.swift */,
+				EC0B54FE2437BC34003E9ECE /* SelectorViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -478,18 +487,20 @@
 			files = (
 				EC15EADA2274E6BE0032ACB9 /* LocationService.swift in Sources */,
 				EC14732623B1F07E00385067 /* MissionRenderer.swift in Sources */,
-				ECD714902365B0F200958956 /* Utils.swift in Sources */,
+				ECD714902365B0F200958956 /* GeometryUtils.swift in Sources */,
 				EC46217E22998D7C00F08B5E /* StatusViewController.swift in Sources */,
 				EC14732223B1F02200385067 /* MovingObjectView.swift in Sources */,
 				EC158057229B0A19000741DC /* CommandService.swift in Sources */,
 				EC15EADC227CCF570032ACB9 /* ControlViewController.swift in Sources */,
-				EC14732D23B229D000385067 /* SelectorButton.swift in Sources */,
+				EC14732D23B229D000385067 /* ControlButton.swift in Sources */,
 				EC950E8921B81EA600B3A03D /* ConnectionService.swift in Sources */,
+				EC0B54F924339450003E9ECE /* ViewsUtils.swift in Sources */,
 				ECEEEEF0226A0E6E005A71C6 /* ProductService.swift in Sources */,
 				EC15EAD42270E0B80032ACB9 /* RootViewController.swift in Sources */,
 				EC32569823ACCD320080B006 /* StatusView.swift in Sources */,
 				EC15EAD8227498D20032ACB9 /* MapView.swift in Sources */,
 				EC15EAD2227080250032ACB9 /* MapViewController.swift in Sources */,
+				EC0B54FF2437BC34003E9ECE /* SelectorViewController.swift in Sources */,
 				EC14731F23B1EED500385067 /* MissionPolygon.swift in Sources */,
 				ECEEEEEC2269DB2F005A71C6 /* Environment.swift in Sources */,
 				EC14733023B4D19900385067 /* StatusLabel.swift in Sources */,
@@ -504,6 +515,7 @@
 				EC14732A23B1F63000385067 /* Vector.swift in Sources */,
 				EC15EAD62271CBF50032ACB9 /* RootView.swift in Sources */,
 				EC950E8721B81EA600B3A03D /* AppDelegate.swift in Sources */,
+				EC0B54FB2437B549003E9ECE /* SelectorView.swift in Sources */,
 				EC1C66782291C07B00BEA440 /* ServiceProtocol.swift in Sources */,
 				EC14732423B1F03400385067 /* PolygonVertexView.swift in Sources */,
 				ECEEEEE4225BCD39005A71C6 /* Logger.swift in Sources */,
@@ -670,7 +682,7 @@
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = "$(PODS_ROOT)/Headers/Public";
 				INFOPLIST_FILE = DroneMap/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -692,7 +704,7 @@
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = "$(PODS_ROOT)/Headers/Public";
 				INFOPLIST_FILE = DroneMap/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

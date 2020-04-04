@@ -9,11 +9,8 @@
 import UIKit
 
 class RootView : UIView {
-    private let navigationViewWidth: CGFloat = 50.0
-    private let consoleViewWidthRate: CGFloat = 0.4
-    private let statusViewHeight: CGFloat = 20.0
-    
     private var mapView = UIView()
+    private var selectorView = UIView()
     private var controlView = UIView()
     private var statusView = UIView()
     private var consoleView = UIView()
@@ -25,10 +22,12 @@ class RootView : UIView {
     init(_ env: Environment) {
         super.init(frame: CGRect())
         self.mapView.addSubview(env.mapViewController().view)
+        self.selectorView.addSubview(env.selectorViewConroller().view)
         self.controlView.addSubview(env.navigationViewConroller().view)
         self.statusView.addSubview(env.statusViewController().view)
         self.consoleView.addSubview(env.consoleViewController().view)
         addSubview(self.mapView)
+        addSubview(self.selectorView)
         addSubview(self.controlView)
         addSubview(self.statusView)
         addSubview(self.consoleView)
@@ -50,23 +49,11 @@ class RootView : UIView {
             width: screenWidth,
             height: screenHeight
         )
-        statusView.frame = CGRect(
-            x: 0,
-            y: 0,
-            width: screenWidth,
-            height: statusViewHeight
-        )
-        consoleView.frame = CGRect(
-            x: 0,
-            y: statusViewHeight,
-            width: screenWidth * consoleViewWidthRate,
-            height: (screenHeight - statusViewHeight) / 2.0
-        )
-        controlView.frame = CGRect(
-            x: 0,
-            y: statusViewHeight + (screenHeight - statusViewHeight) / 2.0,
-            width: screenWidth * consoleViewWidthRate,
-            height: (screenHeight - statusViewHeight) / 2.0
-        )
+        var views = [selectorView, statusView, consoleView, controlView]
+        let ratios: [CGFloat] = [0.1, 0.2, 0.3, 0.4]
+        alignViews(&views,
+                   withLayout: .vertical,
+                   within: CGSize(width: screenWidth * 0.4, height: screenHeight),
+                   using: ratios)
     }
 }

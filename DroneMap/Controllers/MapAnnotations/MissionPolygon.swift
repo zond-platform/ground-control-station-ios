@@ -78,6 +78,12 @@ extension MissionPolygon {
             return false
         }
     }
+
+    func verticalDistance() -> CGFloat {
+        let low = delegate!.translateRawPoint(lowermost(verticies))
+        let up = delegate!.translateRawPoint(uppermost(verticies))
+        return CGFloat(low.distance(to: up))
+    }
 }
 
 // Private methods

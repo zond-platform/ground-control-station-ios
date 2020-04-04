@@ -19,12 +19,12 @@ class Environment {
     }
     
     enum ViewControllerType {
-        case status
-        case log
-        case map
         case root
-        case navigation
+        case status
+        case map
+        case control
         case console
+        case selector
     }
     
     let logger: Logger = Logger()
@@ -68,7 +68,7 @@ extension Environment {
     }
     
     func consoleViewController() -> ConsoleViewController {
-        return controllers[.log] as! ConsoleViewController
+        return controllers[.console] as! ConsoleViewController
     }
     
     func statusViewController() -> StatusViewController {
@@ -80,7 +80,11 @@ extension Environment {
     }
     
     func navigationViewConroller() -> ControlViewController {
-        return controllers[.navigation] as! ControlViewController
+        return controllers[.control] as! ControlViewController
+    }
+
+    func selectorViewConroller() -> SelectorViewController {
+        return controllers[.selector] as! SelectorViewController
     }
 }
 
@@ -96,13 +100,14 @@ extension Environment {
     }
 
     private func setupControllers() {
-        controllers[.status]     = StatusViewController(self)
-        controllers[.log]        = ConsoleViewController(self)
-        controllers[.map]        = MapViewController(self)
-        controllers[.navigation] = ControlViewController(self)
+        controllers[.status]   = StatusViewController(self)
+        controllers[.console]  = ConsoleViewController(self)
+        controllers[.map]      = MapViewController(self)
+        controllers[.control]  = ControlViewController(self)
+        controllers[.selector] = SelectorViewController(self)
 
         // All the internal views and controllers should be already
         // created by the time root view controller is initialized.
-        controllers[.root]       = RootViewController(self)
+        controllers[.root]     = RootViewController(self)
     }
 }

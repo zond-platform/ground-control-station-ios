@@ -21,7 +21,7 @@ protocol ControlViewDelegate : AnyObject {
 
 class ControlView : UIView {
     weak var delegate: ControlViewDelegate?
-    private var buttons: [ButtonName:SelectorButton] = [:]
+    private var buttons: [ControlButton] = []
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -29,13 +29,13 @@ class ControlView : UIView {
 
     init() {
         super.init(frame: CGRect())
-        for name in ButtonName.allCases {
-            buttons[name] = SelectorButton(name)
-            addSubview(buttons[name]!)
-            buttons[name]!.backgroundColor = UIColor(white: 0.0, alpha: 0.6)
-            buttons[name]!.titleLabel?.font = UIFont(name: "Courier", size: 12)
-            buttons[name]!.setTitle(String(describing: name), for: .normal)
-            buttons[name]!.addTarget(self, action: #selector(onButtonPress(_:)), for: .touchDown)
+        for name in ControlButtonName.allCases {
+            buttons.append(ControlButton(name))
+            addSubview(buttons.last!)
+            buttons.last!.backgroundColor = UIColor(white: 0.0, alpha: 0.6)
+            buttons.last!.titleLabel?.font = UIFont(name: "Courier", size: 12)
+            buttons.last!.setTitle(String(describing: name), for: .normal)
+            buttons.last!.addTarget(self, action: #selector(onButtonPress(_:)), for: .touchDown)
         }
     }
 
@@ -49,35 +49,9 @@ class ControlView : UIView {
             width: viewWidth,
             height: viewHeight
         )
-
-        var hOffset: CGFloat = 0.0
-        var vOffset: CGFloat = 0.0
-        let hSize = 2
-        let vSize = 4
-        let buttonWidth = viewWidth / CGFloat(hSize)
-        let buttonHeight = viewHeight / CGFloat(vSize)
-
-        var buttonFrames: [CGRect] = []
-        for _ in 0..<vSize {
-            for _ in 0..<hSize {
-                buttonFrames.append(CGRect(
-                    x: hOffset,
-                    y: vOffset,
-                    width: buttonWidth,
-                    height: buttonHeight
-                ))
-                hOffset += buttonWidth
-            }
-            hOffset = 0.0
-            vOffset += buttonHeight
-        }
-
-        for button in ButtonName.allCases {
-            if let buttonFrame = buttonFrames.first {
-                buttons[button]!.frame = buttonFrame
-                buttonFrames.removeFirst()
-            }
-        }
+        alignViews(&buttons,
+                   withLayout: .grid,
+                   within: CGSize(width: viewWidth, height: viewHeight))
     }
 }
 
@@ -85,26 +59,26 @@ class ControlView : UIView {
 extension ControlView {
     func onSimulatorResponse(_ success: Bool) {
         if !success {
-            buttons[.simulator]!.setSelected(false)
+            controlButton(withName: .simulator)!.setSelected(false)
         }
-        buttons[.simulator]!.isUserInteractionEnabled = true
+        controlButton(withName: .simulator)!.isEnabled = true
     }
 
     func onConnectionEstablished() {
-        buttons[.restart]!.setSelected(false)
-        buttons[.restart]!.isUserInteractionEnabled = true
+        controlButton(withName: .restart)!.setSelected(false)
+        controlButton(withName: .restart)!.isEnabled = true
     }
 
-    @objc func onButtonPress(_ sender: SelectorButton) {
+    @objc func onButtonPress(_ sender: ControlButton) {
         sender.setSelected(!sender.isSelected)
         switch sender.name {
             case .simulator:
                 // Forbid interaction until the simulator responds with a status
-                sender.isUserInteractionEnabled = false
+                sender.isEnabled = false
                 delegate?.simulatorButtonSelected(sender.isSelected)
             case .restart:
                 // Forbid interaction until the connection is re-established
-                sender.isUserInteractionEnabled = false
+                sender.isEnabled = false
                 delegate?.restartButtonPressed()
             case .mission:
                 delegate?.missionEditingMode(sender.isSelected)
@@ -126,5 +100,17 @@ extension ControlView {
             default:
                 return
         }
+    }
+}
+
+// Private methods
+extension ControlView {
+    private func controlButton(withName buttonName: ControlButtonName) -> ControlButton? {
+        for button in buttons {
+            if button.name == buttonName {
+                return button;
+            }
+        }
+        return nil
     }
 }

@@ -188,7 +188,7 @@ extension MapViewController : MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        let renderer = MissionRenderer(overlay, 2.0)
+        let renderer = MissionRenderer(overlay, 20.0)
         if let overlay = overlay as? MissionPolygon {
             overlay.delegate = renderer
         }
@@ -289,8 +289,12 @@ extension MapViewController : LocationServiceDelegate {
 extension MapViewController : ConnectionServiceDelegate {
     func statusChanged(_ status: ConnectionStatus) {
         if status == .disconnected {
-            mapView.removeAnnotation(aircraft)
-            mapView.removeAnnotation(home)
+            if aircraft != nil {
+                mapView.removeAnnotation(aircraft)
+            }
+            if home != nil {
+                mapView.removeAnnotation(home)
+            }
         }
     }
 }

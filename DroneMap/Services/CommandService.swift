@@ -127,23 +127,25 @@ extension CommandService {
     private func waypointMissionFromCoordinates(_ coordinates: [CLLocationCoordinate2D]) -> DJIWaypointMission {
         let mission = DJIMutableWaypointMission()
         mission.maxFlightSpeed = 15
-        mission.autoFlightSpeed = 8
+        mission.autoFlightSpeed = 10
         mission.finishedAction = .goHome
         mission.headingMode = .auto
-        mission.flightPathMode = .normal
-        mission.rotateGimbalPitch = false
+        mission.flightPathMode = .curved
+        mission.rotateGimbalPitch = true
         mission.exitMissionOnRCSignalLost = true
         mission.gotoFirstWaypointMode = .safely
         mission.repeatTimes = 1
         for coordinate in coordinates {
             let waypoint = DJIWaypoint(coordinate: coordinate)
-            waypoint.altitude = 30
+            waypoint.altitude = 100
             waypoint.heading = 0
             waypoint.actionRepeatTimes = 1
             waypoint.actionTimeoutInSeconds = 60
             waypoint.cornerRadiusInMeters = 5
             waypoint.turnMode = .clockwise
             waypoint.gimbalPitch = -90
+            waypoint.shootPhotoDistanceInterval = 20
+            waypoint.cornerRadiusInMeters = 5
             mission.add(waypoint)
         }
         return DJIWaypointMission(mission: mission)

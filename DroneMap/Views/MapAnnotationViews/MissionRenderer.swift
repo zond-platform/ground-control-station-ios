@@ -10,17 +10,17 @@ import MapKit
 
 class MissionRenderer : MKOverlayRenderer {
     private var vertexPositionChangeFired = false
-    private var delta: CGFloat = 0.0
+    private var gridDistance: CGFloat = 0.0
 
-    init(_ overlay: MKOverlay, _ delta: CGFloat) {
-        self.delta = delta
+    init(_ overlay: MKOverlay, _ gridDistance: CGFloat) {
+        self.gridDistance = gridDistance
         super.init(overlay: overlay)
     }
 
     override func draw(_ : MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
         if let polygon = self.overlay as? MissionPolygon {
             let hull = polygon.convexHull()
-            let grid = polygon.missionGrid(for: hull, with: delta)
+            let grid = polygon.missionGrid(for: hull, with: polygon.verticalDistance() / gridDistance)
 
             let polygonPath = CGMutablePath()
             polygonPath.addLines(between: hull.points())

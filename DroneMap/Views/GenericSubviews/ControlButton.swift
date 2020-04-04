@@ -1,5 +1,5 @@
 //
-//  SelectorButton.swift
+//  ControlButton.swift
 //  DroneMap
 //
 //  Created by Evgeny Agamirzov on 24.12.19.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum ButtonName {
+enum ControlButtonName {
     case simulator
     case restart
     case mission
@@ -19,20 +19,23 @@ enum ButtonName {
     case resume
 }
 
-extension ButtonName : CaseIterable {}
+extension ControlButtonName : CaseIterable {}
 
-class SelectorButton : UIButton {
-    var name: ButtonName!
+class ControlButton : UIButton {
+    var name: ControlButtonName!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    init(_ name: ButtonName) {
-        self.name = name
+    init(_ name: ControlButtonName) {
         super.init(frame: CGRect())
+        self.name = name
     }
-    
+}
+
+// Public methods
+extension ControlButton {
     func setSelected(_ selected: Bool) {
         isSelected = selected
         backgroundColor = isSelected ? UIColor(red: 0.2, green: 0.6, blue: 0.2, alpha: 0.8)
