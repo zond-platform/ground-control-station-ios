@@ -27,7 +27,6 @@ class Environment {
         case selector
     }
     
-    let logger: Logger = Logger()
     private var services: [ServiceType:ServiceProtocol] = [:]
     private var controllers: [ViewControllerType:UIViewController] = [:]
     

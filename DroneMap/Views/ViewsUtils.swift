@@ -17,7 +17,7 @@ enum LayoutType {
 
 func alignViews<View: UIView>(_ views: inout [View],
                               withLayout layout: LayoutType,
-                              within area: CGSize,
+                              within rect: CGRect,
                               using ratios: [CGFloat] = []) {
     var vCount = 0
     var hCount = 0
@@ -34,23 +34,23 @@ func alignViews<View: UIView>(_ views: inout [View],
             hCount = 2
     }
 
+    // By default the ratios are equal
     var ratios = ratios
     if ratios.isEmpty {
         ratios = Array(repeating: CGFloat(1.0) / CGFloat(vCount),
                        count: vCount)
     }
-
-    // Ratios array must satisfy certian criteria
     assert(ratios.count == vCount)
     assert(ratios.reduce(0, { x, y in x + y }) == 1.0)
 
+    // Assign frames
     var viewIdx = 0
     var ratioIdx = 0
-    var x = CGFloat(0.0)
-    var y = CGFloat(0.0)
+    var x = rect.minX
+    var y = rect.minY
     for _ in 0..<vCount {
-        let width = area.width / CGFloat(hCount)
-        let height = area.height * ratios[ratioIdx]
+        let width = rect.width / CGFloat(hCount)
+        let height = rect.height * ratios[ratioIdx]
         for _ in 0..<hCount {
             views[viewIdx].frame = CGRect(x: x, y: y, width: width, height: height)
             viewIdx += 1

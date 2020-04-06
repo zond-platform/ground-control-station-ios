@@ -7,6 +7,7 @@
 //
 
 import DJISDK
+import os.log
 
 class CommandService : NSObject {
     var env: Environment
@@ -25,14 +26,14 @@ extension CommandService {
     func uploadMission(for coordinates: [CLLocationCoordinate2D]) {
         let error = missionOperator?.load(waypointMissionFromCoordinates(coordinates))
         guard error == nil else {
-            env.logger.logError("Mission load error:" + String(describing: error!.localizedDescription), .command, sendToConsole: true)
+            os_log("Mission load error: %@", type: .error, error!.localizedDescription)
             return
         }
         missionOperator?.uploadMission(completion: { (error: Error?) in
             if error != nil {
-                self.env.logger.logError("Mission upload error:" + String(describing: error!.localizedDescription), .command, sendToConsole: true)
+                os_log("Mission upload error: %@", type: .error, error!.localizedDescription)
             } else {
-                self.env.logger.logDebug("Mission uploaded", .command, sendToConsole: true)
+                os_log("Mission uploaded", type: .debug)
             }
         })
     }
@@ -40,9 +41,9 @@ extension CommandService {
     func startMission() {
         missionOperator?.startMission(completion: { (error: Error?) in
             if error != nil {
-                self.env.logger.logError("Mission start error:" + String(describing: error!.localizedDescription), .command, sendToConsole: true)
+                os_log("Mission start error: %@", type: .error, error!.localizedDescription)
             } else {
-                self.env.logger.logDebug("Mission started", .command, sendToConsole: true)
+                os_log("Starting mission", type: .debug)
             }
         })
     }
@@ -50,9 +51,9 @@ extension CommandService {
     func pauseMission() {
         missionOperator?.pauseMission(completion: { (error: Error?) in
             if error != nil {
-                self.env.logger.logError("Mission pause error:" + String(describing: error!.localizedDescription), .command, sendToConsole: true)
+                os_log("Mission pause error: %@", type: .error, error!.localizedDescription)
             } else {
-                self.env.logger.logDebug("Mission paused", .command, sendToConsole: true)
+                os_log("Pausing mission", type: .debug)
             }
         })
     }
@@ -60,9 +61,9 @@ extension CommandService {
     func resumeMission() {
         missionOperator?.resumeMission(completion: { (error: Error?) in
             if error != nil {
-                self.env.logger.logError("Mission resume error:" + String(describing: error!.localizedDescription), .command, sendToConsole: true)
+                os_log("Mission resume error: %@", type: .error, error!.localizedDescription)
             } else {
-                self.env.logger.logDebug("Mission resumed", .command, sendToConsole: true)
+                os_log("Resuming mission", type: .debug)
             }
         })
     }
@@ -70,9 +71,9 @@ extension CommandService {
     func stopMission() {
         missionOperator?.stopMission(completion: { (error: Error?) in
             if error != nil {
-                self.env.logger.logError("Mission stop error:" + String(describing: error!.localizedDescription), .command, sendToConsole: true)
+                os_log("Mission stop error: %@", type: .error, error!.localizedDescription)
             } else {
-                self.env.logger.logDebug("Mission stopped", .command, sendToConsole: true)
+                os_log("Stopping mission", type: .debug)
             }
         })
     }
@@ -84,26 +85,27 @@ extension CommandService {
         // Upload listener
         missionOperator?.addListener(toUploadEvent: self, with: DispatchQueue.main, andBlock: { (event: DJIWaypointMissionUploadEvent) in
             if event.error != nil {
-                self.env.logger.logError("Upload listener error:" + String(describing: event.error!.localizedDescription), .command, sendToConsole: true)
+                os_log("Upload listener error: %@", type: .error, event.error!.localizedDescription)
             }
         })
 
         // Finished listener
         missionOperator?.addListener(toFinished: self, with: DispatchQueue.main, andBlock: { (error: Error?) in
             if error != nil {
-                self.env.logger.logError("Finished listener error:" + String(describing: error!.localizedDescription), .command, sendToConsole: true)
+                os_log("Finished listener error: %@", type: .error, error!.localizedDescription)
+                return
             }
-            self.env.logger.logDebug("Mission finished", .command, sendToConsole: true)
+            os_log("Mission finished", type: .debug)
         })
 
         // Execution listener
         missionOperator?.addListener(toExecutionEvent: self, with: DispatchQueue.main, andBlock: { (event: DJIWaypointMissionExecutionEvent) in
             if event.error != nil {
-                self.env.logger.logError("Execution listener error:" + String(describing: event.error!.localizedDescription), .command, sendToConsole: true)
+                os_log("Execution listener error: %@", type: .error, event.error!.localizedDescription)
             } else if let progress = event.progress {
                 if self.currentWaypointIndex == nil || self.currentWaypointIndex != progress.targetWaypointIndex {
                     self.currentWaypointIndex = progress.targetWaypointIndex
-                    self.env.logger.logDebug("Heading to waypoint: \(self.currentWaypointIndex!)", .command, sendToConsole: true)
+                    os_log("Heading to waypoint: %@", type: .debug, self.currentWaypointIndex!)
                 }
             }
         })
@@ -117,10 +119,10 @@ extension CommandService {
         missionOperator?.getPreviousInterruption(completion: {
             (interruption: DJIWaypointMissionInterruption?, error: Error?) in
             guard error == nil && interruption != nil else {
-                self.env.logger.logError("Interruption error:" + String(describing: error!.localizedDescription), .command)
+                os_log("Interruption error: %@", type: .error, error!.localizedDescription)
                 return
             }
-            self.env.logger.logDebug("Mission ID \(interruption!.missionID) interrupted", .command)
+            os_log("Mission ID %@ interrupted", type: .debug, interruption!.missionID)
         })
     }
 
@@ -170,10 +172,8 @@ extension CommandService : ProductServiceDelegate {
     func modelChanged(_ model: String) {
         if model != DJIAircraftModeNameOnlyRemoteController {
             self.start()
-            self.env.logger.logDebug("Starting command service", .command)
         } else {
             self.stop()
-            self.env.logger.logDebug("Stopping command service", .command)
         }
     }
 }

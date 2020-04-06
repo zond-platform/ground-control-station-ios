@@ -19,6 +19,9 @@ class SelectorViewController : UIViewController {
     init(_ env: Environment) {
         super.init(nibName: nil, bundle: nil)
         selectorView = SelectorView()
+        selectorView.assignViews([env.navigationViewConroller().view,
+                                  env.statusViewController().view], forItem: .mission)
+        selectorView.assignViews([env.consoleViewController().view], forItem: .status)
         selectorView.delegate = self
         view = selectorView
     }
@@ -30,7 +33,7 @@ class SelectorViewController : UIViewController {
 
 // Handle view updates
 extension SelectorViewController : SelectorViewDelegate {
-    func tabSelected(_ tabName: String) {
-        print(tabName)
+    func tabSelected(_ itemName: SelectorItemName) {
+        selectorView.presentView(itemName)
     }
 }

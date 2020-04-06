@@ -51,7 +51,7 @@ class ControlView : UIView {
         )
         alignViews(&buttons,
                    withLayout: .grid,
-                   within: CGSize(width: viewWidth, height: viewHeight))
+                   within: frame)
     }
 }
 

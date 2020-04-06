@@ -7,6 +7,7 @@
 //
 
 import DJISDK
+import os.log
 
 protocol SimulatorServiceDelegate : AnyObject {
     func commandResponded(_ success: Bool)
@@ -40,15 +41,15 @@ extension SimulatorService {
                                                          gpsSatellitesNumber: 12,
                                                          withCompletion: { (error) in
                 if (error != nil) {
-                    self.env.logger.logError("Start simulator error: \(error.debugDescription)", .simulator)
+                    os_log("Start simulator error: %@", type: .error, error.debugDescription)
                     self.notifyCommandResponded(false)
                     return
                 }
-                self.env.logger.logInfo("Simulator started sussessfully", .simulator)
+                os_log("Simulator started sussessfully", type: .debug)
                 self.notifyCommandResponded(true)
             })
         } else {
-            env.logger.logError("Unable to start simulator", .simulator)
+            os_log("Unable to start simulator", type: .error)
             notifyCommandResponded(false)
         }
     }
@@ -58,15 +59,15 @@ extension SimulatorService {
         if simulatorActive && aircraft != nil {
             aircraft!.flightController?.simulator?.stop(completion: { (error) in
                 if (error != nil) {
-                    self.env.logger.logError("Stop simulator error: \(error.debugDescription)", .simulator)
+                    os_log("Stop simulator error: %@", type: .error, error.debugDescription)
                     self.notifyCommandResponded(false)
                     return
                 }
-                self.env.logger.logInfo("Simulator stopped sussessfully", .simulator)
+                os_log("Simulator stopped sussessfully", type: .debug)
                 self.notifyCommandResponded(true)
             })
         } else {
-            env.logger.logError("Unable to stop simulator", .simulator)
+            os_log("Unable to stop simulator", type: .error)
             notifyCommandResponded(false)
         }
     }
@@ -76,7 +77,7 @@ extension SimulatorService {
 extension SimulatorService {
     private func getAircraftInstance() -> DJIAircraft? {
         guard model != DJIAircraftModeNameOnlyRemoteController else {
-            env.logger.logError("Cannot run simulator on remote controller", .simulator)
+            os_log("Cannot run simulator on remote controller", type: .error)
             return nil
         }
         return DJISDKManager.product() as? DJIAircraft

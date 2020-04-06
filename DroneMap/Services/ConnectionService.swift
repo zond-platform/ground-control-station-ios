@@ -7,6 +7,7 @@
 //
 
 import DJISDK
+import os.log
 
 enum ConnectionStatus {
     case connected
@@ -53,12 +54,12 @@ extension ConnectionService {
 // Comply with generic service protocol
 extension ConnectionService : ServiceProtocol {
     func start() {
-        env.logger.logDebug("Starting connection service", .connection)
+        os_log("Starting connection service", type: .debug)
         DJISDKManager.registerApp(with: self)
     }
     
     func stop() {
-        env.logger.logDebug("Stopping connection service", .connection)
+        os_log("Stopping connection service", type: .debug)
         DJISDKManager.stopConnectionToProduct()
     }
 }
@@ -69,10 +70,10 @@ extension ConnectionService : DJISDKManagerDelegate {
     
     func appRegisteredWithError(_ error: Error?) {
         if error != nil {
-            env.logger.logError("SDK registration failed: \(error!.localizedDescription)", .connection)
+            os_log("SDK registration failed:", type: .error, error!.localizedDescription)
             return;
         }
-        env.logger.logDebug("SDK Registration succeeded", .connection)
+        os_log("SDK Registration succeeded", type: .debug)
         DJISDKManager.startConnectionToProduct()
         DJISDKManager.closeConnection(whenEnteringBackground: true)
         notifyConnectionStatusChanged(.pending)
@@ -80,15 +81,15 @@ extension ConnectionService : DJISDKManagerDelegate {
     
     func productConnected(_ product: DJIBaseProduct?) {
         if product == nil {
-            env.logger.logError("Connection error", .connection)
+            os_log("Connection error", type: .error)
             return;
         }
-        env.logger.logInfo("Connected, starting services", .connection)
+        os_log("Connected, starting services", type: .debug)
         notifyConnectionStatusChanged(.connected)
     }
     
     func productDisconnected() {
-        env.logger.logInfo("Disconnected, stopping services", .connection)
+        os_log("Disconnected, starting services", type: .debug)
         self.notifyConnectionStatusChanged(.disconnected)
     }
 }

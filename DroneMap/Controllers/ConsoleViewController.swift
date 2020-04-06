@@ -23,7 +23,6 @@ class ConsoleViewController : UIViewController {
 
     init(_ env: Environment) {
         super.init(nibName: nil, bundle: nil)
-        env.logger.delegate = self
         consoleView = ConsoleView()
         consoleView.register(ConsoleViewCell.self, forCellReuseIdentifier: NSStringFromClass(ConsoleViewCell.self))
         consoleView.dataSource = self
@@ -60,12 +59,10 @@ extension ConsoleViewController {
     }
 }
 
-// Process log requests
-extension ConsoleViewController : LoggerDelegate {
-    func logConsole(_ message: String, _ context: String, _ level: OSLogType) {
-        let logEntry: LogEntry = (message, context, level)
-        logScrollback.add(logEntry)
-        logMessage()
+// Subscribe to table view updates
+extension ConsoleViewController : UITableViewDelegate {
+    private func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 }
 

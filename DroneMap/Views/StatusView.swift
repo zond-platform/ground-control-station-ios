@@ -36,7 +36,7 @@ class StatusView : UIView {
         )
         alignViews(&labels,
                    withLayout: .grid,
-                   within: CGSize(width: viewWidth, height: viewHeight))
+                   within: frame)
     }
 }
 

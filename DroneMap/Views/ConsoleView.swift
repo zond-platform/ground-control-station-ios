@@ -16,7 +16,6 @@ class ConsoleView : UITableView {
     init() {
         super.init(frame: CGRect(), style: .plain)
         separatorStyle = .none
-        rowHeight = 16
         contentInset.top = 10
         contentInset.bottom = 10
         backgroundColor = UIColor(white: 0.2, alpha: 0.6)

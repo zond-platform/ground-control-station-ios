@@ -32,6 +32,8 @@
 		EC15EADE227CD1D90032ACB9 /* ControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EADD227CD1D90032ACB9 /* ControlView.swift */; };
 		EC15EAE02286FD530032ACB9 /* SimulatorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EADF2286FD530032ACB9 /* SimulatorService.swift */; };
 		EC1C66782291C07B00BEA440 /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C66772291C07B00BEA440 /* ServiceProtocol.swift */; };
+		EC2BC67F2439148F00271361 /* SelectorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2BC67E2439148F00271361 /* SelectorButton.swift */; };
+		EC2BC6812439DCA200271361 /* SelectorItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2BC6802439DCA200271361 /* SelectorItemView.swift */; };
 		EC32569823ACCD320080B006 /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC32569723ACCD320080B006 /* StatusView.swift */; };
 		EC46217E22998D7C00F08B5E /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC46217D22998D7C00F08B5E /* StatusViewController.swift */; };
 		EC950E8721B81EA600B3A03D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8621B81EA600B3A03D /* AppDelegate.swift */; };
@@ -42,7 +44,6 @@
 		ECAAC83A2299B83700FB360F /* ConsoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAAC8392299B83700FB360F /* ConsoleView.swift */; };
 		ECD714902365B0F200958956 /* GeometryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD7148F2365B0F200958956 /* GeometryUtils.swift */; };
 		ECDF4B7222593AC600C98F71 /* ConsoleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDF4B7122593AC600C98F71 /* ConsoleViewController.swift */; };
-		ECEEEEE4225BCD39005A71C6 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEE3225BCD39005A71C6 /* Logger.swift */; };
 		ECEEEEE82267A24F005A71C6 /* BatteryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEE72267A24F005A71C6 /* BatteryService.swift */; };
 		ECEEEEEC2269DB2F005A71C6 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEEB2269DB2F005A71C6 /* Environment.swift */; };
 		ECEEEEF0226A0E6E005A71C6 /* ProductService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEEF226A0E6E005A71C6 /* ProductService.swift */; };
@@ -94,6 +95,8 @@
 		EC15EADD227CD1D90032ACB9 /* ControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlView.swift; sourceTree = "<group>"; };
 		EC15EADF2286FD530032ACB9 /* SimulatorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorService.swift; sourceTree = "<group>"; };
 		EC1C66772291C07B00BEA440 /* ServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocol.swift; sourceTree = "<group>"; };
+		EC2BC67E2439148F00271361 /* SelectorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorButton.swift; sourceTree = "<group>"; };
+		EC2BC6802439DCA200271361 /* SelectorItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorItemView.swift; sourceTree = "<group>"; };
 		EC32569723ACCD320080B006 /* StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusView.swift; sourceTree = "<group>"; };
 		EC46217D22998D7C00F08B5E /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
 		EC950E8321B81EA600B3A03D /* DroneMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DroneMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,7 +113,6 @@
 		ECAAC8392299B83700FB360F /* ConsoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleView.swift; sourceTree = "<group>"; };
 		ECD7148F2365B0F200958956 /* GeometryUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryUtils.swift; sourceTree = "<group>"; };
 		ECDF4B7122593AC600C98F71 /* ConsoleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleViewController.swift; sourceTree = "<group>"; };
-		ECEEEEE3225BCD39005A71C6 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		ECEEEEE72267A24F005A71C6 /* BatteryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryService.swift; sourceTree = "<group>"; };
 		ECEEEEEB2269DB2F005A71C6 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		ECEEEEEF226A0E6E005A71C6 /* ProductService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductService.swift; sourceTree = "<group>"; };
@@ -184,8 +186,10 @@
 			isa = PBXGroup;
 			children = (
 				EC14733223B4D2E400385067 /* ConsoleViewCell.swift */,
-				EC14732C23B229D000385067 /* ControlButton.swift */,
 				EC14732F23B4D19900385067 /* StatusLabel.swift */,
+				EC14732C23B229D000385067 /* ControlButton.swift */,
+				EC2BC67E2439148F00271361 /* SelectorButton.swift */,
+				EC2BC6802439DCA200271361 /* SelectorItemView.swift */,
 			);
 			path = GenericSubviews;
 			sourceTree = "<group>";
@@ -242,7 +246,6 @@
 			children = (
 				EC950E8621B81EA600B3A03D /* AppDelegate.swift */,
 				ECEEEEEB2269DB2F005A71C6 /* Environment.swift */,
-				ECEEEEE3225BCD39005A71C6 /* Logger.swift */,
 				ECEEEEEA2267A96A005A71C6 /* Services */,
 				ECEEEEE92267A959005A71C6 /* Controllers */,
 				EC15EACE226DE7E70032ACB9 /* Views */,
@@ -494,6 +497,7 @@
 				EC15EADC227CCF570032ACB9 /* ControlViewController.swift in Sources */,
 				EC14732D23B229D000385067 /* ControlButton.swift in Sources */,
 				EC950E8921B81EA600B3A03D /* ConnectionService.swift in Sources */,
+				EC2BC67F2439148F00271361 /* SelectorButton.swift in Sources */,
 				EC0B54F924339450003E9ECE /* ViewsUtils.swift in Sources */,
 				ECEEEEF0226A0E6E005A71C6 /* ProductService.swift in Sources */,
 				EC15EAD42270E0B80032ACB9 /* RootViewController.swift in Sources */,
@@ -505,6 +509,7 @@
 				ECEEEEEC2269DB2F005A71C6 /* Environment.swift in Sources */,
 				EC14733023B4D19900385067 /* StatusLabel.swift in Sources */,
 				EC14733323B4D2E400385067 /* ConsoleViewCell.swift in Sources */,
+				EC2BC6812439DCA200271361 /* SelectorItemView.swift in Sources */,
 				EC14731B23B1EE9300385067 /* MovingObject.swift in Sources */,
 				ECAAC83A2299B83700FB360F /* ConsoleView.swift in Sources */,
 				ECEEEEE82267A24F005A71C6 /* BatteryService.swift in Sources */,
@@ -518,7 +523,6 @@
 				EC0B54FB2437B549003E9ECE /* SelectorView.swift in Sources */,
 				EC1C66782291C07B00BEA440 /* ServiceProtocol.swift in Sources */,
 				EC14732423B1F03400385067 /* PolygonVertexView.swift in Sources */,
-				ECEEEEE4225BCD39005A71C6 /* Logger.swift in Sources */,
 				EC14731D23B1EEAE00385067 /* PolygonVertex.swift in Sources */,
 				ECEEEEF4226BA5E7005A71C6 /* ServiceBase.swift in Sources */,
 			);

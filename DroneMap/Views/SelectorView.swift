@@ -8,20 +8,14 @@
 
 import UIKit
 
-enum SelectorButtonName {
-    case mission
-    case status
-}
-
-extension SelectorButtonName : CaseIterable {}
-
 protocol SelectorViewDelegate : AnyObject {
-    func tabSelected(_ tabName: String)
+    func tabSelected(_ itemName: SelectorItemName)
 }
 
 class SelectorView : UIView {
     weak var delegate: SelectorViewDelegate?
-    private var buttons: [UIButton] = []
+    private var buttons: [SelectorButton] = []
+    private var views: [SelectorItemView] = []
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -29,15 +23,20 @@ class SelectorView : UIView {
 
     init() {
         super.init(frame: CGRect())
-        for name in SelectorButtonName.allCases {
-            buttons.append(UIButton())
-            addSubview(buttons.last!)
+        for name in SelectorItemName.allCases {
+            // Selector buttons
+            buttons.append(SelectorButton(name))
             buttons.last!.backgroundColor = UIColor(white: 0.0, alpha: 0.6)
             buttons.last!.titleLabel?.font = UIFont(name: "Courier", size: 12)
             buttons.last!.setTitle(String(describing: name), for: .normal)
             buttons.last!.setTitleColor(UIColor.white, for: .normal)
             buttons.last!.setTitleColor(UIColor.red, for: .selected)
             buttons.last!.addTarget(self, action: #selector(onButtonPress(_:)), for: .touchDown)
+            addSubview(buttons.last!)
+            // Associated views
+            views.append(SelectorItemView(name))
+            views.last!.isHidden = true
+            addSubview(views.last!)
         }
     }
 
@@ -51,18 +50,50 @@ class SelectorView : UIView {
             width: viewWidth,
             height: viewHeight
         )
+        // Align selector buttons in a line
         alignViews(&buttons,
                    withLayout: .horizontal,
-                   within: CGSize(width: viewWidth, height: viewHeight))
+                   within: CGRect(
+                       x: 0,
+                       y: 0,
+                       width: viewWidth,
+                       height: viewHeight * 0.1
+                   ))
+        // Assign associated views with identical frame
+        for view in views {
+            view.frame = CGRect(
+                x: 0,
+                y: viewHeight * 0.1,
+                width: viewWidth,
+                height: viewHeight * 0.9
+            )
+        }
     }
 }
 
 // Public methods
 extension SelectorView {
-    @objc func onButtonPress(_ sender: UIButton) {
-        for button in buttons {
-            button.isSelected = button == sender ? !sender.isSelected : false
+    @objc func onButtonPress(_ sender: SelectorButton) {
+        delegate?.tabSelected(sender.name)
+    }
+    
+    func presentView(_ itemName: SelectorItemName) {
+        for i in 0..<SelectorItemName.allCases.count {
+            // Select respective selector button
+            buttons[i].name == itemName ? buttons[i].setSelected(!buttons[i].isSelected)
+                                        : buttons[i].setSelected(false)
+            // Show respective associated view
+            views[i].isHidden = views[i].name == itemName
+                                ? !views[i].isHidden
+                                : true
         }
-        delegate?.tabSelected(sender.currentTitle!)
+    }
+    
+    func assignViews(_ subviews: [UIView], forItem itemName: SelectorItemName) {
+        for view in views {
+            if view.name == itemName {
+                view.assignViews(subviews)
+            }
+        }
     }
 }
