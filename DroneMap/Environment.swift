@@ -24,7 +24,6 @@ class Environment {
         case map
         case control
         case console
-        case selector
     }
     
     private var services: [ServiceType:ServiceProtocol] = [:]
@@ -66,24 +65,12 @@ extension Environment {
         return controllers[.root] as! RootViewController
     }
     
-    func consoleViewController() -> ConsoleViewController {
-        return controllers[.console] as! ConsoleViewController
-    }
-    
-    func statusViewController() -> StatusViewController {
-        return controllers[.status] as! StatusViewController
-    }
-    
-    func mapViewController() -> MapViewController {
-        return controllers[.map] as! MapViewController
-    }
-    
-    func navigationViewConroller() -> ControlViewController {
-        return controllers[.control] as! ControlViewController
+    func consoleViewController() -> SettingsViewController {
+        return controllers[.console] as! SettingsViewController
     }
 
-    func selectorViewConroller() -> SelectorViewController {
-        return controllers[.selector] as! SelectorViewController
+    func mapViewController() -> MapViewController {
+        return controllers[.map] as! MapViewController
     }
 }
 
@@ -99,14 +86,11 @@ extension Environment {
     }
 
     private func setupControllers() {
-        controllers[.status]   = StatusViewController(self)
-        controllers[.console]  = ConsoleViewController(self)
-        controllers[.map]      = MapViewController(self)
-        controllers[.control]  = ControlViewController(self)
-        controllers[.selector] = SelectorViewController(self)
+        controllers[.map]     = MapViewController(self)
+        controllers[.console] = SettingsViewController(self)
 
         // All the internal views and controllers should be already
         // created by the time root view controller is initialized.
-        controllers[.root]     = RootViewController(self)
+        controllers[.root]    = RootViewController(self)
     }
 }

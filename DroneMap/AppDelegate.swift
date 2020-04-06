@@ -21,25 +21,5 @@ class AppDelegate : UIResponder, UIApplicationDelegate {
         env!.connectionService().start()
         return true
     }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        print("Application entered background")
-    }
-    
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        print("Application became active")
-    }
-    
-    func applicationWillResignActive(_ application: UIApplication) {
-        print("Application will resign active")
-    }
-    
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        print("Application will enter foreground")
-    }
-    
-    func applicationWillTerminate(_ application: UIApplication) {
-        print("Application will terminate")
-    }
 }
 

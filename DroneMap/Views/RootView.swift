@@ -10,7 +10,7 @@ import UIKit
 
 class RootView : UIView {
     private var mapView = UIView()
-    private var selectorView = UIView()
+    private var settingsView = UIView()
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -19,9 +19,9 @@ class RootView : UIView {
     init(_ env: Environment) {
         super.init(frame: CGRect())
         self.mapView.addSubview(env.mapViewController().view)
-        self.selectorView.addSubview(env.selectorViewConroller().view)
+        self.settingsView.addSubview(env.consoleViewController().view)
         addSubview(self.mapView)
-        addSubview(self.selectorView)
+        addSubview(self.settingsView)
     }
     
     override func layoutSubviews() {
@@ -35,7 +35,7 @@ class RootView : UIView {
             height: screenHeight
         )
         mapView.frame = frame
-        selectorView.frame = CGRect(
+        settingsView.frame = CGRect(
             x: 0,
             y: 0,
             width: screenWidth * 0.4,
