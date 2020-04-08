@@ -17,13 +17,11 @@ class Environment {
         case location
         case command
     }
-    
+
     enum ViewControllerType {
         case root
-        case status
         case map
-        case control
-        case console
+        case settings
     }
     
     private var services: [ServiceType:ServiceProtocol] = [:]
@@ -66,7 +64,7 @@ extension Environment {
     }
     
     func consoleViewController() -> SettingsViewController {
-        return controllers[.console] as! SettingsViewController
+        return controllers[.settings] as! SettingsViewController
     }
 
     func mapViewController() -> MapViewController {
@@ -86,11 +84,11 @@ extension Environment {
     }
 
     private func setupControllers() {
-        controllers[.map]     = MapViewController(self)
-        controllers[.console] = SettingsViewController(self)
+        controllers[.map]      = MapViewController(self)
+        controllers[.settings] = SettingsViewController(self)
 
         // All the internal views and controllers should be already
         // created by the time root view controller is initialized.
-        controllers[.root]    = RootViewController(self)
+        controllers[.root]     = RootViewController(self)
     }
 }

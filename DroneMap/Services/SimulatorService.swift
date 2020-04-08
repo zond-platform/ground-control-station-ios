@@ -10,7 +10,8 @@ import DJISDK
 import os.log
 
 protocol SimulatorServiceDelegate : AnyObject {
-    func commandResponded(_ success: Bool)
+    func simulatorStarted(_ success: Bool)
+    func simulatorStopped(_ success: Bool)
 }
 
 class SimulatorService : ServiceBase {
@@ -32,7 +33,7 @@ extension SimulatorService {
     func addDelegate(_ delegate: SimulatorServiceDelegate) {
         delegates.append(delegate)
     }
-    
+
     func startSimulator(_ location: CLLocationCoordinate2D?) {
         let aircraft = getAircraftInstance()
         if !simulatorActive && aircraft != nil && location != nil {
@@ -42,33 +43,33 @@ extension SimulatorService {
                                                          withCompletion: { (error) in
                 if (error != nil) {
                     os_log("Start simulator error: %@", type: .error, error.debugDescription)
-                    self.notifyCommandResponded(false)
+                    self.onSimulatorStarted(false)
                     return
                 }
                 os_log("Simulator started sussessfully", type: .debug)
-                self.notifyCommandResponded(true)
+                self.onSimulatorStarted(true)
             })
         } else {
             os_log("Unable to start simulator", type: .error)
-            notifyCommandResponded(false)
+            onSimulatorStarted(false)
         }
     }
-    
+
     func stopSimulator() {
         let aircraft = getAircraftInstance()
         if simulatorActive && aircraft != nil {
             aircraft!.flightController?.simulator?.stop(completion: { (error) in
                 if (error != nil) {
                     os_log("Stop simulator error: %@", type: .error, error.debugDescription)
-                    self.notifyCommandResponded(false)
+                    self.onSimulatorStopped(false)
                     return
                 }
                 os_log("Simulator stopped sussessfully", type: .debug)
-                self.notifyCommandResponded(true)
+                self.onSimulatorStopped(true)
             })
         } else {
             os_log("Unable to stop simulator", type: .error)
-            notifyCommandResponded(false)
+            onSimulatorStopped(false)
         }
     }
 }
@@ -82,17 +83,23 @@ extension SimulatorService {
         }
         return DJISDKManager.product() as? DJIAircraft
     }
-    
+
     private func onSimulatorStateChanged(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) {
         guard newValue != nil else {
             return
         }
         simulatorActive = newValue!.boolValue
     }
-    
-    private func notifyCommandResponded(_ success: Bool) {
+
+    private func onSimulatorStarted(_ success: Bool) {
         for delegate in delegates {
-            delegate?.commandResponded(success)
+            delegate?.simulatorStarted(success)
+        }
+    }
+
+    private func onSimulatorStopped(_ success: Bool) {
+        for delegate in delegates {
+            delegate?.simulatorStopped(success)
         }
     }
 }

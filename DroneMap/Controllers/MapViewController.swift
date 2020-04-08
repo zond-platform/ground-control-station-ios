@@ -10,12 +10,6 @@ import UIKit
 import MapKit
 import CoreLocation
 
-enum MovingObjectType {
-    case aircraft
-    case home
-    case user
-}
-
 class MapViewController : UIViewController {
     private var mapView: MapView!
     private var locationManager: CLLocationManager!

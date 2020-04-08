@@ -17,6 +17,7 @@ class RootViewController : UIViewController {
     
     init(_ env: Environment) {
         super.init(nibName: nil, bundle: nil)
+
         rootView = RootView(env)
         view = rootView
     }

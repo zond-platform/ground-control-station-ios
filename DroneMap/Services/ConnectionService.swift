@@ -9,12 +9,6 @@
 import DJISDK
 import os.log
 
-enum ConnectionStatus {
-    case connected
-    case disconnected
-    case pending
-}
-
 protocol ConnectionServiceDelegate : AnyObject {
     func statusChanged(_ status: ConnectionStatus)
 }

@@ -8,27 +8,23 @@
 
 import UIKit
 
-struct Model {
-    static let data = [
-        SettingsSection(title: "",
-                        cellData: [SettingType.Switch(text: "Simulator")]),
-        SettingsSection(title: "Mission",
-                        cellData: [SettingType.Switch(text: "Edit Mode"),
-                                   SettingType.Tune(text: "Altitude"),
-                                   SettingType.Tune(text: "Distance"),
-                                   SettingType.Segue(text: "Upload")]),
-        SettingsSection(title: "Status",
-                        cellData: [SettingType.Info(text: "Model", detail: "Phantom 4 V2"),
-                                   SettingType.Info(text: "Altitude", detail: "10m"),
-                                   SettingType.Info(text: "Battery", detail: "48%"),
-                                   SettingType.Info(text: "GPS Sattelites", detail: "8"),
-                                   SettingType.Info(text: "GPS Signal", detail: "Very Good")])
-    ]
-}
+fileprivate var settingsData = [
+    SettingsSectionData(id: .simulator,
+                        entries: [SettingsCellData(id: .simulator, type: .switcher, value: false)]),
+    SettingsSectionData(id: .mission,
+                        entries: [SettingsCellData(id: .edit,      type: .switcher, value: false),
+                                  SettingsCellData(id: .altitude,  type: .slider,   value: 0.0),
+                                  SettingsCellData(id: .distance,  type: .slider,   value: 0.0),
+                                  SettingsCellData(id: .upload,    type: .button,   value: false)]),
+    SettingsSectionData(id: .status,
+                        entries: [SettingsCellData(id: .model,     type: .info,     value: "N/A"),
+                                  SettingsCellData(id: .altitude,  type: .info,     value: "N/A"),
+                                  SettingsCellData(id: .battery,   type: .info,     value: "N/A")])
+]
 
 class SettingsViewController : UIViewController {
-    var settingsView: SettingsView!
-    let dataSource = SettingsViewDataSource(sections: Model.data)
+    private var settingsView: SettingsView!
+    private var dataSource: SettingsViewDataSource!
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -36,7 +32,9 @@ class SettingsViewController : UIViewController {
 
     init(_ env: Environment) {
         super.init(nibName: nil, bundle: nil)
+
         settingsView = SettingsView()
+        dataSource = SettingsViewDataSource(env, settingsView, settingsData)
         settingsView.dataSource = dataSource
         view = settingsView
     }
