@@ -9,6 +9,12 @@
 import UIKit
 import MapKit
 
+enum MovingObjectType {
+    case aircraft
+    case home
+    case user
+}
+
 protocol MovingObjectDelegate : AnyObject {
     func objectHeadingChanged(_ heading: CLLocationDirection)
 }

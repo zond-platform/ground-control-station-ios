@@ -29,6 +29,9 @@ enum CellId {
     case distance
     case edit
     case model
+    case mode
+    case satellites
+    case signal
     case simulator
     case upload
 
@@ -42,8 +45,14 @@ enum CellId {
                 return "Grid distance"
             case .edit:
                 return "Enable editing"
+            case .mode:
+                return "Flight mode"
             case .model:
                 return "Model"
+            case .satellites:
+                return "Satellites"
+            case .signal:
+                return "Signal"
             case .simulator:
                 return "Simulator"
             case .upload:

@@ -6,12 +6,18 @@
 //  Copyright © 2020 Evgeny Agamirzov. All rights reserved.
 //
 
+import os.log
+
+import CoreLocation
+import DJISDK
 import UIKit
 
 class SettingsViewDataSource : NSObject {
     private var env: Environment!
     private var settingsView: SettingsView!
-    private var sections: [SettingsSectionData] = []
+    private var sections: [SettingsSectionData]!
+    private var aircraftConnected: Bool!
+    private var editingEnabled: Bool!
 
     init(_ env: Environment, _ settingsView: SettingsView, _ sections: [SettingsSectionData]) {
         super.init()
@@ -19,6 +25,8 @@ class SettingsViewDataSource : NSObject {
         self.env = env
         self.settingsView = settingsView
         self.sections = sections
+        self.aircraftConnected = false
+        self.editingEnabled = false
         env.simulatorService().addDelegate(self)
         env.batteryService().addDelegate(self)
         env.productService().addDelegate(self)
@@ -28,27 +36,45 @@ class SettingsViewDataSource : NSObject {
 
 // Private methods
 extension SettingsViewDataSource {
-    private func updateCellValue<ValueType>(sectionId: SectionId, cellId: CellId, with value: ValueType) {
-        sections.first(where: {$0.id == sectionId})?.entries.first(where: {$0.id == cellId})?.value = value
-        settingsView.reloadData()
+    private func indexPath(for sectionId: SectionId, and cellId: CellId) -> IndexPath? {
+        if let sectionIndex = sections.firstIndex(where: {$0.id == sectionId}) {
+            if let cellIndex = sections[sectionIndex].entries.firstIndex(where: {$0.id == cellId}) {
+                return IndexPath(row: cellIndex, section: sectionIndex)
+            }
+        }
+        return nil
+    }
+
+    private func updateCell<ValueType>(value: ValueType, sectionId: SectionId, cellId: CellId) {
+        if let indexPath = indexPath(for: sectionId, and: cellId) {
+            sections[indexPath.section].entries[indexPath.row].value = value
+            settingsView.reloadRows(at: [indexPath], with: .none)
+        }
+    }
+
+    private func enableCell(_ enable: Bool, sectionId: SectionId, cellId: CellId) {
+        if let indexPath = indexPath(for: sectionId, and: cellId) {
+            sections[indexPath.section].entries[indexPath.row].enabled = enable
+            settingsView.reloadRows(at: [indexPath], with: .none)
+        }
     }
 }
 
 // Handle table view updates
 extension SettingsViewDataSource : UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
+    internal func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sections[section].entries.count
     }
 
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    internal func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section].title
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let entry: SettingsCellData = sections[indexPath.section].entries[indexPath.row]
         let cell = UITableViewCell(style: .value1, reuseIdentifier: entry.type.reuseIdentifier)
         switch entry.type {
@@ -56,13 +82,13 @@ extension SettingsViewDataSource : UITableViewDataSource {
                 cell.textLabel?.text = entry.title
                 cell.accessoryType = .disclosureIndicator
             case .info:
+                cell.selectionStyle = .none
                 cell.textLabel?.text = entry.title
                 cell.detailTextLabel?.text = entry.value as? String
-                cell.selectionStyle = .none
             case .slider:
+                cell.selectionStyle = .none
                 cell.textLabel?.text = entry.title
                 cell.accessoryType = .detailButton
-                cell.selectionStyle = .none
 
                 // Configure acessory view
                 let slider = UISlider()
@@ -78,9 +104,9 @@ extension SettingsViewDataSource : UITableViewDataSource {
                 slider.value = entry.value as? Float ?? 0.0
                 cell.accessoryView = slider
             case .switcher:
+                cell.selectionStyle = .none
                 cell.textLabel?.text = entry.title
                 cell.accessoryType = .detailButton
-                cell.selectionStyle = .none
 
                 // Configure acessory view
                 let switcher = UISwitch()
@@ -95,6 +121,10 @@ extension SettingsViewDataSource : UITableViewDataSource {
                 switcher.isOn = entry.value as? Bool ?? false
                 cell.accessoryView = switcher
         }
+
+        cell.isUserInteractionEnabled = entry.enabled
+        cell.textLabel?.textColor = entry.enabled ? UIColor.black : UIColor.gray
+
         return cell
     }
 }
@@ -102,52 +132,82 @@ extension SettingsViewDataSource : UITableViewDataSource {
 // Handle control events
 extension SettingsViewDataSource {
     @objc private func onSimulatorSwitchTriggered(_ sender: UISwitch) {
-        sender.isOn ? env.simulatorService().startSimulator(nil)
+        let userLocation = env.mapViewController().userLocation()
+        sender.isOn ? env.simulatorService().startSimulator(userLocation)
                     : env.simulatorService().stopSimulator()
     }
 
     @objc private func onEditMissionSwitchTriggered(_ sender: UISwitch) {
-        updateCellValue(sectionId: .mission, cellId: .edit, with: sender.isOn)
         env.mapViewController().enableMissionEditing(sender.isOn)
+        editingEnabled = sender.isOn
+        updateCell(value: sender.isOn, sectionId: .mission, cellId: .edit)
+        enableCell(sender.isOn, sectionId: .mission, cellId: .altitude)
+        enableCell(sender.isOn, sectionId: .mission, cellId: .distance)
+        enableCell(aircraftConnected && editingEnabled, sectionId: .mission, cellId: .upload)
     }
 
     @objc private func onAltitudeSliderMoved(_ sender: UISlider) {
-        updateCellValue(sectionId: .mission, cellId: .altitude, with: sender.value)
+        updateCell(value: sender.value, sectionId: .mission, cellId: .altitude)
         print("Altitude: \(sender.value)")
     }
 
     @objc private func onDistanceSliderMoved(_ sender: UISlider) {
-        updateCellValue(sectionId: .mission, cellId: .distance, with: sender.value)
+        updateCell(value: sender.value, sectionId: .mission, cellId: .distance)
         print("Distance: \(sender.value)")
     }
 }
 
 // Subscribe to simulator updates
 extension SettingsViewDataSource : SimulatorServiceDelegate {
-    func simulatorStarted(_ success: Bool) {
-        updateCellValue(sectionId: .simulator, cellId: .simulator, with: success)
+    internal func simulatorStarted(_ success: Bool) {
+        updateCell(value: success, sectionId: .simulator, cellId: .simulator)
     }
 
-    func simulatorStopped(_ success: Bool) {
-        updateCellValue(sectionId: .simulator, cellId: .simulator, with: !success)
+    internal func simulatorStopped(_ success: Bool) {
+        updateCell(value: !success, sectionId: .simulator, cellId: .simulator)
     }
 }
 
 // Subscribe to battery status updates
 extension SettingsViewDataSource : BatteryServiceDelegate {
-    func batteryChargeChanged(_ charge: UInt) {
-        // TODO: Log battery status
+    internal func batteryChargeChanged(_ charge: UInt?) {
+        let stringValue = charge != nil ? String(charge!) : "-"
+        updateCell(value: stringValue, sectionId: .status, cellId: .battery)
     }
 }
 
 // Subscribe to location updates
 extension SettingsViewDataSource : LocationServiceDelegate {
-    // TODO: Decide which location data is relevant
+    internal func signalStatusChanged(_ status: String?) {
+        let stringValue = status ?? "-"
+        updateCell(value: stringValue, sectionId: .status, cellId: .signal)
+    }
+
+    internal func satelliteCountChanged(_ count: UInt?) {
+        let stringValue = count != nil ? String(count!) : "-"
+        updateCell(value: stringValue, sectionId: .status, cellId: .satellites)
+    }
+
+    internal func altitudeChanged(_ count: UInt?) {
+        let stringValue = count != nil ? String(count!) : "-"
+        updateCell(value: stringValue, sectionId: .status, cellId: .altitude)
+    }
+
+    internal func flightModeChanged(_ mode: String?) {
+        let stringValue = mode ?? "-"
+        updateCell(value: stringValue, sectionId: .status, cellId: .mode)
+    }
 }
 
 // Subscribe to connected product updates
 extension SettingsViewDataSource : ProductServiceDelegate {
-    func modelChanged(_ model: String) {
-        // TODO: Disable controls if product is not a flying object
+    internal func modelChanged(_ model: String?) {
+        aircraftConnected = model != nil && model != DJIAircraftModeNameOnlyRemoteController
+        if !aircraftConnected {
+            updateCell(value: false, sectionId: .simulator, cellId: .simulator)
+        }
+        updateCell(value: model ?? "-", sectionId: .status, cellId: .model)
+        enableCell(aircraftConnected, sectionId: .simulator, cellId: .simulator)
+        enableCell(aircraftConnected && editingEnabled, sectionId: .mission, cellId: .upload)
     }
 }

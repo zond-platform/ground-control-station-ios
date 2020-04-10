@@ -7,15 +7,17 @@
 //
 
 class SettingsCellData<ValueType> {
-    var id: CellId
-    var type: CellType
-    var title: String
+    let id: CellId
+    let type: CellType
+    let title: String
+    var enabled: Bool
     var value: ValueType
 
-    init(id: CellId, type: CellType, value: ValueType) {
+    init(id: CellId, type: CellType, enabled: Bool, value: ValueType) {
         self.id = id
         self.type = type
         self.title = id.title
+        self.enabled = enabled
         self.value = value
     }
 }

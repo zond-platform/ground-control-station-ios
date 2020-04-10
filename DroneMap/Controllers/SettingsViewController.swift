@@ -10,16 +10,19 @@ import UIKit
 
 fileprivate var settingsData = [
     SettingsSectionData(id: .simulator,
-                        entries: [SettingsCellData(id: .simulator, type: .switcher, value: false)]),
+                        entries: [SettingsCellData(id: .simulator,  type: .switcher, enabled: false,  value: false)]),
     SettingsSectionData(id: .mission,
-                        entries: [SettingsCellData(id: .edit,      type: .switcher, value: false),
-                                  SettingsCellData(id: .altitude,  type: .slider,   value: 0.0),
-                                  SettingsCellData(id: .distance,  type: .slider,   value: 0.0),
-                                  SettingsCellData(id: .upload,    type: .button,   value: false)]),
+                        entries: [SettingsCellData(id: .edit,       type: .switcher, enabled: true,  value: false),
+                                  SettingsCellData(id: .altitude,   type: .slider,   enabled: false, value: 0.0),
+                                  SettingsCellData(id: .distance,   type: .slider,   enabled: false, value: 0.0),
+                                  SettingsCellData(id: .upload,     type: .button,   enabled: false, value: false)]),
     SettingsSectionData(id: .status,
-                        entries: [SettingsCellData(id: .model,     type: .info,     value: "N/A"),
-                                  SettingsCellData(id: .altitude,  type: .info,     value: "N/A"),
-                                  SettingsCellData(id: .battery,   type: .info,     value: "N/A")])
+                        entries: [SettingsCellData(id: .model,      type: .info,     enabled: true,  value: "-"),
+                                  SettingsCellData(id: .mode,       type: .info,     enabled: true,  value: "-"),
+                                  SettingsCellData(id: .altitude,   type: .info,     enabled: true,  value: "-"),
+                                  SettingsCellData(id: .battery,    type: .info,     enabled: true,  value: "-"),
+                                  SettingsCellData(id: .signal,     type: .info,     enabled: true,  value: "-"),
+                                  SettingsCellData(id: .satellites, type: .info,     enabled: true,  value: "-")])
 ]
 
 class SettingsViewController : UIViewController {
@@ -46,7 +49,7 @@ class SettingsViewController : UIViewController {
 
 // Subscribe to table view updates
 extension SettingsViewController : UITableViewDelegate {
-    private func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    internal func tableView(_ tableView: UITableView, heightForRowAt: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 }

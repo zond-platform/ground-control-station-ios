@@ -6,8 +6,15 @@
 //  Copyright © 2018 Evgeny Agamirzov. All rights reserved.
 //
 
-import DJISDK
 import os.log
+
+import DJISDK
+
+enum ConnectionStatus {
+    case connected
+    case disconnected
+    case pending
+}
 
 protocol ConnectionServiceDelegate : AnyObject {
     func statusChanged(_ status: ConnectionStatus)
@@ -83,7 +90,7 @@ extension ConnectionService : DJISDKManagerDelegate {
     }
     
     func productDisconnected() {
-        os_log("Disconnected, starting services", type: .debug)
-        self.notifyConnectionStatusChanged(.disconnected)
+        os_log("Disconnected, stopping services", type: .debug)
+        notifyConnectionStatusChanged(.disconnected)
     }
 }

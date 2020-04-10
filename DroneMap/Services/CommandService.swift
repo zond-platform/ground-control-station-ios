@@ -6,8 +6,9 @@
 //  Copyright © 2019 Evgeny Agamirzov. All rights reserved.
 //
 
-import DJISDK
 import os.log
+
+import DJISDK
 
 class CommandService : NSObject {
     var env: Environment
@@ -169,8 +170,8 @@ extension CommandService : ServiceProtocol {
 
 // Handle vehicle model updates
 extension CommandService : ProductServiceDelegate {
-    func modelChanged(_ model: String) {
-        if model != DJIAircraftModeNameOnlyRemoteController {
+    func modelChanged(_ model: String?) {
+        if model != nil && model != DJIAircraftModeNameOnlyRemoteController {
             self.start()
         } else {
             self.stop()

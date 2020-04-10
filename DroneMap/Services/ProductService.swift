@@ -9,7 +9,7 @@
 import DJISDK
 
 protocol ProductServiceDelegate : AnyObject {
-    func modelChanged(_ model: String)
+    func modelChanged(_ model: String?)
 }
 
 class ProductService : ServiceBase {
@@ -33,13 +33,8 @@ extension ProductService {
 // Private methods
 extension ProductService {
     private func onModelNameChanged(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) {
-        let model = newValue?.stringValue ?? "none"
-        notifyModelChanged(model)
-    }
-    
-    private func notifyModelChanged(_ model: String) {
         for delegate in delegates {
-            delegate?.modelChanged(model)
+            delegate?.modelChanged(newValue?.stringValue)
         }
     }
 }

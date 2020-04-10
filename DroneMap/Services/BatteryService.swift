@@ -9,7 +9,7 @@
 import DJISDK
 
 protocol BatteryServiceDelegate : AnyObject {
-    func batteryChargeChanged(_ charge: UInt)
+    func batteryChargeChanged(_ charge: UInt?)
 }
 
 class BatteryService : ServiceBase {
@@ -33,12 +33,8 @@ extension BatteryService {
 // Private methods
 extension BatteryService {
     private func onChargeChanged(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) {
-        notifyBatteryChargeChanged(newValue?.unsignedIntegerValue ?? 0)
-    }
-    
-    private func notifyBatteryChargeChanged(_ charge: UInt) {
         for delegate in delegates {
-            delegate?.batteryChargeChanged(charge)
+            delegate?.batteryChargeChanged(newValue?.unsignedIntegerValue)
         }
     }
 }

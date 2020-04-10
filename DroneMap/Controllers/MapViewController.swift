@@ -33,6 +33,8 @@ class MapViewController : UIViewController {
         
         self.env = env
         env.locationService().addDelegate(self)
+
+        // TODO: Replace with product service
         env.connectionService().addDelegate(self)
 
         mapView = MapView()
@@ -160,7 +162,7 @@ extension MapViewController {
 
 // Display annotations and renderers
 extension MapViewController : MKMapViewDelegate {    
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+    internal func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         var annotationView: MKAnnotationView?
         if let annotation = annotation as? MovingObject {
             annotationView = movingObjectView(for: annotation, on: mapView)
@@ -170,7 +172,7 @@ extension MapViewController : MKMapViewDelegate {
         return annotationView
     }
     
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
+    internal func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
         switch newState {
             case .starting:
                 view.dragState = .dragging
@@ -181,7 +183,7 @@ extension MapViewController : MKMapViewDelegate {
         }
     }
     
-    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+    internal func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MissionRenderer(overlay, 20.0)
         if let overlay = overlay as? MissionPolygon {
             overlay.delegate = renderer
@@ -192,13 +194,13 @@ extension MapViewController : MKMapViewDelegate {
 
 // Handle custom gestures
 extension MapViewController : UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    internal func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 
-    @objc func handleTap(sender: UIGestureRecognizer) {}
+    @objc private func handleTap(sender: UIGestureRecognizer) {}
 
-    @objc func handlePolygonDrag(sender: UIGestureRecognizer) {
+    @objc private func handlePolygonDrag(sender: UIGestureRecognizer) {
         let touchPoint = sender.location(in: mapView)
         let touchCoordinate = mapView.convert(touchPoint, toCoordinateFrom: mapView)
         if !canDragPolygon(with: touchCoordinate) {
@@ -220,7 +222,7 @@ extension MapViewController : UIGestureRecognizerDelegate {
 
 // Handle user location and heading updates
 extension MapViewController : CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let newCoordinate = locations[0].coordinate
         if (user == nil) {
             user = MovingObject(newCoordinate, 0.0, .user)
@@ -231,7 +233,7 @@ extension MapViewController : CLLocationManagerDelegate {
         }
     }
 
-    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+    internal func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         if (user != nil) {
             // Displace user heading by 90 degrees because of the landscape orientation.
             // Since only landscape orientation is allowed in the application settings
@@ -244,7 +246,7 @@ extension MapViewController : CLLocationManagerDelegate {
 
 // Handle aircraft and home position updates
 extension MapViewController : LocationServiceDelegate {
-    func aircraftLocationChanged(_ location: CLLocation) {
+    internal func aircraftLocationChanged(_ location: CLLocation) {
         if (aircraft == nil) {
             aircraft = MovingObject(location.coordinate, 0.0, .aircraft)
         }
@@ -258,13 +260,13 @@ extension MapViewController : LocationServiceDelegate {
         }
     }
 
-    func aircraftHeadingChanged(_ heading: CLLocationDirection) {
+    internal func aircraftHeadingChanged(_ heading: CLLocationDirection) {
         if (aircraft != nil) {
             aircraft.heading = heading
         }
     }
 
-    func homeLocationChanged(_ location: CLLocation) {
+    internal func homeLocationChanged(_ location: CLLocation) {
         if (home == nil) {
             home = MovingObject(location.coordinate, 0.0, .home)
         }
@@ -281,7 +283,7 @@ extension MapViewController : LocationServiceDelegate {
 
 // Monitor aircraft connection status
 extension MapViewController : ConnectionServiceDelegate {
-    func statusChanged(_ status: ConnectionStatus) {
+    internal func statusChanged(_ status: ConnectionStatus) {
         if status == .disconnected {
             if aircraft != nil {
                 mapView.removeAnnotation(aircraft)

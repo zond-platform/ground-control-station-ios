@@ -6,8 +6,9 @@
 //  Copyright © 2019 Evgeny Agamirzov. All rights reserved.
 //
 
-import DJISDK
 import os.log
+
+import DJISDK
 
 protocol SimulatorServiceDelegate : AnyObject {
     func simulatorStarted(_ success: Bool)
@@ -77,7 +78,7 @@ extension SimulatorService {
 // Private methods
 extension SimulatorService {
     private func getAircraftInstance() -> DJIAircraft? {
-        guard model != DJIAircraftModeNameOnlyRemoteController else {
+        guard model != nil && model != DJIAircraftModeNameOnlyRemoteController else {
             os_log("Cannot run simulator on remote controller", type: .error)
             return nil
         }
@@ -106,7 +107,7 @@ extension SimulatorService {
 
 // Handle vehicle model updates
 extension SimulatorService : ProductServiceDelegate {
-    func modelChanged(_ model: String) {
+    func modelChanged(_ model: String?) {
         self.model = model
     }
 }

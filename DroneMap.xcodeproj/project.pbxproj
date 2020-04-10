@@ -28,9 +28,7 @@
 		EC1C66782291C07B00BEA440 /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C66772291C07B00BEA440 /* ServiceProtocol.swift */; };
 		EC87F024243E485800470917 /* SettingsCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC87F023243E485800470917 /* SettingsCellData.swift */; };
 		EC87F026243E486900470917 /* SettingsSectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC87F025243E486900470917 /* SettingsSectionData.swift */; };
-		EC87F02A243E4E4300470917 /* ServiceEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC87F029243E4E4300470917 /* ServiceEnums.swift */; };
-		EC87F02C243E4E6700470917 /* SettingsEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC87F02B243E4E6700470917 /* SettingsEnums.swift */; };
-		EC87F02E243E4E9B00470917 /* MapEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC87F02D243E4E9B00470917 /* MapEnums.swift */; };
+		EC87F02C243E4E6700470917 /* SettingsIDs.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC87F02B243E4E6700470917 /* SettingsIDs.swift */; };
 		EC950E8721B81EA600B3A03D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8621B81EA600B3A03D /* AppDelegate.swift */; };
 		EC950E8921B81EA600B3A03D /* ConnectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8821B81EA600B3A03D /* ConnectionService.swift */; };
 		EC950E8E21B81EA700B3A03D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC950E8D21B81EA700B3A03D /* Assets.xcassets */; };
@@ -86,9 +84,7 @@
 		EC1C66772291C07B00BEA440 /* ServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocol.swift; sourceTree = "<group>"; };
 		EC87F023243E485800470917 /* SettingsCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCellData.swift; sourceTree = "<group>"; };
 		EC87F025243E486900470917 /* SettingsSectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSectionData.swift; sourceTree = "<group>"; };
-		EC87F029243E4E4300470917 /* ServiceEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceEnums.swift; sourceTree = "<group>"; };
-		EC87F02B243E4E6700470917 /* SettingsEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsEnums.swift; sourceTree = "<group>"; };
-		EC87F02D243E4E9B00470917 /* MapEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapEnums.swift; sourceTree = "<group>"; };
+		EC87F02B243E4E6700470917 /* SettingsIDs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsIDs.swift; sourceTree = "<group>"; };
 		EC950E8321B81EA600B3A03D /* DroneMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DroneMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC950E8621B81EA600B3A03D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC950E8821B81EA600B3A03D /* ConnectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionService.swift; sourceTree = "<group>"; };
@@ -155,7 +151,6 @@
 		EC14731923B1EE5B00385067 /* MapAnnotations */ = {
 			isa = PBXGroup;
 			children = (
-				EC87F02D243E4E9B00470917 /* MapEnums.swift */,
 				EC14731A23B1EE9300385067 /* MovingObject.swift */,
 				EC14731C23B1EEAE00385067 /* PolygonVertex.swift */,
 				EC14731E23B1EED500385067 /* MissionPolygon.swift */,
@@ -188,7 +183,6 @@
 		EC1C66792291C3C100BEA440 /* GenericService */ = {
 			isa = PBXGroup;
 			children = (
-				EC87F029243E4E4300470917 /* ServiceEnums.swift */,
 				EC1C66772291C07B00BEA440 /* ServiceProtocol.swift */,
 				ECEEEEF3226BA5E7005A71C6 /* ServiceBase.swift */,
 			);
@@ -198,7 +192,7 @@
 		EC87F022243E482B00470917 /* SettingsData */ = {
 			isa = PBXGroup;
 			children = (
-				EC87F02B243E4E6700470917 /* SettingsEnums.swift */,
+				EC87F02B243E4E6700470917 /* SettingsIDs.swift */,
 				EC87F023243E485800470917 /* SettingsCellData.swift */,
 				EC87F025243E486900470917 /* SettingsSectionData.swift */,
 			);
@@ -480,12 +474,11 @@
 				EC87F024243E485800470917 /* SettingsCellData.swift in Sources */,
 				EC158057229B0A19000741DC /* CommandService.swift in Sources */,
 				EC950E8921B81EA600B3A03D /* ConnectionService.swift in Sources */,
-				EC87F02C243E4E6700470917 /* SettingsEnums.swift in Sources */,
+				EC87F02C243E4E6700470917 /* SettingsIDs.swift in Sources */,
 				ECEEEEF0226A0E6E005A71C6 /* ProductService.swift in Sources */,
 				EC15EAD42270E0B80032ACB9 /* RootViewController.swift in Sources */,
 				EC15EAD8227498D20032ACB9 /* MapView.swift in Sources */,
 				EC15EAD2227080250032ACB9 /* MapViewController.swift in Sources */,
-				EC87F02A243E4E4300470917 /* ServiceEnums.swift in Sources */,
 				EC14731F23B1EED500385067 /* MissionPolygon.swift in Sources */,
 				EC178D86243B76680006495E /* SettingsViewDataSource.swift in Sources */,
 				ECEEEEEC2269DB2F005A71C6 /* Environment.swift in Sources */,
@@ -502,7 +495,6 @@
 				EC1C66782291C07B00BEA440 /* ServiceProtocol.swift in Sources */,
 				EC14732423B1F03400385067 /* PolygonVertexView.swift in Sources */,
 				EC14731D23B1EEAE00385067 /* PolygonVertex.swift in Sources */,
-				EC87F02E243E4E9B00470917 /* MapEnums.swift in Sources */,
 				ECEEEEF4226BA5E7005A71C6 /* ServiceBase.swift in Sources */,
 				EC87F026243E486900470917 /* SettingsSectionData.swift in Sources */,
 			);

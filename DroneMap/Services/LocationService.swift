@@ -12,10 +12,10 @@ protocol LocationServiceDelegate : AnyObject {
     func aircraftLocationChanged(_ location: CLLocation)
     func aircraftHeadingChanged(_ location: CLLocationDirection)
     func homeLocationChanged(_ location: CLLocation)
-    func signalStatusChanged(_ status: String)
-    func satelliteCountChanged(_ count: UInt)
-    func altitudeChanged(_ count: Double)
-    func flightModeChanged(_ mode: String)
+    func signalStatusChanged(_ status: String?)
+    func satelliteCountChanged(_ count: UInt?)
+    func altitudeChanged(_ count: UInt?)
+    func flightModeChanged(_ mode: String?)
 }
 
 // Make all protocol methods optional by adding default implementations
@@ -23,10 +23,10 @@ extension LocationServiceDelegate {
     func aircraftLocationChanged(_ location: CLLocation) {}
     func aircraftHeadingChanged(_ location: CLLocationDirection) {}
     func homeLocationChanged(_ location: CLLocation) {}
-    func signalStatusChanged(_ status: String) {}
-    func satelliteCountChanged(_ count: UInt) {}
-    func altitudeChanged(_ count: Double) {}
-    func flightModeChanged(_ mode: String) {}
+    func signalStatusChanged(_ status: String?) {}
+    func satelliteCountChanged(_ count: UInt?) {}
+    func altitudeChanged(_ count: UInt?) {}
+    func flightModeChanged(_ mode: String?) {}
 }
 
 class LocationService : ServiceBase {
@@ -59,25 +59,31 @@ extension LocationService {
         guard newValue != nil && newValue!.value != nil else {
             return
         }
-        notifyAircraftLocationChanged(newValue!.value! as! CLLocation)
+        for delegate in delegates {
+            delegate?.aircraftLocationChanged(newValue!.value! as! CLLocation)
+        }
     }
 
     private func onAircraftHeadingChanged(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) {
         guard newValue != nil && newValue!.value != nil else {
             return
         }
-        notifyAircraftHeadingChanged(newValue!.value! as! CLLocationDirection)
+        for delegate in delegates {
+            delegate?.aircraftHeadingChanged(newValue!.value! as! CLLocationDirection)
+        }
     }
 
     private func onHomeLocationChanged(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) {
         guard newValue != nil && newValue!.value != nil else {
             return
         }
-        notifyHomeLocationChanged(newValue!.value! as! CLLocation)
+        for delegate in delegates {
+            delegate?.homeLocationChanged(newValue!.value! as! CLLocation)
+        }
     }
 
     private func onGpsSignalStatusChanged(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) {
-        let gpsSignalStatusMap: [UInt8:String] = [
+        let gpsSignalStatusMap: [UInt:String] = [
             0:"Almost no signal",
             1:"Very weak",
             2:"Weak",
@@ -85,63 +91,28 @@ extension LocationService {
             4:"Very good",
             5:"Very strong"
         ]
-        let gpsSignalStatusString = newValue != nil
-                                    ? gpsSignalStatusMap[newValue!.value as! UInt8] ?? ""
-                                    : "none"
-        notifySignalStatusChanged(gpsSignalStatusString)
+        for delegate in delegates {
+            delegate?.signalStatusChanged(newValue != nil
+                                          ? gpsSignalStatusMap[newValue!.unsignedIntegerValue]
+                                          : nil)
+        }
     }
 
     private func onGpsSatelliteCountChanged(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) {
-        notifySatelliteCountChanged(newValue?.unsignedIntegerValue ?? 0)
+        for delegate in delegates {
+            delegate?.satelliteCountChanged(newValue?.unsignedIntegerValue)
+        }
     }
 
     private func onAltitudeChanged(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) {
-        notifyAltitudeChanged(newValue?.doubleValue ?? 0)
+        for delegate in delegates {
+            delegate?.altitudeChanged(newValue?.unsignedIntegerValue)
+        }
     }
 
     private func onFlightModeChanged(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) {
-        notifyFlightModeChanged(newValue?.stringValue ?? "none")
-    }
-
-    private func notifyHomeLocationChanged(_ location: CLLocation) {
         for delegate in delegates {
-            delegate?.homeLocationChanged(location)
-        }
-    }
-
-    private func notifyAircraftHeadingChanged(_ location: CLLocationDirection) {
-        for delegate in delegates {
-            delegate?.aircraftHeadingChanged(location)
-        }
-    }
-
-    private func notifyAircraftLocationChanged(_ location: CLLocation) {
-        for delegate in delegates {
-            delegate?.aircraftLocationChanged(location)
-        }
-    }
-
-    private func notifySignalStatusChanged(_ status: String) {
-        for delegate in delegates {
-            delegate?.signalStatusChanged(status)
-        }
-    }
-
-    private func notifySatelliteCountChanged(_ count: UInt) {
-        for delegate in delegates {
-            delegate?.satelliteCountChanged(count)
-        }
-    }
-
-    private func notifyAltitudeChanged(_ altitude: Double) {
-        for delegate in delegates {
-            delegate?.altitudeChanged(altitude)
-        }
-    }
-
-    private func notifyFlightModeChanged(_ mode: String) {
-        for delegate in delegates {
-            delegate?.flightModeChanged(mode)
+            delegate?.flightModeChanged(newValue?.stringValue)
         }
     }
 }
