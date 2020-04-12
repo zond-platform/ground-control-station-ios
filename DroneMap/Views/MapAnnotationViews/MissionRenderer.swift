@@ -10,11 +10,11 @@ import MapKit
 
 class MissionRenderer : MKOverlayRenderer {
     private var vertexPositionChangeFired = false
-    private var gridDistance: CGFloat = 0.0
+    var gridDistance: CGFloat = 20.0
 
     init(_ overlay: MKOverlay, _ gridDistance: CGFloat) {
-        self.gridDistance = gridDistance
         super.init(overlay: overlay)
+        self.gridDistance = gridDistance
     }
 
     override func draw(_ : MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
@@ -41,7 +41,7 @@ class MissionRenderer : MKOverlayRenderer {
 
 // Handle updates of the polygon overlay
 extension MissionRenderer : MissionPolygonDelegate {
-    func redrawRenderer() {
+    internal func redrawRenderer() {
         // The polygon renderer shall be redrawn every time the vertex position
         // changes. Though, the position change rate is way too fast for heavy
         // computations associated with the renderer update to keep up. As a result,
@@ -57,11 +57,16 @@ extension MissionRenderer : MissionPolygonDelegate {
         }
     }
     
-    func translateMapPoint(_ mapPoint: MKMapPoint) -> CGPoint {
+    internal func setGridDistance(_ distance: CGFloat) {
+        gridDistance = distance
+        redrawRenderer()
+    }
+
+    internal func translateMapPoint(_ mapPoint: MKMapPoint) -> CGPoint {
         return point(for: mapPoint)
     }
     
-    func translateRawPoint(_ rawPoint: CGPoint) -> MKMapPoint {
+    internal func translateRawPoint(_ rawPoint: CGPoint) -> MKMapPoint {
         return mapPoint(for: rawPoint)
     }
 }

@@ -22,6 +22,7 @@ protocol MovingObjectDelegate : AnyObject {
 class MovingObject : MKPointAnnotation {
     weak var delegate: MovingObjectDelegate?
     var type: MovingObjectType
+
     var heading: CLLocationDirection {
         didSet {
             delegate?.objectHeadingChanged(heading)

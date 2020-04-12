@@ -11,6 +11,7 @@ import MapKit
 
 protocol MissionPolygonDelegate : AnyObject {
     func redrawRenderer()
+    func setGridDistance(_ distance: CGFloat)
     func translateMapPoint(_ mapPoint: MKMapPoint) -> CGPoint
     func translateRawPoint(_ rawPoint: CGPoint) -> MKMapPoint
 }
@@ -19,6 +20,7 @@ class MissionPolygon : MKPolygon {
     private weak var mapView: MKMapView!
     var verticies: [CGPoint] = []
     var missionGrid: [CGPoint] = []
+
     weak var delegate: MissionPolygonDelegate? {
         didSet {
             verticies.removeAll(keepingCapacity: true)
@@ -26,6 +28,14 @@ class MissionPolygon : MKPolygon {
                 verticies.append(delegate!.translateMapPoint(points()[id]))
             }
             delegate!.redrawRenderer()
+        }
+    }
+
+    var gridDistance: CGFloat = 20.0 {
+        didSet {
+            if delegate != nil {
+                delegate!.setGridDistance(gridDistance)
+            }
         }
     }
 

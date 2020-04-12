@@ -14,6 +14,7 @@ protocol PolygonVertexViewDelegate : AnyObject {
 
 class PolygonVertexView : MKAnnotationView {
     weak var delegate: PolygonVertexViewDelegate?
+
     override var center: CGPoint {
         didSet {
             guard let annotation = self.annotation as? PolygonVertex else {

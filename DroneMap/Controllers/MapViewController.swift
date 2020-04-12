@@ -18,12 +18,21 @@ class MapViewController : UIViewController {
     private var user: MovingObject!
     private var aircraft: MovingObject!
     private var home: MovingObject!
-    
+
     private var polygonVertices: [PolygonVertex] = []
     private var polygon: MissionPolygon!
-    
+
+    var gridDistance: CGFloat = 20.0 {
+        didSet {
+            guard polygon != nil else {
+                return
+            }
+            polygon.gridDistance = gridDistance
+        }
+    }
+
     var missionEditingEnabled = false
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -184,7 +193,7 @@ extension MapViewController : MKMapViewDelegate {
     }
     
     internal func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        let renderer = MissionRenderer(overlay, 20.0)
+        let renderer = MissionRenderer(overlay, gridDistance)
         if let overlay = overlay as? MissionPolygon {
             overlay.delegate = renderer
         }

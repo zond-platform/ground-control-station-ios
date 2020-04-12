@@ -86,29 +86,28 @@ extension SettingsViewDataSource : UITableViewDataSource {
                 cell.textLabel?.text = entry.title
                 cell.detailTextLabel?.text = entry.value as? String
             case .slider:
-                cell.selectionStyle = .none
-                cell.textLabel?.text = entry.title
-                cell.accessoryType = .detailButton
-
-                // Configure acessory view
                 let slider = UISlider()
+                // TODO: Fix stuck slider when updating cell on every value change
                 switch entry.id {
                     case .altitude:
-                        slider.addTarget(self, action: #selector(onAltitudeSliderMoved(_:)), for: .touchUpInside)
-                        
+                        slider.minimumValue = 20
+                        slider.maximumValue = 200
+                        slider.addTarget(self, action: #selector(onAltitudeSliderFinishedMoving(_:)), for: .touchUpInside)
+                        slider.addTarget(self, action: #selector(onAltitudeSliderMoved(_:)), for: .valueChanged)
                     case .distance:
-                        slider.addTarget(self, action: #selector(onDistanceSliderMoved(_:)), for: .touchUpInside)
+                        slider.minimumValue = 10
+                        slider.maximumValue = 50
+                        slider.addTarget(self, action: #selector(onDistanceSliderFinishedMoving(_:)), for: .touchUpInside)
+                        slider.addTarget(self, action: #selector(onDistanceSliderMoved(_:)), for: .valueChanged)
                     default:
                         break
                 }
-                slider.value = entry.value as? Float ?? 0.0
-                cell.accessoryView = slider
-            case .switcher:
+//                slider.value = entry.value as? Float ?? 0.0
                 cell.selectionStyle = .none
                 cell.textLabel?.text = entry.title
-                cell.accessoryType = .detailButton
-
-                // Configure acessory view
+                cell.detailTextLabel?.text = String(format: "%.0f m", slider.value)
+                cell.accessoryView = slider
+            case .switcher:
                 let switcher = UISwitch()
                 switch entry.id {
                     case .simulator:
@@ -119,12 +118,12 @@ extension SettingsViewDataSource : UITableViewDataSource {
                         break
                 }
                 switcher.isOn = entry.value as? Bool ?? false
+                cell.selectionStyle = .none
+                cell.textLabel?.text = entry.title
                 cell.accessoryView = switcher
         }
-
         cell.isUserInteractionEnabled = entry.enabled
         cell.textLabel?.textColor = entry.enabled ? UIColor.black : UIColor.gray
-
         return cell
     }
 }
@@ -146,14 +145,20 @@ extension SettingsViewDataSource {
         enableCell(aircraftConnected && editingEnabled, sectionId: .mission, cellId: .upload)
     }
 
-    @objc private func onAltitudeSliderMoved(_ sender: UISlider) {
+    @objc private func onAltitudeSliderFinishedMoving(_ sender: UISlider) {
         updateCell(value: sender.value, sectionId: .mission, cellId: .altitude)
-        print("Altitude: \(sender.value)")
+    }
+
+    @objc private func onDistanceSliderFinishedMoving(_ sender: UISlider) {
+        updateCell(value: sender.value, sectionId: .mission, cellId: .distance)
+    }
+
+    @objc private func onAltitudeSliderMoved(_ sender: UISlider) {
+        //
     }
 
     @objc private func onDistanceSliderMoved(_ sender: UISlider) {
-        updateCell(value: sender.value, sectionId: .mission, cellId: .distance)
-        print("Distance: \(sender.value)")
+        env.mapViewController().gridDistance = CGFloat(sender.value)
     }
 }
 
@@ -184,12 +189,12 @@ extension SettingsViewDataSource : LocationServiceDelegate {
     }
 
     internal func satelliteCountChanged(_ count: UInt?) {
-        let stringValue = count != nil ? String(count!) : "-"
+        let stringValue = count != nil ? String(format: "%.1f", count!) : "-"
         updateCell(value: stringValue, sectionId: .status, cellId: .satellites)
     }
 
     internal func altitudeChanged(_ count: UInt?) {
-        let stringValue = count != nil ? String(count!) : "-"
+        let stringValue = count != nil ? String(format: "%.1f", count!) : "-"
         updateCell(value: stringValue, sectionId: .status, cellId: .altitude)
     }
 

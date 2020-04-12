@@ -18,6 +18,7 @@ class PolygonVertex : MKPointAnnotation {
     public let id: Int
     private var dLat: Double = 0.0
     private var dLon: Double = 0.0
+
     override var coordinate: CLLocationCoordinate2D {
         didSet {
             delegate?.vertexCoordinateUpdated(coordinate, id)

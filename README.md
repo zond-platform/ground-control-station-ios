@@ -6,8 +6,12 @@ is supposed to make standard quad copters execute mapping missions.
 ## Todos
 
 General:
-* Redesign and refactor the entire view system. Consider using Swift UI (1)
-* Refactor Logger class (?)
+* ~~Redesign and refactor the entire view system. Consider using Swift UI~~ -> use standard table view
+* ~~Refactor Logger class~~ -> removed
+* Add control buttons to switch between map and live view
+* Add control buttons to switch between map layers
+* Add control buttons to zoom in and out on the map
+* Draw copter trace on the map when executing a mission
 
 Map:
 * ~~Replace map icons and make them show direction~~
@@ -15,10 +19,20 @@ Map:
 * ~~Transform polygon's area into grid coordinates suitable for mission planning~~
 * ~~Make polygons draggable~~
 * ~~Limit polygon update rate~~
-* Add and remove points from the mission polygon with a tap (3)
-* Add grid lines angle adjustment (5)
-* Add grid lines distance adjustment (4)
+* ~~Add grid lines distance adjustment~~
+* Add and remove points from the mission polygon with a tap
+* Add grid lines angle adjustment
+* Find out how to remove compass when changing map orientation
+* Replace connection service delegate with product service delegate
+
+Control View:
+* Activate mission upload button
+* Make section footers of the table view display performed action status
+* Resolve table view slider cell update issue (post on StackOverflow?)
+* Relocate view and add slide animation
 
 Mission:
 * ~~Add commands for mission upload and execution~~
-* Provide extended controls for setting mission parameters (2)
+* Make CommandService report result via delegate (1)
+* Add mission start/stop/pause buttons (2)
+* Provide extended controls for setting mission parameters (3)

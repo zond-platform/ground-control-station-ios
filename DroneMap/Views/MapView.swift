@@ -18,6 +18,7 @@ class MapView : MKMapView {
         // and height to silence auto layout warnings (allegedly a bug).
         super.init(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         mapType = .satellite
+        showsCompass = true
     }
     
     override func layoutSubviews() {
