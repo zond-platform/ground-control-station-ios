@@ -15,11 +15,11 @@ import UIKit
 class SettingsViewDataSource : NSObject {
     private var env: Environment!
     private var settingsView: SettingsView!
-    private var sections: [SettingsSectionData]!
+    private var sections: [SettingsSection]!
     private var aircraftConnected: Bool!
     private var editingEnabled: Bool!
 
-    init(_ env: Environment, _ settingsView: SettingsView, _ sections: [SettingsSectionData]) {
+    init(_ env: Environment, _ settingsView: SettingsView, _ sections: [SettingsSection]) {
         super.init()
         
         self.env = env
@@ -36,24 +36,26 @@ class SettingsViewDataSource : NSObject {
 
 // Private methods
 extension SettingsViewDataSource {
-    private func indexPath(for sectionId: SectionId, and cellId: CellId) -> IndexPath? {
-        if let sectionIndex = sections.firstIndex(where: {$0.id == sectionId}) {
-            if let cellIndex = sections[sectionIndex].entries.firstIndex(where: {$0.id == cellId}) {
+    private func indexPath(_ section: SectionId, _ cell: CellId) -> IndexPath? {
+        if let sectionIndex = sections.firstIndex(where: {$0.id == section}) {
+            if let cellIndex = sections[sectionIndex].entries.firstIndex(where: {$0.id == cell}) {
                 return IndexPath(row: cellIndex, section: sectionIndex)
             }
         }
         return nil
     }
 
-    private func updateCell<ValueType>(value: ValueType, sectionId: SectionId, cellId: CellId) {
-        if let indexPath = indexPath(for: sectionId, and: cellId) {
+    private func updateCell<ValueType>(value: ValueType, section: SectionId, cell: CellId, reload: Bool) {
+        if let indexPath = indexPath(section, cell) {
             sections[indexPath.section].entries[indexPath.row].value = value
-            settingsView.reloadRows(at: [indexPath], with: .none)
+            if reload {
+                settingsView.reloadRows(at: [indexPath], with: .none)
+            }
         }
     }
 
-    private func enableCell(_ enable: Bool, sectionId: SectionId, cellId: CellId) {
-        if let indexPath = indexPath(for: sectionId, and: cellId) {
+    private func enableCell(_ enable: Bool, section: SectionId, cell: CellId) {
+        if let indexPath = indexPath(section, cell) {
             sections[indexPath.section].entries[indexPath.row].enabled = enable
             settingsView.reloadRows(at: [indexPath], with: .none)
         }
@@ -75,7 +77,7 @@ extension SettingsViewDataSource : UITableViewDataSource {
     }
 
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let entry: SettingsCellData = sections[indexPath.section].entries[indexPath.row]
+        let entry: SettingsCell = sections[indexPath.section].entries[indexPath.row]
         let cell = UITableViewCell(style: .value1, reuseIdentifier: entry.type.reuseIdentifier)
         switch entry.type {
             case .button:
@@ -87,22 +89,19 @@ extension SettingsViewDataSource : UITableViewDataSource {
                 cell.detailTextLabel?.text = entry.value as? String
             case .slider:
                 let slider = UISlider()
-                // TODO: Fix stuck slider when updating cell on every value change
                 switch entry.id {
                     case .altitude:
                         slider.minimumValue = 20
                         slider.maximumValue = 200
-                        slider.addTarget(self, action: #selector(onAltitudeSliderFinishedMoving(_:)), for: .touchUpInside)
-                        slider.addTarget(self, action: #selector(onAltitudeSliderMoved(_:)), for: .valueChanged)
+                        slider.addTarget(self, action: #selector(onAltitudeSliderMoved(_:)), for: .touchUpInside)
                     case .distance:
                         slider.minimumValue = 10
                         slider.maximumValue = 50
-                        slider.addTarget(self, action: #selector(onDistanceSliderFinishedMoving(_:)), for: .touchUpInside)
-                        slider.addTarget(self, action: #selector(onDistanceSliderMoved(_:)), for: .valueChanged)
+                        slider.addTarget(self, action: #selector(onDistanceSliderMoved(_:)), for: .touchUpInside)
                     default:
                         break
                 }
-//                slider.value = entry.value as? Float ?? 0.0
+                slider.value = entry.value as? Float ?? 0.0
                 cell.selectionStyle = .none
                 cell.textLabel?.text = entry.title
                 cell.detailTextLabel?.text = String(format: "%.0f m", slider.value)
@@ -139,25 +138,18 @@ extension SettingsViewDataSource {
     @objc private func onEditMissionSwitchTriggered(_ sender: UISwitch) {
         env.mapViewController().enableMissionEditing(sender.isOn)
         editingEnabled = sender.isOn
-        updateCell(value: sender.isOn, sectionId: .mission, cellId: .edit)
-        enableCell(sender.isOn, sectionId: .mission, cellId: .altitude)
-        enableCell(sender.isOn, sectionId: .mission, cellId: .distance)
-        enableCell(aircraftConnected && editingEnabled, sectionId: .mission, cellId: .upload)
-    }
-
-    @objc private func onAltitudeSliderFinishedMoving(_ sender: UISlider) {
-        updateCell(value: sender.value, sectionId: .mission, cellId: .altitude)
-    }
-
-    @objc private func onDistanceSliderFinishedMoving(_ sender: UISlider) {
-        updateCell(value: sender.value, sectionId: .mission, cellId: .distance)
+        updateCell(value: sender.isOn, section: .mission, cell: .edit, reload: true)
+        enableCell(sender.isOn, section: .mission, cell: .altitude)
+        enableCell(sender.isOn, section: .mission, cell: .distance)
+        enableCell(aircraftConnected && editingEnabled, section: .mission, cell: .upload)
     }
 
     @objc private func onAltitudeSliderMoved(_ sender: UISlider) {
-        //
+        updateCell(value: sender.value, section: .mission, cell: .altitude, reload: true)
     }
 
     @objc private func onDistanceSliderMoved(_ sender: UISlider) {
+        updateCell(value: sender.value, section: .mission, cell: .distance, reload: true)
         env.mapViewController().gridDistance = CGFloat(sender.value)
     }
 }
@@ -165,11 +157,13 @@ extension SettingsViewDataSource {
 // Subscribe to simulator updates
 extension SettingsViewDataSource : SimulatorServiceDelegate {
     internal func simulatorStarted(_ success: Bool) {
-        updateCell(value: success, sectionId: .simulator, cellId: .simulator)
+        // No neet to reload the cell, UISwitch has already changed the state
+        updateCell(value: success, section: .simulator, cell: .simulator, reload: false)
     }
 
     internal func simulatorStopped(_ success: Bool) {
-        updateCell(value: !success, sectionId: .simulator, cellId: .simulator)
+        // No neet to reload the cell, UISwitch has already changed the state
+        updateCell(value: !success, section: .simulator, cell: .simulator, reload: false)
     }
 }
 
@@ -177,7 +171,7 @@ extension SettingsViewDataSource : SimulatorServiceDelegate {
 extension SettingsViewDataSource : BatteryServiceDelegate {
     internal func batteryChargeChanged(_ charge: UInt?) {
         let stringValue = charge != nil ? String(charge!) : "-"
-        updateCell(value: stringValue, sectionId: .status, cellId: .battery)
+        updateCell(value: stringValue, section: .status, cell: .battery, reload: true)
     }
 }
 
@@ -185,22 +179,22 @@ extension SettingsViewDataSource : BatteryServiceDelegate {
 extension SettingsViewDataSource : LocationServiceDelegate {
     internal func signalStatusChanged(_ status: String?) {
         let stringValue = status ?? "-"
-        updateCell(value: stringValue, sectionId: .status, cellId: .signal)
+        updateCell(value: stringValue, section: .status, cell: .signal, reload: true)
     }
 
     internal func satelliteCountChanged(_ count: UInt?) {
         let stringValue = count != nil ? String(format: "%.1f", count!) : "-"
-        updateCell(value: stringValue, sectionId: .status, cellId: .satellites)
+        updateCell(value: stringValue, section: .status, cell: .satellites, reload: true)
     }
 
     internal func altitudeChanged(_ count: UInt?) {
         let stringValue = count != nil ? String(format: "%.1f", count!) : "-"
-        updateCell(value: stringValue, sectionId: .status, cellId: .altitude)
+        updateCell(value: stringValue, section: .status, cell: .altitude, reload: true)
     }
 
     internal func flightModeChanged(_ mode: String?) {
         let stringValue = mode ?? "-"
-        updateCell(value: stringValue, sectionId: .status, cellId: .mode)
+        updateCell(value: stringValue, section: .status, cell: .mode, reload: true)
     }
 }
 
@@ -209,10 +203,10 @@ extension SettingsViewDataSource : ProductServiceDelegate {
     internal func modelChanged(_ model: String?) {
         aircraftConnected = model != nil && model != DJIAircraftModeNameOnlyRemoteController
         if !aircraftConnected {
-            updateCell(value: false, sectionId: .simulator, cellId: .simulator)
+            updateCell(value: false, section: .simulator, cell: .simulator, reload: true)
         }
-        updateCell(value: model ?? "-", sectionId: .status, cellId: .model)
-        enableCell(aircraftConnected, sectionId: .simulator, cellId: .simulator)
-        enableCell(aircraftConnected && editingEnabled, sectionId: .mission, cellId: .upload)
+        updateCell(value: model ?? "-", section: .status, cell: .model, reload: true)
+        enableCell(aircraftConnected, section: .simulator, cell: .simulator)
+        enableCell(aircraftConnected && editingEnabled, section: .mission, cell: .upload)
     }
 }

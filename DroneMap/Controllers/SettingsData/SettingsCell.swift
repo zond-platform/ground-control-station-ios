@@ -1,12 +1,12 @@
 //
-//  SettingsCellData.swift
+//  SettingsCell.swift
 //  DroneMap
 //
 //  Created by Evgeny Agamirzov on 08.04.20.
 //  Copyright © 2020 Evgeny Agamirzov. All rights reserved.
 //
 
-class SettingsCellData<ValueType> {
+class SettingsCell<ValueType> {
     let id: CellId
     let type: CellType
     let title: String

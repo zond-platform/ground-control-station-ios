@@ -9,20 +9,20 @@
 import UIKit
 
 fileprivate var settingsData = [
-    SettingsSectionData(id: .simulator,
-                        entries: [SettingsCellData(id: .simulator,  type: .switcher, enabled: false,  value: false)]),
-    SettingsSectionData(id: .mission,
-                        entries: [SettingsCellData(id: .edit,       type: .switcher, enabled: true,  value: false),
-                                  SettingsCellData(id: .altitude,   type: .slider,   enabled: false, value: 0.0),
-                                  SettingsCellData(id: .distance,   type: .slider,   enabled: false, value: 0.0),
-                                  SettingsCellData(id: .upload,     type: .button,   enabled: false, value: false)]),
-    SettingsSectionData(id: .status,
-                        entries: [SettingsCellData(id: .model,      type: .info,     enabled: true,  value: "-"),
-                                  SettingsCellData(id: .mode,       type: .info,     enabled: true,  value: "-"),
-                                  SettingsCellData(id: .altitude,   type: .info,     enabled: true,  value: "-"),
-                                  SettingsCellData(id: .battery,    type: .info,     enabled: true,  value: "-"),
-                                  SettingsCellData(id: .signal,     type: .info,     enabled: true,  value: "-"),
-                                  SettingsCellData(id: .satellites, type: .info,     enabled: true,  value: "-")])
+    SettingsSection(id: .simulator,
+                    entries: [SettingsCell(id: .simulator,  type: .switcher, enabled: false,  value: false)]),
+    SettingsSection(id: .mission,
+                    entries: [SettingsCell(id: .edit,       type: .switcher, enabled: true,  value: false),
+                              SettingsCell(id: .altitude,   type: .slider,   enabled: false, value: 0.0),
+                              SettingsCell(id: .distance,   type: .slider,   enabled: false, value: 0.0),
+                              SettingsCell(id: .upload,     type: .button,   enabled: false, value: false)]),
+    SettingsSection(id: .status,
+                    entries: [SettingsCell(id: .model,      type: .info,     enabled: true,  value: "-"),
+                              SettingsCell(id: .mode,       type: .info,     enabled: true,  value: "-"),
+                              SettingsCell(id: .altitude,   type: .info,     enabled: true,  value: "-"),
+                              SettingsCell(id: .battery,    type: .info,     enabled: true,  value: "-"),
+                              SettingsCell(id: .signal,     type: .info,     enabled: true,  value: "-"),
+                              SettingsCell(id: .satellites, type: .info,     enabled: true,  value: "-")])
 ]
 
 class SettingsViewController : UIViewController {

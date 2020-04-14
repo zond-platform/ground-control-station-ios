@@ -12,6 +12,7 @@ General:
 * Add control buttons to switch between map layers
 * Add control buttons to zoom in and out on the map
 * Draw copter trace on the map when executing a mission
+* Access environment via static function instead of passing it around
 
 Map:
 * ~~Replace map icons and make them show direction~~
@@ -24,6 +25,7 @@ Map:
 * Add grid lines angle adjustment
 * Find out how to remove compass when changing map orientation
 * Replace connection service delegate with product service delegate
+* Don't show mission polygon when the mission is already uploaded
 
 Control View:
 * Activate mission upload button
