@@ -13,6 +13,9 @@ General:
 * Add control buttons to zoom in and out on the map
 * Draw copter trace on the map when executing a mission
 * Access environment via static function instead of passing it around
+* Integrate internal notification mechanism for failed commands
+* Start telemetry services only if aircraft is connected (not the remote)
+* Consider using callbacks instead of delegates for internal component communication
 
 Map:
 * ~~Replace map icons and make them show direction~~
@@ -35,6 +38,6 @@ Control View:
 
 Mission:
 * ~~Add commands for mission upload and execution~~
-* Make CommandService report result via delegate (1)
+* ~~Make CommandService report result via delegate~~
 * Add mission start/stop/pause buttons (2)
 * Provide extended controls for setting mission parameters (3)

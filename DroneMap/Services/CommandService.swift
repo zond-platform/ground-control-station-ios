@@ -10,10 +10,43 @@ import os.log
 
 import DJISDK
 
+enum MissionCommand {
+    case upload
+    case start
+    case pause
+    case resume
+    case stop
+
+    var title: String {
+        switch self {
+            case .upload:
+                return "upload"
+            case .start:
+                return "start"
+            case .pause:
+                return "pause"
+            case .resume:
+                return "resume"
+            case .stop:
+                return "stop"
+        }
+    }
+}
+
+protocol CommandServiceDelegate : AnyObject {
+    func missionCommandResponded(_ success: Bool)
+}
+
+// Make all protocol methods optional by adding default implementations
+extension CommandServiceDelegate {
+    func missionCommandResponded(_ success: Bool) {}
+}
+
 class CommandService : NSObject {
     var env: Environment
     var currentWaypointIndex: Int?
     var missionOperator: DJIWaypointMissionOperator?
+    var delegates: [CommandServiceDelegate?] = []
     
     init(_ env: Environment) {
         self.env = env
@@ -24,59 +57,43 @@ class CommandService : NSObject {
 
 // Public methods
 extension CommandService {
-    func uploadMission(for coordinates: [CLLocationCoordinate2D]) {
+    func addDelegate(_ delegate: CommandServiceDelegate) {
+        delegates.append(delegate)
+    }
+
+    func setMissionCoordinates(_ coordinates: [CLLocationCoordinate2D]) -> Bool {
         let error = missionOperator?.load(waypointMissionFromCoordinates(coordinates))
         guard error == nil else {
             os_log("Mission load error: %@", type: .error, error!.localizedDescription)
-            return
+            return false
         }
-        missionOperator?.uploadMission(completion: { (error: Error?) in
-            if error != nil {
-                os_log("Mission upload error: %@", type: .error, error!.localizedDescription)
-            } else {
-                os_log("Mission uploaded", type: .debug)
-            }
-        })
+        return true
     }
 
-    func startMission() {
-        missionOperator?.startMission(completion: { (error: Error?) in
-            if error != nil {
-                os_log("Mission start error: %@", type: .error, error!.localizedDescription)
+    func executeMissionCommand(_ command: MissionCommand) {
+        let callback = { (error: Error?) in
+            let success = error != nil
+            if success {
+                os_log("Mission %@ error: %@", type: .error, command.title, error!.localizedDescription)
             } else {
-                os_log("Starting mission", type: .debug)
+                os_log("Mission %@ succeeded", type: .debug, command.title)
             }
-        })
-    }
-
-    func pauseMission() {
-        missionOperator?.pauseMission(completion: { (error: Error?) in
-            if error != nil {
-                os_log("Mission pause error: %@", type: .error, error!.localizedDescription)
-            } else {
-                os_log("Pausing mission", type: .debug)
+            for delegate in self.delegates {
+                delegate?.missionCommandResponded(success)
             }
-        })
-    }
-
-    func resumeMission() {
-        missionOperator?.resumeMission(completion: { (error: Error?) in
-            if error != nil {
-                os_log("Mission resume error: %@", type: .error, error!.localizedDescription)
-            } else {
-                os_log("Resuming mission", type: .debug)
-            }
-        })
-    }
-
-    func stopMission() {
-        missionOperator?.stopMission(completion: { (error: Error?) in
-            if error != nil {
-                os_log("Mission stop error: %@", type: .error, error!.localizedDescription)
-            } else {
-                os_log("Stopping mission", type: .debug)
-            }
-        })
+        }
+        switch command {
+            case .upload:
+                missionOperator?.uploadMission(completion: callback)
+            case .start:
+                missionOperator?.startMission(completion: callback)
+            case .pause:
+                missionOperator?.pauseMission(completion: callback)
+            case .resume:
+                missionOperator?.resumeMission(completion: callback)
+            case .stop:
+                missionOperator?.stopMission(completion: callback)
+        }
     }
 }
 

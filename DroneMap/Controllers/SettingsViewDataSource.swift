@@ -82,7 +82,8 @@ extension SettingsViewDataSource : UITableViewDataSource {
         switch entry.type {
             case .button:
                 cell.textLabel?.text = entry.title
-                cell.accessoryType = .disclosureIndicator
+                cell.textLabel?.textColor = UIColor.blue
+                cell.accessoryType = .none
             case .info:
                 cell.selectionStyle = .none
                 cell.textLabel?.text = entry.title
@@ -122,7 +123,10 @@ extension SettingsViewDataSource : UITableViewDataSource {
                 cell.accessoryView = switcher
         }
         cell.isUserInteractionEnabled = entry.enabled
-        cell.textLabel?.textColor = entry.enabled ? UIColor.black : UIColor.gray
+        if !entry.enabled {
+            cell.textLabel?.textColor = UIColor.lightGray
+            cell.detailTextLabel?.textColor = UIColor.lightGray
+        }
         return cell
     }
 }
