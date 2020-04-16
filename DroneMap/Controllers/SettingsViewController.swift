@@ -15,9 +15,7 @@ fileprivate var settingsData = [
                     entries: [SettingsCell(id: .edit,       type: .switcher, enabled: true,  value: false),
                               SettingsCell(id: .altitude,   type: .slider,   enabled: false, value: 0.0),
                               SettingsCell(id: .distance,   type: .slider,   enabled: false, value: 0.0),
-                              SettingsCell(id: .upload,     type: .button,   enabled: false, value: false),
-                              SettingsCell(id: .start,      type: .button,   enabled: false, value: false),
-                              SettingsCell(id: .stop,       type: .button,   enabled: false, value: false)]),
+                              SettingsCell(id: .upload,     type: .button,   enabled: false, value: false)]),
     SettingsSection(id: .status,
                     entries: [SettingsCell(id: .model,      type: .info,     enabled: true,  value: "-"),
                               SettingsCell(id: .mode,       type: .info,     enabled: true,  value: "-"),
@@ -42,8 +40,8 @@ class SettingsViewController : UIViewController {
         self.env = env
         settingsView = SettingsView()
         dataSource = SettingsViewDataSource(env, settingsView, settingsData)
-        settingsView.dataSource = dataSource
-        settingsView.delegate = self
+        settingsView.tableView.dataSource = dataSource
+        settingsView.tableView.delegate = self
         view = settingsView
     }
 
@@ -60,20 +58,12 @@ extension SettingsViewController : UITableViewDelegate {
 
     internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let entry: SettingsCell = settingsData[indexPath.section].entries[indexPath.row]
-        switch entry.id {
-            case .upload:
-                let coordinates = env.mapViewController().missionCoordinates()
-                if env.commandService().setMissionCoordinates(coordinates) {
-                    env.commandService().executeMissionCommand(.upload)
-                }
-            case .start:
-                env.commandService().executeMissionCommand(.start)
-            case .stop:
-                env.commandService().executeMissionCommand(.stop)
-            default:
-                break
+        if entry.id == .upload {
+            let coordinates = env.mapViewController().missionCoordinates()
+            if env.commandService().setMissionCoordinates(coordinates) {
+                env.commandService().executeMissionCommand(.upload)
+            }
+            settingsView.tableView.deselectRow(at: indexPath, animated: true)
         }
-        print(entry.title)
-        settingsView.deselectRow(at: indexPath, animated: true)
     }
 }

@@ -14,20 +14,13 @@ class MapView : MKMapView {
     }
     
     init() {
-        // Default initialize with dummy non-zero values for width
-        // and height to silence auto layout warnings (allegedly a bug).
-        super.init(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
-        mapType = .satellite
-        showsCompass = true
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        frame = CGRect(
+        super.init(frame: CGRect(
             x: 0,
             y: 0,
-            width: superview?.frame.width ?? 0,
-            height: superview?.frame.height ?? 0
-        )
+            width: AppDimensions.screenWidth,
+            height: AppDimensions.screenHeight
+        ))
+        mapType = .satellite
+        showsCompass = true
     }
 }

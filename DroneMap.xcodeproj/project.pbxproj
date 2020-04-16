@@ -26,6 +26,9 @@
 		EC1678E4244623AD00C71203 /* ButtonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678E3244623AD00C71203 /* ButtonsViewController.swift */; };
 		EC1678E6244625D500C71203 /* ButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678E5244625D500C71203 /* ButtonsView.swift */; };
 		EC1678E924473DF400C71203 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678E824473DF400C71203 /* Button.swift */; };
+		EC1678EC2448541D00C71203 /* DimensionConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678EB2448541D00C71203 /* DimensionConstants.swift */; };
+		EC1678EE2448543600C71203 /* FontConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678ED2448543600C71203 /* FontConstants.swift */; };
+		EC1678F02448544B00C71203 /* ColorConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678EF2448544B00C71203 /* ColorConstants.swift */; };
 		EC178D86243B76680006495E /* SettingsViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC178D85243B76680006495E /* SettingsViewDataSource.swift */; };
 		EC1C66782291C07B00BEA440 /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C66772291C07B00BEA440 /* ServiceProtocol.swift */; };
 		EC87F024243E485800470917 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC87F023243E485800470917 /* SettingsCell.swift */; };
@@ -84,6 +87,9 @@
 		EC1678E3244623AD00C71203 /* ButtonsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsViewController.swift; sourceTree = "<group>"; };
 		EC1678E5244625D500C71203 /* ButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsView.swift; sourceTree = "<group>"; };
 		EC1678E824473DF400C71203 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
+		EC1678EB2448541D00C71203 /* DimensionConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimensionConstants.swift; sourceTree = "<group>"; };
+		EC1678ED2448543600C71203 /* FontConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontConstants.swift; sourceTree = "<group>"; };
+		EC1678EF2448544B00C71203 /* ColorConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorConstants.swift; sourceTree = "<group>"; };
 		EC178D85243B76680006495E /* SettingsViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewDataSource.swift; sourceTree = "<group>"; };
 		EC1C66772291C07B00BEA440 /* ServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocol.swift; sourceTree = "<group>"; };
 		EC87F023243E485800470917 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
@@ -193,6 +199,16 @@
 			path = GenericSubviews;
 			sourceTree = "<group>";
 		};
+		EC1678EA244853EB00C71203 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				EC1678EB2448541D00C71203 /* DimensionConstants.swift */,
+				EC1678ED2448543600C71203 /* FontConstants.swift */,
+				EC1678EF2448544B00C71203 /* ColorConstants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 		EC1C66792291C3C100BEA440 /* GenericService */ = {
 			isa = PBXGroup;
 			children = (
@@ -208,6 +224,7 @@
 				EC87F02B243E4E6700470917 /* SettingsIDs.swift */,
 				EC87F023243E485800470917 /* SettingsCell.swift */,
 				EC87F025243E486900470917 /* SettingsSection.swift */,
+				EC178D85243B76680006495E /* SettingsViewDataSource.swift */,
 			);
 			path = SettingsData;
 			sourceTree = "<group>";
@@ -243,6 +260,7 @@
 				ECEEEEE92267A959005A71C6 /* Controllers */,
 				EC15EACE226DE7E70032ACB9 /* Views */,
 				ECD7148E2365B09800958956 /* Geometry */,
+				EC1678EA244853EB00C71203 /* Constants */,
 				EC950E8D21B81EA700B3A03D /* Assets.xcassets */,
 				EC950E9221B81EA700B3A03D /* Info.plist */,
 			);
@@ -285,7 +303,6 @@
 				EC15EAD32270E0B80032ACB9 /* RootViewController.swift */,
 				EC15EAD1227080250032ACB9 /* MapViewController.swift */,
 				ECDF4B7122593AC600C98F71 /* SettingsViewController.swift */,
-				EC178D85243B76680006495E /* SettingsViewDataSource.swift */,
 				EC1678E3244623AD00C71203 /* ButtonsViewController.swift */,
 			);
 			path = Controllers;
@@ -491,9 +508,11 @@
 				EC158057229B0A19000741DC /* CommandService.swift in Sources */,
 				EC950E8921B81EA600B3A03D /* ConnectionService.swift in Sources */,
 				EC87F02C243E4E6700470917 /* SettingsIDs.swift in Sources */,
+				EC1678EE2448543600C71203 /* FontConstants.swift in Sources */,
 				ECEEEEF0226A0E6E005A71C6 /* ProductService.swift in Sources */,
 				EC15EAD42270E0B80032ACB9 /* RootViewController.swift in Sources */,
 				EC15EAD8227498D20032ACB9 /* MapView.swift in Sources */,
+				EC1678EC2448541D00C71203 /* DimensionConstants.swift in Sources */,
 				EC15EAD2227080250032ACB9 /* MapViewController.swift in Sources */,
 				EC14731F23B1EED500385067 /* MissionPolygon.swift in Sources */,
 				EC178D86243B76680006495E /* SettingsViewDataSource.swift in Sources */,
@@ -502,6 +521,7 @@
 				ECAAC83A2299B83700FB360F /* SettingsView.swift in Sources */,
 				ECEEEEE82267A24F005A71C6 /* BatteryService.swift in Sources */,
 				EC14732823B1F62000385067 /* ConvexHull.swift in Sources */,
+				EC1678F02448544B00C71203 /* ColorConstants.swift in Sources */,
 				EC15EAE02286FD530032ACB9 /* SimulatorService.swift in Sources */,
 				EC1678E6244625D500C71203 /* ButtonsView.swift in Sources */,
 				ECDF4B7222593AC600C98F71 /* SettingsViewController.swift in Sources */,

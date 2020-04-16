@@ -82,6 +82,18 @@ extension MapViewController {
         return user.coordinate
     }
 
+    func focusUser() {
+        if user != nil {
+            mapView.setCenter(user.coordinate, animated: true)
+        }
+    }
+
+    func focusAircraft() {
+        if aircraft != nil {
+            mapView.setCenter(aircraft.coordinate, animated: true)
+        }
+    }
+
     func enableMissionEditing(_ enable: Bool) {
         missionEditingEnabled = enable
         if missionEditingEnabled {

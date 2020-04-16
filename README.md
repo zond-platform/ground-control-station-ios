@@ -8,9 +8,7 @@ is supposed to make standard quad copters execute mapping missions.
 General:
 * ~~Redesign and refactor the entire view system. Consider using Swift UI~~ -> use standard table view
 * ~~Refactor Logger class~~ -> removed
-* Add control buttons to switch between map and live view
-* Add control buttons to switch between map layers
-* Add control buttons to zoom in and out on the map
+* Add control buttons to switch between map layers and live view
 * Draw copter trace on the map when executing a mission
 * Access environment via static function instead of passing it around
 * Integrate internal notification mechanism for failed commands
@@ -26,22 +24,21 @@ Map:
 * ~~Add grid lines distance adjustment~~
 * Add and remove points from the mission polygon with a tap
 * Add grid lines angle adjustment
-* Find out how to remove compass when changing map orientation
-* Replace connection service delegate with product service delegate
 * Don't show mission polygon when the mission is already uploaded
-* fix or remove compass button completely
+* Fix or remove compass button completelyo
+* Center map with an offset if the menu is open
 
 Control View:
-* Activate mission upload button
+* ~~Activate mission upload button~~
+* ~~Relocate view and add slide animation~~
 * Make section footers of the table view display performed action status
 * Resolve table view slider cell update issue (post on StackOverflow?)
-* Relocate view and add slide animation
 * Create mission history
 * Record mission time
 
 Mission:
 * ~~Add commands for mission upload and execution~~
 * ~~Make CommandService report result via delegate~~
-* Add mission start/stop/pause buttons (2)
-* Provide extended controls for setting mission parameters (3)
+* ~~Add mission start/stop/pause buttons~~
+* Provide extended controls for setting mission parameters
 * Fix return home altitude

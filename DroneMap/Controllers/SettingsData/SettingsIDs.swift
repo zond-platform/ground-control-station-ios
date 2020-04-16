@@ -34,8 +34,6 @@ enum CellId {
     case signal
     case simulator
     case upload
-    case start
-    case stop
 
     var title: String {
         switch self {
@@ -59,10 +57,6 @@ enum CellId {
                 return "Simulator"
             case .upload:
                 return "Upload"
-            case .start:
-                return "Start"
-            case .stop:
-                return "Stop"
         }
     }
 }

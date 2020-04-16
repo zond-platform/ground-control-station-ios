@@ -32,7 +32,6 @@ extension ButtonId : CaseIterable {}
 
 class Button : UIButton {
     var id: ButtonId!
-    private let buttonSize = CGFloat(50)
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -42,15 +41,13 @@ class Button : UIButton {
         self.id = id
         super.init(frame: CGRect())
         setTitle(id.title, for: .normal)
-        setTitleColor(.gray, for: .normal)
-        titleLabel!.font = UIFont(name: "Helvetica Light", size: 12)!
-        heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
-        widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        setTitleColor(.black, for: .normal)
+        titleLabel!.font = AppFont.smallFont
     }
 
     override func draw(_ rect: CGRect) {
         let path = UIBezierPath(ovalIn: rect)
-        UIColor(white: 1.0, alpha: 0.6).setFill()
+        AppColor.OverlayColor.semiOpaqueWhite.setFill()
         path.fill()
     }
 }

@@ -37,11 +37,6 @@ protocol CommandServiceDelegate : AnyObject {
     func missionCommandResponded(_ success: Bool)
 }
 
-// Make all protocol methods optional by adding default implementations
-extension CommandServiceDelegate {
-    func missionCommandResponded(_ success: Bool) {}
-}
-
 class CommandService : NSObject {
     var env: Environment
     var currentWaypointIndex: Int?

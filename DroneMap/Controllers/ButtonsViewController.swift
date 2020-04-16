@@ -21,10 +21,24 @@ class ButtonsViewController : UIViewController {
 
         self.env = env
         buttonsView = ButtonsView()
+        buttonsView.addDelegate(self)
         view = buttonsView
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+}
+
+extension ButtonsViewController : ButtonsViewDelegate {
+    func buttonPressed(_ id: ButtonId) {
+        switch id {
+            case .user:
+                env.mapViewController().focusUser()
+            case .aircraft:
+                env.mapViewController().focusAircraft()
+            default:
+                break
+        }
     }
 }

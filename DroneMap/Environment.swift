@@ -64,7 +64,7 @@ extension Environment {
         return controllers[.root] as! RootViewController
     }
     
-    func consoleViewController() -> SettingsViewController {
+    func settingsViewController() -> SettingsViewController {
         return controllers[.settings] as! SettingsViewController
     }
 

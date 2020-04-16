@@ -49,7 +49,7 @@ extension SettingsViewDataSource {
         if let indexPath = indexPath(section, cell) {
             sections[indexPath.section].entries[indexPath.row].value = value
             if reload {
-                settingsView.reloadRows(at: [indexPath], with: .none)
+                settingsView.tableView.reloadRows(at: [indexPath], with: .none)
             }
         }
     }
@@ -57,7 +57,7 @@ extension SettingsViewDataSource {
     private func enableCell(_ enable: Bool, section: SectionId, cell: CellId) {
         if let indexPath = indexPath(section, cell) {
             sections[indexPath.section].entries[indexPath.row].enabled = enable
-            settingsView.reloadRows(at: [indexPath], with: .none)
+            settingsView.tableView.reloadRows(at: [indexPath], with: .none)
         }
     }
 }
@@ -127,6 +127,10 @@ extension SettingsViewDataSource : UITableViewDataSource {
             cell.textLabel?.textColor = UIColor.lightGray
             cell.detailTextLabel?.textColor = UIColor.lightGray
         }
+
+        cell.textLabel?.font = AppFont.normalFont
+        cell.detailTextLabel?.font = AppFont.normalFont
+        
         return cell
     }
 }
@@ -146,8 +150,6 @@ extension SettingsViewDataSource {
         enableCell(sender.isOn, section: .mission, cell: .altitude)
         enableCell(sender.isOn, section: .mission, cell: .distance)
         enableCell(aircraftConnected && editingEnabled, section: .mission, cell: .upload)
-        enableCell(aircraftConnected && editingEnabled, section: .mission, cell: .start)
-        enableCell(aircraftConnected && editingEnabled, section: .mission, cell: .stop)
     }
 
     @objc private func onAltitudeSliderMoved(_ sender: UISlider) {
@@ -214,7 +216,5 @@ extension SettingsViewDataSource : ProductServiceDelegate {
         updateCell(value: model ?? "-", section: .status, cell: .model, reload: true)
         enableCell(aircraftConnected, section: .simulator, cell: .simulator)
         enableCell(aircraftConnected && editingEnabled, section: .mission, cell: .upload)
-        enableCell(aircraftConnected && editingEnabled, section: .mission, cell: .start)
-        enableCell(aircraftConnected && editingEnabled, section: .mission, cell: .stop)
     }
 }
