@@ -123,7 +123,7 @@ extension CommandService {
             } else if let progress = event.progress {
                 if self.currentWaypointIndex == nil || self.currentWaypointIndex != progress.targetWaypointIndex {
                     self.currentWaypointIndex = progress.targetWaypointIndex
-                    os_log("Heading to waypoint: %@", type: .debug, self.currentWaypointIndex!)
+                    print(String(describing: self.currentWaypointIndex))
                 }
             }
         })
@@ -157,7 +157,7 @@ extension CommandService {
         mission.repeatTimes = 1
         for coordinate in coordinates {
             let waypoint = DJIWaypoint(coordinate: coordinate)
-            waypoint.altitude = 100
+            waypoint.altitude = 20
             waypoint.heading = 0
             waypoint.actionRepeatTimes = 1
             waypoint.actionTimeoutInSeconds = 60

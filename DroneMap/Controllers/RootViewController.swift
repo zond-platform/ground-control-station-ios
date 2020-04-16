@@ -9,7 +9,7 @@
 import UIKit
 
 class RootViewController : UIViewController {
-    var rootView: RootView!
+    private var rootView: RootView!
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)

@@ -16,7 +16,6 @@
 		EC14732623B1F07E00385067 /* MissionRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14732523B1F07E00385067 /* MissionRenderer.swift */; };
 		EC14732823B1F62000385067 /* ConvexHull.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14732723B1F62000385067 /* ConvexHull.swift */; };
 		EC14732A23B1F63000385067 /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14732923B1F63000385067 /* Vector.swift */; };
-		EC14733323B4D2E400385067 /* ConsoleViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14733223B4D2E400385067 /* ConsoleViewCell.swift */; };
 		EC158057229B0A19000741DC /* CommandService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC158056229B0A19000741DC /* CommandService.swift */; };
 		EC15EAD2227080250032ACB9 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EAD1227080250032ACB9 /* MapViewController.swift */; };
 		EC15EAD42270E0B80032ACB9 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EAD32270E0B80032ACB9 /* RootViewController.swift */; };
@@ -24,6 +23,9 @@
 		EC15EAD8227498D20032ACB9 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EAD7227498D20032ACB9 /* MapView.swift */; };
 		EC15EADA2274E6BE0032ACB9 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EAD92274E6BE0032ACB9 /* LocationService.swift */; };
 		EC15EAE02286FD530032ACB9 /* SimulatorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EADF2286FD530032ACB9 /* SimulatorService.swift */; };
+		EC1678E4244623AD00C71203 /* ButtonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678E3244623AD00C71203 /* ButtonsViewController.swift */; };
+		EC1678E6244625D500C71203 /* ButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678E5244625D500C71203 /* ButtonsView.swift */; };
+		EC1678E924473DF400C71203 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678E824473DF400C71203 /* Button.swift */; };
 		EC178D86243B76680006495E /* SettingsViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC178D85243B76680006495E /* SettingsViewDataSource.swift */; };
 		EC1C66782291C07B00BEA440 /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C66772291C07B00BEA440 /* ServiceProtocol.swift */; };
 		EC87F024243E485800470917 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC87F023243E485800470917 /* SettingsCell.swift */; };
@@ -72,7 +74,6 @@
 		EC14732523B1F07E00385067 /* MissionRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionRenderer.swift; sourceTree = "<group>"; };
 		EC14732723B1F62000385067 /* ConvexHull.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexHull.swift; sourceTree = "<group>"; };
 		EC14732923B1F63000385067 /* Vector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
-		EC14733223B4D2E400385067 /* ConsoleViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleViewCell.swift; sourceTree = "<group>"; };
 		EC158056229B0A19000741DC /* CommandService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandService.swift; sourceTree = "<group>"; };
 		EC15EAD1227080250032ACB9 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		EC15EAD32270E0B80032ACB9 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
@@ -80,6 +81,9 @@
 		EC15EAD7227498D20032ACB9 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		EC15EAD92274E6BE0032ACB9 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		EC15EADF2286FD530032ACB9 /* SimulatorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorService.swift; sourceTree = "<group>"; };
+		EC1678E3244623AD00C71203 /* ButtonsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsViewController.swift; sourceTree = "<group>"; };
+		EC1678E5244625D500C71203 /* ButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsView.swift; sourceTree = "<group>"; };
+		EC1678E824473DF400C71203 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		EC178D85243B76680006495E /* SettingsViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewDataSource.swift; sourceTree = "<group>"; };
 		EC1C66772291C07B00BEA440 /* ServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocol.swift; sourceTree = "<group>"; };
 		EC87F023243E485800470917 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
@@ -171,13 +175,22 @@
 		EC15EACE226DE7E70032ACB9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				EC1678E724473DC800C71203 /* GenericSubviews */,
 				EC14732023B1EFA600385067 /* MapAnnotationViews */,
 				EC15EAD52271CBF50032ACB9 /* RootView.swift */,
 				EC15EAD7227498D20032ACB9 /* MapView.swift */,
 				ECAAC8392299B83700FB360F /* SettingsView.swift */,
-				EC14733223B4D2E400385067 /* ConsoleViewCell.swift */,
+				EC1678E5244625D500C71203 /* ButtonsView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		EC1678E724473DC800C71203 /* GenericSubviews */ = {
+			isa = PBXGroup;
+			children = (
+				EC1678E824473DF400C71203 /* Button.swift */,
+			);
+			path = GenericSubviews;
 			sourceTree = "<group>";
 		};
 		EC1C66792291C3C100BEA440 /* GenericService */ = {
@@ -273,6 +286,7 @@
 				EC15EAD1227080250032ACB9 /* MapViewController.swift */,
 				ECDF4B7122593AC600C98F71 /* SettingsViewController.swift */,
 				EC178D85243B76680006495E /* SettingsViewDataSource.swift */,
+				EC1678E3244623AD00C71203 /* ButtonsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -470,6 +484,8 @@
 				EC15EADA2274E6BE0032ACB9 /* LocationService.swift in Sources */,
 				EC14732623B1F07E00385067 /* MissionRenderer.swift in Sources */,
 				ECD714902365B0F200958956 /* GeometryUtils.swift in Sources */,
+				EC1678E924473DF400C71203 /* Button.swift in Sources */,
+				EC1678E4244623AD00C71203 /* ButtonsViewController.swift in Sources */,
 				EC14732223B1F02200385067 /* MovingObjectView.swift in Sources */,
 				EC87F024243E485800470917 /* SettingsCell.swift in Sources */,
 				EC158057229B0A19000741DC /* CommandService.swift in Sources */,
@@ -482,12 +498,12 @@
 				EC14731F23B1EED500385067 /* MissionPolygon.swift in Sources */,
 				EC178D86243B76680006495E /* SettingsViewDataSource.swift in Sources */,
 				ECEEEEEC2269DB2F005A71C6 /* Environment.swift in Sources */,
-				EC14733323B4D2E400385067 /* ConsoleViewCell.swift in Sources */,
 				EC14731B23B1EE9300385067 /* MovingObject.swift in Sources */,
 				ECAAC83A2299B83700FB360F /* SettingsView.swift in Sources */,
 				ECEEEEE82267A24F005A71C6 /* BatteryService.swift in Sources */,
 				EC14732823B1F62000385067 /* ConvexHull.swift in Sources */,
 				EC15EAE02286FD530032ACB9 /* SimulatorService.swift in Sources */,
+				EC1678E6244625D500C71203 /* ButtonsView.swift in Sources */,
 				ECDF4B7222593AC600C98F71 /* SettingsViewController.swift in Sources */,
 				EC14732A23B1F63000385067 /* Vector.swift in Sources */,
 				EC15EAD62271CBF50032ACB9 /* RootView.swift in Sources */,

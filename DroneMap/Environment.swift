@@ -22,6 +22,7 @@ class Environment {
         case root
         case map
         case settings
+        case buttons
     }
     
     private var services: [ServiceType:ServiceProtocol] = [:]
@@ -70,6 +71,10 @@ extension Environment {
     func mapViewController() -> MapViewController {
         return controllers[.map] as! MapViewController
     }
+
+    func buttonsViewController() -> ButtonsViewController {
+        return controllers[.buttons] as! ButtonsViewController
+    }
 }
 
 // Private methods
@@ -86,6 +91,7 @@ extension Environment {
     private func setupControllers() {
         controllers[.map]      = MapViewController(self)
         controllers[.settings] = SettingsViewController(self)
+        controllers[.buttons]  = ButtonsViewController(self)
 
         // All the internal views and controllers should be already
         // created by the time root view controller is initialized.

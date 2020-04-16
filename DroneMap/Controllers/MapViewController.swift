@@ -6,6 +6,8 @@
 //  Copyright © 2019 Evgeny Agamirzov. All rights reserved.
 //
 
+import os.log
+
 import UIKit
 import MapKit
 import CoreLocation
@@ -112,6 +114,7 @@ extension MapViewController {
         if missionEditingEnabled && polygon != nil {
             return polygon.missionCoordinates()
         } else {
+            os_log("Mission coordinates not set", type: .error)
             return []
         }
     }

@@ -146,6 +146,8 @@ extension SettingsViewDataSource {
         enableCell(sender.isOn, section: .mission, cell: .altitude)
         enableCell(sender.isOn, section: .mission, cell: .distance)
         enableCell(aircraftConnected && editingEnabled, section: .mission, cell: .upload)
+        enableCell(aircraftConnected && editingEnabled, section: .mission, cell: .start)
+        enableCell(aircraftConnected && editingEnabled, section: .mission, cell: .stop)
     }
 
     @objc private func onAltitudeSliderMoved(_ sender: UISlider) {
@@ -192,7 +194,7 @@ extension SettingsViewDataSource : LocationServiceDelegate {
     }
 
     internal func altitudeChanged(_ count: UInt?) {
-        let stringValue = count != nil ? String(format: "%.1f", count!) : "-"
+        let stringValue = count != nil ? String(count!) : "-"
         updateCell(value: stringValue, section: .status, cell: .altitude, reload: true)
     }
 
@@ -212,5 +214,7 @@ extension SettingsViewDataSource : ProductServiceDelegate {
         updateCell(value: model ?? "-", section: .status, cell: .model, reload: true)
         enableCell(aircraftConnected, section: .simulator, cell: .simulator)
         enableCell(aircraftConnected && editingEnabled, section: .mission, cell: .upload)
+        enableCell(aircraftConnected && editingEnabled, section: .mission, cell: .start)
+        enableCell(aircraftConnected && editingEnabled, section: .mission, cell: .stop)
     }
 }
