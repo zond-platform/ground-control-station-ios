@@ -49,12 +49,12 @@ extension ConnectionService {
 
 // Comply with generic service protocol
 extension ConnectionService : ServiceProtocol {
-    func start() {
+    internal func start() {
         os_log("Starting connection service", type: .debug)
         DJISDKManager.registerApp(with: self)
     }
     
-    func stop() {
+    internal func stop() {
         os_log("Stopping connection service", type: .debug)
         DJISDKManager.stopConnectionToProduct()
     }
@@ -62,9 +62,9 @@ extension ConnectionService : ServiceProtocol {
 
 // Comply with DJI SDK manager protocol
 extension ConnectionService : DJISDKManagerDelegate {
-    func didUpdateDatabaseDownloadProgress(_ progress: Progress) {}
+    internal func didUpdateDatabaseDownloadProgress(_ progress: Progress) {}
     
-    func appRegisteredWithError(_ error: Error?) {
+    internal func appRegisteredWithError(_ error: Error?) {
         if error != nil {
             os_log("SDK registration failed:", type: .error, error!.localizedDescription)
             return;
@@ -75,7 +75,7 @@ extension ConnectionService : DJISDKManagerDelegate {
         notifyConnectionStatusChanged(.pending)
     }
     
-    func productConnected(_ product: DJIBaseProduct?) {
+    internal func productConnected(_ product: DJIBaseProduct?) {
         if product == nil {
             os_log("Connection error", type: .error)
             return;
@@ -84,7 +84,7 @@ extension ConnectionService : DJISDKManagerDelegate {
         notifyConnectionStatusChanged(.connected)
     }
     
-    func productDisconnected() {
+    internal func productDisconnected() {
         os_log("Disconnected, stopping services", type: .debug)
         notifyConnectionStatusChanged(.disconnected)
     }

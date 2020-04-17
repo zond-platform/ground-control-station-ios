@@ -30,9 +30,9 @@ class SettingsView : UIView {
         stackView.alignment = .center
 
         tabView.backgroundColor = UIColor.white
-        tabView.setTitle("Menu", for: .normal)
+        tabView.setTitle("Mission", for: .normal)
         tabView.setTitleColor(.black, for: .normal)
-        tabView.titleLabel!.font = AppFont.normalFont
+        tabView.titleLabel!.font = AppFont.largeFont
         tabView.layer.cornerRadius = AppDimensions.SettingsView.Tab.radius
         tabView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         tabView.addTarget(self, action: #selector(onButtonPressed(_:)), for: .touchUpInside)

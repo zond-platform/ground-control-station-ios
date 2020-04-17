@@ -14,7 +14,7 @@ struct AppDimensions {
     static let screenHeight = UIScreen.main.bounds.height
 
     struct SettingsView {
-        private static let marginRate = CGFloat(0.01)
+        private static let marginRate = CGFloat(0.02)
         private static let widthRate = CGFloat(0.4)
         private static let divisionRate = CGFloat(0.1)
         private static let margin = AppDimensions.screenWidth * marginRate
@@ -22,7 +22,7 @@ struct AppDimensions {
         static let x = margin
         static let y = margin
         static let width = AppDimensions.screenWidth * widthRate
-        static let height = AppDimensions.screenHeight - AppDimensions.screenHeight * marginRate
+        static let height = AppDimensions.screenHeight - margin
 
         struct Tab {
             static let radius = CGFloat(10)

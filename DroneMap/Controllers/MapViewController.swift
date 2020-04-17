@@ -8,9 +8,10 @@
 
 import os.log
 
-import UIKit
-import MapKit
 import CoreLocation
+import DJISDK
+import MapKit
+import UIKit
 
 class MapViewController : UIViewController {
     private var mapView: MapView!
@@ -41,7 +42,7 @@ class MapViewController : UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         Environment.locationService.addDelegate(self)
-        Environment.connectionService.addDelegate(self)
+        Environment.productService.addDelegate(self)
 
         mapView = MapView()
         mapView.delegate = self
@@ -269,7 +270,6 @@ extension MapViewController : LocationServiceDelegate {
         if (aircraft == nil) {
             aircraft = MovingObject(location.coordinate, 0.0, .aircraft)
         }
-
         if (mapView.annotations.contains(where: { (annotation) -> Bool in
             return annotation as? MovingObject == aircraft
         })) {
@@ -289,7 +289,6 @@ extension MapViewController : LocationServiceDelegate {
         if (home == nil) {
             home = MovingObject(location.coordinate, 0.0, .home)
         }
-
         if (mapView.annotations.contains(where: { (annotation) -> Bool in
             return annotation as? MovingObject == home
         })) {
@@ -300,10 +299,10 @@ extension MapViewController : LocationServiceDelegate {
     }
 }
 
-// Monitor aircraft connection status
-extension MapViewController : ConnectionServiceDelegate {
-    internal func statusChanged(_ status: ConnectionStatus) {
-        if status == .disconnected {
+// Subscribe to connected product updates
+extension MapViewController : ProductServiceDelegate {
+    internal func modelChanged(_ model: String?) {
+        if model == nil || model! == DJIAircraftModeNameOnlyRemoteController {
             if aircraft != nil {
                 mapView.removeAnnotation(aircraft)
             }

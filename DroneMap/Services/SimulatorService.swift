@@ -107,7 +107,7 @@ extension SimulatorService {
 
 // Handle vehicle model updates
 extension SimulatorService : ProductServiceDelegate {
-    func modelChanged(_ model: String?) {
+    internal func modelChanged(_ model: String?) {
         self.model = model
     }
 }

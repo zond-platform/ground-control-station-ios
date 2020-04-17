@@ -157,20 +157,20 @@ extension CommandService {
 
 // Comply with generic service protocol
 extension CommandService : ServiceProtocol {
-    func start() {
+    internal func start() {
         missionOperator = DJISDKManager.missionControl()?.waypointMissionOperator()
         subscribe()
     }
 
-    func stop() {
+    internal func stop() {
         missionOperator = nil
         unsubscribe()
     }
 }
 
-// Handle product service protocol
+// Subscribe to connected product updates
 extension CommandService : ProductServiceDelegate {
-    func modelChanged(_ model: String?) {
+    internal func modelChanged(_ model: String?) {
         if model != nil && model != DJIAircraftModeNameOnlyRemoteController {
             self.start()
         } else {

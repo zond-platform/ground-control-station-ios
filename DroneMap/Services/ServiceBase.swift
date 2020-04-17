@@ -29,7 +29,7 @@ extension ServiceBase {
 
 // Comply with generic service protocol
 extension ServiceBase : ServiceProtocol {
-    func start() {
+    internal func start() {
         for keyActionPair in keyActionMap {
             guard let key = keyActionPair.key else { continue }
             DJISDKManager.keyManager()?.getValueFor(key, withCompletion: {
@@ -46,7 +46,7 @@ extension ServiceBase : ServiceProtocol {
         }
     }
     
-    func stop() {
+    internal func stop() {
         for keyActionPair in keyActionMap {
             guard let key = keyActionPair.key else { continue }
             DJISDKManager.keyManager()?.stopListening(on: key, ofListener: self)
@@ -56,7 +56,7 @@ extension ServiceBase : ServiceProtocol {
 
 // Monitor connection status
 extension ServiceBase : ConnectionServiceDelegate {
-    func statusChanged(_ status: ConnectionStatus) {
+    internal func statusChanged(_ status: ConnectionStatus) {
         if status == .connected {
             self.start()
         } else {
