@@ -22,11 +22,6 @@ protocol ConnectionServiceDelegate : AnyObject {
 
 class ConnectionService : NSObject {
     var delegates: [ConnectionServiceDelegate?] = []
-    var env: Environment
-    
-    required init(_ env: Environment) {
-        self.env = env
-    }
 }
 
 // Public methods

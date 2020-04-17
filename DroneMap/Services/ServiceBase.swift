@@ -11,12 +11,10 @@ import DJISDK
 class ServiceBase {
     typealias KeyActionMap = [DJIKey?:(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) -> Void]
 
-    var env: Environment
     var keyActionMap: KeyActionMap = [:]
     
-    init(_ env: Environment) {
-        self.env = env
-        env.connectionService().addDelegate(self)
+    init() {
+        Environment.connectionService.addDelegate(self)
     }
 }
 

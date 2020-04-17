@@ -38,15 +38,13 @@ protocol CommandServiceDelegate : AnyObject {
 }
 
 class CommandService : NSObject {
-    var env: Environment
     var currentWaypointIndex: Int?
     var missionOperator: DJIWaypointMissionOperator?
     var delegates: [CommandServiceDelegate?] = []
     
-    init(_ env: Environment) {
-        self.env = env
+    override init() {
         super.init()
-        env.productService().addDelegate(self)
+        Environment.productService.addDelegate(self)
     }
 }
 

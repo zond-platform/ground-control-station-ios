@@ -15,8 +15,8 @@ protocol ProductServiceDelegate : AnyObject {
 class ProductService : ServiceBase {
     var delegates: [ProductServiceDelegate?] = []
     
-    override init(_ env: Environment) {
-        super.init(env)
+    override init() {
+        super.init()
         super.setKeyActionMap([
             DJIProductKey(param: DJIProductParamModelName):self.onModelNameChanged
         ])

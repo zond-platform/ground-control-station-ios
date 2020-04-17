@@ -26,7 +26,6 @@ fileprivate var settingsData = [
 ]
 
 class SettingsViewController : UIViewController {
-    private var env: Environment!
     private var settingsView: SettingsView!
     private var dataSource: SettingsViewDataSource!
 
@@ -34,12 +33,10 @@ class SettingsViewController : UIViewController {
         super.init(coder: coder)
     }
 
-    init(_ env: Environment) {
+    init() {
         super.init(nibName: nil, bundle: nil)
-
-        self.env = env
         settingsView = SettingsView()
-        dataSource = SettingsViewDataSource(env, settingsView, settingsData)
+        dataSource = SettingsViewDataSource(settingsView, settingsData)
         settingsView.tableView.dataSource = dataSource
         settingsView.tableView.delegate = self
         view = settingsView
@@ -59,9 +56,9 @@ extension SettingsViewController : UITableViewDelegate {
     internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let entry: SettingsCell = settingsData[indexPath.section].entries[indexPath.row]
         if entry.id == .upload {
-            let coordinates = env.mapViewController().missionCoordinates()
-            if env.commandService().setMissionCoordinates(coordinates) {
-                env.commandService().executeMissionCommand(.upload)
+            let coordinates = Environment.mapViewController.missionCoordinates()
+            if Environment.commandService.setMissionCoordinates(coordinates) {
+                Environment.commandService.executeMissionCommand(.upload)
             }
             settingsView.tableView.deselectRow(at: indexPath, animated: true)
         }

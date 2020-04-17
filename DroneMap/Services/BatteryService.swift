@@ -15,8 +15,8 @@ protocol BatteryServiceDelegate : AnyObject {
 class BatteryService : ServiceBase {
     var delegates: [BatteryServiceDelegate?] = []
 
-    override init(_ env: Environment) {
-        super.init(env)
+    override init() {
+        super.init()
         super.setKeyActionMap([
             DJIBatteryKey(param: DJIBatteryParamChargeRemainingInPercent):self.onChargeChanged
         ])

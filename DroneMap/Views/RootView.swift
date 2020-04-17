@@ -13,7 +13,7 @@ class RootView : UIView {
         super.init(coder: aDecoder)
     }
 
-    init(_ env: Environment) {
+    init() {
         super.init(frame: CGRect(
             x: 0,
             y: 0,
@@ -21,8 +21,8 @@ class RootView : UIView {
             height: AppDimensions.screenHeight
         ))
 
-        addSubview(env.mapViewController().view)
-        addSubview(env.settingsViewController().view)
-        addSubview(env.buttonsViewController().view)
+        addSubview(Environment.mapViewController.view)
+        addSubview(Environment.settingsViewController.view)
+        addSubview(Environment.buttonsViewController.view)
     }
 }

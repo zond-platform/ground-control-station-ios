@@ -6,11 +6,11 @@ is supposed to make standard quad copters execute mapping missions.
 ## Todos
 
 General:
-* ~~Redesign and refactor the entire view system. Consider using Swift UI~~ -> use standard table view
-* ~~Refactor Logger class~~ -> removed
+* ~~Redesign and refactor the entire view system. Consider using Swift UI~~
+* ~~Refactor Logger class~~
+* ~~Access environment via static function instead of passing it around~~
 * Add control buttons to switch between map layers and live view
 * Draw copter trace on the map when executing a mission
-* Access environment via static function instead of passing it around
 * Integrate internal notification mechanism for failed commands
 * Start telemetry services only if aircraft is connected (not the remote)
 * Consider using callbacks instead of delegates for internal component communication
@@ -25,7 +25,7 @@ Map:
 * Add and remove points from the mission polygon with a tap
 * Add grid lines angle adjustment
 * Don't show mission polygon when the mission is already uploaded
-* Fix or remove compass button completelyo
+* Fix or remove compass button completely
 * Center map with an offset if the menu is open
 
 Control View:

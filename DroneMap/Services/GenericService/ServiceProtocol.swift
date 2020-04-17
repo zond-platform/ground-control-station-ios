@@ -7,8 +7,6 @@
 //
 
 protocol ServiceProtocol {
-    var env: Environment {set get}
-    
     func start()
     func stop()
 }

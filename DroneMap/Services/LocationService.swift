@@ -32,8 +32,8 @@ extension LocationServiceDelegate {
 class LocationService : ServiceBase {
     var delegates: [LocationServiceDelegate?] = []
     
-    override init(_ env: Environment) {
-        super.init(env)
+    override init() {
+        super.init()
         super.setKeyActionMap([
             DJIFlightControllerKey(param: DJIFlightControllerParamAircraftLocation):self.onAircraftLocationChanged,
             DJIFlightControllerKey(param: DJIFlightControllerParamCompassHeading):self.onAircraftHeadingChanged,

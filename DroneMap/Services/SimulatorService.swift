@@ -20,12 +20,12 @@ class SimulatorService : ServiceBase {
     var simulatorActive: Bool = false
     var model: String?
 
-    override init(_ env: Environment) {
-        super.init(env)
+    override init() {
+        super.init()
         super.setKeyActionMap([
             DJIFlightControllerKey(param: DJIFlightControllerParamIsSimulatorActive):self.onSimulatorStateChanged
         ])
-        env.productService().addDelegate(self)
+        Environment.productService.addDelegate(self)
     }
 }
 

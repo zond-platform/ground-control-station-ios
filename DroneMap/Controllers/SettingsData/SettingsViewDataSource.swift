@@ -13,24 +13,21 @@ import DJISDK
 import UIKit
 
 class SettingsViewDataSource : NSObject {
-    private var env: Environment!
     private var settingsView: SettingsView!
     private var sections: [SettingsSection]!
     private var aircraftConnected: Bool!
     private var editingEnabled: Bool!
 
-    init(_ env: Environment, _ settingsView: SettingsView, _ sections: [SettingsSection]) {
+    init(_ settingsView: SettingsView, _ sections: [SettingsSection]) {
         super.init()
-        
-        self.env = env
         self.settingsView = settingsView
         self.sections = sections
         self.aircraftConnected = false
         self.editingEnabled = false
-        env.simulatorService().addDelegate(self)
-        env.batteryService().addDelegate(self)
-        env.productService().addDelegate(self)
-        env.locationService().addDelegate(self)
+        Environment.simulatorService.addDelegate(self)
+        Environment.batteryService.addDelegate(self)
+        Environment.productService.addDelegate(self)
+        Environment.locationService.addDelegate(self)
     }
 }
 
@@ -138,13 +135,13 @@ extension SettingsViewDataSource : UITableViewDataSource {
 // Handle control events
 extension SettingsViewDataSource {
     @objc private func onSimulatorSwitchTriggered(_ sender: UISwitch) {
-        let userLocation = env.mapViewController().userLocation()
-        sender.isOn ? env.simulatorService().startSimulator(userLocation)
-                    : env.simulatorService().stopSimulator()
+        let userLocation = Environment.mapViewController.userLocation()
+        sender.isOn ? Environment.simulatorService.startSimulator(userLocation)
+                    : Environment.simulatorService.stopSimulator()
     }
 
     @objc private func onEditMissionSwitchTriggered(_ sender: UISwitch) {
-        env.mapViewController().enableMissionEditing(sender.isOn)
+        Environment.mapViewController.enableMissionEditing(sender.isOn)
         editingEnabled = sender.isOn
         updateCell(value: sender.isOn, section: .mission, cell: .edit, reload: true)
         enableCell(sender.isOn, section: .mission, cell: .altitude)
@@ -158,7 +155,7 @@ extension SettingsViewDataSource {
 
     @objc private func onDistanceSliderMoved(_ sender: UISlider) {
         updateCell(value: sender.value, section: .mission, cell: .distance, reload: true)
-        env.mapViewController().gridDistance = CGFloat(sender.value)
+        Environment.mapViewController.gridDistance = CGFloat(sender.value)
     }
 }
 

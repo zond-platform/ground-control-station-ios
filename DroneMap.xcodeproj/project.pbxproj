@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EAB8DEAC428EE385E1B9C15E /* libPods-DroneMap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0A5FA8B00CB41927D89D276 /* libPods-DroneMap.a */; };
+		EC0ECE322449B9F5008B1479 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0ECE312449B9F5008B1479 /* Environment.swift */; };
 		EC14731B23B1EE9300385067 /* MovingObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14731A23B1EE9300385067 /* MovingObject.swift */; };
 		EC14731D23B1EEAE00385067 /* PolygonVertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14731C23B1EEAE00385067 /* PolygonVertex.swift */; };
 		EC14731F23B1EED500385067 /* MissionPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14731E23B1EED500385067 /* MissionPolygon.swift */; };
@@ -43,7 +44,6 @@
 		ECD714902365B0F200958956 /* GeometryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD7148F2365B0F200958956 /* GeometryUtils.swift */; };
 		ECDF4B7222593AC600C98F71 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDF4B7122593AC600C98F71 /* SettingsViewController.swift */; };
 		ECEEEEE82267A24F005A71C6 /* BatteryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEE72267A24F005A71C6 /* BatteryService.swift */; };
-		ECEEEEEC2269DB2F005A71C6 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEEB2269DB2F005A71C6 /* Environment.swift */; };
 		ECEEEEF0226A0E6E005A71C6 /* ProductService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEEF226A0E6E005A71C6 /* ProductService.swift */; };
 		ECEEEEF4226BA5E7005A71C6 /* ServiceBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEF3226BA5E7005A71C6 /* ServiceBase.swift */; };
 /* End PBXBuildFile section */
@@ -69,6 +69,7 @@
 		36FCEE976A7521F8A5A31429 /* Pods-DroneMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DroneMap.release.xcconfig"; path = "Target Support Files/Pods-DroneMap/Pods-DroneMap.release.xcconfig"; sourceTree = "<group>"; };
 		9A2289144CFB654F00B72808 /* Pods-DroneMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DroneMap.debug.xcconfig"; path = "Target Support Files/Pods-DroneMap/Pods-DroneMap.debug.xcconfig"; sourceTree = "<group>"; };
 		C0A5FA8B00CB41927D89D276 /* libPods-DroneMap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DroneMap.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC0ECE312449B9F5008B1479 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		EC14731A23B1EE9300385067 /* MovingObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingObject.swift; sourceTree = "<group>"; };
 		EC14731C23B1EEAE00385067 /* PolygonVertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonVertex.swift; sourceTree = "<group>"; };
 		EC14731E23B1EED500385067 /* MissionPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionPolygon.swift; sourceTree = "<group>"; };
@@ -110,7 +111,6 @@
 		ECD7148F2365B0F200958956 /* GeometryUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryUtils.swift; sourceTree = "<group>"; };
 		ECDF4B7122593AC600C98F71 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		ECEEEEE72267A24F005A71C6 /* BatteryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryService.swift; sourceTree = "<group>"; };
-		ECEEEEEB2269DB2F005A71C6 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		ECEEEEEF226A0E6E005A71C6 /* ProductService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductService.swift; sourceTree = "<group>"; };
 		ECEEEEF3226BA5E7005A71C6 /* ServiceBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ServiceBase.swift; path = ../ServiceBase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -255,7 +255,7 @@
 			isa = PBXGroup;
 			children = (
 				EC950E8621B81EA600B3A03D /* AppDelegate.swift */,
-				ECEEEEEB2269DB2F005A71C6 /* Environment.swift */,
+				EC0ECE312449B9F5008B1479 /* Environment.swift */,
 				ECEEEEEA2267A96A005A71C6 /* Services */,
 				ECEEEEE92267A959005A71C6 /* Controllers */,
 				EC15EACE226DE7E70032ACB9 /* Views */,
@@ -516,13 +516,13 @@
 				EC15EAD2227080250032ACB9 /* MapViewController.swift in Sources */,
 				EC14731F23B1EED500385067 /* MissionPolygon.swift in Sources */,
 				EC178D86243B76680006495E /* SettingsViewDataSource.swift in Sources */,
-				ECEEEEEC2269DB2F005A71C6 /* Environment.swift in Sources */,
 				EC14731B23B1EE9300385067 /* MovingObject.swift in Sources */,
 				ECAAC83A2299B83700FB360F /* SettingsView.swift in Sources */,
 				ECEEEEE82267A24F005A71C6 /* BatteryService.swift in Sources */,
 				EC14732823B1F62000385067 /* ConvexHull.swift in Sources */,
 				EC1678F02448544B00C71203 /* ColorConstants.swift in Sources */,
 				EC15EAE02286FD530032ACB9 /* SimulatorService.swift in Sources */,
+				EC0ECE322449B9F5008B1479 /* Environment.swift in Sources */,
 				EC1678E6244625D500C71203 /* ButtonsView.swift in Sources */,
 				ECDF4B7222593AC600C98F71 /* SettingsViewController.swift in Sources */,
 				EC14732A23B1F63000385067 /* Vector.swift in Sources */,

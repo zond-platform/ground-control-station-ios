@@ -15,7 +15,6 @@ import CoreLocation
 class MapViewController : UIViewController {
     private var mapView: MapView!
     private var locationManager: CLLocationManager!
-    private var env: Environment!
 
     private var user: MovingObject!
     private var aircraft: MovingObject!
@@ -39,14 +38,10 @@ class MapViewController : UIViewController {
         super.init(coder: coder)
     }
 
-    init(_ env: Environment) {
+    init() {
         super.init(nibName: nil, bundle: nil)
-        
-        self.env = env
-        env.locationService().addDelegate(self)
-
-        // TODO: Replace with product service
-        env.connectionService().addDelegate(self)
+        Environment.locationService.addDelegate(self)
+        Environment.connectionService.addDelegate(self)
 
         mapView = MapView()
         mapView.delegate = self
