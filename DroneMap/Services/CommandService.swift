@@ -93,14 +93,6 @@ extension CommandService {
 // Private methods
 extension CommandService {
     private func subscribe() {
-        // Upload listener
-        missionOperator?.addListener(toUploadEvent: self, with: DispatchQueue.main, andBlock: { (event: DJIWaypointMissionUploadEvent) in
-            if event.error != nil {
-                os_log("Upload listener error: %@", type: .error, event.error!.localizedDescription)
-            }
-        })
-
-        // Finished listener
         missionOperator?.addListener(toFinished: self, with: DispatchQueue.main, andBlock: { (error: Error?) in
             if error != nil {
                 os_log("Finished listener error: %@", type: .error, error!.localizedDescription)
@@ -108,15 +100,13 @@ extension CommandService {
             }
             os_log("Mission finished", type: .debug)
         })
-
-        // Execution listener
         missionOperator?.addListener(toExecutionEvent: self, with: DispatchQueue.main, andBlock: { (event: DJIWaypointMissionExecutionEvent) in
             if event.error != nil {
                 os_log("Execution listener error: %@", type: .error, event.error!.localizedDescription)
             } else if let progress = event.progress {
                 if self.currentWaypointIndex == nil || self.currentWaypointIndex != progress.targetWaypointIndex {
                     self.currentWaypointIndex = progress.targetWaypointIndex
-                    print(String(describing: self.currentWaypointIndex))
+                    os_log("%@", type: .debug, String(describing: self.currentWaypointIndex))
                 }
             }
         })
@@ -178,7 +168,7 @@ extension CommandService : ServiceProtocol {
     }
 }
 
-// Handle vehicle model updates
+// Handle product service protocol
 extension CommandService : ProductServiceDelegate {
     func modelChanged(_ model: String?) {
         if model != nil && model != DJIAircraftModeNameOnlyRemoteController {
