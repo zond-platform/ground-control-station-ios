@@ -31,6 +31,8 @@ struct AppDimensions {
 
         struct Table {
             static let height = AppDimensions.SettingsView.height - AppDimensions.SettingsView.Tab.height
+            static let sectionHeaderHeight = CGFloat(40)
+            static let sectionFooterHeight = CGFloat(40)
         }
     }
 
@@ -47,4 +49,28 @@ struct AppDimensions {
             static let spacer = CGFloat(30)
         }
     }
+}
+
+struct AppColor {
+    private struct Alphas {
+        static let opaque = CGFloat(1)
+        static let semiOpaque = CGFloat(0.8)
+        static let semiTransparent = CGFloat(0.6)
+        static let transparent = CGFloat(0.3)
+    }
+
+    struct OverlayColor {
+        static let semiOpaqueWhite = UIColor.white.withAlphaComponent(Alphas.semiOpaque)
+    }
+    
+    struct TextColor {
+        static let error = UIColor(red: 1.0, green: 0.4, blue: 0.3, alpha: Alphas.opaque)
+        static let success = UIColor(red: 0.5, green: 0.7, blue: 0.5, alpha: Alphas.opaque)
+    }
+}
+
+struct AppFont {
+    static let smallFont = UIFont(name: "Helvetica Light", size: 12)!
+    static let normalFont = UIFont(name: "Helvetica Light", size: 14)!
+    static let largeFont = UIFont(name: "Helvetica Light", size: 16)!
 }

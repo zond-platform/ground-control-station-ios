@@ -28,6 +28,9 @@ class SettingsViewDataSource : NSObject {
         Environment.batteryService.addDelegate(self)
         Environment.productService.addDelegate(self)
         Environment.locationService.addDelegate(self)
+
+        settingsView.tableView.register(SectionHeader.self, forHeaderFooterViewReuseIdentifier: "sectionHeader")
+        settingsView.tableView.register(SectionFooter.self, forHeaderFooterViewReuseIdentifier: "sectionFooter")
     }
 }
 
@@ -60,6 +63,46 @@ extension SettingsViewDataSource {
 }
 
 // Handle table view updates
+extension SettingsViewDataSource : UITableViewDelegate {
+    internal func tableView(_ tableView: UITableView, heightForRowAt: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+
+    internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let entry: SettingsCell = sections[indexPath.section].entries[indexPath.row]
+        if entry.id == .upload {
+            let coordinates = Environment.mapViewController.missionCoordinates()
+            if Environment.commandService.setMissionCoordinates(coordinates) {
+                Environment.commandService.executeMissionCommand(.upload)
+            }
+            settingsView.tableView.deselectRow(at: indexPath, animated: true)
+        }
+    }
+
+    internal func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = settingsView.tableView.dequeueReusableHeaderFooterView(withIdentifier:
+                    "sectionHeader") as! SectionHeader
+        view.title.text = sections[section].title
+        return view
+    }
+
+    internal func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+                let view = settingsView.tableView.dequeueReusableHeaderFooterView(withIdentifier:
+                    "sectionFooter") as! SectionFooter
+        view.title.text = "Some long text for the section footer"
+        return view
+    }
+
+    internal func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return AppDimensions.SettingsView.Table.sectionHeaderHeight
+    }
+
+    internal func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return AppDimensions.SettingsView.Table.sectionFooterHeight
+    }
+}
+
+// Handle table view data source updates
 extension SettingsViewDataSource : UITableViewDataSource {
     internal func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
@@ -67,10 +110,6 @@ extension SettingsViewDataSource : UITableViewDataSource {
 
     internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sections[section].entries.count
-    }
-
-    internal func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section].title
     }
 
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -188,7 +227,7 @@ extension SettingsViewDataSource : LocationServiceDelegate {
     }
 
     internal func satelliteCountChanged(_ count: UInt?) {
-        let stringValue = count != nil ? String(format: "%.1f", count!) : "-"
+        let stringValue = count != nil ? String(count!) : "-"
         updateCell(value: stringValue, section: .status, cell: .satellites, reload: true)
     }
 

@@ -14,11 +14,11 @@ enum SectionId {
     var title: String {
         switch self {
             case .simulator:
-                return ""
+                return "Simulator"
             case .mission:
-                return "Mission"
+                return "Mission Editor"
             case .status:
-                return "Status"
+                return "Aircraft Status"
         }
     }
 }
@@ -44,7 +44,7 @@ enum CellId {
             case .distance:
                 return "Grid distance"
             case .edit:
-                return "Enable editing"
+                return "Enable"
             case .mode:
                 return "Flight mode"
             case .model:
@@ -54,7 +54,7 @@ enum CellId {
             case .signal:
                 return "Signal"
             case .simulator:
-                return "Simulator"
+                return "Enable"
             case .upload:
                 return "Upload"
         }

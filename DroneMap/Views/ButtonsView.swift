@@ -17,8 +17,8 @@ class ButtonsView : UIView {
     private var buttons: [ButtonId:Button] = [:]
     var delegates: [ButtonsViewDelegate?] = []
 
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
     }
 
     init() {

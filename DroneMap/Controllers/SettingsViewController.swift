@@ -37,30 +37,12 @@ class SettingsViewController : UIViewController {
         super.init(nibName: nil, bundle: nil)
         settingsView = SettingsView()
         dataSource = SettingsViewDataSource(settingsView, settingsData)
-        settingsView.tableView.dataSource = dataSource
-        settingsView.tableView.delegate = self
+        settingsView.tableView.dataSource = self.dataSource
+        settingsView.tableView.delegate = self.dataSource
         view = settingsView
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-}
-
-// Subscribe to table view updates
-extension SettingsViewController : UITableViewDelegate {
-    internal func tableView(_ tableView: UITableView, heightForRowAt: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-
-    internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let entry: SettingsCell = settingsData[indexPath.section].entries[indexPath.row]
-        if entry.id == .upload {
-            let coordinates = Environment.mapViewController.missionCoordinates()
-            if Environment.commandService.setMissionCoordinates(coordinates) {
-                Environment.commandService.executeMissionCommand(.upload)
-            }
-            settingsView.tableView.deselectRow(at: indexPath, animated: true)
-        }
     }
 }

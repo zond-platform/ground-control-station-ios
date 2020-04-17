@@ -13,8 +13,8 @@ class SettingsView : UIView {
     private var tabView = UIButton()
     var tableView = UITableView(frame: CGRect(), style: .grouped)
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
     }
 
     init() {
@@ -30,7 +30,7 @@ class SettingsView : UIView {
         stackView.alignment = .center
 
         tabView.backgroundColor = UIColor.white
-        tabView.setTitle("Mission", for: .normal)
+        tabView.setTitle("Menu", for: .normal)
         tabView.setTitleColor(.black, for: .normal)
         tabView.titleLabel!.font = AppFont.largeFont
         tabView.layer.cornerRadius = AppDimensions.SettingsView.Tab.radius
