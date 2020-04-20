@@ -20,6 +20,7 @@ class MapView : MKMapView {
             width: AppDimensions.screenWidth,
             height: AppDimensions.screenHeight
         ))
+
         mapType = .satellite
         showsCompass = true
     }

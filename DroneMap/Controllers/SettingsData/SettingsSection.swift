@@ -9,11 +9,13 @@
 class SettingsSection {
     var id: SectionId
     var title: String
+    var message: String
     var entries: [SettingsCell<Any>]
 
     init(id: SectionId, entries: [SettingsCell<Any>]) {
         self.id = id
         self.title = id.title
+        self.message = ""
         self.entries = entries
     }
 }

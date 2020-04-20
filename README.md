@@ -9,9 +9,7 @@ General:
 * ~~Redesign and refactor the entire view system. Consider using Swift UI~~
 * ~~Refactor Logger class~~
 * ~~Access environment via static function instead of passing it around~~
-* Add control buttons to switch between map layers and live view
-* Draw copter trace on the map when executing a mission
-* Integrate internal notification mechanism for failed commands
+* Consider adding live view from the drone
 * Start telemetry services only if aircraft is connected (not the remote)
 * Consider using callbacks instead of delegates for internal component communication
 
@@ -27,18 +25,17 @@ Map:
 * Don't show mission polygon when the mission is already uploaded
 * Fix or remove compass button completely
 * Center map with an offset if the menu is open
-
-Control View:
-* ~~Activate mission upload button~~
-* ~~Relocate view and add slide animation~~
-* Make section footers of the table view display performed action status
-* Resolve table view slider cell update issue (post on StackOverflow?)
-* Create mission history
-* Record mission time
+* Draw copter trace on the map when executing a mission
 
 Mission:
+* ~~Activate mission upload button~~
+* ~~Relocate view and add slide animation~~
+* ~~Resolve table view slider cell update issue (post on StackOverflow?)~~
 * ~~Add commands for mission upload and execution~~
 * ~~Make CommandService report result via delegate~~
 * ~~Add mission start/stop/pause buttons~~
+* Log progress into the console view
 * Provide extended controls for setting mission parameters
 * Fix return home altitude
+* Create mission history
+* Record mission time

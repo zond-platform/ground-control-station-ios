@@ -18,13 +18,12 @@ class SectionFooter: UITableViewHeaderFooterView {
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         title.font = AppFont.smallFont
-        title.textColor = AppColor.TextColor.success
+        title.textColor = AppColor.Text.success
         title.sizeToFit()
         title.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(title)
         NSLayoutConstraint.activate([
             title.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            title.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
             title.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor)
         ])
     }

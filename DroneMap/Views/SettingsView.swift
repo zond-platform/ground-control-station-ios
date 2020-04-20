@@ -8,75 +8,68 @@
 
 import UIKit
 
+protocol SettingsViewDelegate : AnyObject {
+    func animationCompleted()
+}
+
 class SettingsView : UIView {
     private var stackView = UIStackView()
-    private var tabView = UIButton()
     var tableView = UITableView(frame: CGRect(), style: .grouped)
-    
+    private var delegates: [SettingsViewDelegate?] = []
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
     init() {
         super.init(frame: CGRect(
-            x: AppDimensions.SettingsView.x,
-            y: AppDimensions.SettingsView.y,
-            width: AppDimensions.SettingsView.width,
-            height: AppDimensions.SettingsView.height
+            x: AppDimensions.Settings.x,
+            y: AppDimensions.Settings.y,
+            width: AppDimensions.Settings.width,
+            height: 0.0
         ))
-        
+
         stackView.axis = .vertical
         stackView.distribution = .fill
-        stackView.alignment = .center
-
-        tabView.backgroundColor = UIColor.white
-        tabView.setTitle("Menu", for: .normal)
-        tabView.setTitleColor(.black, for: .normal)
-        tabView.titleLabel!.font = AppFont.largeFont
-        tabView.layer.cornerRadius = AppDimensions.SettingsView.Tab.radius
-        tabView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        tabView.addTarget(self, action: #selector(onButtonPressed(_:)), for: .touchUpInside)
-        tabView.heightAnchor.constraint(equalToConstant: AppDimensions.SettingsView.Tab.height).isActive = true
-        tabView.widthAnchor.constraint(equalToConstant: AppDimensions.SettingsView.width).isActive = true
-        stackView.addArrangedSubview(tabView)
+        stackView.alignment = .top
 
         tableView.separatorStyle = .none
-        tableView.heightAnchor.constraint(equalToConstant: AppDimensions.SettingsView.Table.height).isActive = true
-        tableView.widthAnchor.constraint(equalToConstant: AppDimensions.SettingsView.width).isActive = true
+        tableView.backgroundColor = AppColor.Overlay.semiOpaqueWhite
+        NSLayoutConstraint.activate([
+            tableView.widthAnchor.constraint(equalToConstant: AppDimensions.Settings.width)
+        ])
         stackView.addArrangedSubview(tableView)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false;
         addSubview(stackView)
-        stackView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        stackView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-
-        dropShadow()
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
     }
 }
 
-// Private methods
+// Public methods
 extension SettingsView {
-    func dropShadow() {
-        layer.masksToBounds = false
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.6
-        layer.shadowOffset = .zero
-        layer.shadowRadius = 4
-        layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.main.scale
+    func addDelegate(_ delegate: SettingsViewDelegate) {
+        delegates.append(delegate)
     }
-}
 
-// Handle control events
-extension SettingsView {
-    @objc func onButtonPressed(_ sender: UIButton) {
-        sender.isSelected = !sender.isSelected
-        UIView.animate(withDuration: 0.5, animations: {
-            if sender.isSelected {
-                self.frame.origin.y += AppDimensions.SettingsView.Table.height
-            } else {
-                self.frame.origin.y -= AppDimensions.SettingsView.Table.height
-            }
-        })
+    func show(_ show: Bool) {
+        layoutIfNeeded()
+        UIView.animate(withDuration: 0.3,
+            animations: {
+                if show {
+                    self.frame.size.height = AppDimensions.Settings.height
+                } else {
+                    self.frame.size.height = 0
+                }
+                self.layoutIfNeeded()
+            },
+            completion: { _ in
+                for delegate in self.delegates {
+                    delegate?.animationCompleted()
+                }
+            })
     }
 }

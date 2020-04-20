@@ -14,7 +14,7 @@ enum SectionId {
     var title: String {
         switch self {
             case .simulator:
-                return "Simulator"
+                return ""
             case .mission:
                 return "Mission Editor"
             case .status:
@@ -54,7 +54,7 @@ enum CellId {
             case .signal:
                 return "Signal"
             case .simulator:
-                return "Enable"
+                return "Simulator"
             case .upload:
                 return "Upload"
         }

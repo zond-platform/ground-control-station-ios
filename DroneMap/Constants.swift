@@ -10,44 +10,52 @@ import CoreGraphics
 import UIKit
 
 struct AppDimensions {
+    
     static let screenWidth = UIScreen.main.bounds.width
     static let screenHeight = UIScreen.main.bounds.height
-
-    struct SettingsView {
-        private static let marginRate = CGFloat(0.02)
-        private static let widthRate = CGFloat(0.4)
-        private static let divisionRate = CGFloat(0.1)
-        private static let margin = AppDimensions.screenWidth * marginRate
+    
+    struct Proportion {
+        static let vertical: [CGFloat] = [0.09, 0.91]
+        static let horizontal: [CGFloat] = [0.4, 0.4, 0.2]
+    }
+    
+    struct Content {
+        private static let marginRate = CGFloat(0.01)
+        private static let margin = screenWidth * marginRate
 
         static let x = margin
         static let y = margin
-        static let width = AppDimensions.screenWidth * widthRate
-        static let height = AppDimensions.screenHeight - margin
-
-        struct Tab {
-            static let radius = CGFloat(10)
-            static let height = AppDimensions.SettingsView.height * AppDimensions.SettingsView.divisionRate
-        }
-
-        struct Table {
-            static let height = AppDimensions.SettingsView.height - AppDimensions.SettingsView.Tab.height
-            static let sectionHeaderHeight = CGFloat(40)
-            static let sectionFooterHeight = CGFloat(40)
-        }
+        static let width = screenWidth - 2 * margin
+        static let height = screenHeight - 2 * margin
+    }
+    
+    struct Tab {
+        static let x = Content.x
+        static let y = Content.y
+        static let width = Content.width
+        static let height = Content.height * Proportion.vertical[0]
     }
 
-    struct ButtonsView {
-        private static let widthRate = CGFloat(0.1)
+    struct Settings {
+        static let x = Content.x
+        static let y = Content.y + Tab.height
+        static let width = Content.width * Proportion.horizontal[0]
+        static let height = Content.height * Proportion.vertical[1]
 
-        static let x = AppDimensions.screenWidth - AppDimensions.screenWidth * widthRate
-        static let y = CGFloat(0)
-        static let width = AppDimensions.screenWidth * widthRate
-        static let height = AppDimensions.screenHeight
+        static let rowHeight = Tab.height
+        static let sectionHeaderHeight = Tab.height
+        static let sectionFooterHeight = Tab.height
+    }
 
-        struct Button {
-            static let size = CGFloat(50)
-            static let spacer = CGFloat(30)
-        }
+    struct Console {
+        static let width = Content.width * Proportion.horizontal[1]
+    }
+
+    struct Controls {
+        static let x = Content.x + Settings.width + Console.width
+        static let y = Content.y + Tab.height
+        static let width = Content.width * Proportion.horizontal[2]
+        static let height = Tab.height * CGFloat(ControlButtonId.allCases.count)
     }
 }
 
@@ -59,11 +67,15 @@ struct AppColor {
         static let transparent = CGFloat(0.3)
     }
 
-    struct OverlayColor {
+    struct Overlay {
+        static let white = UIColor.white
         static let semiOpaqueWhite = UIColor.white.withAlphaComponent(Alphas.semiOpaque)
+        static let semiTransparentWhite = UIColor.white.withAlphaComponent(Alphas.semiTransparent)
+        static let semiOpaqueBlack = UIColor.black.withAlphaComponent(Alphas.semiOpaque)
+        static let semiTransparentBlack = UIColor.black.withAlphaComponent(Alphas.semiTransparent)
     }
     
-    struct TextColor {
+    struct Text {
         static let error = UIColor(red: 1.0, green: 0.4, blue: 0.3, alpha: Alphas.opaque)
         static let success = UIColor(red: 0.5, green: 0.7, blue: 0.5, alpha: Alphas.opaque)
     }

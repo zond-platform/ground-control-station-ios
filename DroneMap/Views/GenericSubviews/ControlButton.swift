@@ -1,5 +1,5 @@
 //
-//  Button.swift
+//  ControlButton.swift
 //  DroneMap
 //
 //  Created by Evgeny Agamirzov on 15.04.20.
@@ -8,46 +8,45 @@
 
 import UIKit
 
-enum ButtonId {
+enum ControlButtonId {
     case start
+    case pause
+    case resume
     case stop
-    case user
-    case aircraft
+    case gohome
 
     var title: String {
         switch self {
             case .start:
                 return "Start"
+            case .pause:
+                return "Pause"
+            case .resume:
+                return "Resume"
             case .stop:
                 return "Stop"
-            case .user:
-                return "User"
-            case .aircraft:
-                return "Aircraft"
+            case .gohome:
+                return "Go Home"
         }
     }
 }
 
-extension ButtonId : CaseIterable {}
+extension ControlButtonId : CaseIterable {}
 
-class Button : UIButton {
-    var id: ButtonId!
+class ControlButton : UIButton {
+    var id: ControlButtonId!
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    init(_ id: ButtonId) {
+    init(_ id: ControlButtonId) {
         self.id = id
         super.init(frame: CGRect())
         setTitle(id.title, for: .normal)
         setTitleColor(.black, for: .normal)
+        backgroundColor = AppColor.Overlay.semiOpaqueWhite
         titleLabel!.font = AppFont.smallFont
-    }
-
-    override func draw(_ rect: CGRect) {
-        let path = UIBezierPath(ovalIn: rect)
-        AppColor.OverlayColor.semiOpaqueWhite.setFill()
-        path.fill()
+        clipsToBounds = true
     }
 }

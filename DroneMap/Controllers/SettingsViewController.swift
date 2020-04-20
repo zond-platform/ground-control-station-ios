@@ -27,7 +27,7 @@ fileprivate var settingsData = [
 
 class SettingsViewController : UIViewController {
     private var settingsView: SettingsView!
-    private var dataSource: SettingsViewDataSource!
+    private var dataSource: SettingsDataSource!
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -36,7 +36,8 @@ class SettingsViewController : UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         settingsView = SettingsView()
-        dataSource = SettingsViewDataSource(settingsView, settingsData)
+        settingsView.addDelegate(self)
+        dataSource = SettingsDataSource(settingsView, settingsData)
         settingsView.tableView.dataSource = self.dataSource
         settingsView.tableView.delegate = self.dataSource
         view = settingsView
@@ -45,4 +46,16 @@ class SettingsViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+}
+
+// Public methods
+extension SettingsViewController {
+    func showView(_ show: Bool) {
+        settingsView.show(show)
+    }
+}
+
+// Handle view updates
+extension SettingsViewController : SettingsViewDelegate {
+    internal func animationCompleted() {}
 }
