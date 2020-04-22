@@ -9,29 +9,31 @@
 import DJISDK
 import UIKit
 
-fileprivate var tableData = TableData([
-    TableSectionData(
+fileprivate var tableData = SettingsTableData([
+    SettingsSectionData(
         id: .simulator,
         entries: [
-            TableCellData(id: .simulator,  type: .switcher, value: false, isEnabled: false)
+            SettingsCellData(id: .simulator,  type: .switcher, value: false, isEnabled: false)
         ]),
-    TableSectionData(
+    SettingsSectionData(
         id: .mission,
         entries: [
-            TableCellData(id: .edit,       type: .switcher,  value: false, isEnabled: true),
-            TableCellData(id: .altitude,   type: .slider,    value: 0.0,   isEnabled: false),
-            TableCellData(id: .distance,   type: .slider,    value: 0.0,   isEnabled: false),
-            TableCellData(id: .upload,     type: .button,    value: false, isEnabled: false)
+            SettingsCellData(id: .edit,          type: .switcher,  value: false, isEnabled: true),
+            SettingsCellData(id: .gridDistance,  type: .slider,    value: 0.0,   isEnabled: false),
+            SettingsCellData(id: .shootDistance, type: .slider,    value: 0.0,   isEnabled: false),
+            SettingsCellData(id: .altitude,      type: .slider,    value: 0.0,   isEnabled: false),
+            SettingsCellData(id: .flightSpeed,   type: .slider,    value: 0.0,   isEnabled: false),
+            SettingsCellData(id: .upload,        type: .button,    value: false, isEnabled: false)
         ]),
-    TableSectionData(
+    SettingsSectionData(
         id: .status,
         entries: [
-            TableCellData(id: .model,      type: .info,      value: "-",   isEnabled: true),
-            TableCellData(id: .mode,       type: .info,      value: "-",   isEnabled: true),
-            TableCellData(id: .altitude,   type: .info,      value: "-",   isEnabled: true),
-            TableCellData(id: .battery,    type: .info,      value: "-",   isEnabled: true),
-            TableCellData(id: .signal,     type: .info,      value: "-",   isEnabled: true),
-            TableCellData(id: .satellites, type: .info,      value: "-",   isEnabled: true)
+            SettingsCellData(id: .model,      type: .info,      value: "-",   isEnabled: true),
+            SettingsCellData(id: .mode,       type: .info,      value: "-",   isEnabled: true),
+            SettingsCellData(id: .altitude,   type: .info,      value: "-",   isEnabled: true),
+            SettingsCellData(id: .battery,    type: .info,      value: "-",   isEnabled: true),
+            SettingsCellData(id: .signal,     type: .info,      value: "-",   isEnabled: true),
+            SettingsCellData(id: .satellites, type: .info,      value: "-",   isEnabled: true)
         ])
 ])
 
@@ -61,6 +63,7 @@ class SettingsViewController : UIViewController {
         Environment.batteryService.addDelegate(self)
         Environment.productService.addDelegate(self)
         Environment.locationService.addDelegate(self)
+        Environment.commandService.addDelegate(self)
         view = settingsView
     }
 
@@ -80,17 +83,19 @@ extension SettingsViewController {
 extension SettingsViewController {
     private func updateCell<ValueType>(at idPath: IdPath, with value: ValueType) {
         if let indexPath = tableData.indexPath(for: idPath) {
-            let cell = settingsView.tableView.cellForRow(at: indexPath)
             let data = tableData.updateEntry(at: indexPath, with: value)
-            dataSource.setupCell(cell!, data)
+            if let cell = settingsView.tableView.cellForRow(at: indexPath) {
+                dataSource.setupCell(cell, data)
+            }
         }
     }
 
     private func enableCell(at idPath: IdPath, _ enable: Bool) {
         if let indexPath = tableData.indexPath(for: idPath) {
-            let cell = settingsView.tableView.cellForRow(at: indexPath)
             let data = tableData.enableEntry(at: indexPath, enable)
-            dataSource.setupCell(cell!, data)
+            if let cell = settingsView.tableView.cellForRow(at: indexPath) {
+                dataSource.setupCell(cell, data)
+            }
         }
     }
 }
@@ -114,7 +119,7 @@ extension SettingsViewController : UITableViewDelegate {
     }
 
     internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let entry: TableCellData = tableData.entry(at: indexPath)
+        let entry: SettingsCellData = tableData.entry(at: indexPath)
         if entry.id == .upload {
             let coordinates = Environment.mapViewController.missionCoordinates()
             if Environment.commandService.setMissionCoordinates(coordinates) {
@@ -138,13 +143,12 @@ extension SettingsViewController : UITableViewDelegate {
 }
 
 // Handle data source updates
-extension SettingsViewController : DataSourceDelegate {
+extension SettingsViewController : SettingsDataSourceDelegate {
     func sliderMoved(at indexPath: IndexPath, with value: Float) {
-        switch tableData.entry(at: indexPath).id {
-            case .altitude:
-                updateCell(at: IdPath(.mission, .altitude), with: value)
-            case .distance:
-                updateCell(at: IdPath(.mission, .distance), with: value)
+        let data = tableData.entry(at: indexPath)
+        updateCell(at: IdPath(.mission, data.id), with: value)
+        switch data.id {
+            case .gridDistance:
                 Environment.mapViewController.gridDistance = CGFloat(value)
             default:
                 break
@@ -162,7 +166,9 @@ extension SettingsViewController : DataSourceDelegate {
                 editingEnabled = isOn
                 updateCell(at: IdPath(.mission, .edit), with: isOn)
                 enableCell(at: IdPath(.mission, .altitude), isOn)
-                enableCell(at: IdPath(.mission, .distance), isOn)
+                enableCell(at: IdPath(.mission, .gridDistance), isOn)
+                enableCell(at: IdPath(.mission, .shootDistance), isOn)
+                enableCell(at: IdPath(.mission, .flightSpeed), isOn)
                 enableCell(at: IdPath(.mission, .upload), aircraftConnected && editingEnabled)
             default:
                 break
@@ -228,4 +234,11 @@ extension SettingsViewController : ProductServiceDelegate {
 // Handle content view updates
 extension SettingsViewController : SettingsViewDelegate {
     internal func animationCompleted() {}
+}
+
+// Subscribe to command responses
+extension SettingsViewController : CommandServiceDelegate {
+    func missionCommandResponded(_ commandId: MissionCommandId, _ success: Bool) {
+        print("responded")
+    }
 }

@@ -10,7 +10,7 @@ import os.log
 
 import DJISDK
 
-enum MissionCommand {
+enum MissionCommandId {
     case upload
     case start
     case pause
@@ -34,7 +34,7 @@ enum MissionCommand {
 }
 
 protocol CommandServiceDelegate : AnyObject {
-    func missionCommandResponded(_ success: Bool)
+    func missionCommandResponded(_ commandId: MissionCommandId, _ success: Bool)
 }
 
 class CommandService : NSObject {
@@ -63,19 +63,19 @@ extension CommandService {
         return true
     }
 
-    func executeMissionCommand(_ command: MissionCommand) {
+    func executeMissionCommand(_ commandId: MissionCommandId) {
         let callback = { (error: Error?) in
             let success = error != nil
             if success {
-                os_log("Mission %@ error: %@", type: .error, command.title, error!.localizedDescription)
+                os_log("Mission %@ error: %@", type: .error, commandId.title, error!.localizedDescription)
             } else {
-                os_log("Mission %@ succeeded", type: .debug, command.title)
+                os_log("Mission %@ succeeded", type: .debug, commandId.title)
             }
             for delegate in self.delegates {
-                delegate?.missionCommandResponded(success)
+                delegate?.missionCommandResponded(commandId, success)
             }
         }
-        switch command {
+        switch commandId {
             case .upload:
                 missionOperator?.uploadMission(completion: callback)
             case .start:
@@ -93,6 +93,11 @@ extension CommandService {
 // Private methods
 extension CommandService {
     private func subscribe() {
+        missionOperator?.addListener(toUploadEvent: self, with: DispatchQueue.main, andBlock: { (event: DJIWaypointMissionUploadEvent) in
+            if event.error != nil {
+                os_log("Upload listener error: %@", type: .error, event.error!.localizedDescription)
+            }
+        })
         missionOperator?.addListener(toFinished: self, with: DispatchQueue.main, andBlock: { (error: Error?) in
             if error != nil {
                 os_log("Finished listener error: %@", type: .error, error!.localizedDescription)
@@ -141,10 +146,8 @@ extension CommandService {
         for coordinate in coordinates {
             let waypoint = DJIWaypoint(coordinate: coordinate)
             waypoint.altitude = 20
-            waypoint.heading = 0
             waypoint.actionRepeatTimes = 1
             waypoint.actionTimeoutInSeconds = 60
-            waypoint.cornerRadiusInMeters = 5
             waypoint.turnMode = .clockwise
             waypoint.gimbalPitch = -90
             waypoint.shootPhotoDistanceInterval = 20

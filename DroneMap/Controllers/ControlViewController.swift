@@ -1,5 +1,5 @@
 //
-//  ControlButtonsViewController.swift
+//  ControlViewController.swift
 //  DroneMap
 //
 //  Created by Evgeny Agamirzov on 14.04.20.
@@ -8,8 +8,8 @@
 
 import UIKit
 
-class ControlButtonsViewController : UIViewController {
-    private var controlButtonsView: ControlButtonsView!
+class ControlViewController : UIViewController {
+    private var controlView: ControlView!
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -17,9 +17,9 @@ class ControlButtonsViewController : UIViewController {
 
     init() {
         super.init(nibName: nil, bundle: nil)
-        controlButtonsView = ControlButtonsView()
-        controlButtonsView.addDelegate(self)
-        view = controlButtonsView
+        controlView = ControlView()
+        controlView.addDelegate(self)
+        view = controlView
     }
 
     override func viewDidLoad() {
@@ -28,14 +28,14 @@ class ControlButtonsViewController : UIViewController {
 }
 
 // Public methods
-extension ControlButtonsViewController {
+extension ControlViewController {
     func showView(_ show: Bool) {
-        controlButtonsView.show(show)
+        controlView.show(show)
     }
 }
 
 // Subscribe to view updates
-extension ControlButtonsViewController : ControlButtonsViewDelegate {
+extension ControlViewController : ControlViewDelegate {
     func buttonPressed(_ id: ControlButtonId) {
         switch id {
             default:

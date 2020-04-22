@@ -34,7 +34,7 @@ class SettingsView : UIView {
         stackView.alignment = .top
 
         tableView.separatorStyle = .none
-        tableView.backgroundColor = AppColor.Overlay.semiOpaqueWhite
+        tableView.backgroundColor = AppColor.Overlay.semiTransparentWhite
         NSLayoutConstraint.activate([
             tableView.widthAnchor.constraint(equalToConstant: AppDimensions.Settings.width)
         ])

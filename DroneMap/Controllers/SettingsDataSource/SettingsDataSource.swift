@@ -10,16 +10,16 @@ import os.log
 
 import UIKit
 
-protocol DataSourceDelegate : AnyObject {
+protocol SettingsDataSourceDelegate : AnyObject {
     func switchTriggered(at indexPath: IndexPath, _ isOn: Bool)
     func sliderMoved(at indexPath: IndexPath, with value: Float)
 }
 
 class SettingsDataSource : NSObject {
-    private var tableData: TableData!
-    weak var delegate: DataSourceDelegate?
+    private var tableData: SettingsTableData!
+    weak var delegate: SettingsDataSourceDelegate?
 
-    init(_ tableData: inout TableData) {
+    init(_ tableData: inout SettingsTableData) {
         super.init()
         self.tableData = tableData
     }
@@ -27,8 +27,9 @@ class SettingsDataSource : NSObject {
 
 // Internal methods
 extension SettingsDataSource {
-    internal func setupCell(_ cell: UITableViewCell, _ data: TableCellData<Any>) {
-        cell.isUserInteractionEnabled = data.isEnabled
+    internal func setupCell(_ cell: UITableViewCell, _ data: SettingsCellData<Any>) {
+        cell.textLabel?.font = AppFont.normalFont
+        cell.detailTextLabel?.font = AppFont.normalFont
         switch data.type {
             case .button:
                 setupButtonCell(cell, data)
@@ -44,64 +45,66 @@ extension SettingsDataSource {
 
 // Private methods
 extension SettingsDataSource {
-    private func setupInfoCell(_ cell: UITableViewCell, _ data: TableCellData<Any>) {
+    private func setupInfoCell(_ cell: UITableViewCell, _ data: SettingsCellData<Any>) {
         cell.textLabel?.text = data.title
-        cell.textLabel?.textColor = cell.isUserInteractionEnabled ? UIColor.black : UIColor.lightGray
+        cell.textLabel?.textColor = data.isEnabled ? UIColor.black : UIColor.lightGray
         cell.detailTextLabel?.text = data.value as? String
-        cell.detailTextLabel?.textColor = cell.isUserInteractionEnabled ? UIColor.gray : UIColor.lightGray
+        cell.detailTextLabel?.textColor = data.isEnabled ? UIColor.gray : UIColor.lightGray
         cell.selectionStyle = .none
         cell.accessoryType = .none
     }
 
-    private func setupButtonCell(_ cell: UITableViewCell, _ data: TableCellData<Any>) {
+    private func setupButtonCell(_ cell: UITableViewCell, _ data: SettingsCellData<Any>) {
         cell.textLabel?.text = data.title
-        cell.textLabel?.textColor = cell.isUserInteractionEnabled ? UIColor.blue : UIColor.lightGray
+        cell.textLabel?.textColor = data.isEnabled ? UIColor.blue : UIColor.lightGray
+        cell.isUserInteractionEnabled = data.isEnabled
         cell.accessoryType = .none
     }
 
-    private func setupSliderCell(_ cell: UITableViewCell, _ data: TableCellData<Any>) {
+    private func setupSliderCell(_ cell: UITableViewCell, _ data: SettingsCellData<Any>) {
         if cell.accessoryView == nil {
             let slider = TableCellSlider()
             switch data.id {
                 case .altitude:
                     slider.minimumValue = 20
                     slider.maximumValue = 200
-                    slider.addTarget(self, action: #selector(onSliderMoved(_:)), for: .valueChanged)
-                case .distance:
+                case .gridDistance:
                     slider.minimumValue = 10
                     slider.maximumValue = 50
-                    slider.addTarget(self, action: #selector(onSliderMoved(_:)), for: .valueChanged)
+                case .flightSpeed:
+                    slider.minimumValue = 1
+                    slider.maximumValue = 15
+                case .shootDistance:
+                    slider.minimumValue = 10
+                    slider.maximumValue = 50
                 default:
                     break
             }
+            slider.addTarget(self, action: #selector(onSliderMoved(_:)), for: .valueChanged)
             slider.idxPath = data.indexPath
-            slider.value = data.value as? Float ?? 0.0
             cell.accessoryView = slider
         }
+        let unit = data.id == .flightSpeed ? "m/s" : "m"
+        (cell.accessoryView as! UISlider).isUserInteractionEnabled = data.isEnabled
+        (cell.accessoryView as! UISlider).value = data.value as? Float ?? 0.0
         cell.textLabel?.text = data.title
-        cell.textLabel?.textColor = cell.isUserInteractionEnabled ? UIColor.black : UIColor.lightGray
-        cell.detailTextLabel?.text = String(format: "%.0f m", (cell.accessoryView as! UISlider).value)
-        cell.detailTextLabel?.textColor = cell.isUserInteractionEnabled ? UIColor.gray : UIColor.lightGray
+        cell.textLabel?.textColor = data.isEnabled ? UIColor.black : UIColor.lightGray
+        cell.detailTextLabel?.text = String(format: "%.0f ", (cell.accessoryView as! UISlider).value) + unit
+        cell.detailTextLabel?.textColor = data.isEnabled ? UIColor.gray : UIColor.lightGray
         cell.selectionStyle = .none
     }
 
-    private func setupSwitcherCell(_ cell: UITableViewCell, _ data: TableCellData<Any>) {
+    private func setupSwitcherCell(_ cell: UITableViewCell, _ data: SettingsCellData<Any>) {
         if cell.accessoryView == nil {
             let switcher = TableCellSwitch()
-            switch data.id {
-                case .simulator:
-                    switcher.addTarget(self, action: #selector(onSwitchTriggered(_:)), for: .valueChanged)
-                case .edit:
-                    switcher.addTarget(self, action: #selector(onSwitchTriggered(_:)), for: .valueChanged)
-                default:
-                    break
-            }
+            switcher.addTarget(self, action: #selector(onSwitchTriggered(_:)), for: .valueChanged)
             switcher.idxPath = data.indexPath
-            switcher.isOn = data.value as? Bool ?? false
             cell.accessoryView = switcher
         }
+        (cell.accessoryView as! UISwitch).isUserInteractionEnabled = data.isEnabled
+        (cell.accessoryView as! UISwitch).isOn = data.value as? Bool ?? false
         cell.textLabel?.text = data.title
-        cell.textLabel?.textColor = cell.isUserInteractionEnabled ? UIColor.black : UIColor.lightGray
+        cell.textLabel?.textColor = data.isEnabled ? UIColor.black : UIColor.lightGray
         cell.selectionStyle = .none
     }
 }
@@ -117,13 +120,12 @@ extension SettingsDataSource : UITableViewDataSource {
     }
 
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        tableData.storeEntryIndex(forEntryAt: indexPath)
-        let data: TableCellData = tableData.entry(at: indexPath)
+        tableData.storeIndexPath(inEntryAt: indexPath)
+        let data: SettingsCellData = tableData.entry(at: indexPath)
         let cell = UITableViewCell(style: .value1, reuseIdentifier: data.type.reuseIdentifier)
-        cell.isUserInteractionEnabled = data.isEnabled
-        cell.contentView.backgroundColor = AppColor.Overlay.semiTransparentWhite
         cell.textLabel?.font = AppFont.normalFont
         cell.detailTextLabel?.font = AppFont.normalFont
+        cell.backgroundColor = .clear
         switch data.type {
             case .button:
                 setupButtonCell(cell, data)

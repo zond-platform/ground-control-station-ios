@@ -8,15 +8,15 @@
 
 import UIKit
 
-protocol ControlButtonsViewDelegate : AnyObject {
+protocol ControlViewDelegate : AnyObject {
     func buttonPressed(_ id: ControlButtonId)
     func animationCompleted()
 }
 
-class ControlButtonsView : UIView {
+class ControlView : UIView {
     private var stackView = UIStackView()
     private var buttons: [ControlButton] = []
-    private var delegates: [ControlButtonsViewDelegate?] = []
+    private var delegates: [ControlViewDelegate?] = []
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -53,8 +53,8 @@ class ControlButtonsView : UIView {
 }
 
 // Public methods
-extension ControlButtonsView {
-    func addDelegate(_ delegate: ControlButtonsViewDelegate) {
+extension ControlView {
+    func addDelegate(_ delegate: ControlViewDelegate) {
         delegates.append(delegate)
     }
 
@@ -78,7 +78,7 @@ extension ControlButtonsView {
 }
 
 // Handle control events
-extension ControlButtonsView {
+extension ControlView {
     @objc func onButtonPressed(_ sender: ControlButton) {
         for delegate in self.delegates {
             delegate?.buttonPressed(sender.id)

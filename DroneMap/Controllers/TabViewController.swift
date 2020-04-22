@@ -34,7 +34,7 @@ extension TabViewController : TabViewDelegate {
             case .mission:
                 Environment.settingsViewController.showView(selected)
         case .controls:
-                Environment.controlButtonsViewController.showView(selected)
+                Environment.controlViewController.showView(selected)
             default:
                 break
         }

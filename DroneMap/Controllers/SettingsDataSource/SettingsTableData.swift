@@ -9,25 +9,25 @@
 import UIKit
 
 struct IdPath {
-    let section: SectionId
-    let cell: CellId
+    let section: SettingsSectionId
+    let cell: SettingsCellId
 
-    init(_ sectionId: SectionId, _ cellId: CellId) {
+    init(_ sectionId: SettingsSectionId, _ cellId: SettingsCellId) {
         self.section = sectionId
         self.cell = cellId
     }
 }
 
-class TableData {
-    private var entries: [TableSectionData]
+class SettingsTableData {
+    private var entries: [SettingsSectionData]
     
-    init(_ entries: [TableSectionData]) {
+    init(_ entries: [SettingsSectionData]) {
         self.entries = entries
     }
 }
 
 // Access
-extension TableData {
+extension SettingsTableData {
     func sectionsCount() -> Int {
         return entries.count
     }
@@ -44,30 +44,30 @@ extension TableData {
         return entries[section].footerText
     }
 
-    func entry(at indexPath: IndexPath) -> TableCellData<Any> {
+    func entry(at indexPath: IndexPath) -> SettingsCellData<Any> {
         return entries[indexPath.section].entries[indexPath.row]
     }
 }
 
 // Modification
-extension TableData {
-    func updateEntry<ValueType>(at indexPath: IndexPath, with value: ValueType) -> TableCellData<Any> {
+extension SettingsTableData {
+    func updateEntry<ValueType>(at indexPath: IndexPath, with value: ValueType) -> SettingsCellData<Any> {
         entries[indexPath.section].entries[indexPath.row].value = value
         return entries[indexPath.section].entries[indexPath.row]
     }
 
-    func enableEntry(at indexPath: IndexPath, _ shouldEnable: Bool) -> TableCellData<Any> {
+    func enableEntry(at indexPath: IndexPath, _ shouldEnable: Bool) -> SettingsCellData<Any> {
         entries[indexPath.section].entries[indexPath.row].isEnabled = shouldEnable
         return entries[indexPath.section].entries[indexPath.row]
     }
 
-    func storeEntryIndex(forEntryAt indexPath: IndexPath) {
+    func storeIndexPath(inEntryAt indexPath: IndexPath) {
         entries[indexPath.section].entries[indexPath.row].indexPath = indexPath
     }
 }
 
 // Conversion
-extension TableData {
+extension SettingsTableData {
     func indexPath(for idPath: IdPath) -> IndexPath? {
         if let sectionIndex = entries.firstIndex(where: {$0.id == idPath.section}) {
             if let cellIndex = entries[sectionIndex].entries.firstIndex(where: {$0.id == idPath.cell}) {
