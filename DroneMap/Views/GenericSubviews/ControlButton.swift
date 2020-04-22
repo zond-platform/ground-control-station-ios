@@ -34,9 +34,10 @@ enum ControlButtonId {
 extension ControlButtonId : CaseIterable {}
 
 class ControlButton : UIButton {
-    var id: ControlButtonId!
+    let id: ControlButtonId
 
     required init?(coder: NSCoder) {
+        self.id = .start
         super.init(coder: coder)
     }
 

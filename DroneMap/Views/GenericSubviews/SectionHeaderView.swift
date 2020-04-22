@@ -1,5 +1,5 @@
 //
-//  SectionFooter.swift
+//  SectionHeaderView.swift
 //  DroneMap
 //
 //  Created by Evgeny Agamirzov on 17.04.20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SectionFooter: UITableViewHeaderFooterView {
+class SectionHeaderView: UITableViewHeaderFooterView {
     let title = UILabel()
 
     required init?(coder: NSCoder) {
@@ -17,14 +17,14 @@ class SectionFooter: UITableViewHeaderFooterView {
 
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-        title.font = AppFont.smallFont
-        title.textColor = AppColor.Text.success
+        title.font = AppFont.normalFont
+        title.textColor = .gray
         title.sizeToFit()
         title.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(title)
         NSLayoutConstraint.activate([
             title.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            title.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor)
+            title.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
         ])
     }
 }

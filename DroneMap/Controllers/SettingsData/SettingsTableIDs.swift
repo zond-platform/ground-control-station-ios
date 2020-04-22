@@ -11,7 +11,7 @@ enum SectionId {
     case mission
     case status
 
-    var title: String {
+    var headerTitle: String {
         switch self {
             case .simulator:
                 return ""
@@ -19,6 +19,17 @@ enum SectionId {
                 return "Mission Editor"
             case .status:
                 return "Aircraft Status"
+        }
+    }
+
+    var footerText: String {
+        switch self {
+            case .simulator:
+                return ""
+            case .mission:
+                return ""
+            case .status:
+                return ""
         }
     }
 }
@@ -60,24 +71,3 @@ enum CellId {
         }
     }
 }
-
-enum CellType {
-    case button
-    case info
-    case slider
-    case switcher
-
-    var reuseIdentifier: String {
-        switch self {
-            case .button:
-                return "segueCell"
-            case .info:
-                return "infoCell"
-            case .slider:
-                return "tuneCell"
-            case .switcher:
-                return "switchCell"
-        }
-    }
-}
-

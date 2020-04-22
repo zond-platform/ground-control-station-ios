@@ -39,9 +39,10 @@ enum TabButtonId {
 extension TabButtonId : CaseIterable {}
 
 class TabButton : UIButton {
-    var id: TabButtonId!
+    let id: TabButtonId
 
     required init?(coder: NSCoder) {
+        self.id = .mission
         super.init(coder: coder)
     }
 
