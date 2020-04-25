@@ -24,7 +24,7 @@ class MapViewController : UIViewController {
     private var polygonVertices: [PolygonVertex] = []
     private var polygon: MissionPolygon!
 
-    var gridDistance: CGFloat = 20.0 {
+    var gridDistance: CGFloat = 10.0 {
         didSet {
             guard polygon != nil else {
                 return

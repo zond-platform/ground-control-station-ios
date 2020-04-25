@@ -12,8 +12,11 @@ General:
 * Consider adding live view from the drone
 * Start telemetry services only if aircraft is connected (not the remote controller)
 * Consider using callbacks instead of delegates for internal component communication
+* Create one unified telemetry service
 * Consider subclassing UITableViewCell
 * Take control over initialization order of static variables
+* Append global constants with parameter constraints
+* Monitor current aircraft velocity
 
 Map:
 * ~~Replace map icons and make them show direction~~

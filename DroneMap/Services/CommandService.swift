@@ -34,12 +34,28 @@ enum MissionCommandId {
 }
 
 struct MissionParameters {
-    let flightSpeed: Float?
-    let shootDistance: Float?
-    let altitude: Float?
+    var flightSpeed: Float = 10.0 {
+        didSet {
+            if flightSpeed <= Float(1.0) && flightSpeed >= Float(15.0) {
+                flightSpeed = Float(10.0)
+            }
+        }
+    }
 
-    func valid() -> Bool {
-        return flightSpeed != nil && shootDistance != nil && altitude != nil
+    var shootDistance: Float = 10.0 {
+        didSet {
+            if shootDistance <= Float(10.0) && shootDistance >= Float(50.0) {
+                shootDistance = Float(10.0)
+            }
+        }
+    }
+
+    var altitude: Float = 20.0 {
+        didSet {
+            if altitude <= Float(20.0) && altitude >= Float(200.0) {
+                altitude = Float(10.0)
+            }
+        }
     }
 }
 
@@ -59,10 +75,9 @@ class CommandService : NSObject {
     var currentWaypointIndex: Int?
     var missionOperator: DJIWaypointMissionOperator?
     var delegates: [CommandServiceDelegate?] = []
-    var missionParameters: MissionParameters
+    var missionParameters = MissionParameters()
     
     override init() {
-        missionParameters = MissionParameters(flightSpeed: 10, shootDistance: 20, altitude: 30)
         super.init()
         Environment.productService.addDelegate(self)
     }
@@ -72,18 +87,6 @@ class CommandService : NSObject {
 extension CommandService {
     func addDelegate(_ delegate: CommandServiceDelegate) {
         delegates.append(delegate)
-    }
-
-    func setMissionParameters(_ parameters: MissionParameters) -> Bool {
-        if !missionParameters.valid() {
-            os_log("Mission parameters are invalid", type: .error)
-            for delegate in self.delegates {
-                delegate?.setingMissionParametersFailed()
-            }
-            return false
-        }
-        missionParameters = parameters
-        return true
     }
 
     func setMissionCoordinates(_ coordinates: [CLLocationCoordinate2D]) -> Bool {
@@ -170,7 +173,7 @@ extension CommandService {
     private func waypointMissionFromCoordinates(_ coordinates: [CLLocationCoordinate2D]) -> DJIWaypointMission {
         let mission = DJIMutableWaypointMission()
         mission.maxFlightSpeed = 15
-        mission.autoFlightSpeed = missionParameters.flightSpeed!
+        mission.autoFlightSpeed = missionParameters.flightSpeed
         mission.finishedAction = .goHome
         mission.headingMode = .auto
         mission.flightPathMode = .curved
@@ -180,12 +183,12 @@ extension CommandService {
         mission.repeatTimes = 1
         for coordinate in coordinates {
             let waypoint = DJIWaypoint(coordinate: coordinate)
-            waypoint.altitude = missionParameters.altitude!
+            waypoint.altitude = missionParameters.altitude
             waypoint.actionRepeatTimes = 1
             waypoint.actionTimeoutInSeconds = 60
             waypoint.turnMode = .clockwise
             waypoint.gimbalPitch = -90
-            waypoint.shootPhotoDistanceInterval = missionParameters.shootDistance!
+            waypoint.shootPhotoDistanceInterval = missionParameters.shootDistance
             waypoint.cornerRadiusInMeters = 4
             mission.add(waypoint)
         }

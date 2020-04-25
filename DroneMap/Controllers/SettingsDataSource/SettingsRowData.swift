@@ -1,5 +1,5 @@
 //
-//  SettingsCellData.swift
+//  SettingsRowData.swift
 //  DroneMap
 //
 //  Created by Evgeny Agamirzov on 08.04.20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum SettingsCellId {
+enum SettingsRowId {
     case altitude
     case battery
     case flightSpeed
@@ -52,7 +52,7 @@ enum SettingsCellId {
     }
 }
 
-enum SettingsCellType {
+enum SettingsRowType {
     case button
     case info
     case slider
@@ -72,15 +72,16 @@ enum SettingsCellType {
     }
 }
 
-class SettingsCellData<ValueType> {
-    private(set) var idPath: IdPath?
-    let id: SettingsCellId
+class SettingsRowData<ValueType> {
+    private(set) var idPath: SettingsIdPath?
+    let id: SettingsRowId
     let title: String
-    let type: SettingsCellType
+    let type: SettingsRowType
     var value: ValueType
     var isEnabled: Bool
+    var updateDisplayedData: (() -> Void)?
 
-    init(id: SettingsCellId, type: SettingsCellType, value: ValueType, isEnabled: Bool) {
+    init(id: SettingsRowId, type: SettingsRowType, value: ValueType, isEnabled: Bool) {
         self.id = id
         self.title = id.title
         self.type = type
@@ -90,8 +91,8 @@ class SettingsCellData<ValueType> {
 }
 
 // Public methods
-extension SettingsCellData {
-    func setIdPath(_ idPath: IdPath) {
+extension SettingsRowData {
+    func setIdPath(_ idPath: SettingsIdPath) {
         self.idPath = idPath
     }
 }

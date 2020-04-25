@@ -34,7 +34,7 @@
 		EC178D86243B76680006495E /* SettingsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC178D85243B76680006495E /* SettingsDataSource.swift */; };
 		EC1C66782291C07B00BEA440 /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C66772291C07B00BEA440 /* ServiceProtocol.swift */; };
 		EC8528572451A2AB006BAF26 /* SectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8528562451A2AB006BAF26 /* SectionFooterView.swift */; };
-		EC87F024243E485800470917 /* SettingsCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC87F023243E485800470917 /* SettingsCellData.swift */; };
+		EC87F024243E485800470917 /* SettingsRowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC87F023243E485800470917 /* SettingsRowData.swift */; };
 		EC87F026243E486900470917 /* SettingsSectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC87F025243E486900470917 /* SettingsSectionData.swift */; };
 		EC950E8721B81EA600B3A03D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8621B81EA600B3A03D /* AppDelegate.swift */; };
 		EC950E8921B81EA600B3A03D /* ConnectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8821B81EA600B3A03D /* ConnectionService.swift */; };
@@ -44,13 +44,14 @@
 		ECAAC83A2299B83700FB360F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAAC8392299B83700FB360F /* SettingsView.swift */; };
 		ECD709A0244B8826004CB3B6 /* TabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD7099F244B8826004CB3B6 /* TabButton.swift */; };
 		ECD709A2244DEA28004CB3B6 /* SettingsTableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD709A1244DEA28004CB3B6 /* SettingsTableData.swift */; };
-		ECD709A4244F3BB8004CB3B6 /* TableCellSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD709A3244F3BB8004CB3B6 /* TableCellSlider.swift */; };
-		ECD709A6244F3BC6004CB3B6 /* TableCellSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD709A5244F3BC6004CB3B6 /* TableCellSwitch.swift */; };
+		ECD709A4244F3BB8004CB3B6 /* SettingsCellSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD709A3244F3BB8004CB3B6 /* SettingsCellSlider.swift */; };
+		ECD709A6244F3BC6004CB3B6 /* SettingsCellSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD709A5244F3BC6004CB3B6 /* SettingsCellSwitch.swift */; };
 		ECD714902365B0F200958956 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD7148F2365B0F200958956 /* Utils.swift */; };
 		ECDF4B7222593AC600C98F71 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDF4B7122593AC600C98F71 /* SettingsViewController.swift */; };
 		ECEEEEE82267A24F005A71C6 /* BatteryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEE72267A24F005A71C6 /* BatteryService.swift */; };
 		ECEEEEF0226A0E6E005A71C6 /* ProductService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEEF226A0E6E005A71C6 /* ProductService.swift */; };
 		ECEEEEF4226BA5E7005A71C6 /* ServiceBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEF3226BA5E7005A71C6 /* ServiceBase.swift */; };
+		ECF5DF1A2454567C00395756 /* SettingsIdPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF5DF192454567C00395756 /* SettingsIdPath.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,7 +101,7 @@
 		EC178D85243B76680006495E /* SettingsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDataSource.swift; sourceTree = "<group>"; };
 		EC1C66772291C07B00BEA440 /* ServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocol.swift; sourceTree = "<group>"; };
 		EC8528562451A2AB006BAF26 /* SectionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionFooterView.swift; sourceTree = "<group>"; };
-		EC87F023243E485800470917 /* SettingsCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCellData.swift; sourceTree = "<group>"; };
+		EC87F023243E485800470917 /* SettingsRowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRowData.swift; sourceTree = "<group>"; };
 		EC87F025243E486900470917 /* SettingsSectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSectionData.swift; sourceTree = "<group>"; };
 		EC950E8321B81EA600B3A03D /* DroneMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DroneMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC950E8621B81EA600B3A03D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -116,13 +117,14 @@
 		ECAAC8392299B83700FB360F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		ECD7099F244B8826004CB3B6 /* TabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabButton.swift; sourceTree = "<group>"; };
 		ECD709A1244DEA28004CB3B6 /* SettingsTableData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableData.swift; sourceTree = "<group>"; };
-		ECD709A3244F3BB8004CB3B6 /* TableCellSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCellSlider.swift; sourceTree = "<group>"; };
-		ECD709A5244F3BC6004CB3B6 /* TableCellSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCellSwitch.swift; sourceTree = "<group>"; };
+		ECD709A3244F3BB8004CB3B6 /* SettingsCellSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCellSlider.swift; sourceTree = "<group>"; };
+		ECD709A5244F3BC6004CB3B6 /* SettingsCellSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCellSwitch.swift; sourceTree = "<group>"; };
 		ECD7148F2365B0F200958956 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		ECDF4B7122593AC600C98F71 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		ECEEEEE72267A24F005A71C6 /* BatteryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryService.swift; sourceTree = "<group>"; };
 		ECEEEEEF226A0E6E005A71C6 /* ProductService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductService.swift; sourceTree = "<group>"; };
 		ECEEEEF3226BA5E7005A71C6 /* ServiceBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ServiceBase.swift; path = ../ServiceBase.swift; sourceTree = "<group>"; };
+		ECF5DF192454567C00395756 /* SettingsIdPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsIdPath.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,8 +209,8 @@
 			children = (
 				ECD7099F244B8826004CB3B6 /* TabButton.swift */,
 				EC1678E824473DF400C71203 /* ControlButton.swift */,
-				ECD709A3244F3BB8004CB3B6 /* TableCellSlider.swift */,
-				ECD709A5244F3BC6004CB3B6 /* TableCellSwitch.swift */,
+				ECD709A3244F3BB8004CB3B6 /* SettingsCellSlider.swift */,
+				ECD709A5244F3BC6004CB3B6 /* SettingsCellSwitch.swift */,
 				EC0ECE332449EACE008B1479 /* SectionHeaderView.swift */,
 				EC8528562451A2AB006BAF26 /* SectionFooterView.swift */,
 			);
@@ -227,7 +229,8 @@
 		EC87F022243E482B00470917 /* SettingsDataSource */ = {
 			isa = PBXGroup;
 			children = (
-				EC87F023243E485800470917 /* SettingsCellData.swift */,
+				ECF5DF192454567C00395756 /* SettingsIdPath.swift */,
+				EC87F023243E485800470917 /* SettingsRowData.swift */,
 				EC87F025243E486900470917 /* SettingsSectionData.swift */,
 				ECD709A1244DEA28004CB3B6 /* SettingsTableData.swift */,
 				EC178D85243B76680006495E /* SettingsDataSource.swift */,
@@ -512,8 +515,8 @@
 				EC1678E924473DF400C71203 /* ControlButton.swift in Sources */,
 				EC1678E4244623AD00C71203 /* ControlViewController.swift in Sources */,
 				EC14732223B1F02200385067 /* MovingObjectView.swift in Sources */,
-				ECD709A6244F3BC6004CB3B6 /* TableCellSwitch.swift in Sources */,
-				EC87F024243E485800470917 /* SettingsCellData.swift in Sources */,
+				ECD709A6244F3BC6004CB3B6 /* SettingsCellSwitch.swift in Sources */,
+				EC87F024243E485800470917 /* SettingsRowData.swift in Sources */,
 				EC8528572451A2AB006BAF26 /* SectionFooterView.swift in Sources */,
 				ECD709A2244DEA28004CB3B6 /* SettingsTableData.swift in Sources */,
 				EC158057229B0A19000741DC /* CommandService.swift in Sources */,
@@ -536,7 +539,8 @@
 				EC14732A23B1F63000385067 /* Vector.swift in Sources */,
 				EC15EAD62271CBF50032ACB9 /* RootView.swift in Sources */,
 				EC950E8721B81EA600B3A03D /* AppDelegate.swift in Sources */,
-				ECD709A4244F3BB8004CB3B6 /* TableCellSlider.swift in Sources */,
+				ECF5DF1A2454567C00395756 /* SettingsIdPath.swift in Sources */,
+				ECD709A4244F3BB8004CB3B6 /* SettingsCellSlider.swift in Sources */,
 				EC1C66782291C07B00BEA440 /* ServiceProtocol.swift in Sources */,
 				ECD709A0244B8826004CB3B6 /* TabButton.swift in Sources */,
 				EC14732423B1F03400385067 /* PolygonVertexView.swift in Sources */,

@@ -33,7 +33,7 @@ extension TabViewController : TabViewDelegate {
         switch id {
             case .mission:
                 Environment.settingsViewController.showView(selected)
-        case .controls:
+            case .controls:
                 Environment.controlViewController.showView(selected)
             default:
                 break

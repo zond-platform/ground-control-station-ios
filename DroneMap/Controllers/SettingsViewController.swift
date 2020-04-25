@@ -12,28 +12,28 @@ import UIKit
 fileprivate var tableData = SettingsTableData([
     SettingsSectionData(
         id: .simulator,
-        entries: [
-            SettingsCellData(id: .simulator,  type: .switcher, value: false, isEnabled: false)
+        rows: [
+            SettingsRowData(id: .simulator,  type: .switcher, value: false, isEnabled: false)
         ]),
     SettingsSectionData(
         id: .mission,
-        entries: [
-            SettingsCellData(id: .edit,          type: .switcher,  value: false, isEnabled: true),
-            SettingsCellData(id: .gridDistance,  type: .slider,    value: 0.0,   isEnabled: false),
-            SettingsCellData(id: .shootDistance, type: .slider,    value: 0.0,   isEnabled: false),
-            SettingsCellData(id: .altitude,      type: .slider,    value: 0.0,   isEnabled: false),
-            SettingsCellData(id: .flightSpeed,   type: .slider,    value: 0.0,   isEnabled: false),
-            SettingsCellData(id: .upload,        type: .button,    value: false, isEnabled: false)
+        rows: [
+            SettingsRowData(id: .edit,          type: .switcher,  value: false, isEnabled: true),
+            SettingsRowData(id: .gridDistance,  type: .slider,    value: 0.0,   isEnabled: false),
+            SettingsRowData(id: .shootDistance, type: .slider,    value: 0.0,   isEnabled: false),
+            SettingsRowData(id: .altitude,      type: .slider,    value: 0.0,   isEnabled: false),
+            SettingsRowData(id: .flightSpeed,   type: .slider,    value: 0.0,   isEnabled: false),
+            SettingsRowData(id: .upload,        type: .button,    value: false, isEnabled: false)
         ]),
     SettingsSectionData(
         id: .status,
-        entries: [
-            SettingsCellData(id: .model,      type: .info,      value: "-",   isEnabled: true),
-            SettingsCellData(id: .mode,       type: .info,      value: "-",   isEnabled: true),
-            SettingsCellData(id: .altitude,   type: .info,      value: "-",   isEnabled: true),
-            SettingsCellData(id: .battery,    type: .info,      value: "-",   isEnabled: true),
-            SettingsCellData(id: .signal,     type: .info,      value: "-",   isEnabled: true),
-            SettingsCellData(id: .satellites, type: .info,      value: "-",   isEnabled: true)
+        rows: [
+            SettingsRowData(id: .model,      type: .info,      value: "-",   isEnabled: true),
+            SettingsRowData(id: .mode,       type: .info,      value: "-",   isEnabled: true),
+            SettingsRowData(id: .altitude,   type: .info,      value: "-",   isEnabled: true),
+            SettingsRowData(id: .battery,    type: .info,      value: "-",   isEnabled: true),
+            SettingsRowData(id: .signal,     type: .info,      value: "-",   isEnabled: true),
+            SettingsRowData(id: .satellites, type: .info,      value: "-",   isEnabled: true)
         ])
 ])
 
@@ -79,29 +79,6 @@ extension SettingsViewController {
     }
 }
 
-// Private methods
-extension SettingsViewController {
-    private func updateCell<ValueType>(at idPath: IdPath, with value: ValueType) {
-        if let data = tableData.updateEntry(at: idPath, with: value) {
-            if let indexPath = tableData.indexPath(for: idPath) {
-                if let cell = settingsView.tableView.cellForRow(at: indexPath) {
-                    dataSource.setupCell(cell, data)
-                }
-            }
-        }
-    }
-
-    private func enableCell(at idPath: IdPath, _ enable: Bool) {
-        if let data = tableData.enableEntry(at: idPath, enable) {
-            if let indexPath = tableData.indexPath(for: idPath) {
-                if let cell = settingsView.tableView.cellForRow(at: indexPath) {
-                    dataSource.setupCell(cell, data)
-                }
-            }
-        }
-    }
-}
-
 // Handle table view updates
 extension SettingsViewController : UITableViewDelegate {
     internal func tableView(_ tableView: UITableView, heightForRowAt: IndexPath) -> CGFloat {
@@ -113,16 +90,16 @@ extension SettingsViewController : UITableViewDelegate {
     }
 
     internal func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return tableData.height(forHeaderIn: section)
+        return tableData.sections[section].id.headerHeight
     }
 
     internal func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return tableData.height(forFooterIn: section)
+        return tableData.sections[section].id.footerHeight
     }
 
     internal func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = settingsView.tableView.dequeueReusableHeaderFooterView(withIdentifier: NSStringFromClass(SectionHeaderView.self)) as! SectionHeaderView
-        view.title.text = tableData.title(forHeaderIn: section)
+        view.title.text = tableData.sections[section].headerTitle
         return view
     }
 
@@ -131,43 +108,36 @@ extension SettingsViewController : UITableViewDelegate {
     }
 
     internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let entry: SettingsCellData = tableData.entry(at: indexPath)
-        if entry.id == .upload {
-//            let flightSpeed = tableData.entryValue(at: IdPath(.mission, .flightSpeed)) as! Float
-//            let shootDistance = tableData.entryValue(at: IdPath(.mission, .shootDistance)) as! Float
-//            let altitude = tableData.entryValue(at: IdPath(.mission, .altitude)) as! Float
-//
-//            let parameters = MissionParameters(flightSpeed: flightSpeed, shootDistance: shootDistance, altitude: altitude)
-//            if !Environment.commandService.setMissionParameters(parameters) {
-//                settingsView.tableView.deselectRow(at: indexPath, animated: true)
-//                return
-//            }
-//            let coordinates = Environment.mapViewController.missionCoordinates()
-//            if !Environment.commandService.setMissionCoordinates(coordinates) {
-//                settingsView.tableView.deselectRow(at: indexPath, animated: true)
-//                return
-//            }
-//            
-//            Environment.commandService.executeMissionCommand(.upload)
-//            settingsView.tableView.deselectRow(at: indexPath, animated: true)
+        if tableData.idPath(for: indexPath) == SettingsIdPath(.mission, .upload) {
+            let coordinates = Environment.mapViewController.missionCoordinates()
+            if Environment.commandService.setMissionCoordinates(coordinates) {
+                Environment.commandService.executeMissionCommand(.upload)
+            }
+            settingsView.tableView.deselectRow(at: indexPath, animated: true)
         }
     }
 }
 
 // Handle data source updates
 extension SettingsViewController : SettingsDataSourceDelegate {
-    func sliderMoved(at idPath: IdPath, to value: Float) {
-        updateCell(at: idPath, with: value)
-        switch idPath.cell {
-            case .gridDistance:
+    func sliderMoved(at idPath: SettingsIdPath, to value: Float) {
+        tableData.updateRow(at: idPath, with: value)
+        switch idPath{
+            case SettingsIdPath(.mission, .gridDistance):
                 Environment.mapViewController.gridDistance = CGFloat(value)
+            case SettingsIdPath(.mission, .altitude):
+                Environment.commandService.missionParameters.altitude = Float(value)
+            case SettingsIdPath(.mission, .shootDistance):
+                Environment.commandService.missionParameters.shootDistance = Float(value)
+            case SettingsIdPath(.mission, .flightSpeed):
+                Environment.commandService.missionParameters.flightSpeed = Float(value)
             default:
                 break
         }
     }
 
-    func switchTriggered(at idPath: IdPath, _ isOn: Bool) {
-        switch idPath.cell {
+    func switchTriggered(at idPath: SettingsIdPath, _ isOn: Bool) {
+        switch idPath.row {
             case .simulator:
                 let userLocation = Environment.mapViewController.userLocation()
                 isOn ? Environment.simulatorService.startSimulator(userLocation)
@@ -175,12 +145,12 @@ extension SettingsViewController : SettingsDataSourceDelegate {
             case .edit:
                 Environment.mapViewController.enableMissionEditing(isOn)
                 editingEnabled = isOn
-                updateCell(at: IdPath(.mission, .edit), with: isOn)
-                enableCell(at: IdPath(.mission, .altitude), isOn)
-                enableCell(at: IdPath(.mission, .gridDistance), isOn)
-                enableCell(at: IdPath(.mission, .shootDistance), isOn)
-                enableCell(at: IdPath(.mission, .flightSpeed), isOn)
-                enableCell(at: IdPath(.mission, .upload), aircraftConnected && editingEnabled)
+                tableData.updateRow(at: SettingsIdPath(.mission, .edit), with: isOn)
+                tableData.enableRow(at: SettingsIdPath(.mission, .altitude), isOn)
+                tableData.enableRow(at: SettingsIdPath(.mission, .gridDistance), isOn)
+                tableData.enableRow(at: SettingsIdPath(.mission, .shootDistance), isOn)
+                tableData.enableRow(at: SettingsIdPath(.mission, .flightSpeed), isOn)
+                tableData.enableRow(at: SettingsIdPath(.mission, .upload), aircraftConnected && editingEnabled)
             default:
                 break
         }
@@ -190,11 +160,11 @@ extension SettingsViewController : SettingsDataSourceDelegate {
 // Subscribe to simulator updates
 extension SettingsViewController : SimulatorServiceDelegate {
     internal func simulatorStarted(_ success: Bool) {
-        updateCell(at: IdPath(.simulator, .simulator), with: success)
+        tableData.updateRow(at: SettingsIdPath(.simulator, .simulator), with: success)
     }
 
     internal func simulatorStopped(_ success: Bool) {
-        updateCell(at: IdPath(.simulator, .simulator), with: !success)
+        tableData.updateRow(at: SettingsIdPath(.simulator, .simulator), with: !success)
     }
 }
 
@@ -202,7 +172,7 @@ extension SettingsViewController : SimulatorServiceDelegate {
 extension SettingsViewController : BatteryServiceDelegate {
     internal func batteryChargeChanged(_ charge: UInt?) {
         let stringValue = charge != nil ? String(charge!) : "-"
-        updateCell(at: IdPath(.status, .battery), with: stringValue)
+        tableData.updateRow(at: SettingsIdPath(.status, .battery), with: stringValue)
     }
 }
 
@@ -210,22 +180,22 @@ extension SettingsViewController : BatteryServiceDelegate {
 extension SettingsViewController : LocationServiceDelegate {
     internal func signalStatusChanged(_ status: String?) {
         let stringValue = status ?? "-"
-        updateCell(at: IdPath(.status, .signal), with: stringValue)
+        tableData.updateRow(at: SettingsIdPath(.status, .signal), with: stringValue)
     }
 
     internal func satelliteCountChanged(_ count: UInt?) {
         let stringValue = count != nil ? String(count!) : "-"
-        updateCell(at: IdPath(.status, .satellites), with: stringValue)
+        tableData.updateRow(at: SettingsIdPath(.status, .satellites), with: stringValue)
     }
 
     internal func altitudeChanged(_ count: UInt?) {
         let stringValue = count != nil ? String(count!) : "-"
-        updateCell(at: IdPath(.status, .altitude), with: stringValue)
+        tableData.updateRow(at: SettingsIdPath(.status, .altitude), with: stringValue)
     }
 
     internal func flightModeChanged(_ mode: String?) {
         let stringValue = mode ?? "-"
-        updateCell(at: IdPath(.status, .mode), with: stringValue)
+        tableData.updateRow(at: SettingsIdPath(.status, .mode), with: stringValue)
     }
 }
 
@@ -234,11 +204,11 @@ extension SettingsViewController : ProductServiceDelegate {
     internal func modelChanged(_ model: String?) {
         aircraftConnected = model != nil && model != DJIAircraftModeNameOnlyRemoteController
         if !aircraftConnected {
-            updateCell(at: IdPath(.simulator, .simulator), with: false)
+            tableData.updateRow(at: SettingsIdPath(.simulator, .simulator), with: false)
         }
-        updateCell(at: IdPath(.status, .model), with: model ?? "-")
-        enableCell(at: IdPath(.simulator, .simulator), aircraftConnected)
-        enableCell(at: IdPath(.mission, .upload), aircraftConnected && editingEnabled)
+        tableData.updateRow(at: SettingsIdPath(.status, .model), with: model ?? "-")
+        tableData.enableRow(at: SettingsIdPath(.simulator, .simulator), aircraftConnected)
+        tableData.enableRow(at: SettingsIdPath(.mission, .upload), aircraftConnected && editingEnabled)
     }
 }
 
@@ -252,12 +222,12 @@ extension SettingsViewController : CommandServiceDelegate {
     func missionCommandResponded(_ commandId: MissionCommandId, _ success: Bool) {
         if success && commandId == .upload {
             editingEnabled = false
-            updateCell(at: IdPath(.mission, .edit), with: false)
-            enableCell(at: IdPath(.mission, .altitude), false)
-            enableCell(at: IdPath(.mission, .gridDistance), false)
-            enableCell(at: IdPath(.mission, .shootDistance), false)
-            enableCell(at: IdPath(.mission, .flightSpeed), false)
-            enableCell(at: IdPath(.mission, .upload), false)
+            tableData.updateRow(at: SettingsIdPath(.mission, .edit), with: false)
+            tableData.enableRow(at: SettingsIdPath(.mission, .altitude), false)
+            tableData.enableRow(at: SettingsIdPath(.mission, .gridDistance), false)
+            tableData.enableRow(at: SettingsIdPath(.mission, .shootDistance), false)
+            tableData.enableRow(at: SettingsIdPath(.mission, .flightSpeed), false)
+            tableData.enableRow(at: SettingsIdPath(.mission, .upload), false)
         }
     }
 }

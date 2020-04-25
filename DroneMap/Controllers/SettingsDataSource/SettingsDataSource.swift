@@ -6,44 +6,26 @@
 //  Copyright © 2020 Evgeny Agamirzov. All rights reserved.
 //
 
-import os.log
-
 import UIKit
 
 protocol SettingsDataSourceDelegate : AnyObject {
-    func switchTriggered(at idPath: IdPath, _ isOn: Bool)
-    func sliderMoved(at idPath: IdPath, to value: Float)
+    func switchTriggered(at idPath: SettingsIdPath, _ isOn: Bool)
+    func sliderMoved(at idPath: SettingsIdPath, to value: Float)
 }
 
 class SettingsDataSource : NSObject {
-    private var tableData: SettingsTableData!
+    private var tableData: SettingsTableData
     weak var delegate: SettingsDataSourceDelegate?
 
     init(_ tableData: inout SettingsTableData) {
-        super.init()
         self.tableData = tableData
-    }
-}
-
-// Internal methods
-extension SettingsDataSource {
-    internal func setupCell(_ cell: UITableViewCell, _ data: SettingsCellData<Any>) {
-        switch data.type {
-            case .button:
-                setupButtonCell(cell, data)
-            case .info:
-                setupInfoCell(cell, data)
-            case .slider:
-                setupSliderCell(cell, data)
-            case .switcher:
-                setupSwitcherCell(cell, data)
-        }
+        super.init()
     }
 }
 
 // Private methods
 extension SettingsDataSource {
-    private func setupInfoCell(_ cell: UITableViewCell, _ data: SettingsCellData<Any>) {
+    private func setupInfoCell(_ cell: UITableViewCell, _ data: SettingsRowData<Any>) {
         cell.textLabel?.text = data.title
         cell.textLabel?.textColor = data.isEnabled ? UIColor.black : UIColor.lightGray
         cell.detailTextLabel?.text = data.value as? String
@@ -52,16 +34,16 @@ extension SettingsDataSource {
         cell.accessoryType = .none
     }
 
-    private func setupButtonCell(_ cell: UITableViewCell, _ data: SettingsCellData<Any>) {
+    private func setupButtonCell(_ cell: UITableViewCell, _ data: SettingsRowData<Any>) {
         cell.textLabel?.text = data.title
         cell.textLabel?.textColor = data.isEnabled ? UIColor.blue : UIColor.lightGray
         cell.isUserInteractionEnabled = data.isEnabled
         cell.accessoryType = .none
     }
 
-    private func setupSliderCell(_ cell: UITableViewCell, _ data: SettingsCellData<Any>) {
+    private func setupSliderCell(_ cell: UITableViewCell, _ data: SettingsRowData<Any>) {
         if cell.accessoryView == nil {
-            let slider = TableCellSlider()
+            let slider = SettingsCellSlider()
             switch data.id {
                 case .altitude:
                     slider.minimumValue = 20
@@ -92,9 +74,9 @@ extension SettingsDataSource {
         cell.selectionStyle = .none
     }
 
-    private func setupSwitcherCell(_ cell: UITableViewCell, _ data: SettingsCellData<Any>) {
+    private func setupSwitcherCell(_ cell: UITableViewCell, _ data: SettingsRowData<Any>) {
         if cell.accessoryView == nil {
-            let switcher = TableCellSwitch()
+            let switcher = SettingsCellSwitch()
             switcher.addTarget(self, action: #selector(onSwitchTriggered(_:)), for: .valueChanged)
             switcher.idPath = data.idPath
             cell.accessoryView = switcher
@@ -110,42 +92,45 @@ extension SettingsDataSource {
 // Handle table view data source updates
 extension SettingsDataSource : UITableViewDataSource {
     internal func numberOfSections(in tableView: UITableView) -> Int {
-        return tableData.sectionsCount()
+        return tableData.sections.count
     }
 
     internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableData.cellsCount(in: section)
+        return tableData.sections[section].rows.count
     }
 
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let data: SettingsCellData = tableData.entry(at: indexPath)
+        let data: SettingsRowData = tableData.rowData(at: indexPath)
         let cell = UITableViewCell(style: .value1, reuseIdentifier: data.type.reuseIdentifier)
         cell.textLabel?.font = AppFont.normalLightFont
         cell.detailTextLabel?.font = AppFont.normalLightFont
         cell.backgroundColor = AppColor.Overlay.transparentWhite
-        switch data.type {
-            case .button:
-                setupButtonCell(cell, data)
-            case .info:
-                setupInfoCell(cell, data)
-            case .slider:
-                setupSliderCell(cell, data)
-            case .switcher:
-                setupSwitcherCell(cell, data)
+        data.updateDisplayedData = {
+            switch data.type {
+                case .button:
+                    self.setupButtonCell(cell, data)
+                case .info:
+                    self.setupInfoCell(cell, data)
+                case .slider:
+                    self.setupSliderCell(cell, data)
+                case .switcher:
+                    self.setupSwitcherCell(cell, data)
+            }
         }
+        data.updateDisplayedData?()
         return cell
     }
 }
 
 // Handle control events
 extension SettingsDataSource {
-    @objc func onSwitchTriggered(_ sender: TableCellSwitch) {
+    @objc func onSwitchTriggered(_ sender: SettingsCellSwitch) {
         if let idPath = sender.idPath {
             delegate?.switchTriggered(at: idPath, sender.isOn)
         }
     }
 
-    @objc func onSliderMoved(_ sender: TableCellSlider) {
+    @objc func onSliderMoved(_ sender: SettingsCellSlider) {
         if let idPath = sender.idPath {
             delegate?.sliderMoved(at: idPath, to: sender.value)
         }

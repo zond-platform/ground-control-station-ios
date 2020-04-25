@@ -48,20 +48,20 @@ enum SettingsSectionId {
 }
 
 class SettingsSectionData {
+    private(set) var rows: [SettingsRowData<Any>]
     let id: SettingsSectionId
     let headerTitle: String
     let headerHeight: CGFloat
     let footerHeight: CGFloat
-    var entries: [SettingsCellData<Any>]
 
-    init(id: SettingsSectionId, entries: [SettingsCellData<Any>]) {
+    init(id: SettingsSectionId, rows: [SettingsRowData<Any>]) {
         self.id = id
         self.headerTitle = id.headerTitle
         self.headerHeight = id.headerHeight
         self.footerHeight = id.footerHeight
-        for entry in entries {
-            entry.setIdPath(IdPath(id, entry.id))
+        for row in rows {
+            row.setIdPath(SettingsIdPath(id, row.id))
         }
-        self.entries = entries
+        self.rows = rows
     }
 }
