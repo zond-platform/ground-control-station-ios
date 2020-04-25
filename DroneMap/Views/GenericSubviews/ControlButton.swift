@@ -13,7 +13,6 @@ enum ControlButtonId {
     case pause
     case resume
     case stop
-    case gohome
 
     var title: String {
         switch self {
@@ -25,8 +24,6 @@ enum ControlButtonId {
                 return "Resume"
             case .stop:
                 return "Stop"
-            case .gohome:
-                return "Go Home"
         }
     }
 }
@@ -46,7 +43,7 @@ class ControlButton : UIButton {
         super.init(frame: CGRect())
         setTitle(id.title, for: .normal)
         setTitleColor(.black, for: .normal)
-        backgroundColor = AppColor.Overlay.semiOpaqueWhite
+        backgroundColor = AppColor.Overlay.semiTransparentWhite
         titleLabel!.font = AppFont.smallFont
         clipsToBounds = true
     }

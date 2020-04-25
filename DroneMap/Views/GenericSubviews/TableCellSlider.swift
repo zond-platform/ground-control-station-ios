@@ -9,5 +9,5 @@
 import UIKit
 
 class TableCellSlider : UISlider {
-    var idxPath = IndexPath()
+    var idPath: IdPath?
 }

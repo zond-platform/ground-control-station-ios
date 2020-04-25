@@ -10,9 +10,10 @@ General:
 * ~~Refactor Logger class~~
 * ~~Access environment via static function instead of passing it around~~
 * Consider adding live view from the drone
-* Start telemetry services only if aircraft is connected (not the remote)
+* Start telemetry services only if aircraft is connected (not the remote controller)
 * Consider using callbacks instead of delegates for internal component communication
 * Consider subclassing UITableViewCell
+* Take control over initialization order of static variables
 
 Map:
 * ~~Replace map icons and make them show direction~~

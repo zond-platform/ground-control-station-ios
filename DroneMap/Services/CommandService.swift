@@ -33,16 +33,36 @@ enum MissionCommandId {
     }
 }
 
+struct MissionParameters {
+    let flightSpeed: Float?
+    let shootDistance: Float?
+    let altitude: Float?
+
+    func valid() -> Bool {
+        return flightSpeed != nil && shootDistance != nil && altitude != nil
+    }
+}
+
 protocol CommandServiceDelegate : AnyObject {
     func missionCommandResponded(_ commandId: MissionCommandId, _ success: Bool)
+    func setingMissionParametersFailed()
+    func setingMissionCoordinatesFailed()
+}
+
+extension CommandServiceDelegate {
+    func missionCommandResponded(_ commandId: MissionCommandId, _ success: Bool) {}
+    func setingMissionParametersFailed() {}
+    func setingMissionCoordinatesFailed() {}
 }
 
 class CommandService : NSObject {
     var currentWaypointIndex: Int?
     var missionOperator: DJIWaypointMissionOperator?
     var delegates: [CommandServiceDelegate?] = []
+    var missionParameters: MissionParameters
     
     override init() {
+        missionParameters = MissionParameters(flightSpeed: 10, shootDistance: 20, altitude: 30)
         super.init()
         Environment.productService.addDelegate(self)
     }
@@ -54,10 +74,25 @@ extension CommandService {
         delegates.append(delegate)
     }
 
+    func setMissionParameters(_ parameters: MissionParameters) -> Bool {
+        if !missionParameters.valid() {
+            os_log("Mission parameters are invalid", type: .error)
+            for delegate in self.delegates {
+                delegate?.setingMissionParametersFailed()
+            }
+            return false
+        }
+        missionParameters = parameters
+        return true
+    }
+
     func setMissionCoordinates(_ coordinates: [CLLocationCoordinate2D]) -> Bool {
         let error = missionOperator?.load(waypointMissionFromCoordinates(coordinates))
         guard error == nil else {
             os_log("Mission load error: %@", type: .error, error!.localizedDescription)
+            for delegate in self.delegates {
+                delegate?.setingMissionCoordinatesFailed()
+            }
             return false
         }
         return true
@@ -65,11 +100,11 @@ extension CommandService {
 
     func executeMissionCommand(_ commandId: MissionCommandId) {
         let callback = { (error: Error?) in
-            let success = error != nil
+            let success = error == nil
             if success {
-                os_log("Mission %@ error: %@", type: .error, commandId.title, error!.localizedDescription)
-            } else {
                 os_log("Mission %@ succeeded", type: .debug, commandId.title)
+            } else {
+                os_log("Mission %@ error: %@", type: .error, commandId.title, error!.localizedDescription)
             }
             for delegate in self.delegates {
                 delegate?.missionCommandResponded(commandId, success)
@@ -135,7 +170,7 @@ extension CommandService {
     private func waypointMissionFromCoordinates(_ coordinates: [CLLocationCoordinate2D]) -> DJIWaypointMission {
         let mission = DJIMutableWaypointMission()
         mission.maxFlightSpeed = 15
-        mission.autoFlightSpeed = 10
+        mission.autoFlightSpeed = missionParameters.flightSpeed!
         mission.finishedAction = .goHome
         mission.headingMode = .auto
         mission.flightPathMode = .curved
@@ -145,13 +180,13 @@ extension CommandService {
         mission.repeatTimes = 1
         for coordinate in coordinates {
             let waypoint = DJIWaypoint(coordinate: coordinate)
-            waypoint.altitude = 20
+            waypoint.altitude = missionParameters.altitude!
             waypoint.actionRepeatTimes = 1
             waypoint.actionTimeoutInSeconds = 60
             waypoint.turnMode = .clockwise
             waypoint.gimbalPitch = -90
-            waypoint.shootPhotoDistanceInterval = 20
-            waypoint.cornerRadiusInMeters = 5
+            waypoint.shootPhotoDistanceInterval = missionParameters.shootDistance!
+            waypoint.cornerRadiusInMeters = 4
             mission.add(waypoint)
         }
         return DJIWaypointMission(mission: mission)

@@ -11,8 +11,8 @@ import os.log
 import UIKit
 
 protocol SettingsDataSourceDelegate : AnyObject {
-    func switchTriggered(at indexPath: IndexPath, _ isOn: Bool)
-    func sliderMoved(at indexPath: IndexPath, with value: Float)
+    func switchTriggered(at idPath: IdPath, _ isOn: Bool)
+    func sliderMoved(at idPath: IdPath, to value: Float)
 }
 
 class SettingsDataSource : NSObject {
@@ -28,8 +28,6 @@ class SettingsDataSource : NSObject {
 // Internal methods
 extension SettingsDataSource {
     internal func setupCell(_ cell: UITableViewCell, _ data: SettingsCellData<Any>) {
-        cell.textLabel?.font = AppFont.normalFont
-        cell.detailTextLabel?.font = AppFont.normalFont
         switch data.type {
             case .button:
                 setupButtonCell(cell, data)
@@ -81,7 +79,7 @@ extension SettingsDataSource {
                     break
             }
             slider.addTarget(self, action: #selector(onSliderMoved(_:)), for: .valueChanged)
-            slider.idxPath = data.indexPath
+            slider.idPath = data.idPath
             cell.accessoryView = slider
         }
         let unit = data.id == .flightSpeed ? "m/s" : "m"
@@ -98,7 +96,7 @@ extension SettingsDataSource {
         if cell.accessoryView == nil {
             let switcher = TableCellSwitch()
             switcher.addTarget(self, action: #selector(onSwitchTriggered(_:)), for: .valueChanged)
-            switcher.idxPath = data.indexPath
+            switcher.idPath = data.idPath
             cell.accessoryView = switcher
         }
         (cell.accessoryView as! UISwitch).isUserInteractionEnabled = data.isEnabled
@@ -120,12 +118,11 @@ extension SettingsDataSource : UITableViewDataSource {
     }
 
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        tableData.storeIndexPath(inEntryAt: indexPath)
         let data: SettingsCellData = tableData.entry(at: indexPath)
         let cell = UITableViewCell(style: .value1, reuseIdentifier: data.type.reuseIdentifier)
-        cell.textLabel?.font = AppFont.normalFont
-        cell.detailTextLabel?.font = AppFont.normalFont
-        cell.backgroundColor = .clear
+        cell.textLabel?.font = AppFont.normalLightFont
+        cell.detailTextLabel?.font = AppFont.normalLightFont
+        cell.backgroundColor = AppColor.Overlay.transparentWhite
         switch data.type {
             case .button:
                 setupButtonCell(cell, data)
@@ -143,10 +140,14 @@ extension SettingsDataSource : UITableViewDataSource {
 // Handle control events
 extension SettingsDataSource {
     @objc func onSwitchTriggered(_ sender: TableCellSwitch) {
-        delegate?.switchTriggered(at: sender.idxPath, sender.isOn)
+        if let idPath = sender.idPath {
+            delegate?.switchTriggered(at: idPath, sender.isOn)
+        }
     }
 
     @objc func onSliderMoved(_ sender: TableCellSlider) {
-        delegate?.sliderMoved(at: sender.idxPath, with: sender.value)
+        if let idPath = sender.idPath {
+            delegate?.sliderMoved(at: idPath, to: sender.value)
+        }
     }
 }

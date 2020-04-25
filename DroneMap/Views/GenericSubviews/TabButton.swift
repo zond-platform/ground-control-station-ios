@@ -16,7 +16,7 @@ enum TabButtonId {
     var title: String {
         switch self {
             case .mission:
-                return "Mission"
+                return "Menu"
             case .console:
                 return ">_"
             case .controls:

@@ -36,33 +36,49 @@ extension SettingsTableData {
         return entries[section].entries.count
     }
 
-    func title(forHeaderIn section: Int) -> String {
-        return entries[section].headerTitle
+    func height(forHeaderIn section: Int) -> CGFloat {
+        return entries[section].id.headerHeight
     }
 
-    func text(forFooterIn section: Int) -> String {
-        return entries[section].footerText
+    func height(forFooterIn section: Int) -> CGFloat {
+        return entries[section].id.footerHeight
+    }
+
+    func title(forHeaderIn section: Int) -> String {
+        return entries[section].headerTitle
     }
 
     func entry(at indexPath: IndexPath) -> SettingsCellData<Any> {
         return entries[indexPath.section].entries[indexPath.row]
     }
+
+    func entry(at idPath: IdPath) -> SettingsCellData<Any>? {
+        if let indexPath = self.indexPath(for: idPath) {
+            return entries[indexPath.section].entries[indexPath.row]
+        } else {
+            return nil
+        }
+    }
 }
 
 // Modification
 extension SettingsTableData {
-    func updateEntry<ValueType>(at indexPath: IndexPath, with value: ValueType) -> SettingsCellData<Any> {
-        entries[indexPath.section].entries[indexPath.row].value = value
-        return entries[indexPath.section].entries[indexPath.row]
+    func updateEntry<ValueType>(at idPath: IdPath, with value: ValueType) -> SettingsCellData<Any>? {
+        if let indexPath = self.indexPath(for: idPath) {
+            entries[indexPath.section].entries[indexPath.row].value = value
+            return entries[indexPath.section].entries[indexPath.row]
+        } else {
+            return nil
+        }
     }
 
-    func enableEntry(at indexPath: IndexPath, _ shouldEnable: Bool) -> SettingsCellData<Any> {
-        entries[indexPath.section].entries[indexPath.row].isEnabled = shouldEnable
-        return entries[indexPath.section].entries[indexPath.row]
-    }
-
-    func storeIndexPath(inEntryAt indexPath: IndexPath) {
-        entries[indexPath.section].entries[indexPath.row].indexPath = indexPath
+    func enableEntry(at idPath: IdPath, _ shouldEnable: Bool) -> SettingsCellData<Any>? {
+        if let indexPath = self.indexPath(for: idPath) {
+            entries[indexPath.section].entries[indexPath.row].isEnabled = shouldEnable
+            return entries[indexPath.section].entries[indexPath.row]
+        } else {
+            return nil
+        }
     }
 }
 

@@ -9,5 +9,5 @@
 import UIKit
 
 class TableCellSwitch : UISwitch {
-    var idxPath = IndexPath()
+    var idPath: IdPath?
 }

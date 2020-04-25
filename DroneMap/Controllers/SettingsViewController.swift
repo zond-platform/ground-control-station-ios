@@ -82,19 +82,21 @@ extension SettingsViewController {
 // Private methods
 extension SettingsViewController {
     private func updateCell<ValueType>(at idPath: IdPath, with value: ValueType) {
-        if let indexPath = tableData.indexPath(for: idPath) {
-            let data = tableData.updateEntry(at: indexPath, with: value)
-            if let cell = settingsView.tableView.cellForRow(at: indexPath) {
-                dataSource.setupCell(cell, data)
+        if let data = tableData.updateEntry(at: idPath, with: value) {
+            if let indexPath = tableData.indexPath(for: idPath) {
+                if let cell = settingsView.tableView.cellForRow(at: indexPath) {
+                    dataSource.setupCell(cell, data)
+                }
             }
         }
     }
 
     private func enableCell(at idPath: IdPath, _ enable: Bool) {
-        if let indexPath = tableData.indexPath(for: idPath) {
-            let data = tableData.enableEntry(at: indexPath, enable)
-            if let cell = settingsView.tableView.cellForRow(at: indexPath) {
-                dataSource.setupCell(cell, data)
+        if let data = tableData.enableEntry(at: idPath, enable) {
+            if let indexPath = tableData.indexPath(for: idPath) {
+                if let cell = settingsView.tableView.cellForRow(at: indexPath) {
+                    dataSource.setupCell(cell, data)
+                }
             }
         }
     }
@@ -111,22 +113,11 @@ extension SettingsViewController : UITableViewDelegate {
     }
 
     internal func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return AppDimensions.Settings.sectionHeaderHeight
+        return tableData.height(forHeaderIn: section)
     }
 
     internal func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return AppDimensions.Settings.sectionFooterHeight
-    }
-
-    internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let entry: SettingsCellData = tableData.entry(at: indexPath)
-        if entry.id == .upload {
-            let coordinates = Environment.mapViewController.missionCoordinates()
-            if Environment.commandService.setMissionCoordinates(coordinates) {
-                Environment.commandService.executeMissionCommand(.upload)
-            }
-            settingsView.tableView.deselectRow(at: indexPath, animated: true)
-        }
+        return tableData.height(forFooterIn: section)
     }
 
     internal func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -136,18 +127,38 @@ extension SettingsViewController : UITableViewDelegate {
     }
 
     internal func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let view = settingsView.tableView.dequeueReusableHeaderFooterView(withIdentifier: NSStringFromClass(SectionFooterView.self)) as! SectionFooterView
-        view.title.text = tableData.text(forFooterIn: section)
-        return view
+        return settingsView.tableView.dequeueReusableHeaderFooterView(withIdentifier: NSStringFromClass(SectionFooterView.self)) as! SectionFooterView
+    }
+
+    internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let entry: SettingsCellData = tableData.entry(at: indexPath)
+        if entry.id == .upload {
+//            let flightSpeed = tableData.entryValue(at: IdPath(.mission, .flightSpeed)) as! Float
+//            let shootDistance = tableData.entryValue(at: IdPath(.mission, .shootDistance)) as! Float
+//            let altitude = tableData.entryValue(at: IdPath(.mission, .altitude)) as! Float
+//
+//            let parameters = MissionParameters(flightSpeed: flightSpeed, shootDistance: shootDistance, altitude: altitude)
+//            if !Environment.commandService.setMissionParameters(parameters) {
+//                settingsView.tableView.deselectRow(at: indexPath, animated: true)
+//                return
+//            }
+//            let coordinates = Environment.mapViewController.missionCoordinates()
+//            if !Environment.commandService.setMissionCoordinates(coordinates) {
+//                settingsView.tableView.deselectRow(at: indexPath, animated: true)
+//                return
+//            }
+//            
+//            Environment.commandService.executeMissionCommand(.upload)
+//            settingsView.tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
 }
 
 // Handle data source updates
 extension SettingsViewController : SettingsDataSourceDelegate {
-    func sliderMoved(at indexPath: IndexPath, with value: Float) {
-        let data = tableData.entry(at: indexPath)
-        updateCell(at: IdPath(.mission, data.id), with: value)
-        switch data.id {
+    func sliderMoved(at idPath: IdPath, to value: Float) {
+        updateCell(at: idPath, with: value)
+        switch idPath.cell {
             case .gridDistance:
                 Environment.mapViewController.gridDistance = CGFloat(value)
             default:
@@ -155,8 +166,8 @@ extension SettingsViewController : SettingsDataSourceDelegate {
         }
     }
 
-    func switchTriggered(at indexPath: IndexPath, _ isOn: Bool) {
-        switch tableData.entry(at: indexPath).id {
+    func switchTriggered(at idPath: IdPath, _ isOn: Bool) {
+        switch idPath.cell {
             case .simulator:
                 let userLocation = Environment.mapViewController.userLocation()
                 isOn ? Environment.simulatorService.startSimulator(userLocation)
@@ -239,6 +250,14 @@ extension SettingsViewController : SettingsViewDelegate {
 // Subscribe to command responses
 extension SettingsViewController : CommandServiceDelegate {
     func missionCommandResponded(_ commandId: MissionCommandId, _ success: Bool) {
-        print("responded")
+        if success && commandId == .upload {
+            editingEnabled = false
+            updateCell(at: IdPath(.mission, .edit), with: false)
+            enableCell(at: IdPath(.mission, .altitude), false)
+            enableCell(at: IdPath(.mission, .gridDistance), false)
+            enableCell(at: IdPath(.mission, .shootDistance), false)
+            enableCell(at: IdPath(.mission, .flightSpeed), false)
+            enableCell(at: IdPath(.mission, .upload), false)
+        }
     }
 }

@@ -45,7 +45,7 @@ enum SettingsCellId {
             case .signal:
                 return "Signal"
             case .simulator:
-                return "Simulator"
+                return "Enable"
             case .upload:
                 return "Upload"
         }
@@ -73,11 +73,10 @@ enum SettingsCellType {
 }
 
 class SettingsCellData<ValueType> {
+    private(set) var idPath: IdPath?
     let id: SettingsCellId
     let title: String
     let type: SettingsCellType
-
-    var indexPath = IndexPath()
     var value: ValueType
     var isEnabled: Bool
 
@@ -87,5 +86,12 @@ class SettingsCellData<ValueType> {
         self.type = type
         self.value = value
         self.isEnabled = isEnabled
+    }
+}
+
+// Public methods
+extension SettingsCellData {
+    func setIdPath(_ idPath: IdPath) {
+        self.idPath = idPath
     }
 }

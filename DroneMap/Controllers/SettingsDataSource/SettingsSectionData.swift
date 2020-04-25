@@ -6,6 +6,8 @@
 //  Copyright © 2020 Evgeny Agamirzov. All rights reserved.
 //
 
+import CoreGraphics
+
 enum SettingsSectionId {
     case simulator
     case mission
@@ -14,7 +16,7 @@ enum SettingsSectionId {
     var headerTitle: String {
         switch self {
             case .simulator:
-                return ""
+                return "Simulator"
             case .mission:
                 return "Mission Editor"
             case .status:
@@ -22,14 +24,25 @@ enum SettingsSectionId {
         }
     }
 
-    var footerText: String {
+    var headerHeight: CGFloat {
         switch self {
             case .simulator:
-                return ""
+                return AppDimensions.Settings.SimulatorSection.headerHeight
             case .mission:
-                return ""
+                return AppDimensions.Settings.EditorSection.headerHeight
             case .status:
-                return ""
+                return AppDimensions.Settings.StatusSection.headerHeight
+        }
+    }
+
+    var footerHeight: CGFloat {
+        switch self {
+            case .simulator:
+                return AppDimensions.Settings.SimulatorSection.footerHeight
+            case .mission:
+                return AppDimensions.Settings.EditorSection.footerHeight
+            case .status:
+                return AppDimensions.Settings.StatusSection.footerHeight
         }
     }
 }
@@ -37,13 +50,18 @@ enum SettingsSectionId {
 class SettingsSectionData {
     let id: SettingsSectionId
     let headerTitle: String
-    let footerText: String
+    let headerHeight: CGFloat
+    let footerHeight: CGFloat
     var entries: [SettingsCellData<Any>]
 
     init(id: SettingsSectionId, entries: [SettingsCellData<Any>]) {
         self.id = id
         self.headerTitle = id.headerTitle
-        self.footerText = id.footerText
+        self.headerHeight = id.headerHeight
+        self.footerHeight = id.footerHeight
+        for entry in entries {
+            entry.setIdPath(IdPath(id, entry.id))
+        }
         self.entries = entries
     }
 }
