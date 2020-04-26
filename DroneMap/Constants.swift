@@ -71,26 +71,26 @@ struct AppDimensions {
 }
 
 struct AppColor {
+    static let baseColor = UIColor.white
+
     private struct Alphas {
         static let opaque = CGFloat(1)
         static let semiOpaque = CGFloat(0.9)
-        static let semiTransparent = CGFloat(0.8)
-        static let transparent = CGFloat(0.5)
+        static let semiTransparent = CGFloat(0.9)
+        static let transparent = CGFloat(0.4)
     }
 
     struct Overlay {
-        static let white = UIColor.white
-        static let semiOpaqueWhite = white.withAlphaComponent(Alphas.semiOpaque)
-        static let semiTransparentWhite = white.withAlphaComponent(Alphas.semiTransparent)
-        static let transparentWhite = white.withAlphaComponent(Alphas.transparent)
-
-        static let gray = UIColor.gray
-        static let semiOpaqueGray = gray.withAlphaComponent(Alphas.semiOpaque)
-        static let semiTransparentGray = gray.withAlphaComponent(Alphas.semiTransparent)
-        static let transparentGray = gray.withAlphaComponent(Alphas.transparent)
+        static let opaque = baseColor
+        static let semiOpaque = opaque.withAlphaComponent(Alphas.semiOpaque)
+        static let semiTransparent = opaque.withAlphaComponent(Alphas.semiTransparent)
+        static let transparent = opaque.withAlphaComponent(Alphas.transparent)
     }
 
     struct Text {
+        static let mainTitle = UIColor.black
+        static let detailTitle = UIColor.gray
+        static let inactiveTitle = UIColor.lightGray
         static let error = UIColor(red: 1.0, green: 0.4, blue: 0.3, alpha: Alphas.opaque)
         static let success = UIColor(red: 0.5, green: 0.7, blue: 0.5, alpha: Alphas.opaque)
     }
@@ -100,5 +100,8 @@ struct AppFont {
     static let smallFont = UIFont.systemFont(ofSize: 12, weight: .light)
     static let normalLightFont = UIFont.systemFont(ofSize: 14, weight: .light)
     static let normalRegularFont = UIFont.systemFont(ofSize: 14, weight: .regular)
-    static let largeFont = UIFont.systemFont(ofSize: 14, weight: .regular)
+    static let normalBoldFont = UIFont.systemFont(ofSize: 14, weight: .bold)
+    static let largeLightFont = UIFont.systemFont(ofSize: 14, weight: .light)
+    static let largeRegularFont = UIFont.systemFont(ofSize: 14, weight: .regular)
+    static let largeBoldFont = UIFont.systemFont(ofSize: 14, weight: .bold)
 }

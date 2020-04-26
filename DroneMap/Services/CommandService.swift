@@ -61,14 +61,6 @@ struct MissionParameters {
 
 protocol CommandServiceDelegate : AnyObject {
     func missionCommandResponded(_ commandId: MissionCommandId, _ success: Bool)
-    func setingMissionParametersFailed()
-    func setingMissionCoordinatesFailed()
-}
-
-extension CommandServiceDelegate {
-    func missionCommandResponded(_ commandId: MissionCommandId, _ success: Bool) {}
-    func setingMissionParametersFailed() {}
-    func setingMissionCoordinatesFailed() {}
 }
 
 class CommandService : NSObject {
@@ -76,6 +68,7 @@ class CommandService : NSObject {
     var missionOperator: DJIWaypointMissionOperator?
     var delegates: [CommandServiceDelegate?] = []
     var missionParameters = MissionParameters()
+    var logMessage: ((_ message: String, _ type: OSLogType) -> Void)?
     
     override init() {
         super.init()
@@ -92,10 +85,7 @@ extension CommandService {
     func setMissionCoordinates(_ coordinates: [CLLocationCoordinate2D]) -> Bool {
         let error = missionOperator?.load(waypointMissionFromCoordinates(coordinates))
         guard error == nil else {
-            os_log("Mission load error: %@", type: .error, error!.localizedDescription)
-            for delegate in self.delegates {
-                delegate?.setingMissionCoordinatesFailed()
-            }
+            logMessage?("Mission load error: \(error!.localizedDescription)", .error)
             return false
         }
         return true
@@ -104,13 +94,17 @@ extension CommandService {
     func executeMissionCommand(_ commandId: MissionCommandId) {
         let callback = { (error: Error?) in
             let success = error == nil
-            if success {
-                os_log("Mission %@ succeeded", type: .debug, commandId.title)
-            } else {
-                os_log("Mission %@ error: %@", type: .error, commandId.title, error!.localizedDescription)
-            }
             for delegate in self.delegates {
                 delegate?.missionCommandResponded(commandId, success)
+            }
+            if success {
+                let message = "Mission \(commandId.title) succeeded"
+                let type = OSLogType.debug
+                self.logMessage?(message, type)
+            } else {
+                let message = "Mission \(commandId.title) error: \(error!.localizedDescription)"
+                let type = OSLogType.error
+                self.logMessage?(message, type)
             }
         }
         switch commandId {
@@ -133,23 +127,25 @@ extension CommandService {
     private func subscribe() {
         missionOperator?.addListener(toUploadEvent: self, with: DispatchQueue.main, andBlock: { (event: DJIWaypointMissionUploadEvent) in
             if event.error != nil {
-                os_log("Upload listener error: %@", type: .error, event.error!.localizedDescription)
+                self.logMessage?("Upload listener error: \(event.error!.localizedDescription)", .error)
             }
         })
         missionOperator?.addListener(toFinished: self, with: DispatchQueue.main, andBlock: { (error: Error?) in
             if error != nil {
-                os_log("Finished listener error: %@", type: .error, error!.localizedDescription)
-                return
+                self.logMessage?("Finished listener error: \(error!.localizedDescription)", .error)
+            } else {
+                self.logMessage?("Mission finished", .debug)
             }
-            os_log("Mission finished", type: .debug)
         })
         missionOperator?.addListener(toExecutionEvent: self, with: DispatchQueue.main, andBlock: { (event: DJIWaypointMissionExecutionEvent) in
             if event.error != nil {
-                os_log("Execution listener error: %@", type: .error, event.error!.localizedDescription)
+                self.logMessage?("Execution listener error: \(event.error!.localizedDescription)", .error)
             } else if let progress = event.progress {
                 if self.currentWaypointIndex == nil || self.currentWaypointIndex != progress.targetWaypointIndex {
                     self.currentWaypointIndex = progress.targetWaypointIndex
-                    os_log("%@", type: .debug, String(describing: self.currentWaypointIndex))
+                    if self.currentWaypointIndex != nil {
+                        self.logMessage?("Heading to waypoint: \(self.currentWaypointIndex!)", .debug)
+                    }
                 }
             }
         })
@@ -163,10 +159,10 @@ extension CommandService {
         missionOperator?.getPreviousInterruption(completion: {
             (interruption: DJIWaypointMissionInterruption?, error: Error?) in
             guard error == nil && interruption != nil else {
-                os_log("Interruption error: %@", type: .error, error!.localizedDescription)
+                self.logMessage?("Interruption error: \(error!.localizedDescription)", .error)
                 return
             }
-            os_log("Mission ID %@ interrupted", type: .debug, interruption!.missionID)
+            self.logMessage?("Mission ID \(interruption!.missionID) interrupted", .debug)
         })
     }
 

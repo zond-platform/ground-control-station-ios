@@ -27,16 +27,16 @@ class SettingsDataSource : NSObject {
 extension SettingsDataSource {
     private func setupInfoCell(_ cell: UITableViewCell, _ data: SettingsRowData<Any>) {
         cell.textLabel?.text = data.title
-        cell.textLabel?.textColor = data.isEnabled ? UIColor.black : UIColor.lightGray
+        cell.textLabel?.textColor = data.isEnabled ? AppColor.Text.mainTitle : AppColor.Text.inactiveTitle
         cell.detailTextLabel?.text = data.value as? String
-        cell.detailTextLabel?.textColor = data.isEnabled ? UIColor.gray : UIColor.lightGray
+        cell.detailTextLabel?.textColor = data.isEnabled ? AppColor.Text.detailTitle : AppColor.Text.inactiveTitle
         cell.selectionStyle = .none
         cell.accessoryType = .none
     }
 
     private func setupButtonCell(_ cell: UITableViewCell, _ data: SettingsRowData<Any>) {
         cell.textLabel?.text = data.title
-        cell.textLabel?.textColor = data.isEnabled ? UIColor.blue : UIColor.lightGray
+        cell.textLabel?.textColor = data.isEnabled ? UIColor.blue : AppColor.Text.inactiveTitle
         cell.isUserInteractionEnabled = data.isEnabled
         cell.accessoryType = .none
     }
@@ -68,9 +68,9 @@ extension SettingsDataSource {
         (cell.accessoryView as! UISlider).isUserInteractionEnabled = data.isEnabled
         (cell.accessoryView as! UISlider).value = data.value as? Float ?? 0.0
         cell.textLabel?.text = data.title
-        cell.textLabel?.textColor = data.isEnabled ? UIColor.black : UIColor.lightGray
+        cell.textLabel?.textColor = data.isEnabled ? AppColor.Text.mainTitle : AppColor.Text.inactiveTitle
         cell.detailTextLabel?.text = String(format: "%.0f ", (cell.accessoryView as! UISlider).value) + unit
-        cell.detailTextLabel?.textColor = data.isEnabled ? UIColor.gray : UIColor.lightGray
+        cell.detailTextLabel?.textColor = data.isEnabled ? AppColor.Text.detailTitle : AppColor.Text.inactiveTitle
         cell.selectionStyle = .none
     }
 
@@ -84,7 +84,7 @@ extension SettingsDataSource {
         (cell.accessoryView as! UISwitch).isUserInteractionEnabled = data.isEnabled
         (cell.accessoryView as! UISwitch).isOn = data.value as? Bool ?? false
         cell.textLabel?.text = data.title
-        cell.textLabel?.textColor = data.isEnabled ? UIColor.black : UIColor.lightGray
+        cell.textLabel?.textColor = data.isEnabled ? AppColor.Text.mainTitle : AppColor.Text.inactiveTitle
         cell.selectionStyle = .none
     }
 }
@@ -103,8 +103,10 @@ extension SettingsDataSource : UITableViewDataSource {
         let data: SettingsRowData = tableData.rowData(at: indexPath)
         let cell = UITableViewCell(style: .value1, reuseIdentifier: data.type.reuseIdentifier)
         cell.textLabel?.font = AppFont.normalLightFont
+        cell.textLabel?.textColor = AppColor.Text.mainTitle
         cell.detailTextLabel?.font = AppFont.normalLightFont
-        cell.backgroundColor = AppColor.Overlay.transparentWhite
+        cell.detailTextLabel?.textColor = AppColor.Text.detailTitle
+        cell.backgroundColor = .clear
         data.updateDisplayedData = {
             switch data.type {
                 case .button:

@@ -42,8 +42,8 @@ class ControlButton : UIButton {
         self.id = id
         super.init(frame: CGRect())
         setTitle(id.title, for: .normal)
-        setTitleColor(.black, for: .normal)
-        backgroundColor = AppColor.Overlay.semiTransparentWhite
+        setTitleColor(AppColor.Text.mainTitle, for: .normal)
+        backgroundColor = AppColor.Overlay.semiTransparent
         titleLabel!.font = AppFont.smallFont
         clipsToBounds = true
     }

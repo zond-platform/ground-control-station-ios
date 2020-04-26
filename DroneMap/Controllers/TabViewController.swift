@@ -19,6 +19,9 @@ class TabViewController : UIViewController {
         super.init(nibName: nil, bundle: nil)
         tabView = TabView()
         tabView.addDelegate(self)
+        Environment.commandService.logMessage = { message, type in
+            self.tabView.logMessage(message, type)
+        }
         view = tabView
     }
 

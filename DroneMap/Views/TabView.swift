@@ -6,6 +6,8 @@
 //  Copyright © 2020 Evgeny Agamirzov. All rights reserved.
 //
 
+import os.log
+
 import UIKit
 
 protocol TabViewDelegate : AnyObject {
@@ -35,10 +37,6 @@ class TabView : UIView {
 
         for id in TabButtonId.allCases {
             buttons.append(TabButton(id))
-            buttons.last!.backgroundColor = AppColor.Overlay.semiOpaqueWhite
-            buttons.last!.setTitle(id.title, for: .normal)
-            buttons.last!.setTitleColor(.black, for: .normal)
-            buttons.last!.titleLabel!.font = AppFont.largeFont
             buttons.last!.addTarget(self, action: #selector(onButtonPressed(_:)), for: .touchUpInside)
             NSLayoutConstraint.activate([
                 buttons.last!.heightAnchor.constraint(equalToConstant: AppDimensions.Tab.height),
@@ -75,6 +73,23 @@ extension TabView {
 extension TabView {
     func addDelegate(_ delegate: TabViewDelegate) {
         delegates.append(delegate)
+    }
+
+    func logMessage(_ message: String, _ type: OSLogType) {
+        os_log("%@", type: type, message)
+        for button in buttons {
+            if button.id == .console {
+                button.setTitle(message, for: .normal)
+                switch type {
+                    case .debug:
+                        button.setTitleColor(AppColor.Text.success, for: .normal)
+                    case .error:
+                        button.setTitleColor(AppColor.Text.error, for: .normal)
+                    default:
+                        break
+                }
+            }
+        }
     }
 
     func deselectButton() {}

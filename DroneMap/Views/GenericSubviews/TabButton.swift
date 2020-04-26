@@ -18,7 +18,7 @@ enum TabButtonId {
             case .mission:
                 return "Menu"
             case .console:
-                return ">_"
+                return ""
             case .controls:
                 return "Controls"
         }
@@ -49,9 +49,9 @@ class TabButton : UIButton {
     init(_ id: TabButtonId) {
         self.id = id
         super.init(frame: CGRect())
-        setTitle(id.title, for: [.normal, .selected])
-        setTitleColor(.black, for: [.normal, .selected])
-        backgroundColor = AppColor.Overlay.semiOpaqueWhite
-        titleLabel!.font = AppFont.largeFont
+        backgroundColor = AppColor.Overlay.semiOpaque
+        setTitle(id.title, for: .normal)
+        setTitleColor(AppColor.Text.mainTitle, for: .normal)
+        titleLabel!.font = AppFont.largeLightFont
     }
 }

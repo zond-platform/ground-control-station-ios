@@ -53,7 +53,7 @@ extension ConnectionService : ServiceProtocol {
         os_log("Starting connection service", type: .debug)
         DJISDKManager.registerApp(with: self)
     }
-    
+
     internal func stop() {
         os_log("Stopping connection service", type: .debug)
         DJISDKManager.stopConnectionToProduct()
