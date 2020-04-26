@@ -17,7 +17,7 @@ struct Environment {
 
     // Shared view controllers
     static let mapViewController      = MapViewController()
-    static let tabViewController      = TabViewController()
+    static let consoleViewController  = ConsoleViewController()
     static let settingsViewController = SettingsViewController()
     static let controlViewController  = ControlViewController()
     static let rootViewController     = RootViewController()

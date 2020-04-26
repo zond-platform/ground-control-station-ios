@@ -28,13 +28,6 @@ class ControlViewController : UIViewController {
     }
 }
 
-// Public methods
-extension ControlViewController {
-    func showView(_ show: Bool) {
-        controlView.show(show)
-    }
-}
-
 // Subscribe to view updates
 extension ControlViewController : ControlViewDelegate {
     func buttonPressed(_ id: ControlButtonId) {
@@ -49,8 +42,6 @@ extension ControlViewController : ControlViewDelegate {
                 Environment.commandService.executeMissionCommand(.stop)
         }
     }
-
-    func animationCompleted() {}
 }
 
 // Subscribe to command responses

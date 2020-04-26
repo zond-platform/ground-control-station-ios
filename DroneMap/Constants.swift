@@ -12,61 +12,58 @@ import UIKit
 struct AppDimensions {
     static let screenWidth = UIScreen.main.bounds.width
     static let screenHeight = UIScreen.main.bounds.height
+    static let margin = screenWidth * CGFloat(0.01)
 
     struct Proportion {
-        static let vertical: [CGFloat] = [0.09, 0.91]
-        static let horizontal: [CGFloat] = [0.4, 0.4, 0.2]
+        static let horizontal: [CGFloat] = [0.4, 0.2, 0.4]
+        static let vertical: [CGFloat] = [0.08, 0.84, 0.08]
     }
 
     struct Content {
-        private static let marginRate = CGFloat(0.01)
-        private static let margin = screenWidth * marginRate
-
         static let x = margin
         static let y = margin
         static let width = screenWidth - margin * CGFloat(2)
         static let height = screenHeight - margin * CGFloat(2)
     }
 
-    struct Tab {
-        static let x = Content.x
-        static let y = Content.y
-        static let width = Content.width
-        static let height = Content.height * Proportion.vertical[0]
-    }
-
     struct Settings {
         static let x = Content.x
-        static let y = Content.y + Tab.height
+        static let y = Content.y
         static let width = Content.width * Proportion.horizontal[0]
-        static let height = Content.height * Proportion.vertical[1]
-        static let rowHeight = Tab.height
+        static let height = Content.height * (Proportion.vertical[0] + Proportion.vertical[1]) - margin
 
+        // Button related dimensions
+        static let buttonHeight = Content.height * Proportion.vertical[0]
+        static let tableHeight = height - buttonHeight
+
+        // Table view related dimensions
+        static let rowHeight = Content.height * Proportion.vertical[0]
         struct SimulatorSection {
-            static let headerHeight = Tab.height * CGFloat(1.5)
+            static let headerHeight = rowHeight * CGFloat(1.5)
             static let footerHeight = CGFloat(0)
         }
-
         struct EditorSection {
-            static let headerHeight = Tab.height * CGFloat(1.5)
+            static let headerHeight = rowHeight * CGFloat(1.5)
             static let footerHeight = CGFloat(0)
         }
-
         struct StatusSection {
-            static let headerHeight = Tab.height * CGFloat(1.5)
-            static let footerHeight = Tab.height * CGFloat(0.5)
+            static let headerHeight = rowHeight * CGFloat(1.5)
+            static let footerHeight = rowHeight * CGFloat(0.5)
         }
-    }
-
-    struct Console {
-        static let width = Content.width * Proportion.horizontal[1]
     }
 
     struct Controls {
-        static let x = Content.x + Settings.width + Console.width
-        static let y = Content.y + Tab.height
+        static let x = Content.x + Content.width * (Proportion.horizontal[0] + Proportion.horizontal[1])
+        static let y = Content.y
         static let width = Content.width * Proportion.horizontal[2]
-        static let height = Tab.height * CGFloat(ControlButtonId.allCases.count)
+        static let height = Content.height * Proportion.vertical[0]
+    }
+
+    struct Console {
+        static let x = Content.x
+        static let y = Content.y + Content.height * (Proportion.vertical[0] + Proportion.vertical[1])
+        static let width = Content.width
+        static let height = Content.height * Proportion.vertical[2]
     }
 }
 

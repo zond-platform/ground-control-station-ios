@@ -17,7 +17,7 @@ class SectionHeaderView: UITableViewHeaderFooterView {
 
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-        title.font = AppFont.normalLightFont
+        title.font = AppFont.smallFont
         title.textColor = AppColor.Text.detailTitle
         title.sizeToFit()
         title.translatesAutoresizingMaskIntoConstraints = false

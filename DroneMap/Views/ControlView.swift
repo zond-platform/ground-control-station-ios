@@ -10,7 +10,6 @@ import UIKit
 
 protocol ControlViewDelegate : AnyObject {
     func buttonPressed(_ id: ControlButtonId)
-    func animationCompleted()
 }
 
 class ControlView : UIView {
@@ -27,18 +26,18 @@ class ControlView : UIView {
             x: AppDimensions.Controls.x,
             y: AppDimensions.Controls.y,
             width: AppDimensions.Controls.width,
-            height: 0
+            height: AppDimensions.Controls.height
         ))
 
-        stackView.axis = .vertical
+        stackView.axis = .horizontal
         stackView.distribution = .fillEqually
-        stackView.alignment = .top
+        stackView.alignment = .center
 
         for id in ControlButtonId.allCases {
             buttons.append(ControlButton(id))
             buttons.last!.addTarget(self, action: #selector(onButtonPressed(_:)), for: .touchUpInside)
             NSLayoutConstraint.activate([
-                buttons.last!.widthAnchor.constraint(equalToConstant: AppDimensions.Controls.width)
+                buttons.last!.heightAnchor.constraint(equalToConstant: AppDimensions.Controls.height)
             ])
             stackView.addArrangedSubview(buttons.last!)
         }
@@ -46,8 +45,8 @@ class ControlView : UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false;
         addSubview(stackView)
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            stackView.leftAnchor.constraint(equalTo: leftAnchor),
+            stackView.rightAnchor.constraint(equalTo: rightAnchor)
         ])
     }
 }
@@ -56,24 +55,6 @@ class ControlView : UIView {
 extension ControlView {
     func addDelegate(_ delegate: ControlViewDelegate) {
         delegates.append(delegate)
-    }
-
-    func show(_ show: Bool) {
-        layoutIfNeeded()
-        UIView.animate(withDuration: 0.3,
-            animations: {
-                if show {
-                    self.frame.size.height = AppDimensions.Controls.height
-                } else {
-                    self.frame.size.height = 0
-                }
-                self.layoutIfNeeded()
-            },
-            completion: { _ in
-                for delegate in self.delegates {
-                    delegate?.animationCompleted()
-                }
-            })
     }
 }
 

@@ -8,14 +8,10 @@
 
 import UIKit
 
-protocol SettingsViewDelegate : AnyObject {
-    func animationCompleted()
-}
-
 class SettingsView : UIView {
     private var stackView = UIStackView()
+    private var button = UIButton()
     var tableView = UITableView(frame: CGRect(), style: .grouped)
-    private var delegates: [SettingsViewDelegate?] = []
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -26,12 +22,23 @@ class SettingsView : UIView {
             x: AppDimensions.Settings.x,
             y: AppDimensions.Settings.y,
             width: AppDimensions.Settings.width,
-            height: 0.0
+            height: AppDimensions.Settings.buttonHeight
         ))
 
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.alignment = .top
+
+        button.backgroundColor = AppColor.Overlay.semiTransparent
+        button.setTitleColor(AppColor.Text.mainTitle, for: .normal)
+        button.setTitle("Settings", for: .normal)
+        button.titleLabel!.font = AppFont.smallFont
+        button.addTarget(self, action: #selector(showSettings(_:)), for: .touchUpInside)
+        NSLayoutConstraint.activate([
+            button.heightAnchor.constraint(equalToConstant: AppDimensions.Settings.buttonHeight),
+            button.widthAnchor.constraint(equalToConstant: AppDimensions.Settings.width)
+        ])
+        stackView.addArrangedSubview(button)
 
         tableView.separatorStyle = .none
         tableView.backgroundColor = AppColor.Overlay.semiTransparent
@@ -49,27 +56,16 @@ class SettingsView : UIView {
     }
 }
 
-// Public methods
+// Handle control events
 extension SettingsView {
-    func addDelegate(_ delegate: SettingsViewDelegate) {
-        delegates.append(delegate)
-    }
-
-    func show(_ show: Bool) {
+    @objc func showSettings(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
         layoutIfNeeded()
-        UIView.animate(withDuration: 0.3,
-            animations: {
-                if show {
-                    self.frame.size.height = AppDimensions.Settings.height
-                } else {
-                    self.frame.size.height = 0
-                }
-                self.layoutIfNeeded()
-            },
-            completion: { _ in
-                for delegate in self.delegates {
-                    delegate?.animationCompleted()
-                }
-            })
+        UIView.animate(withDuration: 0.2, animations: {
+            self.frame.size.height = sender.isSelected
+                                     ? AppDimensions.Settings.height
+                                     : AppDimensions.Settings.buttonHeight
+            self.layoutIfNeeded()
+        })
     }
 }

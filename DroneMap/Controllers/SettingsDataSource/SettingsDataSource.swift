@@ -102,9 +102,9 @@ extension SettingsDataSource : UITableViewDataSource {
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let data: SettingsRowData = tableData.rowData(at: indexPath)
         let cell = UITableViewCell(style: .value1, reuseIdentifier: data.type.reuseIdentifier)
-        cell.textLabel?.font = AppFont.normalLightFont
+        cell.textLabel?.font = AppFont.smallFont
         cell.textLabel?.textColor = AppColor.Text.mainTitle
-        cell.detailTextLabel?.font = AppFont.normalLightFont
+        cell.detailTextLabel?.font = AppFont.smallFont
         cell.detailTextLabel?.textColor = AppColor.Text.detailTitle
         cell.backgroundColor = .clear
         data.updateDisplayedData = {

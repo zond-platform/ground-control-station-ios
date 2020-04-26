@@ -58,7 +58,6 @@ class SettingsViewController : UIViewController {
         settingsView.tableView.delegate = self
         settingsView.tableView.register(SectionHeaderView.self, forHeaderFooterViewReuseIdentifier: NSStringFromClass(SectionHeaderView.self))
         settingsView.tableView.register(SectionFooterView.self, forHeaderFooterViewReuseIdentifier: NSStringFromClass(SectionFooterView.self))
-        settingsView.addDelegate(self)
         Environment.simulatorService.addDelegate(self)
         Environment.batteryService.addDelegate(self)
         Environment.productService.addDelegate(self)
@@ -69,13 +68,6 @@ class SettingsViewController : UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-}
-
-// Public methods
-extension SettingsViewController {
-    func showView(_ show: Bool) {
-        settingsView.show(show)
     }
 }
 
@@ -210,11 +202,6 @@ extension SettingsViewController : ProductServiceDelegate {
         tableData.enableRow(at: SettingsIdPath(.simulator, .simulator), aircraftConnected)
         tableData.enableRow(at: SettingsIdPath(.mission, .upload), aircraftConnected && editingEnabled)
     }
-}
-
-// Handle content view updates
-extension SettingsViewController : SettingsViewDelegate {
-    internal func animationCompleted() {}
 }
 
 // Subscribe to command responses

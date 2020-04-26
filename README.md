@@ -5,17 +5,15 @@ is supposed to make standard quad copters execute mapping missions.
 
 ## Todos
 
-General:
+Conceptual:
 * ~~Redesign and refactor the entire view system. Consider using Swift UI~~
 * ~~Refactor Logger class~~
 * ~~Access environment via static function instead of passing it around~~
 * Consider adding live view from the drone
-* Start telemetry services only if aircraft is connected (not the remote controller)
-* Consider using callbacks instead of delegates for internal component communication
 * Create one unified telemetry service
-* Consider subclassing UITableViewCell
-* Take control over initialization order of static variables
-* Append global constants with parameter constraints
+* Consider using callbacks instead of delegates for internal component communication
+* Start telemetry services only if aircraft is connected (not the remote controller)
+* Control initialization order of static variables
 * Monitor current aircraft velocity
 
 Map:
@@ -32,6 +30,16 @@ Map:
 * Center map with an offset if the menu is open
 * Draw copter trace on the map when executing a mission
 
+Settings:
+* Subclass UITableViewCell for different settings types (1)
+* Add custom images to the UISwitch and UISlider (2)
+* Consider splitting settings view into tabs
+* Add global constants for mission parameter constraints
+
+Controls:
+* Move simulator button out of settings (3)
+* Make multistate control buttons (4)
+
 Mission:
 * ~~Activate mission upload button~~
 * ~~Relocate view and add slide animation~~
@@ -39,8 +47,8 @@ Mission:
 * ~~Add commands for mission upload and execution~~
 * ~~Make CommandService report result via delegate~~
 * ~~Add mission start/stop/pause buttons~~
-* Log progress into the console view
-* Provide extended controls for setting mission parameters
+* ~~Log progress into the console view~~
+* ~~Provide extended controls for setting mission parameters~~
 * Fix return home altitude
 * Create mission history
 * Record mission time

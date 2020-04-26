@@ -12,7 +12,7 @@ import UIKit
 
 class ConsoleView : UIView {
     private var stackView = UIStackView()
-    private var consoleLabel = UILabel()
+    private var label = ConsoleLabel()
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -20,21 +20,24 @@ class ConsoleView : UIView {
 
     init() {
         super.init(frame: CGRect(
-            x: AppDimensions.Tab.x,
-            y: AppDimensions.Tab.y,
-            width: AppDimensions.Tab.width,
-            height: AppDimensions.Tab.height
+            x: AppDimensions.Console.x,
+            y: AppDimensions.Console.y,
+            width: AppDimensions.Console.width,
+            height: AppDimensions.Console.height
         ))
 
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .center
 
+        label.backgroundColor = AppColor.Overlay.semiTransparent
+        label.text = "Dummy text"
+        label.font = AppFont.smallFont
         NSLayoutConstraint.activate([
-            consoleLabel.heightAnchor.constraint(equalToConstant: AppDimensions.Tab.height),
-            consoleLabel.widthAnchor.constraint(equalToConstant: AppDimensions.Tab.width)
+            label.heightAnchor.constraint(equalToConstant: AppDimensions.Console.height),
+            label.widthAnchor.constraint(equalToConstant: AppDimensions.Console.width)
         ])
-        stackView.addArrangedSubview(consoleLabel)
+        stackView.addArrangedSubview(label)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false;
         addSubview(stackView)
@@ -49,12 +52,12 @@ class ConsoleView : UIView {
 extension ConsoleView {
     func logMessage(_ message: String, _ type: OSLogType) {
         os_log("%@", type: type, message)
-        consoleLabel.text = message
+        label.text = message
         switch type {
             case .debug:
-                consoleLabel.textColor = AppColor.Text.success
+                label.textColor = AppColor.Text.success
             case .error:
-                consoleLabel.textColor = AppColor.Text.error
+                label.textColor = AppColor.Text.error
             default:
                 break
         }
