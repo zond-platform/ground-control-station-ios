@@ -9,7 +9,7 @@
 import UIKit
 
 class SectionHeaderView: UITableViewHeaderFooterView {
-    let title = UILabel()
+    let title = InsetLabel()
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -23,8 +23,9 @@ class SectionHeaderView: UITableViewHeaderFooterView {
         title.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(title)
         NSLayoutConstraint.activate([
-            title.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            title.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
+            title.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            title.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
 }

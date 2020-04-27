@@ -12,7 +12,7 @@ import UIKit
 
 class ConsoleView : UIView {
     private var stackView = UIStackView()
-    private var label = ConsoleLabel()
+    private var label = InsetLabel()
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)

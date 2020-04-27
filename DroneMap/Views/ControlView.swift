@@ -13,7 +13,7 @@ protocol ControlViewDelegate : AnyObject {
 }
 
 class ControlView : UIView {
-    private var stackView = UIStackView()
+    private let stackView = UIStackView()
     private var buttons: [ControlButton] = []
     private var delegates: [ControlViewDelegate?] = []
 

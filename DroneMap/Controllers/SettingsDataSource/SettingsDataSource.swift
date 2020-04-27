@@ -23,72 +23,6 @@ class SettingsDataSource : NSObject {
     }
 }
 
-// Private methods
-extension SettingsDataSource {
-    private func setupInfoCell(_ cell: UITableViewCell, _ data: SettingsRowData<Any>) {
-        cell.textLabel?.text = data.title
-        cell.textLabel?.textColor = data.isEnabled ? AppColor.Text.mainTitle : AppColor.Text.inactiveTitle
-        cell.detailTextLabel?.text = data.value as? String
-        cell.detailTextLabel?.textColor = data.isEnabled ? AppColor.Text.detailTitle : AppColor.Text.inactiveTitle
-        cell.selectionStyle = .none
-        cell.accessoryType = .none
-    }
-
-    private func setupButtonCell(_ cell: UITableViewCell, _ data: SettingsRowData<Any>) {
-        cell.textLabel?.text = data.title
-        cell.textLabel?.textColor = data.isEnabled ? UIColor.blue : AppColor.Text.inactiveTitle
-        cell.isUserInteractionEnabled = data.isEnabled
-        cell.accessoryType = .none
-    }
-
-    private func setupSliderCell(_ cell: UITableViewCell, _ data: SettingsRowData<Any>) {
-        if cell.accessoryView == nil {
-            let slider = SettingsCellSlider()
-            switch data.id {
-                case .altitude:
-                    slider.minimumValue = 20
-                    slider.maximumValue = 200
-                case .gridDistance:
-                    slider.minimumValue = 10
-                    slider.maximumValue = 50
-                case .flightSpeed:
-                    slider.minimumValue = 1
-                    slider.maximumValue = 15
-                case .shootDistance:
-                    slider.minimumValue = 10
-                    slider.maximumValue = 50
-                default:
-                    break
-            }
-            slider.addTarget(self, action: #selector(onSliderMoved(_:)), for: .valueChanged)
-            slider.idPath = data.idPath
-            cell.accessoryView = slider
-        }
-        let unit = data.id == .flightSpeed ? "m/s" : "m"
-        (cell.accessoryView as! UISlider).isUserInteractionEnabled = data.isEnabled
-        (cell.accessoryView as! UISlider).value = data.value as? Float ?? 0.0
-        cell.textLabel?.text = data.title
-        cell.textLabel?.textColor = data.isEnabled ? AppColor.Text.mainTitle : AppColor.Text.inactiveTitle
-        cell.detailTextLabel?.text = String(format: "%.0f ", (cell.accessoryView as! UISlider).value) + unit
-        cell.detailTextLabel?.textColor = data.isEnabled ? AppColor.Text.detailTitle : AppColor.Text.inactiveTitle
-        cell.selectionStyle = .none
-    }
-
-    private func setupSwitcherCell(_ cell: UITableViewCell, _ data: SettingsRowData<Any>) {
-        if cell.accessoryView == nil {
-            let switcher = SettingsCellSwitch()
-            switcher.addTarget(self, action: #selector(onSwitchTriggered(_:)), for: .valueChanged)
-            switcher.idPath = data.idPath
-            cell.accessoryView = switcher
-        }
-        (cell.accessoryView as! UISwitch).isUserInteractionEnabled = data.isEnabled
-        (cell.accessoryView as! UISwitch).isOn = data.value as? Bool ?? false
-        cell.textLabel?.text = data.title
-        cell.textLabel?.textColor = data.isEnabled ? AppColor.Text.mainTitle : AppColor.Text.inactiveTitle
-        cell.selectionStyle = .none
-    }
-}
-
 // Handle table view data source updates
 extension SettingsDataSource : UITableViewDataSource {
     internal func numberOfSections(in tableView: UITableView) -> Int {
@@ -100,41 +34,39 @@ extension SettingsDataSource : UITableViewDataSource {
     }
 
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: UITableViewCell?
         let data: SettingsRowData = tableData.rowData(at: indexPath)
-        let cell = UITableViewCell(style: .value1, reuseIdentifier: data.type.reuseIdentifier)
-        cell.textLabel?.font = AppFont.smallFont
-        cell.textLabel?.textColor = AppColor.Text.mainTitle
-        cell.detailTextLabel?.font = AppFont.smallFont
-        cell.detailTextLabel?.textColor = AppColor.Text.detailTitle
-        cell.backgroundColor = .clear
+        switch data.type {
+            case .button:
+                cell = tableView.dequeueReusableCell(withIdentifier: data.type.reuseIdentifier, for: indexPath) as! TableViewButtonCell
+            case .info:
+                cell = tableView.dequeueReusableCell(withIdentifier: data.type.reuseIdentifier, for: indexPath) as! TableViewInfoCell
+            case .slider:
+                cell = tableView.dequeueReusableCell(withIdentifier: data.type.reuseIdentifier, for: indexPath) as! TableViewSliderCell
+            case .switcher:
+                cell = tableView.dequeueReusableCell(withIdentifier: data.type.reuseIdentifier, for: indexPath) as! TableViewSwitchCell
+        }
+
         data.updateDisplayedData = {
             switch data.type {
                 case .button:
-                    self.setupButtonCell(cell, data)
+                    (cell! as! TableViewButtonCell).setup(data.id.title, data.isEnabled)
                 case .info:
-                    self.setupInfoCell(cell, data)
+                    (cell! as! TableViewInfoCell).setup(data.id.title, data.value as! String, data.isEnabled)
                 case .slider:
-                    self.setupSliderCell(cell, data)
+                    (cell! as! TableViewSliderCell).setup(data)
+                    (cell! as! TableViewSliderCell).sliderMoved = { idPath, value in
+                        self.delegate?.sliderMoved(at: idPath, to: value)
+                    }
                 case .switcher:
-                    self.setupSwitcherCell(cell, data)
+                    (cell! as! TableViewSwitchCell).setup(data)
+                    (cell! as! TableViewSwitchCell).switchTriggered = { idPath, isOn in
+                        self.delegate?.switchTriggered(at: idPath, isOn)
+                    }
             }
         }
         data.updateDisplayedData?()
-        return cell
-    }
-}
 
-// Handle control events
-extension SettingsDataSource {
-    @objc func onSwitchTriggered(_ sender: SettingsCellSwitch) {
-        if let idPath = sender.idPath {
-            delegate?.switchTriggered(at: idPath, sender.isOn)
-        }
-    }
-
-    @objc func onSliderMoved(_ sender: SettingsCellSlider) {
-        if let idPath = sender.idPath {
-            delegate?.sliderMoved(at: idPath, to: sender.value)
-        }
+        return cell!
     }
 }

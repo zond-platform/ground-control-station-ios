@@ -33,6 +33,7 @@
 		EC1678EC2448541D00C71203 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678EB2448541D00C71203 /* Constants.swift */; };
 		EC178D86243B76680006495E /* SettingsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC178D85243B76680006495E /* SettingsDataSource.swift */; };
 		EC1C66782291C07B00BEA440 /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C66772291C07B00BEA440 /* ServiceProtocol.swift */; };
+		EC43DD0D24571B1F00E011D3 /* TableViewSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC43DD0C24571B1F00E011D3 /* TableViewSwitchCell.swift */; };
 		EC8528572451A2AB006BAF26 /* SectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8528562451A2AB006BAF26 /* SectionFooterView.swift */; };
 		EC87F024243E485800470917 /* SettingsRowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC87F023243E485800470917 /* SettingsRowData.swift */; };
 		EC87F026243E486900470917 /* SettingsSectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC87F025243E486900470917 /* SettingsSectionData.swift */; };
@@ -41,7 +42,10 @@
 		EC950E8E21B81EA700B3A03D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC950E8D21B81EA700B3A03D /* Assets.xcassets */; };
 		EC950E9C21B81EA700B3A03D /* GeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E9B21B81EA700B3A03D /* GeometryTests.swift */; };
 		EC950EA721B81EA800B3A03D /* DroneMapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950EA621B81EA800B3A03D /* DroneMapUITests.swift */; };
-		EC98D9412455EBE6006BEA9F /* ConsoleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98D9402455EBE6006BEA9F /* ConsoleLabel.swift */; };
+		EC98D9412455EBE6006BEA9F /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98D9402455EBE6006BEA9F /* InsetLabel.swift */; };
+		EC98D9432456ECA0006BEA9F /* TableVIewInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98D9422456ECA0006BEA9F /* TableVIewInfoCell.swift */; };
+		EC98D94524570BAC006BEA9F /* TableViewButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98D94424570BAC006BEA9F /* TableViewButtonCell.swift */; };
+		EC98D94724570FE7006BEA9F /* TableViewSliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98D94624570FE7006BEA9F /* TableViewSliderCell.swift */; };
 		ECAAC83A2299B83700FB360F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAAC8392299B83700FB360F /* SettingsView.swift */; };
 		ECD709A2244DEA28004CB3B6 /* SettingsTableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD709A1244DEA28004CB3B6 /* SettingsTableData.swift */; };
 		ECD709A4244F3BB8004CB3B6 /* SettingsCellSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD709A3244F3BB8004CB3B6 /* SettingsCellSlider.swift */; };
@@ -100,6 +104,7 @@
 		EC1678EB2448541D00C71203 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		EC178D85243B76680006495E /* SettingsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDataSource.swift; sourceTree = "<group>"; };
 		EC1C66772291C07B00BEA440 /* ServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocol.swift; sourceTree = "<group>"; };
+		EC43DD0C24571B1F00E011D3 /* TableViewSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewSwitchCell.swift; sourceTree = "<group>"; };
 		EC8528562451A2AB006BAF26 /* SectionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionFooterView.swift; sourceTree = "<group>"; };
 		EC87F023243E485800470917 /* SettingsRowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRowData.swift; sourceTree = "<group>"; };
 		EC87F025243E486900470917 /* SettingsSectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSectionData.swift; sourceTree = "<group>"; };
@@ -114,7 +119,10 @@
 		EC950EA221B81EA800B3A03D /* DroneMapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DroneMapUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC950EA621B81EA800B3A03D /* DroneMapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroneMapUITests.swift; sourceTree = "<group>"; };
 		EC950EA821B81EA800B3A03D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EC98D9402455EBE6006BEA9F /* ConsoleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleLabel.swift; sourceTree = "<group>"; };
+		EC98D9402455EBE6006BEA9F /* InsetLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetLabel.swift; sourceTree = "<group>"; };
+		EC98D9422456ECA0006BEA9F /* TableVIewInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableVIewInfoCell.swift; sourceTree = "<group>"; };
+		EC98D94424570BAC006BEA9F /* TableViewButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewButtonCell.swift; sourceTree = "<group>"; };
+		EC98D94624570FE7006BEA9F /* TableViewSliderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewSliderCell.swift; sourceTree = "<group>"; };
 		ECAAC8392299B83700FB360F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		ECD709A1244DEA28004CB3B6 /* SettingsTableData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableData.swift; sourceTree = "<group>"; };
 		ECD709A3244F3BB8004CB3B6 /* SettingsCellSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCellSlider.swift; sourceTree = "<group>"; };
@@ -208,11 +216,15 @@
 			isa = PBXGroup;
 			children = (
 				EC1678E824473DF400C71203 /* ControlButton.swift */,
-				EC98D9402455EBE6006BEA9F /* ConsoleLabel.swift */,
+				EC98D9402455EBE6006BEA9F /* InsetLabel.swift */,
 				ECD709A3244F3BB8004CB3B6 /* SettingsCellSlider.swift */,
 				ECD709A5244F3BC6004CB3B6 /* SettingsCellSwitch.swift */,
 				EC0ECE332449EACE008B1479 /* SectionHeaderView.swift */,
 				EC8528562451A2AB006BAF26 /* SectionFooterView.swift */,
+				EC98D9422456ECA0006BEA9F /* TableVIewInfoCell.swift */,
+				EC98D94424570BAC006BEA9F /* TableViewButtonCell.swift */,
+				EC43DD0C24571B1F00E011D3 /* TableViewSwitchCell.swift */,
+				EC98D94624570FE7006BEA9F /* TableViewSliderCell.swift */,
 			);
 			path = GenericSubviews;
 			sourceTree = "<group>";
@@ -530,7 +542,7 @@
 				EC178D86243B76680006495E /* SettingsDataSource.swift in Sources */,
 				EC14731B23B1EE9300385067 /* MovingObject.swift in Sources */,
 				ECAAC83A2299B83700FB360F /* SettingsView.swift in Sources */,
-				EC98D9412455EBE6006BEA9F /* ConsoleLabel.swift in Sources */,
+				EC98D9412455EBE6006BEA9F /* InsetLabel.swift in Sources */,
 				ECEEEEE82267A24F005A71C6 /* BatteryService.swift in Sources */,
 				EC14732823B1F62000385067 /* ConvexHull.swift in Sources */,
 				EC15EAE02286FD530032ACB9 /* SimulatorService.swift in Sources */,
@@ -540,15 +552,19 @@
 				EC14732A23B1F63000385067 /* Vector.swift in Sources */,
 				EC15EAD62271CBF50032ACB9 /* RootView.swift in Sources */,
 				EC950E8721B81EA600B3A03D /* AppDelegate.swift in Sources */,
+				EC43DD0D24571B1F00E011D3 /* TableViewSwitchCell.swift in Sources */,
 				ECF5DF1A2454567C00395756 /* SettingsIdPath.swift in Sources */,
 				ECD709A4244F3BB8004CB3B6 /* SettingsCellSlider.swift in Sources */,
+				EC98D94724570FE7006BEA9F /* TableViewSliderCell.swift in Sources */,
 				EC1C66782291C07B00BEA440 /* ServiceProtocol.swift in Sources */,
 				EC14732423B1F03400385067 /* PolygonVertexView.swift in Sources */,
 				EC0ECE342449EACE008B1479 /* SectionHeaderView.swift in Sources */,
 				EC14731D23B1EEAE00385067 /* PolygonVertex.swift in Sources */,
 				ECEEEEF4226BA5E7005A71C6 /* ServiceBase.swift in Sources */,
+				EC98D9432456ECA0006BEA9F /* TableVIewInfoCell.swift in Sources */,
 				EC12A715244B1DB200DEC7A6 /* ConsoleView.swift in Sources */,
 				EC87F026243E486900470917 /* SettingsSectionData.swift in Sources */,
+				EC98D94524570BAC006BEA9F /* TableViewButtonCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

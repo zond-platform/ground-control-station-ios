@@ -58,6 +58,10 @@ class SettingsViewController : UIViewController {
         settingsView.tableView.delegate = self
         settingsView.tableView.register(SectionHeaderView.self, forHeaderFooterViewReuseIdentifier: NSStringFromClass(SectionHeaderView.self))
         settingsView.tableView.register(SectionFooterView.self, forHeaderFooterViewReuseIdentifier: NSStringFromClass(SectionFooterView.self))
+        settingsView.tableView.register(TableViewInfoCell.self, forCellReuseIdentifier: SettingsRowType.info.reuseIdentifier)
+        settingsView.tableView.register(TableViewButtonCell.self, forCellReuseIdentifier: SettingsRowType.button.reuseIdentifier)
+        settingsView.tableView.register(TableViewSliderCell.self, forCellReuseIdentifier: SettingsRowType.slider.reuseIdentifier)
+        settingsView.tableView.register(TableViewSwitchCell.self, forCellReuseIdentifier: SettingsRowType.switcher.reuseIdentifier)
         Environment.simulatorService.addDelegate(self)
         Environment.batteryService.addDelegate(self)
         Environment.productService.addDelegate(self)
