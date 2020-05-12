@@ -9,96 +9,101 @@
 import CoreGraphics
 import UIKit
 
-struct AppDimensions {
-    static let screenWidth = UIScreen.main.bounds.width
-    static let screenHeight = UIScreen.main.bounds.height
-    static let margin = screenWidth * CGFloat(0.01)
-
-    struct Proportion {
-        static let horizontal: [CGFloat] = [0.4, 0.2, 0.4]
-        static let vertical: [CGFloat] = [0.08, 0.84, 0.08]
-    }
-
-    struct Content {
-        static let x = margin
-        static let y = margin
-        static let width = screenWidth - margin * CGFloat(2)
-        static let height = screenHeight - margin * CGFloat(2)
-    }
-
-    struct Settings {
-        static let x = Content.x
-        static let y = Content.y
-        static let width = Content.width * Proportion.horizontal[0]
-        static let height = Content.height * (Proportion.vertical[0] + Proportion.vertical[1]) - margin
-
-        // Button related dimensions
-        static let buttonHeight = Content.height * Proportion.vertical[0]
-        static let tableHeight = height - buttonHeight
-
-        // Table view related dimensions
-        static let rowHeight = Content.height * Proportion.vertical[0]
-        struct SimulatorSection {
-            static let headerHeight = rowHeight * CGFloat(1.5)
-            static let footerHeight = CGFloat(0)
-        }
-        struct EditorSection {
-            static let headerHeight = rowHeight * CGFloat(1.5)
-            static let footerHeight = CGFloat(0)
-        }
-        struct StatusSection {
-            static let headerHeight = rowHeight * CGFloat(1.5)
-            static let footerHeight = rowHeight * CGFloat(0.5)
-        }
-    }
-
-    struct Controls {
-        static let x = Content.x + Content.width * (Proportion.horizontal[0] + Proportion.horizontal[1])
-        static let y = Content.y
-        static let width = Content.width * Proportion.horizontal[2]
-        static let height = Content.height * Proportion.vertical[0]
-    }
-
-    struct Console {
-        static let x = Content.x
-        static let y = Content.y + Content.height * (Proportion.vertical[0] + Proportion.vertical[1])
-        static let width = Content.width
-        static let height = Content.height * Proportion.vertical[2]
-    }
+struct AppFont {
+    static let smallFont = UIFont.systemFont(ofSize: 12, weight: .regular)
 }
 
 struct AppColor {
-    static let baseColor = UIColor.white
-
     private struct Alphas {
         static let opaque = CGFloat(1)
         static let semiOpaque = CGFloat(0.9)
-        static let semiTransparent = CGFloat(0.9)
+        static let semiTransparent = CGFloat(0.6)
         static let transparent = CGFloat(0.4)
     }
 
-    struct Overlay {
-        static let opaque = baseColor
-        static let semiOpaque = opaque.withAlphaComponent(Alphas.semiOpaque)
-        static let semiTransparent = opaque.withAlphaComponent(Alphas.semiTransparent)
-        static let transparent = opaque.withAlphaComponent(Alphas.transparent)
-    }
+    static let primaryColor = UIColor(red: 0.2588, green: 0.2863, blue: 0.2863, alpha: Alphas.semiOpaque)
+    static let secondaryColor = UIColor(red: 0.3647, green: 0.6784, blue: 0.8863, alpha: 1.0)
 
     struct Text {
-        static let mainTitle = UIColor.black
-        static let detailTitle = UIColor.gray
-        static let inactiveTitle = UIColor.lightGray
+        static let mainTitle = UIColor.white
+        static let detailTitle = UIColor.lightGray
+        static let inactiveTitle = UIColor.gray
         static let error = UIColor(red: 1.0, green: 0.4, blue: 0.3, alpha: Alphas.opaque)
         static let success = UIColor(red: 0.5, green: 0.7, blue: 0.5, alpha: Alphas.opaque)
     }
 }
 
-struct AppFont {
-    static let smallFont = UIFont.systemFont(ofSize: 12, weight: .light)
-    static let normalLightFont = UIFont.systemFont(ofSize: 14, weight: .light)
-    static let normalRegularFont = UIFont.systemFont(ofSize: 14, weight: .regular)
-    static let normalBoldFont = UIFont.systemFont(ofSize: 14, weight: .bold)
-    static let largeLightFont = UIFont.systemFont(ofSize: 14, weight: .light)
-    static let largeRegularFont = UIFont.systemFont(ofSize: 14, weight: .regular)
-    static let largeBoldFont = UIFont.systemFont(ofSize: 14, weight: .bold)
+struct AppDimensions {
+    static let screenWidth = UIScreen.main.bounds.width
+    static let screenHeight = UIScreen.main.bounds.height
+    static let contentMargin = screenWidth * CGFloat(0.005)
+    static let textMargin = screenWidth * CGFloat(0.015)
+
+    struct ContentView {
+        struct Ratio {
+            static let h: [CGFloat] = [0.4, 0.45, 0.15]
+            static let v: [CGFloat] = [0.09, 0.91]
+        }
+
+        static let x = contentMargin
+        static let y = contentMargin
+        static let width = screenWidth - contentMargin * CGFloat(2)
+        static let height = screenHeight - contentMargin * CGFloat(2)
+        static let spacer = contentMargin
+    }
+
+    struct MissionView {
+        struct Row {
+            static let height = ContentView.height * ContentView.Ratio.v[0]
+            struct Slider {
+                struct Ratio {
+                    static let h: [CGFloat] = [0.4, 0.35, 0.25]
+                }
+
+                static let titleWidth = MissionView.width * Slider.Ratio.h[0]
+                static let sliderWidth = MissionView.width * Slider.Ratio.h[1]
+                static let valueWidth = MissionView.width * Slider.Ratio.h[2]
+                static let sliderThumbRadius = Row.height * CGFloat(0.6)
+            }
+        }
+
+        struct Section {
+            struct Editor {
+                static let headerHeight = Row.height * CGFloat(0.5)
+                static let footerHeight = Row.height * CGFloat(0.5)
+            }
+            struct Command {
+                static let headerHeight = Row.height * CGFloat(0.5)
+                static let footerHeight = textMargin
+            }
+        }
+
+        static let x = ContentView.x
+        static let y = ContentView.y
+        static let width = ContentView.width * ContentView.Ratio.h[0]
+    }
+
+    struct ConsoleView {
+        static let x = ContentView.x + ContentView.width * ContentView.Ratio.h[0] + ContentView.spacer
+        static let y = ContentView.y
+        static let width = ContentView.width * (ContentView.Ratio.h[1] + ContentView.Ratio.h[2]) - ContentView.spacer
+        static let height = ContentView.height * ContentView.Ratio.v[0]
+    }
+
+    struct NavigationView {
+        struct Button {
+            static let height = ContentView.height * ContentView.Ratio.v[0]
+            static let count = CGFloat(NavigationButtonId.allCases.count)
+        }
+
+        struct Spacer {
+            static let height = ContentView.spacer
+            static let count = CGFloat(NavigationButtonId.allCases.count - 1)
+        }
+
+        static let x = ContentView.x + ContentView.width * (ContentView.Ratio.h[0] + ContentView.Ratio.h[1])
+        static let y = ContentView.y + ContentView.height - NavigationView.height
+        static let width = ContentView.width * ContentView.Ratio.h[2]
+        static let height = Button.height * Button.count + Spacer.height * Spacer.count
+    }
 }

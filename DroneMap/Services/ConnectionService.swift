@@ -22,6 +22,7 @@ protocol ConnectionServiceDelegate : AnyObject {
 
 class ConnectionService : NSObject {
     var delegates: [ConnectionServiceDelegate?] = []
+    var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
 }
 
 // Public methods
@@ -50,12 +51,12 @@ extension ConnectionService {
 // Comply with generic service protocol
 extension ConnectionService : ServiceProtocol {
     internal func start() {
-        os_log("Starting connection service", type: .debug)
+        logConsole?("Starting connection service", .debug)
         DJISDKManager.registerApp(with: self)
     }
 
     internal func stop() {
-        os_log("Stopping connection service", type: .debug)
+        logConsole?("Stopping connection service", .debug)
         DJISDKManager.stopConnectionToProduct()
     }
 }
@@ -66,10 +67,10 @@ extension ConnectionService : DJISDKManagerDelegate {
     
     internal func appRegisteredWithError(_ error: Error?) {
         if error != nil {
-            os_log("SDK registration failed:", type: .error, error!.localizedDescription)
+            logConsole?("SDK registration failed: \(error!.localizedDescription)", .error)
             return;
         }
-        os_log("SDK Registration succeeded", type: .debug)
+        logConsole?("SDK Registration succeeded", .debug)
         DJISDKManager.startConnectionToProduct()
         DJISDKManager.closeConnection(whenEnteringBackground: true)
         notifyConnectionStatusChanged(.pending)
@@ -77,15 +78,15 @@ extension ConnectionService : DJISDKManagerDelegate {
     
     internal func productConnected(_ product: DJIBaseProduct?) {
         if product == nil {
-            os_log("Connection error", type: .error)
+            logConsole?("Connection error", .error)
             return;
         }
-        os_log("Connected, starting services", type: .debug)
+        logConsole?("Connected, starting services", .debug)
         notifyConnectionStatusChanged(.connected)
     }
     
     internal func productDisconnected() {
-        os_log("Disconnected, stopping services", type: .debug)
+        logConsole?("Disconnected, stopping services", .debug)
         notifyConnectionStatusChanged(.disconnected)
     }
 }

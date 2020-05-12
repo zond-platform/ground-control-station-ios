@@ -1,14 +1,14 @@
 //
-//  SectionFooterView.swift
+//  SectionHeaderView.swift
 //  DroneMap
 //
-//  Created by Evgeny Agamirzov on 23.04.20.
+//  Created by Evgeny Agamirzov on 17.04.20.
 //  Copyright © 2020 Evgeny Agamirzov. All rights reserved.
 //
 
 import UIKit
 
-class SectionFooterView: UITableViewHeaderFooterView {
+class TableSection: UITableViewHeaderFooterView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }

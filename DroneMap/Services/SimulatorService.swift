@@ -10,15 +10,10 @@ import os.log
 
 import DJISDK
 
-protocol SimulatorServiceDelegate : AnyObject {
-    func simulatorStarted(_ success: Bool)
-    func simulatorStopped(_ success: Bool)
-}
-
 class SimulatorService : ServiceBase {
-    var delegates: [SimulatorServiceDelegate?] = []
-    var simulatorActive: Bool = false
-    var model: String?
+    private var simulatorActive: Bool = false
+    private var model: String?
+    var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
 
     override init() {
         super.init()
@@ -31,11 +26,8 @@ class SimulatorService : ServiceBase {
 
 // Public methods
 extension SimulatorService {
-    func addDelegate(_ delegate: SimulatorServiceDelegate) {
-        delegates.append(delegate)
-    }
-
-    func startSimulator(_ location: CLLocationCoordinate2D?) {
+    func startSimulator(_ location: CLLocationCoordinate2D?,
+                        _ simulatorStarted: @escaping ((_ success: Bool) -> Void)) {
         let aircraft = getAircraftInstance()
         if !simulatorActive && aircraft != nil && location != nil {
             aircraft!.flightController?.simulator?.start(withLocation: location!,
@@ -43,34 +35,34 @@ extension SimulatorService {
                                                          gpsSatellitesNumber: 12,
                                                          withCompletion: { (error) in
                 if (error != nil) {
-                    os_log("Start simulator error: %@", type: .error, error.debugDescription)
-                    self.onSimulatorStarted(false)
+                    self.logConsole?("Start simulator error: \(error.debugDescription)", .error)
+                    simulatorStarted(false)
                     return
                 }
-                os_log("Simulator started sussessfully", type: .debug)
-                self.onSimulatorStarted(true)
+                self.logConsole?("Simulator started sussessfully", .debug)
+                simulatorStarted(true)
             })
         } else {
-            os_log("Unable to start simulator", type: .error)
-            onSimulatorStarted(false)
+            logConsole?("Unable to start simulator", .error)
+            simulatorStarted(false)
         }
     }
 
-    func stopSimulator() {
+    func stopSimulator(_ simulatorStopped: @escaping ((_ success: Bool) -> Void)) {
         let aircraft = getAircraftInstance()
         if simulatorActive && aircraft != nil {
             aircraft!.flightController?.simulator?.stop(completion: { (error) in
                 if (error != nil) {
-                    os_log("Stop simulator error: %@", type: .error, error.debugDescription)
-                    self.onSimulatorStopped(false)
+                    self.logConsole?("Stop simulator error: \(error.debugDescription)", .error)
+                    simulatorStopped(false)
                     return
                 }
-                os_log("Simulator stopped sussessfully", type: .debug)
-                self.onSimulatorStopped(true)
+                self.logConsole?("Simulator stopped sussessfully", .debug)
+                simulatorStopped(true)
             })
         } else {
-            os_log("Unable to stop simulator", type: .error)
-            onSimulatorStopped(false)
+            logConsole?("Unable to stop simulator", .error)
+            simulatorStopped(false)
         }
     }
 }
@@ -79,7 +71,7 @@ extension SimulatorService {
 extension SimulatorService {
     private func getAircraftInstance() -> DJIAircraft? {
         guard model != nil && model != DJIAircraftModeNameOnlyRemoteController else {
-            os_log("Cannot run simulator on remote controller", type: .error)
+            logConsole?("Cannot run simulator on remote controller", .error)
             return nil
         }
         return DJISDKManager.product() as? DJIAircraft
@@ -90,18 +82,6 @@ extension SimulatorService {
             return
         }
         simulatorActive = newValue!.boolValue
-    }
-
-    private func onSimulatorStarted(_ success: Bool) {
-        for delegate in delegates {
-            delegate?.simulatorStarted(success)
-        }
-    }
-
-    private func onSimulatorStopped(_ success: Bool) {
-        for delegate in delegates {
-            delegate?.simulatorStopped(success)
-        }
     }
 }
 

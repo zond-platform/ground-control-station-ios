@@ -22,6 +22,6 @@ class MapView : MKMapView {
         ))
 
         mapType = .satellite
-        showsCompass = true
+        showsCompass = false
     }
 }

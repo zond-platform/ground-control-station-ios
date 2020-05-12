@@ -24,6 +24,12 @@ class MapViewController : UIViewController {
     private var polygonVertices: [PolygonVertex] = []
     private var polygon: MissionPolygon!
 
+    var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
+
+    var userLocation: CLLocationCoordinate2D? {
+        return user != nil ? user.coordinate : nil
+    }
+
     var gridDistance: CGFloat = 10.0 {
         didSet {
             guard polygon != nil else {
@@ -70,23 +76,32 @@ class MapViewController : UIViewController {
         mapView.addGestureRecognizer(tapRecognizer)
         mapView.addGestureRecognizer(panRecognizer)
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        moveLegalLabel()
+    }
 }
 
 // Public methods
 extension MapViewController {
-    func userLocation() -> CLLocationCoordinate2D? {
-        return user.coordinate
-    }
-
-    func focusUser() {
-        if user != nil {
-            mapView.setCenter(user.coordinate, animated: true)
+    func trackUser(_ enable: Bool) -> Bool {
+        if trackObject(user, enable) {
+            let _ = trackObject(aircraft, false)
+            return true
+        } else {
+            logConsole?("Failed to track user", .error)
+            return false
         }
     }
 
-    func focusAircraft() {
-        if aircraft != nil {
-            mapView.setCenter(aircraft.coordinate, animated: true)
+    func trackAircraft(_ enable: Bool) -> Bool {
+        if trackObject(aircraft, enable) {
+            let _ = trackObject(user, false)
+            return true
+        } else {
+            logConsole?("Failed to track aircraft", .error)
+            return false
         }
     }
 
@@ -122,7 +137,7 @@ extension MapViewController {
         if missionEditingEnabled && polygon != nil {
             return polygon.missionCoordinates()
         } else {
-            os_log("Mission coordinates not set", type: .error)
+            logConsole?("Mission coordinates not set", .error)
             return []
         }
     }
@@ -130,6 +145,38 @@ extension MapViewController {
 
 // Private methods
 extension MapViewController {
+    private func objectPresentOnMap(_ object: MovingObject) -> Bool {
+        return mapView.annotations.contains(where: { annotation in
+            return annotation as? MovingObject == object
+        })
+    }
+
+    private func trackObject(_ object: MovingObject?, _ enable: Bool) -> Bool {
+        if object != nil && objectPresentOnMap(object!) {
+            object!.isTracked = enable
+            if enable {
+                mapView.setCenter(object!.coordinate, animated: true)
+                object!.coordinateChanged = { coordinate in
+                    self.mapView.setCenter(coordinate, animated: true)
+                }
+            } else {
+                object!.coordinateChanged = nil
+            }
+            return true
+        } else {
+            return false
+        }
+    }
+
+    private func moveLegalLabel() {
+        let legalLabel: UIView = mapView.subviews[2]
+        let xOffset = mapView.frame.size.width - legalLabel.frame.size.width - AppDimensions.ContentView.spacer * CGFloat(2) - AppDimensions.NavigationView.width
+        legalLabel.frame = CGRect(x: xOffset,
+                                  y: legalLabel.frame.minY,
+                                  width: legalLabel.frame.size.width,
+                                  height: legalLabel.frame.size.height)
+    }
+
     private func enableMapInteraction(_ enable: Bool) {
         mapView.isScrollEnabled = enable
         mapView.isZoomEnabled = enable
@@ -209,6 +256,14 @@ extension MapViewController : MKMapViewDelegate {
             overlay.delegate = renderer
         }
         return renderer
+    }
+
+    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+       moveLegalLabel()
+    }
+
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+       moveLegalLabel()
     }
 }
 

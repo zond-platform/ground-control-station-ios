@@ -23,7 +23,7 @@ class RootView : UIView {
 
         addSubview(Environment.mapViewController.view)
         addSubview(Environment.consoleViewController.view)
-        addSubview(Environment.settingsViewController.view)
-        addSubview(Environment.controlViewController.view)
+        addSubview(Environment.missionViewController.view)
+        addSubview(Environment.navigationViewController.view)
     }
 }

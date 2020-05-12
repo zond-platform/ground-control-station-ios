@@ -12,7 +12,7 @@ import UIKit
 
 class ConsoleView : UIView {
     private var stackView = UIStackView()
-    private var label = InsetLabel()
+    private var label = Label()
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -20,22 +20,22 @@ class ConsoleView : UIView {
 
     init() {
         super.init(frame: CGRect(
-            x: AppDimensions.Console.x,
-            y: AppDimensions.Console.y,
-            width: AppDimensions.Console.width,
-            height: AppDimensions.Console.height
+            x: AppDimensions.ConsoleView.x,
+            y: AppDimensions.ConsoleView.y,
+            width: AppDimensions.ConsoleView.width,
+            height: AppDimensions.ConsoleView.height
         ))
 
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .center
 
-        label.backgroundColor = AppColor.Overlay.semiTransparent
-        label.text = "Dummy text"
+        label.backgroundColor = AppColor.primaryColor
         label.font = AppFont.smallFont
+        label.textColor = AppColor.Text.mainTitle
         NSLayoutConstraint.activate([
-            label.heightAnchor.constraint(equalToConstant: AppDimensions.Console.height),
-            label.widthAnchor.constraint(equalToConstant: AppDimensions.Console.width)
+            label.heightAnchor.constraint(equalToConstant: AppDimensions.ConsoleView.height),
+            label.widthAnchor.constraint(equalToConstant: AppDimensions.ConsoleView.width)
         ])
         stackView.addArrangedSubview(label)
 

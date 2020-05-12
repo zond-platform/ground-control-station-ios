@@ -16,9 +16,9 @@ struct Environment {
     static let commandService    = CommandService()
 
     // Shared view controllers
-    static let mapViewController      = MapViewController()
-    static let consoleViewController  = ConsoleViewController()
-    static let settingsViewController = SettingsViewController()
-    static let controlViewController  = ControlViewController()
-    static let rootViewController     = RootViewController()
+    static let mapViewController        = MapViewController()
+    static let consoleViewController    = ConsoleViewController()
+    static let missionViewController    = MissionViewController()
+    static let navigationViewController = NavigationViewController()
+    static let rootViewController       = RootViewController()
 }

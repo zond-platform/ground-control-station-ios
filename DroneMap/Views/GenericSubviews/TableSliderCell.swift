@@ -1,5 +1,5 @@
 //
-//  TableViewSliderCell.swift
+//  TableSliderCell.swift
 //  DroneMap
 //
 //  Created by Evgeny Agamirzov on 27.04.20.
@@ -8,12 +8,12 @@
 
 import UIKit
 
-class TableViewSliderCell : UITableViewCell {
+class TableSliderCell : UITableViewCell {
     private let stackView = UIStackView()
-    private let title = InsetLabel()
-    private let value = InsetLabel()
-    private let slider = SettingsCellSlider()
-    var sliderMoved: ((_ idPath: SettingsIdPath, _ value: Float) -> Void)?
+    private let title = Label()
+    private let value = Label()
+    private let slider = Slider()
+    var sliderMoved: ((_ idPath: IdPath, _ value: Float) -> Void)?
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -27,17 +27,23 @@ class TableViewSliderCell : UITableViewCell {
         backgroundColor = .clear
 
         stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fill
         stackView.alignment = .center
 
         title.font = AppFont.smallFont
+        NSLayoutConstraint.activate([
+            title.widthAnchor.constraint(equalToConstant: AppDimensions.MissionView.Row.Slider.titleWidth)
+        ])
         stackView.addArrangedSubview(title)
+
+        NSLayoutConstraint.activate([
+            slider.widthAnchor.constraint(equalToConstant: AppDimensions.MissionView.Row.Slider.sliderWidth)
+        ])
+        stackView.addArrangedSubview(slider)
 
         value.font = AppFont.smallFont
         value.textColor = AppColor.Text.detailTitle
         stackView.addArrangedSubview(value)
-        
-        stackView.addArrangedSubview(slider)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false;
         addSubview(stackView)
@@ -50,8 +56,8 @@ class TableViewSliderCell : UITableViewCell {
 }
 
 // Public methods
-extension TableViewSliderCell {
-    func setup(_ data: SettingsRowData<Any>) {
+extension TableSliderCell {
+    func updateData(_ data: RowData<Any>) {
         switch data.id {
             case .altitude:
                 slider.minimumValue = 20
@@ -68,6 +74,7 @@ extension TableViewSliderCell {
             default:
                 break
         }
+
         slider.addTarget(self, action: #selector(sliderMoved(_:)), for: .valueChanged)
         slider.idPath = data.idPath
 
@@ -77,14 +84,15 @@ extension TableViewSliderCell {
 
         self.title.text = data.title
         self.value.text = String(format: "%.0f ", self.slider.value) + unit
-        self.title.textColor = data.isEnabled ? AppColor.Text.mainTitle : AppColor.Text.inactiveTitle
+
+        self.title.textColor = data.isEnabled ? AppColor.Text.mainTitle   : AppColor.Text.inactiveTitle
         self.value.textColor = data.isEnabled ? AppColor.Text.detailTitle : AppColor.Text.inactiveTitle
     }
 }
 
 // Handle control events
-extension TableViewSliderCell {
-    @objc func sliderMoved(_ sender: SettingsCellSlider) {
+extension TableSliderCell {
+    @objc func sliderMoved(_ sender: Slider) {
         if let idPath = sender.idPath {
             sliderMoved?(idPath, sender.value)
         }

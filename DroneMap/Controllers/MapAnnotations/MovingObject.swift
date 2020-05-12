@@ -22,10 +22,18 @@ protocol MovingObjectDelegate : AnyObject {
 class MovingObject : MKPointAnnotation {
     weak var delegate: MovingObjectDelegate?
     var type: MovingObjectType
+    var isTracked = false
+    var coordinateChanged: ((_ coordinate: CLLocationCoordinate2D) -> Void)?
 
     var heading: CLLocationDirection {
         didSet {
             delegate?.objectHeadingChanged(heading)
+        }
+    }
+
+    override var coordinate: CLLocationCoordinate2D {
+        didSet {
+            coordinateChanged?(coordinate)
         }
     }
 
