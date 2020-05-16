@@ -25,7 +25,7 @@
 		EC15EAD42270E0B80032ACB9 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EAD32270E0B80032ACB9 /* RootViewController.swift */; };
 		EC15EAD62271CBF50032ACB9 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EAD52271CBF50032ACB9 /* RootView.swift */; };
 		EC15EAD8227498D20032ACB9 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EAD7227498D20032ACB9 /* MapView.swift */; };
-		EC15EADA2274E6BE0032ACB9 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EAD92274E6BE0032ACB9 /* LocationService.swift */; };
+		EC15EADA2274E6BE0032ACB9 /* TelemetryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EAD92274E6BE0032ACB9 /* TelemetryService.swift */; };
 		EC15EAE02286FD530032ACB9 /* SimulatorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EADF2286FD530032ACB9 /* SimulatorService.swift */; };
 		EC1678E4244623AD00C71203 /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678E3244623AD00C71203 /* NavigationViewController.swift */; };
 		EC1678E6244625D500C71203 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678E5244625D500C71203 /* NavigationView.swift */; };
@@ -43,13 +43,12 @@
 		EC98D94724570FE7006BEA9F /* TableSliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98D94624570FE7006BEA9F /* TableSliderCell.swift */; };
 		ECAAC83A2299B83700FB360F /* MissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAAC8392299B83700FB360F /* MissionView.swift */; };
 		ECD709A4244F3BB8004CB3B6 /* Slider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD709A3244F3BB8004CB3B6 /* Slider.swift */; };
-		ECD714902365B0F200958956 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD7148F2365B0F200958956 /* Utils.swift */; };
+		ECD714902365B0F200958956 /* Transformations.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD7148F2365B0F200958956 /* Transformations.swift */; };
 		ECD8AC1F2465A87900FCC8DB /* SectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD8AC1B2465A87900FCC8DB /* SectionData.swift */; };
 		ECD8AC202465A87900FCC8DB /* RowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD8AC1C2465A87900FCC8DB /* RowData.swift */; };
 		ECD8AC212465A87900FCC8DB /* IdPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD8AC1D2465A87900FCC8DB /* IdPath.swift */; };
 		ECD8AC222465A87900FCC8DB /* TableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD8AC1E2465A87900FCC8DB /* TableData.swift */; };
 		ECDF4B7222593AC600C98F71 /* MissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDF4B7122593AC600C98F71 /* MissionViewController.swift */; };
-		ECEEEEE82267A24F005A71C6 /* BatteryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEE72267A24F005A71C6 /* BatteryService.swift */; };
 		ECEEEEF0226A0E6E005A71C6 /* ProductService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEEF226A0E6E005A71C6 /* ProductService.swift */; };
 		ECEEEEF4226BA5E7005A71C6 /* ServiceBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEF3226BA5E7005A71C6 /* ServiceBase.swift */; };
 /* End PBXBuildFile section */
@@ -92,7 +91,7 @@
 		EC15EAD32270E0B80032ACB9 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		EC15EAD52271CBF50032ACB9 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		EC15EAD7227498D20032ACB9 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
-		EC15EAD92274E6BE0032ACB9 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		EC15EAD92274E6BE0032ACB9 /* TelemetryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelemetryService.swift; sourceTree = "<group>"; };
 		EC15EADF2286FD530032ACB9 /* SimulatorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorService.swift; sourceTree = "<group>"; };
 		EC1678E3244623AD00C71203 /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
 		EC1678E5244625D500C71203 /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
@@ -116,13 +115,12 @@
 		EC98D94624570FE7006BEA9F /* TableSliderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSliderCell.swift; sourceTree = "<group>"; };
 		ECAAC8392299B83700FB360F /* MissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionView.swift; sourceTree = "<group>"; };
 		ECD709A3244F3BB8004CB3B6 /* Slider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slider.swift; sourceTree = "<group>"; };
-		ECD7148F2365B0F200958956 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		ECD7148F2365B0F200958956 /* Transformations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transformations.swift; sourceTree = "<group>"; };
 		ECD8AC1B2465A87900FCC8DB /* SectionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionData.swift; sourceTree = "<group>"; };
 		ECD8AC1C2465A87900FCC8DB /* RowData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RowData.swift; sourceTree = "<group>"; };
 		ECD8AC1D2465A87900FCC8DB /* IdPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdPath.swift; sourceTree = "<group>"; };
 		ECD8AC1E2465A87900FCC8DB /* TableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableData.swift; sourceTree = "<group>"; };
 		ECDF4B7122593AC600C98F71 /* MissionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionViewController.swift; sourceTree = "<group>"; };
-		ECEEEEE72267A24F005A71C6 /* BatteryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryService.swift; sourceTree = "<group>"; };
 		ECEEEEEF226A0E6E005A71C6 /* ProductService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductService.swift; sourceTree = "<group>"; };
 		ECEEEEF3226BA5E7005A71C6 /* ServiceBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ServiceBase.swift; path = ../ServiceBase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -288,7 +286,7 @@
 			children = (
 				EC14732723B1F62000385067 /* ConvexHull.swift */,
 				EC14732923B1F63000385067 /* Vector.swift */,
-				ECD7148F2365B0F200958956 /* Utils.swift */,
+				ECD7148F2365B0F200958956 /* Transformations.swift */,
 			);
 			path = Geometry;
 			sourceTree = "<group>";
@@ -322,12 +320,11 @@
 			isa = PBXGroup;
 			children = (
 				EC1C66792291C3C100BEA440 /* GenericService */,
-				EC15EADF2286FD530032ACB9 /* SimulatorService.swift */,
-				ECEEEEE72267A24F005A71C6 /* BatteryService.swift */,
-				ECEEEEEF226A0E6E005A71C6 /* ProductService.swift */,
-				EC15EAD92274E6BE0032ACB9 /* LocationService.swift */,
 				EC950E8821B81EA600B3A03D /* ConnectionService.swift */,
+				ECEEEEEF226A0E6E005A71C6 /* ProductService.swift */,
+				EC15EADF2286FD530032ACB9 /* SimulatorService.swift */,
 				EC158056229B0A19000741DC /* CommandService.swift */,
+				EC15EAD92274E6BE0032ACB9 /* TelemetryService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -508,12 +505,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC15EADA2274E6BE0032ACB9 /* LocationService.swift in Sources */,
+				EC15EADA2274E6BE0032ACB9 /* TelemetryService.swift in Sources */,
 				ECD8AC202465A87900FCC8DB /* RowData.swift in Sources */,
 				EC12A717244B316700DEC7A6 /* ConsoleViewController.swift in Sources */,
 				ECD8AC222465A87900FCC8DB /* TableData.swift in Sources */,
 				EC14732623B1F07E00385067 /* MissionRenderer.swift in Sources */,
-				ECD714902365B0F200958956 /* Utils.swift in Sources */,
+				ECD714902365B0F200958956 /* Transformations.swift in Sources */,
 				EC1678E924473DF400C71203 /* NavigationButton.swift in Sources */,
 				EC18EBC624630AA6001A29D1 /* CommandButton.swift in Sources */,
 				EC1678E4244623AD00C71203 /* NavigationViewController.swift in Sources */,
@@ -529,7 +526,6 @@
 				EC14731B23B1EE9300385067 /* MovingObject.swift in Sources */,
 				ECAAC83A2299B83700FB360F /* MissionView.swift in Sources */,
 				EC98D9412455EBE6006BEA9F /* Label.swift in Sources */,
-				ECEEEEE82267A24F005A71C6 /* BatteryService.swift in Sources */,
 				EC14732823B1F62000385067 /* ConvexHull.swift in Sources */,
 				EC15EAE02286FD530032ACB9 /* SimulatorService.swift in Sources */,
 				EC0ECE322449B9F5008B1479 /* Environment.swift in Sources */,

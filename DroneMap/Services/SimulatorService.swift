@@ -12,7 +12,6 @@ import DJISDK
 
 class SimulatorService : ServiceBase {
     private var simulatorActive: Bool = false
-    private var model: String?
     var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
 
     override init() {
@@ -20,7 +19,7 @@ class SimulatorService : ServiceBase {
         super.setKeyActionMap([
             DJIFlightControllerKey(param: DJIFlightControllerParamIsSimulatorActive):self.onSimulatorStateChanged
         ])
-        Environment.productService.addDelegate(self)
+        registerCallbacks()
     }
 }
 
@@ -28,7 +27,7 @@ class SimulatorService : ServiceBase {
 extension SimulatorService {
     func startSimulator(_ location: CLLocationCoordinate2D?,
                         _ simulatorStarted: @escaping ((_ success: Bool) -> Void)) {
-        let aircraft = getAircraftInstance()
+        let aircraft = DJISDKManager.product() as? DJIAircraft
         if !simulatorActive && aircraft != nil && location != nil {
             aircraft!.flightController?.simulator?.start(withLocation: location!,
                                                          updateFrequency: 30,
@@ -49,7 +48,7 @@ extension SimulatorService {
     }
 
     func stopSimulator(_ simulatorStopped: @escaping ((_ success: Bool) -> Void)) {
-        let aircraft = getAircraftInstance()
+        let aircraft = DJISDKManager.product() as? DJIAircraft
         if simulatorActive && aircraft != nil {
             aircraft!.flightController?.simulator?.stop(completion: { (error) in
                 if (error != nil) {
@@ -69,25 +68,23 @@ extension SimulatorService {
 
 // Private methods
 extension SimulatorService {
-    private func getAircraftInstance() -> DJIAircraft? {
-        guard model != nil && model != DJIAircraftModeNameOnlyRemoteController else {
-            logConsole?("Cannot run simulator on remote controller", .error)
-            return nil
-        }
-        return DJISDKManager.product() as? DJIAircraft
+    private func registerCallbacks() {
+        Environment.productService.aircraftPresenceNotifiers.append({ model in
+            if model != nil {
+                super.start()
+            } else {
+                super.stop()
+            }
+        })
     }
 
-    private func onSimulatorStateChanged(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) {
-        guard newValue != nil else {
+    private func onSimulatorStateChanged(_ value: DJIKeyedValue?, _: DJIKey?) {
+        guard value != nil else {
             return
         }
-        simulatorActive = newValue!.boolValue
-    }
-}
-
-// Handle vehicle model updates
-extension SimulatorService : ProductServiceDelegate {
-    internal func modelChanged(_ model: String?) {
-        self.model = model
+        simulatorActive = value!.boolValue
+        if !simulatorActive {
+            stopped?()
+        }
     }
 }

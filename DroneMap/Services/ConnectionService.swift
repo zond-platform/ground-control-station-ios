@@ -16,77 +16,54 @@ enum ConnectionStatus {
     case pending
 }
 
-protocol ConnectionServiceDelegate : AnyObject {
-    func statusChanged(_ status: ConnectionStatus)
-}
-
 class ConnectionService : NSObject {
-    var delegates: [ConnectionServiceDelegate?] = []
+    var connectionStatusChanged: ((_ status: ConnectionStatus) -> Void)?
     var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
-}
-
-// Public methods
-extension ConnectionService {
-    func addDelegate(_ delegate: ConnectionServiceDelegate) {
-        delegates.append(delegate)
-    }
-
-    func restart() {
-        stop()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.start()
-        }
-    }
-}
-
-// Private methods
-extension ConnectionService {
-    private func notifyConnectionStatusChanged(_ status: ConnectionStatus) {
-        for delegate in delegates {
-            delegate?.statusChanged(status)
-        }
-    }
 }
 
 // Comply with generic service protocol
 extension ConnectionService : ServiceProtocol {
     internal func start() {
-        logConsole?("Starting connection service", .debug)
+        logConsole?("Starting connection service", .info)
+        let _ = Environment.productService
+        let _ = Environment.simulatorService
+        let _ = Environment.commandService
+        let _ = Environment.telemetryService
         DJISDKManager.registerApp(with: self)
     }
 
     internal func stop() {
-        logConsole?("Stopping connection service", .debug)
+        logConsole?("Stopping connection service", .info)
         DJISDKManager.stopConnectionToProduct()
     }
 }
 
 // Comply with DJI SDK manager protocol
 extension ConnectionService : DJISDKManagerDelegate {
-    internal func didUpdateDatabaseDownloadProgress(_ progress: Progress) {}
-    
     internal func appRegisteredWithError(_ error: Error?) {
         if error != nil {
             logConsole?("SDK registration failed: \(error!.localizedDescription)", .error)
             return;
         }
-        logConsole?("SDK Registration succeeded", .debug)
+        logConsole?("SDK Registration succeeded", .info)
         DJISDKManager.startConnectionToProduct()
         DJISDKManager.closeConnection(whenEnteringBackground: true)
-        notifyConnectionStatusChanged(.pending)
+        connectionStatusChanged?(.pending)
     }
-    
+
     internal func productConnected(_ product: DJIBaseProduct?) {
         if product == nil {
             logConsole?("Connection error", .error)
             return;
         }
-        logConsole?("Connected, starting services", .debug)
-        notifyConnectionStatusChanged(.connected)
+        logConsole?("Connected, starting services", .info)
+        connectionStatusChanged?(.connected)
     }
-    
+
     internal func productDisconnected() {
-        logConsole?("Disconnected, stopping services", .debug)
-        notifyConnectionStatusChanged(.disconnected)
+        logConsole?("Disconnected, stopping services", .info)
+        connectionStatusChanged?(.disconnected)
     }
+
+    internal func didUpdateDatabaseDownloadProgress(_ progress: Progress) {}
 }

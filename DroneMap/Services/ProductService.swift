@@ -8,33 +8,34 @@
 
 import DJISDK
 
-protocol ProductServiceDelegate : AnyObject {
-    func modelChanged(_ model: String?)
-}
-
 class ProductService : ServiceBase {
-    var delegates: [ProductServiceDelegate?] = []
-    
+    var aircraftPresenceNotifiers: [((_ model: String?) -> Void)?] = []
+
     override init() {
         super.init()
         super.setKeyActionMap([
             DJIProductKey(param: DJIProductParamModelName):self.onModelNameChanged
         ])
-    }
-}
-
-// Public methods
-extension ProductService {
-    func addDelegate(_ delegate: ProductServiceDelegate) {
-        delegates.append(delegate)
+        registerCallbacks()
     }
 }
 
 // Private methods
 extension ProductService {
-    private func onModelNameChanged(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) {
-        for delegate in delegates {
-            delegate?.modelChanged(newValue?.stringValue)
+    private func registerCallbacks() {
+        Environment.connectionService.connectionStatusChanged = { status in
+            if status == .connected {
+                super.start()
+            } else {
+                super.stop()
+            }
+        }
+    }
+
+    private func onModelNameChanged(_ value: DJIKeyedValue?, _: DJIKey?) {
+        let model = value?.stringValue
+        for notifyer in aircraftPresenceNotifiers {
+            notifyer?((model != nil && model != DJIAircraftModeNameOnlyRemoteController) ? model : nil)
         }
     }
 }

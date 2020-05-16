@@ -9,13 +9,10 @@
 import DJISDK
 
 class ServiceBase {
-    typealias KeyActionMap = [DJIKey?:(_ oldValue: DJIKeyedValue?, _ newValue: DJIKeyedValue?) -> Void]
+    typealias KeyActionMap = [DJIKey?:(_ value: DJIKeyedValue?, _ key: DJIKey?) -> Void]
 
     var keyActionMap: KeyActionMap = [:]
-    
-    init() {
-        Environment.connectionService.addDelegate(self)
-    }
+    var stopped: (() -> Void)?
 }
 
 // Public methods
@@ -37,30 +34,20 @@ extension ServiceBase : ServiceProtocol {
                 guard error == nil else {
                     return
                 }
-                keyActionPair.value(nil, value)
+                keyActionPair.value(value, key)
             })
             DJISDKManager.keyManager()?.startListeningForChanges(on: key, withListener: self, andUpdate: {
                 (oldValue: DJIKeyedValue?, newValue: DJIKeyedValue?) in
-                keyActionPair.value(oldValue, newValue)
+                keyActionPair.value(newValue, key)
             })
         }
     }
-    
+
     internal func stop() {
         for keyActionPair in keyActionMap {
             guard let key = keyActionPair.key else { continue }
             DJISDKManager.keyManager()?.stopListening(on: key, ofListener: self)
         }
-    }
-}
-
-// Monitor connection status
-extension ServiceBase : ConnectionServiceDelegate {
-    internal func statusChanged(_ status: ConnectionStatus) {
-        if status == .connected {
-            self.start()
-        } else {
-            self.stop()
-        }
+        stopped?()
     }
 }

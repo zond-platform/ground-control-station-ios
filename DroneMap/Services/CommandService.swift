@@ -65,10 +65,11 @@ class CommandService : NSObject {
     var missionParameters = MissionParameters()
     var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
     var commandResponded: ((_ id: MissionCommandId, _ success: Bool) -> Void)?
+    var stopped: (() -> Void)?
     
     override init() {
         super.init()
-        Environment.productService.addDelegate(self)
+        registerCallbacks()
     }
 }
 
@@ -114,45 +115,13 @@ extension CommandService {
 
 // Private methods
 extension CommandService {
-    private func subscribe() {
-        missionOperator?.addListener(toUploadEvent: self, with: DispatchQueue.main, andBlock: { (event: DJIWaypointMissionUploadEvent) in
-            if event.error != nil {
-                self.logConsole?("Upload listener error: \(event.error!.localizedDescription)", .error)
-            }
-        })
-        missionOperator?.addListener(toFinished: self, with: DispatchQueue.main, andBlock: { (error: Error?) in
-            if error != nil {
-                self.logConsole?("Finished listener error: \(error!.localizedDescription)", .error)
+    private func registerCallbacks() {
+        Environment.productService.aircraftPresenceNotifiers.append({ model in
+            if model != nil {
+                self.start()
             } else {
-                self.logConsole?("Mission finished", .debug)
+                self.stop()
             }
-        })
-        missionOperator?.addListener(toExecutionEvent: self, with: DispatchQueue.main, andBlock: { (event: DJIWaypointMissionExecutionEvent) in
-            if event.error != nil {
-                self.logConsole?("Execution listener error: \(event.error!.localizedDescription)", .error)
-            } else if let progress = event.progress {
-                if self.currentWaypointIndex == nil || self.currentWaypointIndex != progress.targetWaypointIndex {
-                    self.currentWaypointIndex = progress.targetWaypointIndex
-                    if self.currentWaypointIndex != nil {
-                        self.logConsole?("Heading to waypoint: \(self.currentWaypointIndex!)", .debug)
-                    }
-                }
-            }
-        })
-    }
-
-    private func unsubscribe() {
-        missionOperator?.removeAllListeners()
-    }
-
-    private func getInterruption() {
-        missionOperator?.getPreviousInterruption(completion: {
-            (interruption: DJIWaypointMissionInterruption?, error: Error?) in
-            guard error == nil && interruption != nil else {
-                self.logConsole?("Interruption error: \(error!.localizedDescription)", .error)
-                return
-            }
-            self.logConsole?("Mission ID \(interruption!.missionID) interrupted", .debug)
         })
     }
 
@@ -186,22 +155,35 @@ extension CommandService {
 extension CommandService : ServiceProtocol {
     internal func start() {
         missionOperator = DJISDKManager.missionControl()?.waypointMissionOperator()
-        subscribe()
+        missionOperator?.addListener(toUploadEvent: self, with: DispatchQueue.main, andBlock: { (event: DJIWaypointMissionUploadEvent) in
+            if event.error != nil {
+                self.logConsole?("Upload listener error: \(event.error!.localizedDescription)", .error)
+            }
+        })
+        missionOperator?.addListener(toFinished: self, with: DispatchQueue.main, andBlock: { (error: Error?) in
+            if error != nil {
+                self.logConsole?("Finished listener error: \(error!.localizedDescription)", .error)
+            } else {
+                self.logConsole?("Mission finished", .debug)
+            }
+        })
+        missionOperator?.addListener(toExecutionEvent: self, with: DispatchQueue.main, andBlock: { (event: DJIWaypointMissionExecutionEvent) in
+            if event.error != nil {
+                self.logConsole?("Execution listener error: \(event.error!.localizedDescription)", .error)
+            } else if let progress = event.progress {
+                if self.currentWaypointIndex == nil || self.currentWaypointIndex != progress.targetWaypointIndex {
+                    self.currentWaypointIndex = progress.targetWaypointIndex
+                    if self.currentWaypointIndex != nil {
+                        self.logConsole?("Heading to waypoint: \(self.currentWaypointIndex!)", .debug)
+                    }
+                }
+            }
+        })
     }
 
     internal func stop() {
         missionOperator = nil
-        unsubscribe()
-    }
-}
-
-// Subscribe to connected product updates
-extension CommandService : ProductServiceDelegate {
-    internal func modelChanged(_ model: String?) {
-        if model != nil && model != DJIAircraftModeNameOnlyRemoteController {
-            self.start()
-        } else {
-            self.stop()
-        }
+        missionOperator?.removeAllListeners()
+        stopped?()
     }
 }

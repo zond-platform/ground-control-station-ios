@@ -21,7 +21,6 @@ class NavigationViewController : UIViewController {
         super.init(nibName: nil, bundle: nil)
         navigationView = NavigationView()
         registerCallbacks()
-        Environment.productService.addDelegate(self)
         view = navigationView
     }
 }
@@ -60,13 +59,7 @@ extension NavigationViewController {
                     }
             }
         }
-    }
-}
-
-// Subscribe to connected product updates
-extension NavigationViewController : ProductServiceDelegate {
-    internal func modelChanged(_ model: String?) {
-        if model == nil || model == DJIAircraftModeNameOnlyRemoteController {
+        Environment.simulatorService.stopped = {
             self.navigationView.deselectButton(with: .simulator)
         }
     }

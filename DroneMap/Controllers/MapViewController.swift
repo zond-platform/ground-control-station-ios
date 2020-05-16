@@ -47,8 +47,6 @@ class MapViewController : UIViewController {
 
     init() {
         super.init(nibName: nil, bundle: nil)
-        Environment.locationService.addDelegate(self)
-        Environment.productService.addDelegate(self)
 
         mapView = MapView()
         mapView.delegate = self
@@ -75,6 +73,7 @@ class MapViewController : UIViewController {
         panRecognizer.maximumNumberOfTouches = 1
         mapView.addGestureRecognizer(tapRecognizer)
         mapView.addGestureRecognizer(panRecognizer)
+        registerCallbacks()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -145,6 +144,42 @@ extension MapViewController {
 
 // Private methods
 extension MapViewController {
+    private func registerCallbacks() {
+        Environment.telemetryService.aircraftLocationChanged = { location in
+            if (self.aircraft == nil) {
+                self.aircraft = MovingObject(location.coordinate, 0.0, .aircraft)
+            }
+            if (self.objectPresentOnMap(self.aircraft)) {
+                self.aircraft.coordinate = location.coordinate
+            } else {
+                self.mapView.addAnnotation(self.aircraft)
+            }
+        }
+        Environment.telemetryService.aircraftHeadingChanged = { heading in
+            if (self.aircraft != nil) {
+                self.aircraft.heading = heading
+            }
+        }
+        Environment.telemetryService.homeLocationChanged = { location in
+            if (self.home == nil) {
+                self.home = MovingObject(location.coordinate, 0.0, .home)
+            }
+            if (self.objectPresentOnMap(self.home)) {
+                self.home.coordinate = location.coordinate
+            } else {
+                self.mapView.addAnnotation(self.home)
+            }
+        }
+        Environment.telemetryService.stopped = {
+            if self.aircraft != nil {
+                self.mapView.removeAnnotation(self.aircraft)
+            }
+            if self.home != nil {
+                self.mapView.removeAnnotation(self.home)
+            }
+        }
+    }
+
     private func objectPresentOnMap(_ object: MovingObject) -> Bool {
         return mapView.annotations.contains(where: { annotation in
             return annotation as? MovingObject == object
@@ -315,55 +350,6 @@ extension MapViewController : CLLocationManagerDelegate {
             // there are only two options: left and right. Thus, only two possible offsets.
             let offset = UIDevice.current.orientation == .landscapeLeft ? 90.0 : -90.0
             user.heading = newHeading.trueHeading + offset
-        }
-    }
-}
-
-// Handle aircraft and home position updates
-extension MapViewController : LocationServiceDelegate {
-    internal func aircraftLocationChanged(_ location: CLLocation) {
-        if (aircraft == nil) {
-            aircraft = MovingObject(location.coordinate, 0.0, .aircraft)
-        }
-        if (mapView.annotations.contains(where: { (annotation) -> Bool in
-            return annotation as? MovingObject == aircraft
-        })) {
-            aircraft.coordinate = location.coordinate
-        } else {
-            mapView.addAnnotation(aircraft)
-        }
-    }
-
-    internal func aircraftHeadingChanged(_ heading: CLLocationDirection) {
-        if (aircraft != nil) {
-            aircraft.heading = heading
-        }
-    }
-
-    internal func homeLocationChanged(_ location: CLLocation) {
-        if (home == nil) {
-            home = MovingObject(location.coordinate, 0.0, .home)
-        }
-        if (mapView.annotations.contains(where: { (annotation) -> Bool in
-            return annotation as? MovingObject == home
-        })) {
-            home.coordinate = location.coordinate
-        } else {
-            mapView.addAnnotation(home)
-        }
-    }
-}
-
-// Subscribe to connected product updates
-extension MapViewController : ProductServiceDelegate {
-    internal func modelChanged(_ model: String?) {
-        if model == nil || model! == DJIAircraftModeNameOnlyRemoteController {
-            if aircraft != nil {
-                mapView.removeAnnotation(aircraft)
-            }
-            if home != nil {
-                mapView.removeAnnotation(home)
-            }
         }
     }
 }
