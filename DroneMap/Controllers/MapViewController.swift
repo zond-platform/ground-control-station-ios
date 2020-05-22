@@ -14,17 +14,17 @@ import MapKit
 import UIKit
 
 class MapViewController : UIViewController {
+    // Stored properties
     private var mapView: MapView!
     private var locationManager: CLLocationManager!
-
     private var polygonVertices: [PolygonVertex] = []
     private var polygon: MissionPolygon!
-
     private var user = MovingObject(CLLocationCoordinate2D(), 0.0, .user)
     private var aircraft = MovingObject(CLLocationCoordinate2D(), 0.0, .aircraft)
     private var home = MovingObject(CLLocationCoordinate2D(), 0.0, .home)
-
     var missionEditingEnabled = false
+
+    // Observer properties
     var gridDistance: CGFloat = 10.0 {
         didSet {
             guard polygon != nil else {
@@ -33,10 +33,13 @@ class MapViewController : UIViewController {
             polygon.gridDistance = gridDistance
         }
     }
+
+    // Computed properties
     var userLocation: CLLocationCoordinate2D? {
         return objectPresentOnMap(user) ? user.coordinate : nil
     }
 
+    // Notifyer properties
     var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
 
     required init?(coder: NSCoder) {
@@ -76,7 +79,7 @@ class MapViewController : UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        moveLegalLabel()
+        self.mapView.moveLegalLabel()
     }
 }
 
@@ -190,16 +193,6 @@ extension MapViewController {
         }
     }
 
-    // TODO: move to the view
-    private func moveLegalLabel() {
-        let legalLabel: UIView = mapView.subviews[2]
-        let xOffset = mapView.frame.size.width - legalLabel.frame.size.width - AppDimensions.ContentView.spacer * CGFloat(2) - AppDimensions.NavigationView.width
-        legalLabel.frame = CGRect(x: xOffset,
-                                  y: legalLabel.frame.minY,
-                                  width: legalLabel.frame.size.width,
-                                  height: legalLabel.frame.size.height)
-    }
-
     private func enableMapInteraction(_ enable: Bool) {
         mapView.isScrollEnabled = enable
         mapView.isZoomEnabled = enable
@@ -282,11 +275,11 @@ extension MapViewController : MKMapViewDelegate {
     }
 
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
-       moveLegalLabel()
+        self.mapView.moveLegalLabel()
     }
 
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-       moveLegalLabel()
+       self.mapView.moveLegalLabel()
     }
 }
 

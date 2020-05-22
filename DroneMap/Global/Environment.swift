@@ -14,7 +14,7 @@ struct Environment {
     static let locationService   = LocationService()
     static let telemetryService  = TelemetryService()
 
-    // Shared view controllers
+    // Shared controllers
     static let mapViewController        = MapViewController()
     static let consoleViewController    = ConsoleViewController()
     static let missionViewController    = MissionViewController()

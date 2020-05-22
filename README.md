@@ -15,8 +15,8 @@ Conceptual:
 * ~~Control initialization order of static variables~~
 * ~~Hook up all services and ensure error handling~~
 * ~~Consider sending telemetry as patches~~
+* ~~Consider splitting Constants file~~
 * Add telemetry view
-* Consider splitting Constants file
 * Consider adding live view from the drone
 * Monitor current aircraft velocity
 

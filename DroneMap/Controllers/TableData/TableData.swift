@@ -11,7 +11,7 @@ import UIKit
 class TableData {
     private(set) var sections: [SectionData]
 
-    let rowHeight = AppDimensions.MissionView.Row.height
+    let rowHeight = MissionView.TableRow.height
     var contentHeight: CGFloat {
         var height = CGFloat(0)
         for section in sections {

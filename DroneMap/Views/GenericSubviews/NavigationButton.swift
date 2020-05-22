@@ -28,14 +28,16 @@ enum NavigationButtonId {
 extension NavigationButtonId : CaseIterable {}
 
 class NavigationButton : UIButton {
+    // Stored properties
     private(set) var id: NavigationButtonId!
 
+    // Observer properties
     override var isSelected: Bool {
         didSet {
             if isSelected {
-                setTitleColor(AppColor.secondaryColor, for: .normal)
+                setTitleColor(Color.secondaryColor, for: .normal)
             } else {
-                setTitleColor(AppColor.Text.mainTitle, for: .normal)
+                setTitleColor(Color.Text.mainTitle, for: .normal)
             }
         }
     }
@@ -48,8 +50,8 @@ class NavigationButton : UIButton {
         self.id = id
         super.init(frame: CGRect())
         setTitle(id.title, for: .normal)
-        backgroundColor = AppColor.primaryColor
-        titleLabel!.font = AppFont.smallFont
+        backgroundColor = Color.primaryColor
+        titleLabel!.font = Font.smallFont
         clipsToBounds = true
     }
 }

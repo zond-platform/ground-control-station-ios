@@ -9,6 +9,9 @@
 import MapKit
 
 class MapView : MKMapView {
+    private var legalLabel: UIView!
+    private var legalLabelMinX: CGFloat = 0.0
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -17,11 +20,24 @@ class MapView : MKMapView {
         super.init(frame: CGRect(
             x: 0,
             y: 0,
-            width: AppDimensions.screenWidth,
-            height: AppDimensions.screenHeight
+            width: Dimensions.screenWidth,
+            height: Dimensions.screenHeight
         ))
-
         mapType = .satellite
         showsCompass = false
+        legalLabel = subviews[2]
+        legalLabelMinX = legalLabel.frame.minX
+    }
+}
+
+// Public methods
+extension MapView {
+    func moveLegalLabel() {
+        legalLabel.frame = CGRect(
+            x: legalLabelMinX - NavigationView.width,
+            y: legalLabel.frame.minY,
+            width: legalLabel.frame.size.width,
+            height: legalLabel.frame.size.height
+        )
     }
 }

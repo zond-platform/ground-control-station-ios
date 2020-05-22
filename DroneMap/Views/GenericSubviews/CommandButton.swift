@@ -42,27 +42,25 @@ class CommandButton : UIButton {
             setTitle(id.title, for: .normal)
         }
     }
-
     override var isEnabled: Bool {
         didSet {
             if isEnabled {
-                setTitleColor(AppColor.Text.detailTitle, for: .normal)
-                layer.borderColor = AppColor.Text.detailTitle.cgColor
+                setTitleColor(Color.Text.detailTitle, for: .normal)
+                layer.borderColor = Color.Text.detailTitle.cgColor
             } else {
-                setTitleColor(AppColor.Text.inactiveTitle, for: .normal)
-                layer.borderColor = AppColor.Text.inactiveTitle.cgColor
+                setTitleColor(Color.Text.inactiveTitle, for: .normal)
+                layer.borderColor = Color.Text.inactiveTitle.cgColor
             }
         }
     }
-
     override var isHighlighted: Bool {
         didSet {
             if isHighlighted {
-                setTitleColor(AppColor.secondaryColor, for: .normal)
-                layer.borderColor = AppColor.secondaryColor.cgColor
+                setTitleColor(Color.secondaryColor, for: .normal)
+                layer.borderColor = Color.secondaryColor.cgColor
             } else {
-                setTitleColor(AppColor.Text.detailTitle, for: .normal)
-                layer.borderColor = AppColor.Text.detailTitle.cgColor
+                setTitleColor(Color.Text.detailTitle, for: .normal)
+                layer.borderColor = Color.Text.detailTitle.cgColor
             }
         }
     }
@@ -76,10 +74,10 @@ class CommandButton : UIButton {
         self.id = id
         setTitle(id.title, for: .normal)
         backgroundColor = .clear
-        titleLabel!.font = AppFont.smallFont
+        titleLabel!.font = Font.smallFont
         clipsToBounds = true
-        setTitleColor(AppColor.Text.detailTitle, for: .normal)
-        layer.borderColor = AppColor.Text.detailTitle.cgColor
+        setTitleColor(Color.Text.detailTitle, for: .normal)
+        layer.borderColor = Color.Text.detailTitle.cgColor
         layer.borderWidth = 0.5
     }
 }

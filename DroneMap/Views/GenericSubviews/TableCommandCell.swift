@@ -23,8 +23,11 @@ fileprivate let missionStateMap: [MissionStateId:[CommandButtonId]] = [
 ]
 
 class TableCommandCell : UITableViewCell {
+    // Stored properties
     private let stackView = UIStackView()
     private var buttons: [CommandButton] = []
+
+    // Notifyer properties
     var buttonPressed: ((_ id: CommandButtonId) -> Void)?
 
     required init?(coder: NSCoder) {
@@ -41,15 +44,20 @@ class TableCommandCell : UITableViewCell {
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.alignment = .center
-        stackView.spacing = AppDimensions.textMargin
-        stackView.layoutMargins = UIEdgeInsets(top: 0, left: AppDimensions.textMargin, bottom: 0, right: AppDimensions.textMargin)
+        stackView.spacing = Dimensions.textSpacer
+        stackView.layoutMargins = UIEdgeInsets(
+            top: 0.0,
+            left: Dimensions.textSpacer,
+            bottom: 0.0,
+            right: Dimensions.textSpacer
+        )
         stackView.isLayoutMarginsRelativeArrangement = true
 
         for id in missionStateMap[.finished]! {
             buttons.append(CommandButton(id))
             buttons.last!.addTarget(self, action: #selector(onButtonPressed(_:)), for: .touchUpInside)
             NSLayoutConstraint.activate([
-                buttons.last!.heightAnchor.constraint(equalToConstant: AppDimensions.MissionView.Row.height)
+                buttons.last!.heightAnchor.constraint(equalToConstant: MissionView.TableRow.height)
             ])
             stackView.addArrangedSubview(buttons.last!)
         }

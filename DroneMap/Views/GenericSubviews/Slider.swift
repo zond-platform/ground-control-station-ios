@@ -9,7 +9,6 @@
 import UIKit
 
 class Slider : UISlider {
-    let thumbRadius = AppDimensions.MissionView.Row.Slider.sliderThumbRadius
     var idPath: IdPath?
 
     required init?(coder: NSCoder) {
@@ -19,13 +18,14 @@ class Slider : UISlider {
     override init(frame: CGRect) {
         super.init(frame: frame)
         let thumbView = UIView()
-        thumbView.backgroundColor = AppColor.Text.detailTitle
+        let thumbRadius = MissionView.TableRow.height * CGFloat(0.6)
+        thumbView.backgroundColor = Color.Text.detailTitle
         thumbView.frame = CGRect(x: 0, y: 0, width: thumbRadius, height: thumbRadius)
-        thumbView.layer.cornerRadius = thumbRadius / CGFloat(2)
+        thumbView.layer.cornerRadius = thumbRadius * CGFloat(0.5)
         let imageRenderer = UIGraphicsImageRenderer(bounds: thumbView.bounds)
         let thumbImage = imageRenderer.image { thumbView.layer.render(in: $0.cgContext) }
         setThumbImage(thumbImage, for: .normal)
-        minimumTrackTintColor = AppColor.Text.detailTitle
-        maximumTrackTintColor = AppColor.Text.inactiveTitle
+        minimumTrackTintColor = Color.Text.detailTitle
+        maximumTrackTintColor = Color.Text.inactiveTitle
     }
 }

@@ -17,10 +17,9 @@ class RootView : UIView {
         super.init(frame: CGRect(
             x: 0,
             y: 0,
-            width: AppDimensions.screenWidth,
-            height: AppDimensions.screenHeight
+            width: Dimensions.screenWidth,
+            height: Dimensions.screenHeight
         ))
-
         addSubview(Environment.mapViewController.view)
         addSubview(Environment.consoleViewController.view)
         addSubview(Environment.missionViewController.view)

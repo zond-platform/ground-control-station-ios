@@ -10,10 +10,12 @@ import UIKit
 
 class Label : UILabel {
     override func drawText(in rect: CGRect) {
-        let insets = UIEdgeInsets(top: 0,
-                                  left: AppDimensions.textMargin,
-                                  bottom: 0,
-                                  right: AppDimensions.textMargin)
+        let insets = UIEdgeInsets(
+            top: 0,
+            left: Dimensions.textSpacer,
+            bottom: 0,
+            right: Dimensions.textSpacer
+        )
         super.drawText(in: rect.inset(by: insets))
     }
 }

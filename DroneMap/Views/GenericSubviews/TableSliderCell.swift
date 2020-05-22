@@ -9,10 +9,13 @@
 import UIKit
 
 class TableSliderCell : UITableViewCell {
+    // Stored properties
     private let stackView = UIStackView()
     private let title = Label()
     private let value = Label()
     private let slider = Slider()
+
+    // Notifyer properties
     var sliderMoved: ((_ idPath: IdPath, _ value: Float) -> Void)?
 
     required init?(coder: NSCoder) {
@@ -30,19 +33,19 @@ class TableSliderCell : UITableViewCell {
         stackView.distribution = .fill
         stackView.alignment = .center
 
-        title.font = AppFont.smallFont
+        title.font = Font.smallFont
         NSLayoutConstraint.activate([
-            title.widthAnchor.constraint(equalToConstant: AppDimensions.MissionView.Row.Slider.titleWidth)
+            title.widthAnchor.constraint(equalToConstant: MissionView.width * CGFloat(0.4))
         ])
         stackView.addArrangedSubview(title)
 
         NSLayoutConstraint.activate([
-            slider.widthAnchor.constraint(equalToConstant: AppDimensions.MissionView.Row.Slider.sliderWidth)
+            slider.widthAnchor.constraint(equalToConstant: MissionView.width * CGFloat(0.35))
         ])
         stackView.addArrangedSubview(slider)
 
-        value.font = AppFont.smallFont
-        value.textColor = AppColor.Text.detailTitle
+        value.font = Font.smallFont
+        value.textColor = Color.Text.detailTitle
         stackView.addArrangedSubview(value)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false;
@@ -85,8 +88,8 @@ extension TableSliderCell {
         self.title.text = data.title
         self.value.text = String(format: "%.0f ", self.slider.value) + unit
 
-        self.title.textColor = data.isEnabled ? AppColor.Text.mainTitle   : AppColor.Text.inactiveTitle
-        self.value.textColor = data.isEnabled ? AppColor.Text.detailTitle : AppColor.Text.inactiveTitle
+        self.title.textColor = data.isEnabled ? Color.Text.mainTitle   : Color.Text.inactiveTitle
+        self.value.textColor = data.isEnabled ? Color.Text.detailTitle : Color.Text.inactiveTitle
     }
 }
 

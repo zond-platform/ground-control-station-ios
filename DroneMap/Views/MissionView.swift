@@ -9,13 +9,31 @@
 import UIKit
 
 class MissionView : UIView {
-    private var verticalStackView = UIStackView()
-    private var button = UIButton()
-    var tableView = UITableView(frame: CGRect(), style: .grouped)
-    var buttonSelected: ((_ isSelected: Bool) -> Void)?
+    // Static properties
+    static let width = Dimensions.ContentView.width * Dimensions.ContentView.Ratio.h[0]
+    struct TableRow {
+        static let height = Dimensions.ContentView.height * Dimensions.ContentView.Ratio.v[0]
+    }
+    struct TableSection {
+        struct Editor {
+            static let headerHeight = TableRow.height * CGFloat(0.5)
+            static let footerHeight = TableRow.height * CGFloat(0.5)
+        }
+        struct Command {
+            static let headerHeight = CGFloat(0.0)
+            static let footerHeight = Dimensions.textSpacer
+        }
+    }
 
-    private var buttonHeight = AppDimensions.MissionView.Row.height
+    // Stored properties
+    var tableView = UITableView(frame: CGRect(), style: .grouped)
+    private var stackView = UIStackView()
+    private var button = UIButton()
+    private var buttonHeight = MissionView.TableRow.height
     private var tableHeight = CGFloat(0)
+
+    // Notifyer properties
+    var buttonSelected: ((_ isSelected: Bool) -> Void)?
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -23,44 +41,44 @@ class MissionView : UIView {
 
     init(_ tableHeight: CGFloat) {
         super.init(frame: CGRect(
-            x: AppDimensions.MissionView.x,
-            y: AppDimensions.MissionView.y,
-            width: AppDimensions.MissionView.width,
+            x: Dimensions.ContentView.x,
+            y: Dimensions.ContentView.y,
+            width: MissionView.width,
             height: buttonHeight
         ))
 
         self.tableHeight = tableHeight
 
-        verticalStackView.axis = .vertical
-        verticalStackView.distribution = .fill
-        verticalStackView.alignment = .top
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.alignment = .top
 
         button.isSelected = false
-        button.backgroundColor = AppColor.primaryColor
-        button.setTitleColor(AppColor.Text.mainTitle, for: .normal)
-        button.setTitleColor(AppColor.secondaryColor, for: .selected)
+        button.backgroundColor = Color.primaryColor
+        button.setTitleColor(Color.Text.mainTitle, for: .normal)
+        button.setTitleColor(Color.secondaryColor, for: .selected)
         button.setTitle("Mission", for: .normal)
-        button.titleLabel?.font = AppFont.smallFont
+        button.titleLabel?.font = Font.smallFont
         button.addTarget(self, action: #selector(buttonSelected(_:)), for: .touchUpInside)
         NSLayoutConstraint.activate([
-            button.widthAnchor.constraint(equalToConstant: AppDimensions.MissionView.width),
+            button.widthAnchor.constraint(equalToConstant: MissionView.width),
             button.heightAnchor.constraint(equalToConstant: buttonHeight)
         ])
-        verticalStackView.addArrangedSubview(button)
+        stackView.addArrangedSubview(button)
 
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
-        tableView.backgroundColor = AppColor.primaryColor
+        tableView.backgroundColor = Color.primaryColor
         NSLayoutConstraint.activate([
-            tableView.widthAnchor.constraint(equalToConstant: AppDimensions.MissionView.width)
+            tableView.widthAnchor.constraint(equalToConstant: MissionView.width)
         ])
-        verticalStackView.addArrangedSubview(tableView)
+        stackView.addArrangedSubview(tableView)
 
-        verticalStackView.translatesAutoresizingMaskIntoConstraints = false;
-        addSubview(verticalStackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false;
+        addSubview(stackView)
         NSLayoutConstraint.activate([
-            verticalStackView.topAnchor.constraint(equalTo: topAnchor),
-            verticalStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            stackView.topAnchor.constraint(equalTo: topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }
