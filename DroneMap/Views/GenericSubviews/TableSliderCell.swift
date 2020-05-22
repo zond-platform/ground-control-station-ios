@@ -33,7 +33,7 @@ class TableSliderCell : UITableViewCell {
         stackView.distribution = .fill
         stackView.alignment = .center
 
-        title.font = Font.smallFont
+        title.font = Font.titleFont
         NSLayoutConstraint.activate([
             title.widthAnchor.constraint(equalToConstant: MissionView.width * CGFloat(0.4))
         ])
@@ -44,7 +44,7 @@ class TableSliderCell : UITableViewCell {
         ])
         stackView.addArrangedSubview(slider)
 
-        value.font = Font.smallFont
+        value.font = Font.titleFont
         value.textColor = Color.Text.detailTitle
         stackView.addArrangedSubview(value)
 

@@ -35,9 +35,18 @@ class NavigationButton : UIButton {
     override var isSelected: Bool {
         didSet {
             if isSelected {
-                setTitleColor(Color.secondaryColor, for: .normal)
+                switch self.id {
+                    case .simulator:
+                        backgroundColor = Color.Overlay.simulatorActiveColor
+                    case .user:
+                        backgroundColor = Color.Overlay.userLocationColor
+                    case .aircraft:
+                        backgroundColor = Color.Overlay.aircraftLocationColor
+                    default:
+                        break
+                }
             } else {
-                setTitleColor(Color.Text.mainTitle, for: .normal)
+                backgroundColor = Color.Overlay.primaryColor
             }
         }
     }
@@ -50,8 +59,8 @@ class NavigationButton : UIButton {
         self.id = id
         super.init(frame: CGRect())
         setTitle(id.title, for: .normal)
-        backgroundColor = Color.primaryColor
-        titleLabel!.font = Font.smallFont
+        backgroundColor = Color.Overlay.primaryColor
+        titleLabel!.font = Font.titleFont
         clipsToBounds = true
     }
 }

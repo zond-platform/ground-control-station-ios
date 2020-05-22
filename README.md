@@ -34,6 +34,7 @@ Map:
 * Center map with an offset if the menu is open
 * Draw copter trace on the map when executing a mission
 * Use callbacks instead of delegates for objects interaction
+* Fix zoom when locking on the moving object
 
 Controls:
 * ~~Move simulator button out of settings~~
@@ -54,12 +55,13 @@ Mission:
 * ~~Add mission start/stop/pause buttons~~
 * ~~Log progress into the console view~~
 * ~~Provide extended controls for setting mission parameters~~
+* Fix grid distance bug
 * Fix return home altitude
 * Create mission history
 * Record mission time
 
 Style:
 * ~~Split console view into several labels~~
+* ~~Rework button selection style~~
 * Rework color scheme (1)
-* Rework button selection Style (2)
-* Adapt map annotation views to the general style
+* Adapt map annotation views to the general style (2)

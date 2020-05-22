@@ -49,7 +49,7 @@ extension SimulatorService {
                 }
             })
         } else {
-            logConsole?("Unable to start simulator", .error)
+            logConsole?("Failed to start simulator", .error)
             simulatorStarted(false)
         }
     }
@@ -67,7 +67,7 @@ extension SimulatorService {
                 }
             })
         } else {
-            logConsole?("Unable to stop simulator", .error)
+            logConsole?("Failed to stop simulator", .error)
             simulatorStopped(false)
         }
     }

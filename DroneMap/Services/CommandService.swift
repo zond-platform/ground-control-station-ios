@@ -94,7 +94,7 @@ extension CommandService {
 
     func executeMissionCommand(_ id: MissionCommandId) {
         if !self.isActive {
-            self.logConsole?("Cannot execute command. Aircraft not connected.", .error)
+            self.logConsole?("Failed to execute \(id.title) command. Aircraft not connected.", .error)
             return
         }
         let callback = { (error: Error?) in

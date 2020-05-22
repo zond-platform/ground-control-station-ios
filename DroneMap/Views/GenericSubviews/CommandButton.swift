@@ -56,8 +56,8 @@ class CommandButton : UIButton {
     override var isHighlighted: Bool {
         didSet {
             if isHighlighted {
-                setTitleColor(Color.secondaryColor, for: .normal)
-                layer.borderColor = Color.secondaryColor.cgColor
+                setTitleColor(Color.Text.mainTitle, for: .normal)
+                layer.borderColor = Color.Text.mainTitle.cgColor
             } else {
                 setTitleColor(Color.Text.detailTitle, for: .normal)
                 layer.borderColor = Color.Text.detailTitle.cgColor
@@ -74,7 +74,7 @@ class CommandButton : UIButton {
         self.id = id
         setTitle(id.title, for: .normal)
         backgroundColor = .clear
-        titleLabel!.font = Font.smallFont
+        titleLabel!.font = Font.titleFont
         clipsToBounds = true
         setTitleColor(Color.Text.detailTitle, for: .normal)
         layer.borderColor = Color.Text.detailTitle.cgColor

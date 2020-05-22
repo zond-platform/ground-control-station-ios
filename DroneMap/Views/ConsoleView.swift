@@ -41,13 +41,13 @@ class ConsoleView : UIView {
             height: height
         )
         
-        backgroundColor = Color.primaryColor
+        backgroundColor = Color.Overlay.primaryColor
 
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .center
 
-        messageLabel.font = Font.smallFont
+        messageLabel.font = Font.titleFont
         messageLabel.textColor = Color.Text.mainTitle
         stackView.addArrangedSubview(messageLabel)
 

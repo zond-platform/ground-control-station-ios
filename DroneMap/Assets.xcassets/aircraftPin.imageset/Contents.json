@@ -1,21 +1,23 @@
 {
   "images" : [
     {
+      "filename" : "airplane-3-24.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "airplane-3-48.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "airplane-3-72.png",
       "idiom" : "universal",
-      "filename" : "aircraft.png",
       "scale" : "3x"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }

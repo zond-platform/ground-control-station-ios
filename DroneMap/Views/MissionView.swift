@@ -54,11 +54,9 @@ class MissionView : UIView {
         stackView.alignment = .top
 
         button.isSelected = false
-        button.backgroundColor = Color.primaryColor
-        button.setTitleColor(Color.Text.mainTitle, for: .normal)
-        button.setTitleColor(Color.secondaryColor, for: .selected)
+        button.backgroundColor = Color.Overlay.primaryColor
         button.setTitle("Mission", for: .normal)
-        button.titleLabel?.font = Font.smallFont
+        button.titleLabel?.font = Font.titleFont
         button.addTarget(self, action: #selector(buttonSelected(_:)), for: .touchUpInside)
         NSLayoutConstraint.activate([
             button.widthAnchor.constraint(equalToConstant: MissionView.width),
@@ -68,7 +66,7 @@ class MissionView : UIView {
 
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
-        tableView.backgroundColor = Color.primaryColor
+        tableView.backgroundColor = Color.Overlay.primaryColor
         NSLayoutConstraint.activate([
             tableView.widthAnchor.constraint(equalToConstant: MissionView.width)
         ])
@@ -100,6 +98,13 @@ extension MissionView {
 extension MissionView {
     @objc func buttonSelected(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
+//        if sender.isSelected {
+//            button.backgroundColor = Color.Overlay.userLocationColor
+//            tableView.backgroundColor = Color.Overlay.userLocationColor
+//        } else {
+//            button.backgroundColor = Color.Overlay.primaryColor
+//            tableView.backgroundColor = Color.Overlay.primaryColor
+//        }
         buttonSelected?(sender.isSelected)
     }
 }

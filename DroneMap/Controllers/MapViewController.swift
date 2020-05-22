@@ -151,7 +151,8 @@ extension MapViewController {
         })
         Environment.locationService.aircraftHeadingChanged = { heading in
             if (heading != nil) {
-                self.aircraft.heading = heading!
+                let iconOrientationOffset = -45.0
+                self.aircraft.heading = heading! + iconOrientationOffset
             }
         }
         Environment.locationService.homeLocationChanged = { location in
@@ -220,10 +221,12 @@ extension MapViewController {
             switch movingObject.type {
                 case .user:
                     movingObject.delegate = movingObjectView
-                    movingObjectView!.image = #imageLiteral(resourceName: "userPin")
+                    let image = #imageLiteral(resourceName: "userPin")
+                    movingObjectView!.image = image.color(Color.Overlay.userLocationColor)
                 case .aircraft:
                     movingObject.delegate = movingObjectView
-                    movingObjectView!.image = #imageLiteral(resourceName: "aircraftPin")
+                    let image = #imageLiteral(resourceName: "aircraftPin")
+                    movingObjectView!.image = image.color(Color.Overlay.aircraftLocationColor)
                 case .home:
                     movingObjectView!.image = #imageLiteral(resourceName: "homePin")
             }
@@ -329,8 +332,9 @@ extension MapViewController : CLLocationManagerDelegate {
             // Displace user heading by 90 degrees because of the landscape orientation.
             // Since only landscape orientation is allowed in the application settings
             // there are only two options: left and right. Thus, only two possible offsets.
-            let offset = UIDevice.current.orientation == .landscapeLeft ? 90.0 : -90.0
-            user.heading = newHeading.trueHeading + offset
+            let deviceOrientationOffset = UIDevice.current.orientation == .landscapeLeft ? 90.0 : -90.0
+            let iconOrientationOffset = -45.0
+            user.heading = newHeading.trueHeading + deviceOrientationOffset + iconOrientationOffset
         }
     }
 }
