@@ -20,7 +20,7 @@ class ConsoleViewController : UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         consoleView = ConsoleView()
-        registerCallbacks()
+        registerListeners()
         view = consoleView
     }
 
@@ -31,7 +31,7 @@ class ConsoleViewController : UIViewController {
 
 // Private methods
 extension ConsoleViewController {
-    private func registerCallbacks() {
+    private func registerListeners() {
         Environment.commandService.logConsole = { message, type in
             self.logConsole(message, type)
         }
@@ -55,6 +55,6 @@ extension ConsoleViewController {
     }
 
     private func logConsole(_ message: String, _ type: OSLogType) {
-        self.consoleView.logMessage(currentDateString() + " - " + message, type)
+        self.consoleView.logMessage(currentDateString() + "\t" + message, type)
     }
 }

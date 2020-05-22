@@ -13,10 +13,10 @@ fileprivate var missionData = TableData([
     SectionData(
         id: .editor,
         rows: [
-            RowData(id: .gridDistance,  type: .slider,    value: 20.0,   isEnabled: true),
-            RowData(id: .shootDistance, type: .slider,    value: 30.0,   isEnabled: true),
-            RowData(id: .altitude,      type: .slider,    value: 50.0,   isEnabled: true),
-            RowData(id: .flightSpeed,   type: .slider,    value: 10.0,   isEnabled: true),
+            RowData(id: .gridDistance,  type: .slider, value: 20.0, isEnabled: true),
+            RowData(id: .shootDistance, type: .slider, value: 30.0, isEnabled: true),
+            RowData(id: .altitude,      type: .slider, value: 50.0, isEnabled: true),
+            RowData(id: .flightSpeed,   type: .slider, value: 10.0, isEnabled: true),
         ]),
     SectionData(
         id: .command,
@@ -41,7 +41,7 @@ class MissionViewController : UIViewController {
         missionView.tableView.register(TableSection.self, forHeaderFooterViewReuseIdentifier: SectionType.spacer.reuseIdentifier)
         missionView.tableView.register(TableCommandCell.self, forCellReuseIdentifier: RowType.command.reuseIdentifier)
         missionView.tableView.register(TableSliderCell.self, forCellReuseIdentifier: RowType.slider.reuseIdentifier)
-        registerCallbacks()
+        registerListeners()
         view = missionView
     }
 
@@ -52,7 +52,7 @@ class MissionViewController : UIViewController {
 
 // Private methods
 extension MissionViewController {
-    private func registerCallbacks() {
+    private func registerListeners() {
         missionView.buttonSelected = { isSelected in
             self.missionView.showMissionEditor(isSelected)
             Environment.mapViewController.enableMissionEditing(isSelected)

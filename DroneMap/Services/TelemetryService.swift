@@ -8,59 +8,40 @@
 
 import DJISDK
 
-class TelemetryService : ServiceBase {
-    var aircraftLocationChanged: ((_ value: CLLocation) -> Void)?
-    var homeLocationChanged: ((_ value: CLLocation) -> Void)?
-    var aircraftHeadingChanged: ((_ value: CLLocationDirection) -> Void)?
+class TelemetryService : BaseService {
     var gpsSignalStatusChanged: ((_ value: String) -> Void)?
     var gpsSatelliteCountChanged: ((_ value: String) -> Void)?
     var altitudeChanged: ((_ value: String) -> Void)?
     var flightModeChanged: ((_ value: String) -> Void)?
     var batteryChargeChanged: ((_ value: String) -> Void)?
+}
 
-    override init() {
-        super.init()
-        super.setKeyActionMap([
-            DJIFlightControllerKey(param: DJIFlightControllerParamAircraftLocation):self.onValueChange,
-            DJIFlightControllerKey(param: DJIFlightControllerParamHomeLocation):self.onValueChange,
-            DJIFlightControllerKey(param: DJIFlightControllerParamCompassHeading):self.onValueChange,
-            DJIFlightControllerKey(param: DJIFlightControllerParamGPSSignalStatus):self.onValueChange,
-            DJIFlightControllerKey(param: DJIFlightControllerParamSatelliteCount):self.onValueChange,
-            DJIFlightControllerKey(param: DJIFlightControllerParamAltitudeInMeters):self.onValueChange,
-            DJIFlightControllerKey(param: DJIFlightControllerParamFlightModeString):self.onValueChange,
-            DJIBatteryKey(param: DJIBatteryParamChargeRemainingInPercent):self.onValueChange
-        ])
-        registerCallbacks()
+// Public methods
+extension TelemetryService {
+    func registerListeners() {
+        Environment.connectionService.listeners.append({ model in
+            if model != nil {
+                super.start()
+                super.subscribe([
+                    DJIFlightControllerKey(param: DJIFlightControllerParamGPSSignalStatus):self.onValueChange,
+                    DJIFlightControllerKey(param: DJIFlightControllerParamSatelliteCount):self.onValueChange,
+                    DJIFlightControllerKey(param: DJIFlightControllerParamAltitudeInMeters):self.onValueChange,
+                    DJIFlightControllerKey(param: DJIFlightControllerParamFlightModeString):self.onValueChange,
+                    DJIBatteryKey(param: DJIBatteryParamChargeRemainingInPercent):self.onValueChange
+                ])
+            } else {
+                super.stop()
+                super.unsubscribe()
+            }
+        })
     }
 }
 
 // Private methods
 extension TelemetryService {
-    private func registerCallbacks() {
-        Environment.productService.aircraftPresenceNotifiers.append({ model in
-            if model != nil {
-                super.start()
-            } else {
-                super.stop()
-            }
-        })
-    }
-
     private func onValueChange(_ value: DJIKeyedValue?, _ key: DJIKey?) {
         if value != nil && key != nil {
             switch key!.param {
-                case DJIFlightControllerParamAircraftLocation:
-                    if value!.value != nil {
-                        aircraftLocationChanged?(value!.value! as! CLLocation)
-                    }
-                case DJIFlightControllerParamHomeLocation:
-                    if value!.value != nil {
-                        homeLocationChanged?(value!.value! as! CLLocation)
-                    }
-                case DJIFlightControllerParamCompassHeading:
-                    if value!.value != nil {
-                        aircraftHeadingChanged?(value!.value! as! CLLocationDirection)
-                    }
                 case DJIFlightControllerParamGPSSignalStatus:
                     let gpsSignalStatusMap: [UInt:String] = [
                         0:"Almost no signal",

@@ -10,31 +10,20 @@ import os.log
 
 import DJISDK
 
-enum ConnectionStatus {
-    case connected
-    case disconnected
-    case pending
-}
-
-class ConnectionService : NSObject {
-    var connectionStatusChanged: ((_ status: ConnectionStatus) -> Void)?
+class ConnectionService : BaseService {
+    var listeners: [((_ model: String?) -> Void)?] = []
     var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
-}
 
-// Comply with generic service protocol
-extension ConnectionService : ServiceProtocol {
-    internal func start() {
-        logConsole?("Starting connection service", .info)
-        let _ = Environment.productService
-        let _ = Environment.simulatorService
-        let _ = Environment.commandService
-        let _ = Environment.telemetryService
+    override func start() {
+        os_log("Starting connection service", type: .debug)
         DJISDKManager.registerApp(with: self)
+        super.start()
     }
 
-    internal func stop() {
-        logConsole?("Stopping connection service", .info)
+    override func stop() {
+        os_log("Stopping connection service", type: .info)
         DJISDKManager.stopConnectionToProduct()
+        super.stop()
     }
 }
 
@@ -42,28 +31,52 @@ extension ConnectionService : ServiceProtocol {
 extension ConnectionService : DJISDKManagerDelegate {
     internal func appRegisteredWithError(_ error: Error?) {
         if error != nil {
-            logConsole?("SDK registration failed: \(error!.localizedDescription)", .error)
-            return;
+            os_log("SDK registration failed: %@", type: .error, error!.localizedDescription)
+        } else {
+            os_log("SDK Registration succeeded", type: .debug)
+            DJISDKManager.startConnectionToProduct()
+            DJISDKManager.closeConnection(whenEnteringBackground: true)
+            onModelNameChanged(nil, nil)
         }
-        logConsole?("SDK Registration succeeded", .info)
-        DJISDKManager.startConnectionToProduct()
-        DJISDKManager.closeConnection(whenEnteringBackground: true)
-        connectionStatusChanged?(.pending)
     }
 
     internal func productConnected(_ product: DJIBaseProduct?) {
         if product == nil {
-            logConsole?("Connection error", .error)
-            return;
+            os_log("Connection error", type: .error)
+        } else {
+            os_log("Connected, starting services", type: .info)
+            Environment.simulatorService.registerListeners()
+            Environment.commandService.registerListeners()
+            Environment.locationService.registerListeners()
+            Environment.telemetryService.registerListeners()
+            super.subscribe([
+                DJIProductKey(param: DJIProductParamModelName):self.onModelNameChanged
+            ])
         }
-        logConsole?("Connected, starting services", .info)
-        connectionStatusChanged?(.connected)
     }
 
     internal func productDisconnected() {
-        logConsole?("Disconnected, stopping services", .info)
-        connectionStatusChanged?(.disconnected)
+        os_log("Disconnected, stopping services", type: .info)
+        super.unsubscribe()
     }
 
-    internal func didUpdateDatabaseDownloadProgress(_ progress: Progress) {}
+    internal func didUpdateDatabaseDownloadProgress(_: Progress) {}
+}
+
+// Aircraft key subscribtion handlers
+extension ConnectionService {
+    private func onModelNameChanged(_ value: DJIKeyedValue?, _: DJIKey?) {
+        var model: String?
+        if value == nil || value!.stringValue == nil {
+            logConsole?("Product disconnected", .info)
+        } else if value!.stringValue! == DJIAircraftModeNameOnlyRemoteController {
+            logConsole?("Connected to \(DJIAircraftModeNameOnlyRemoteController)", .info)
+        } else {
+            model = value!.stringValue!
+            logConsole?("Connected to \(model!)", .info)
+        }
+        for listener in listeners {
+            listener?(model != DJIAircraftModeNameOnlyRemoteController ? model : nil)
+        }
+    }
 }

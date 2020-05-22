@@ -20,14 +20,14 @@ class NavigationViewController : UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         navigationView = NavigationView()
-        registerCallbacks()
+        registerListeners()
         view = navigationView
     }
 }
 
 // Private methods
 extension NavigationViewController {
-    func registerCallbacks() {
+    func registerListeners() {
         navigationView.buttonSelected = { id, isSelected in
             switch id {
                 case .simulator:
@@ -59,8 +59,15 @@ extension NavigationViewController {
                     }
             }
         }
-        Environment.simulatorService.stopped = {
-            self.navigationView.deselectButton(with: .simulator)
-        }
+        Environment.connectionService.listeners.append({ model in
+            if model == nil {
+                self.navigationView.deselectButton(with: .simulator)
+            }
+        })
+        Environment.locationService.aircraftLocationListeners.append({ location in
+            if location == nil {
+                self.navigationView.deselectButton(with: .aircraft)
+            }
+        })
     }
 }

@@ -17,19 +17,14 @@ class MapViewController : UIViewController {
     private var mapView: MapView!
     private var locationManager: CLLocationManager!
 
-    private var user: MovingObject!
-    private var aircraft: MovingObject!
-    private var home: MovingObject!
-
     private var polygonVertices: [PolygonVertex] = []
     private var polygon: MissionPolygon!
 
-    var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
+    private var user = MovingObject(CLLocationCoordinate2D(), 0.0, .user)
+    private var aircraft = MovingObject(CLLocationCoordinate2D(), 0.0, .aircraft)
+    private var home = MovingObject(CLLocationCoordinate2D(), 0.0, .home)
 
-    var userLocation: CLLocationCoordinate2D? {
-        return user != nil ? user.coordinate : nil
-    }
-
+    var missionEditingEnabled = false
     var gridDistance: CGFloat = 10.0 {
         didSet {
             guard polygon != nil else {
@@ -38,8 +33,11 @@ class MapViewController : UIViewController {
             polygon.gridDistance = gridDistance
         }
     }
+    var userLocation: CLLocationCoordinate2D? {
+        return objectPresentOnMap(user) ? user.coordinate : nil
+    }
 
-    var missionEditingEnabled = false
+    var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -73,7 +71,7 @@ class MapViewController : UIViewController {
         panRecognizer.maximumNumberOfTouches = 1
         mapView.addGestureRecognizer(tapRecognizer)
         mapView.addGestureRecognizer(panRecognizer)
-        registerCallbacks()
+        registerListeners()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -144,39 +142,17 @@ extension MapViewController {
 
 // Private methods
 extension MapViewController {
-    private func registerCallbacks() {
-        Environment.telemetryService.aircraftLocationChanged = { location in
-            if (self.aircraft == nil) {
-                self.aircraft = MovingObject(location.coordinate, 0.0, .aircraft)
-            }
-            if (self.objectPresentOnMap(self.aircraft)) {
-                self.aircraft.coordinate = location.coordinate
-            } else {
-                self.mapView.addAnnotation(self.aircraft)
+    private func registerListeners() {
+        Environment.locationService.aircraftLocationListeners.append({ location in
+            self.showObject(self.aircraft, location)
+        })
+        Environment.locationService.aircraftHeadingChanged = { heading in
+            if (heading != nil) {
+                self.aircraft.heading = heading!
             }
         }
-        Environment.telemetryService.aircraftHeadingChanged = { heading in
-            if (self.aircraft != nil) {
-                self.aircraft.heading = heading
-            }
-        }
-        Environment.telemetryService.homeLocationChanged = { location in
-            if (self.home == nil) {
-                self.home = MovingObject(location.coordinate, 0.0, .home)
-            }
-            if (self.objectPresentOnMap(self.home)) {
-                self.home.coordinate = location.coordinate
-            } else {
-                self.mapView.addAnnotation(self.home)
-            }
-        }
-        Environment.telemetryService.stopped = {
-            if self.aircraft != nil {
-                self.mapView.removeAnnotation(self.aircraft)
-            }
-            if self.home != nil {
-                self.mapView.removeAnnotation(self.home)
-            }
+        Environment.locationService.homeLocationChanged = { location in
+            self.showObject(self.home, location)
         }
     }
 
@@ -186,16 +162,27 @@ extension MapViewController {
         })
     }
 
-    private func trackObject(_ object: MovingObject?, _ enable: Bool) -> Bool {
-        if object != nil && objectPresentOnMap(object!) {
-            object!.isTracked = enable
+    private func showObject(_ object: MovingObject, _ location: CLLocation?) {
+        if location != nil {
+            object.coordinate = location!.coordinate
+            if !objectPresentOnMap(object) {
+                mapView.addAnnotation(object)
+            }
+        } else if objectPresentOnMap(object) {
+            mapView.removeAnnotation(object)
+        }
+    }
+
+    private func trackObject(_ object: MovingObject, _ enable: Bool) -> Bool {
+        if objectPresentOnMap(object) {
+            object.isTracked = enable
             if enable {
-                mapView.setCenter(object!.coordinate, animated: true)
-                object!.coordinateChanged = { coordinate in
+                mapView.setCenter(object.coordinate, animated: true)
+                object.coordinateChanged = { coordinate in
                     self.mapView.setCenter(coordinate, animated: true)
                 }
             } else {
-                object!.coordinateChanged = nil
+                object.coordinateChanged = nil
             }
             return true
         } else {
@@ -203,6 +190,7 @@ extension MapViewController {
         }
     }
 
+    // TODO: move to the view
     private func moveLegalLabel() {
         let legalLabel: UIView = mapView.subviews[2]
         let xOffset = mapView.frame.size.width - legalLabel.frame.size.width - AppDimensions.ContentView.spacer * CGFloat(2) - AppDimensions.NavigationView.width
@@ -217,7 +205,7 @@ extension MapViewController {
         mapView.isZoomEnabled = enable
         mapView.isUserInteractionEnabled = enable
     }
-    
+
     private func canDragPolygon(with touchCoordinate: CLLocationCoordinate2D) -> Bool {
         if polygon == nil {
             return false
@@ -232,7 +220,7 @@ extension MapViewController {
         }
         return true
     }
-    
+
     private func movingObjectView(for movingObject: MovingObject, on mapView: MKMapView) -> MovingObjectView? {
         let movingObjectView = mapView.dequeueReusableAnnotationView(withIdentifier: NSStringFromClass(MovingObject.self), for: movingObject) as? MovingObjectView
         if movingObjectView != nil {
@@ -273,7 +261,7 @@ extension MapViewController : MKMapViewDelegate {
         }
         return annotationView
     }
-    
+
     internal func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
         switch newState {
             case .starting:
@@ -284,7 +272,7 @@ extension MapViewController : MKMapViewDelegate {
                 break
         }
     }
-    
+
     internal func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MissionRenderer(overlay, gridDistance)
         if let overlay = overlay as? MissionPolygon {
@@ -334,17 +322,17 @@ extension MapViewController : UIGestureRecognizerDelegate {
 extension MapViewController : CLLocationManagerDelegate {
     internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let newCoordinate = locations[0].coordinate
-        if (user == nil) {
+        if (objectPresentOnMap(user)) {
+            user.coordinate = newCoordinate
+        } else {
             user = MovingObject(newCoordinate, 0.0, .user)
             mapView.addAnnotation(user)
             mapView.showAnnotations([user], animated: true)
-        } else {
-            user.coordinate = newCoordinate
         }
     }
 
     internal func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-        if (user != nil) {
+        if (objectPresentOnMap(user)) {
             // Displace user heading by 90 degrees because of the landscape orientation.
             // Since only landscape orientation is allowed in the application settings
             // there are only two options: left and right. Thus, only two possible offsets.

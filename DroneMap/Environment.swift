@@ -9,9 +9,9 @@
 struct Environment {
     // Shared services
     static let connectionService = ConnectionService()
-    static let productService    = ProductService()
     static let simulatorService  = SimulatorService()
     static let commandService    = CommandService()
+    static let locationService   = LocationService()
     static let telemetryService  = TelemetryService()
 
     // Shared view controllers

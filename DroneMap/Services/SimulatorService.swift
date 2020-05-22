@@ -10,21 +10,28 @@ import os.log
 
 import DJISDK
 
-class SimulatorService : ServiceBase {
+class SimulatorService : BaseService {
     private var simulatorActive: Bool = false
-    var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
 
-    override init() {
-        super.init()
-        super.setKeyActionMap([
-            DJIFlightControllerKey(param: DJIFlightControllerParamIsSimulatorActive):self.onSimulatorStateChanged
-        ])
-        registerCallbacks()
-    }
+    var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
 }
 
 // Public methods
 extension SimulatorService {
+    func registerListeners() {
+        Environment.connectionService.listeners.append({ model in
+            if model != nil {
+                super.start()
+                super.subscribe([
+                    DJIFlightControllerKey(param: DJIFlightControllerParamIsSimulatorActive):self.onSimulatorStateChanged
+                ])
+            } else {
+                super.stop()
+                super.unsubscribe()
+            }
+        })
+    }
+
     func startSimulator(_ location: CLLocationCoordinate2D?,
                         _ simulatorStarted: @escaping ((_ success: Bool) -> Void)) {
         let aircraft = DJISDKManager.product() as? DJIAircraft
@@ -36,10 +43,10 @@ extension SimulatorService {
                 if (error != nil) {
                     self.logConsole?("Start simulator error: \(error.debugDescription)", .error)
                     simulatorStarted(false)
-                    return
+                } else {
+                    self.logConsole?("Simulator started sussessfully", .debug)
+                    simulatorStarted(true)
                 }
-                self.logConsole?("Simulator started sussessfully", .debug)
-                simulatorStarted(true)
             })
         } else {
             logConsole?("Unable to start simulator", .error)
@@ -54,10 +61,10 @@ extension SimulatorService {
                 if (error != nil) {
                     self.logConsole?("Stop simulator error: \(error.debugDescription)", .error)
                     simulatorStopped(false)
-                    return
+                } else {
+                    self.logConsole?("Simulator stopped sussessfully", .debug)
+                    simulatorStopped(true)
                 }
-                self.logConsole?("Simulator stopped sussessfully", .debug)
-                simulatorStopped(true)
             })
         } else {
             logConsole?("Unable to stop simulator", .error)
@@ -68,23 +75,11 @@ extension SimulatorService {
 
 // Private methods
 extension SimulatorService {
-    private func registerCallbacks() {
-        Environment.productService.aircraftPresenceNotifiers.append({ model in
-            if model != nil {
-                super.start()
-            } else {
-                super.stop()
-            }
-        })
-    }
-
     private func onSimulatorStateChanged(_ value: DJIKeyedValue?, _: DJIKey?) {
-        guard value != nil else {
-            return
-        }
-        simulatorActive = value!.boolValue
-        if !simulatorActive {
-            stopped?()
+        if value == nil {
+            simulatorActive = false
+        } else {
+            simulatorActive = value!.boolValue
         }
     }
 }

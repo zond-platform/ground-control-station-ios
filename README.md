@@ -13,11 +13,12 @@ Conceptual:
 * ~~Consider using callbacks instead of delegates for internal component communication~~
 * ~~Start telemetry services only if aircraft is connected (not the remote controller)~~
 * ~~Control initialization order of static variables~~
+* ~~Hook up all services and ensure error handling~~
+* ~~Consider sending telemetry as patches~~
+* Add telemetry view
+* Consider splitting Constants file
 * Consider adding live view from the drone
 * Monitor current aircraft velocity
-* Hook up all services and ensure error handling (1)
-* Consider sending telemetry as patches
-*
 
 Map:
 * ~~Replace map icons and make them show direction~~
@@ -29,8 +30,8 @@ Map:
 * ~~Fix or remove compass button completely~~
 * Add and remove points from the mission polygon with a tap
 * Add grid lines angle adjustment
-* Don't show mission polygon when the mission is already uploaded (2)
-* Center map with an offset if the menu is open (3)
+* Don't show mission polygon when the mission is already uploaded
+* Center map with an offset if the menu is open
 * Draw copter trace on the map when executing a mission
 * Use callbacks instead of delegates for objects interaction
 
@@ -58,7 +59,7 @@ Mission:
 * Record mission time
 
 Style:
-* Rework color scheme
-* Rework button selection Style
-* Split console view into several labels
+* ~~Split console view into several labels~~
+* Rework color scheme (1)
+* Rework button selection Style (2)
 * Adapt map annotation views to the general style

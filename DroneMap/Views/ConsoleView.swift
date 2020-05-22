@@ -12,7 +12,8 @@ import UIKit
 
 class ConsoleView : UIView {
     private var stackView = UIStackView()
-    private var label = Label()
+    private var timeStampLabel = Label()
+    private var messageLabel = Label()
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -25,24 +26,29 @@ class ConsoleView : UIView {
             width: AppDimensions.ConsoleView.width,
             height: AppDimensions.ConsoleView.height
         ))
+        
+        backgroundColor = AppColor.primaryColor
 
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .center
 
-        label.backgroundColor = AppColor.primaryColor
-        label.font = AppFont.smallFont
-        label.textColor = AppColor.Text.mainTitle
-        NSLayoutConstraint.activate([
-            label.heightAnchor.constraint(equalToConstant: AppDimensions.ConsoleView.height),
-            label.widthAnchor.constraint(equalToConstant: AppDimensions.ConsoleView.width)
-        ])
-        stackView.addArrangedSubview(label)
+//        timeStampLabel.font = AppFont.smallFont
+//        timeStampLabel.textColor = AppColor.Text.mainTitle
+//        NSLayoutConstraint.activate([
+//            timeStampLabel.widthAnchor.constraint(equalToConstant: AppDimensions.ConsoleView.timeStampWidth)
+//        ])
+//        stackView.addArrangedSubview(timeStampLabel)
+
+        messageLabel.font = AppFont.smallFont
+        messageLabel.textColor = AppColor.Text.mainTitle
+        stackView.addArrangedSubview(messageLabel)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false;
         addSubview(stackView)
         NSLayoutConstraint.activate([
-            stackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            stackView.leftAnchor.constraint(equalTo: leftAnchor),
+            stackView.rightAnchor.constraint(equalTo: rightAnchor),
             stackView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
@@ -52,14 +58,6 @@ class ConsoleView : UIView {
 extension ConsoleView {
     func logMessage(_ message: String, _ type: OSLogType) {
         os_log("%@", type: type, message)
-        label.text = message
-        switch type {
-            case .debug:
-                label.textColor = AppColor.Text.success
-            case .error:
-                label.textColor = AppColor.Text.error
-            default:
-                break
-        }
+        messageLabel.text = message
     }
 }

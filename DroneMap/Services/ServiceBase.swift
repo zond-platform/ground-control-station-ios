@@ -1,5 +1,5 @@
 //
-//  ServiceBase.swift
+//  BaseService.swift
 //  DroneMap
 //
 //  Created by Evgeny Agamirzov on 4/20/19.
@@ -8,26 +8,18 @@
 
 import DJISDK
 
-class ServiceBase {
+class BaseService {
     typealias KeyActionMap = [DJIKey?:(_ value: DJIKeyedValue?, _ key: DJIKey?) -> Void]
 
-    var keyActionMap: KeyActionMap = [:]
-    var stopped: (() -> Void)?
+    var isActive: Bool = false
+    var keyHandlerMap: KeyActionMap = [:]
 }
 
 // Public methods
-extension ServiceBase {
-    // Since actions are in fact member functions of the child class this map
-    // cannot be set via the initializer and instead a setter is used.
-    func setKeyActionMap(_ keyActionMap: KeyActionMap) {
-        self.keyActionMap = keyActionMap
-    }
-}
-
-// Comply with generic service protocol
-extension ServiceBase : ServiceProtocol {
-    internal func start() {
-        for keyActionPair in keyActionMap {
+extension BaseService {
+    func subscribe(_ keyHandlerMap: KeyActionMap) {
+        self.keyHandlerMap = keyHandlerMap
+        for keyActionPair in keyHandlerMap {
             guard let key = keyActionPair.key else { continue }
             DJISDKManager.keyManager()?.getValueFor(key, withCompletion: {
                 (value: DJIKeyedValue?, error: Error?) in
@@ -43,11 +35,21 @@ extension ServiceBase : ServiceProtocol {
         }
     }
 
-    internal func stop() {
-        for keyActionPair in keyActionMap {
+    func unsubscribe() {
+        for keyActionPair in keyHandlerMap {
             guard let key = keyActionPair.key else { continue }
             DJISDKManager.keyManager()?.stopListening(on: key, ofListener: self)
         }
-        stopped?()
+    }
+}
+
+// Comply with generic service protocol
+extension BaseService {
+    internal func start() {
+        isActive = true
+    }
+
+    internal func stop() {
+        isActive = false
     }
 }

@@ -59,43 +59,53 @@ struct MissionParameters {
     }
 }
 
-class CommandService : NSObject {
+class CommandService : BaseService {
     var currentWaypointIndex: Int?
     var missionOperator: DJIWaypointMissionOperator?
     var missionParameters = MissionParameters()
+
     var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
     var commandResponded: ((_ id: MissionCommandId, _ success: Bool) -> Void)?
-    var stopped: (() -> Void)?
-    
-    override init() {
-        super.init()
-        registerCallbacks()
-    }
 }
 
 // Public methods
 extension CommandService {
+    func registerListeners() {
+        Environment.connectionService.listeners.append({ model in
+            if model != nil {
+                super.start()
+                self.subscribeToMissionEvents()
+            } else {
+                super.stop()
+                self.unsubscribeFromMissionEvents()
+            }
+        })
+    }
+
     func setMissionCoordinates(_ coordinates: [CLLocationCoordinate2D]) -> Bool {
         let error = missionOperator?.load(waypointMissionFromCoordinates(coordinates))
-        guard error == nil else {
+        if error != nil {
             logConsole?("Mission load error: \(error!.localizedDescription)", .error)
             return false
+        } else {
+            return true
         }
-        return true
     }
 
     func executeMissionCommand(_ id: MissionCommandId) {
+        if !self.isActive {
+            self.logConsole?("Cannot execute command. Aircraft not connected.", .error)
+            return
+        }
         let callback = { (error: Error?) in
             let success = error == nil
             self.commandResponded?(id, success)
             if success {
                 let message = "Mission \(id.title) succeeded"
-                let type = OSLogType.debug
-                self.logConsole?(message, type)
+                self.logConsole?(message, .debug)
             } else {
                 let message = "Mission \(id.title) error: \(error!.localizedDescription)"
-                let type = OSLogType.error
-                self.logConsole?(message, type)
+                self.logConsole?(message, .error)
             }
         }
         switch id {
@@ -115,45 +125,7 @@ extension CommandService {
 
 // Private methods
 extension CommandService {
-    private func registerCallbacks() {
-        Environment.productService.aircraftPresenceNotifiers.append({ model in
-            if model != nil {
-                self.start()
-            } else {
-                self.stop()
-            }
-        })
-    }
-
-    private func waypointMissionFromCoordinates(_ coordinates: [CLLocationCoordinate2D]) -> DJIWaypointMission {
-        let mission = DJIMutableWaypointMission()
-        mission.maxFlightSpeed = 15
-        mission.autoFlightSpeed = missionParameters.flightSpeed
-        mission.finishedAction = .goHome
-        mission.headingMode = .auto
-        mission.flightPathMode = .curved
-        mission.rotateGimbalPitch = true
-        mission.exitMissionOnRCSignalLost = true
-        mission.gotoFirstWaypointMode = .safely
-        mission.repeatTimes = 1
-        for coordinate in coordinates {
-            let waypoint = DJIWaypoint(coordinate: coordinate)
-            waypoint.altitude = missionParameters.altitude
-            waypoint.actionRepeatTimes = 1
-            waypoint.actionTimeoutInSeconds = 60
-            waypoint.turnMode = .clockwise
-            waypoint.gimbalPitch = -90
-            waypoint.shootPhotoDistanceInterval = missionParameters.shootDistance
-            waypoint.cornerRadiusInMeters = 4
-            mission.add(waypoint)
-        }
-        return DJIWaypointMission(mission: mission)
-    }
-}
-
-// Comply with generic service protocol
-extension CommandService : ServiceProtocol {
-    internal func start() {
+    private func subscribeToMissionEvents() {
         missionOperator = DJISDKManager.missionControl()?.waypointMissionOperator()
         missionOperator?.addListener(toUploadEvent: self, with: DispatchQueue.main, andBlock: { (event: DJIWaypointMissionUploadEvent) in
             if event.error != nil {
@@ -181,9 +153,33 @@ extension CommandService : ServiceProtocol {
         })
     }
 
-    internal func stop() {
+    private func unsubscribeFromMissionEvents() {
         missionOperator = nil
         missionOperator?.removeAllListeners()
-        stopped?()
+    }
+
+    private func waypointMissionFromCoordinates(_ coordinates: [CLLocationCoordinate2D]) -> DJIWaypointMission {
+        let mission = DJIMutableWaypointMission()
+        mission.maxFlightSpeed = 15
+        mission.autoFlightSpeed = missionParameters.flightSpeed
+        mission.finishedAction = .goHome
+        mission.headingMode = .auto
+        mission.flightPathMode = .curved
+        mission.rotateGimbalPitch = true
+        mission.exitMissionOnRCSignalLost = true
+        mission.gotoFirstWaypointMode = .safely
+        mission.repeatTimes = 1
+        for coordinate in coordinates {
+            let waypoint = DJIWaypoint(coordinate: coordinate)
+            waypoint.altitude = missionParameters.altitude
+            waypoint.actionRepeatTimes = 1
+            waypoint.actionTimeoutInSeconds = 60
+            waypoint.turnMode = .clockwise
+            waypoint.gimbalPitch = -90
+            waypoint.shootPhotoDistanceInterval = missionParameters.shootDistance
+            waypoint.cornerRadiusInMeters = 4
+            mission.add(waypoint)
+        }
+        return DJIWaypointMission(mission: mission)
     }
 }

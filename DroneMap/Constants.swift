@@ -44,7 +44,6 @@ struct AppDimensions {
             static let h: [CGFloat] = [0.4, 0.45, 0.15]
             static let v: [CGFloat] = [0.09, 0.91]
         }
-
         static let x = contentMargin
         static let y = contentMargin
         static let width = screenWidth - contentMargin * CGFloat(2)
@@ -59,14 +58,12 @@ struct AppDimensions {
                 struct Ratio {
                     static let h: [CGFloat] = [0.4, 0.35, 0.25]
                 }
-
                 static let titleWidth = MissionView.width * Slider.Ratio.h[0]
                 static let sliderWidth = MissionView.width * Slider.Ratio.h[1]
                 static let valueWidth = MissionView.width * Slider.Ratio.h[2]
                 static let sliderThumbRadius = Row.height * CGFloat(0.6)
             }
         }
-
         struct Section {
             struct Editor {
                 static let headerHeight = Row.height * CGFloat(0.5)
@@ -77,7 +74,6 @@ struct AppDimensions {
                 static let footerHeight = textMargin
             }
         }
-
         static let x = ContentView.x
         static let y = ContentView.y
         static let width = ContentView.width * ContentView.Ratio.h[0]
@@ -95,12 +91,10 @@ struct AppDimensions {
             static let height = ContentView.height * ContentView.Ratio.v[0]
             static let count = CGFloat(NavigationButtonId.allCases.count)
         }
-
         struct Spacer {
             static let height = ContentView.spacer
             static let count = CGFloat(NavigationButtonId.allCases.count - 1)
         }
-
         static let x = ContentView.x + ContentView.width * (ContentView.Ratio.h[0] + ContentView.Ratio.h[1])
         static let y = ContentView.y + ContentView.height - NavigationView.height
         static let width = ContentView.width * ContentView.Ratio.h[2]

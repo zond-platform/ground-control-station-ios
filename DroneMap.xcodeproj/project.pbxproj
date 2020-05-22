@@ -12,6 +12,7 @@
 		EC0ECE342449EACE008B1479 /* TableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0ECE332449EACE008B1479 /* TableSection.swift */; };
 		EC12A715244B1DB200DEC7A6 /* ConsoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC12A714244B1DB200DEC7A6 /* ConsoleView.swift */; };
 		EC12A717244B316700DEC7A6 /* ConsoleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC12A716244B316700DEC7A6 /* ConsoleViewController.swift */; };
+		EC12E78D247531B500BF4AE6 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC12E78C247531B500BF4AE6 /* LocationService.swift */; };
 		EC14731B23B1EE9300385067 /* MovingObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14731A23B1EE9300385067 /* MovingObject.swift */; };
 		EC14731D23B1EEAE00385067 /* PolygonVertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14731C23B1EEAE00385067 /* PolygonVertex.swift */; };
 		EC14731F23B1EED500385067 /* MissionPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14731E23B1EED500385067 /* MissionPolygon.swift */; };
@@ -32,7 +33,6 @@
 		EC1678E924473DF400C71203 /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678E824473DF400C71203 /* NavigationButton.swift */; };
 		EC1678EC2448541D00C71203 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678EB2448541D00C71203 /* Constants.swift */; };
 		EC18EBC624630AA6001A29D1 /* CommandButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC18EBC524630AA6001A29D1 /* CommandButton.swift */; };
-		EC1C66782291C07B00BEA440 /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C66772291C07B00BEA440 /* ServiceProtocol.swift */; };
 		EC950E8721B81EA600B3A03D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8621B81EA600B3A03D /* AppDelegate.swift */; };
 		EC950E8921B81EA600B3A03D /* ConnectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8821B81EA600B3A03D /* ConnectionService.swift */; };
 		EC950E8E21B81EA700B3A03D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC950E8D21B81EA700B3A03D /* Assets.xcassets */; };
@@ -49,8 +49,7 @@
 		ECD8AC212465A87900FCC8DB /* IdPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD8AC1D2465A87900FCC8DB /* IdPath.swift */; };
 		ECD8AC222465A87900FCC8DB /* TableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD8AC1E2465A87900FCC8DB /* TableData.swift */; };
 		ECDF4B7222593AC600C98F71 /* MissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDF4B7122593AC600C98F71 /* MissionViewController.swift */; };
-		ECEEEEF0226A0E6E005A71C6 /* ProductService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEEF226A0E6E005A71C6 /* ProductService.swift */; };
-		ECEEEEF4226BA5E7005A71C6 /* ServiceBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEF3226BA5E7005A71C6 /* ServiceBase.swift */; };
+		ECEEEEF4226BA5E7005A71C6 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEF3226BA5E7005A71C6 /* BaseService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +77,7 @@
 		EC0ECE332449EACE008B1479 /* TableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSection.swift; sourceTree = "<group>"; };
 		EC12A714244B1DB200DEC7A6 /* ConsoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleView.swift; sourceTree = "<group>"; };
 		EC12A716244B316700DEC7A6 /* ConsoleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleViewController.swift; sourceTree = "<group>"; };
+		EC12E78C247531B500BF4AE6 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		EC14731A23B1EE9300385067 /* MovingObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingObject.swift; sourceTree = "<group>"; };
 		EC14731C23B1EEAE00385067 /* PolygonVertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonVertex.swift; sourceTree = "<group>"; };
 		EC14731E23B1EED500385067 /* MissionPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionPolygon.swift; sourceTree = "<group>"; };
@@ -98,7 +98,6 @@
 		EC1678E824473DF400C71203 /* NavigationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButton.swift; sourceTree = "<group>"; };
 		EC1678EB2448541D00C71203 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		EC18EBC524630AA6001A29D1 /* CommandButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandButton.swift; sourceTree = "<group>"; };
-		EC1C66772291C07B00BEA440 /* ServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocol.swift; sourceTree = "<group>"; };
 		EC950E8321B81EA600B3A03D /* DroneMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DroneMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC950E8621B81EA600B3A03D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC950E8821B81EA600B3A03D /* ConnectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionService.swift; sourceTree = "<group>"; };
@@ -121,8 +120,7 @@
 		ECD8AC1D2465A87900FCC8DB /* IdPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdPath.swift; sourceTree = "<group>"; };
 		ECD8AC1E2465A87900FCC8DB /* TableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableData.swift; sourceTree = "<group>"; };
 		ECDF4B7122593AC600C98F71 /* MissionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionViewController.swift; sourceTree = "<group>"; };
-		ECEEEEEF226A0E6E005A71C6 /* ProductService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductService.swift; sourceTree = "<group>"; };
-		ECEEEEF3226BA5E7005A71C6 /* ServiceBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ServiceBase.swift; path = ../ServiceBase.swift; sourceTree = "<group>"; };
+		ECEEEEF3226BA5E7005A71C6 /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,15 +212,6 @@
 				EC0ECE332449EACE008B1479 /* TableSection.swift */,
 			);
 			path = GenericSubviews;
-			sourceTree = "<group>";
-		};
-		EC1C66792291C3C100BEA440 /* GenericService */ = {
-			isa = PBXGroup;
-			children = (
-				EC1C66772291C07B00BEA440 /* ServiceProtocol.swift */,
-				ECEEEEF3226BA5E7005A71C6 /* ServiceBase.swift */,
-			);
-			path = GenericService;
 			sourceTree = "<group>";
 		};
 		EC950E7A21B81EA600B3A03D = {
@@ -319,12 +308,12 @@
 		ECEEEEEA2267A96A005A71C6 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				EC1C66792291C3C100BEA440 /* GenericService */,
+				ECEEEEF3226BA5E7005A71C6 /* BaseService.swift */,
 				EC950E8821B81EA600B3A03D /* ConnectionService.swift */,
-				ECEEEEEF226A0E6E005A71C6 /* ProductService.swift */,
 				EC15EADF2286FD530032ACB9 /* SimulatorService.swift */,
 				EC158056229B0A19000741DC /* CommandService.swift */,
 				EC15EAD92274E6BE0032ACB9 /* TelemetryService.swift */,
+				EC12E78C247531B500BF4AE6 /* LocationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -517,7 +506,6 @@
 				EC14732223B1F02200385067 /* MovingObjectView.swift in Sources */,
 				EC158057229B0A19000741DC /* CommandService.swift in Sources */,
 				EC950E8921B81EA600B3A03D /* ConnectionService.swift in Sources */,
-				ECEEEEF0226A0E6E005A71C6 /* ProductService.swift in Sources */,
 				EC15EAD42270E0B80032ACB9 /* RootViewController.swift in Sources */,
 				EC15EAD8227498D20032ACB9 /* MapView.swift in Sources */,
 				EC1678EC2448541D00C71203 /* Constants.swift in Sources */,
@@ -528,6 +516,7 @@
 				EC98D9412455EBE6006BEA9F /* Label.swift in Sources */,
 				EC14732823B1F62000385067 /* ConvexHull.swift in Sources */,
 				EC15EAE02286FD530032ACB9 /* SimulatorService.swift in Sources */,
+				EC12E78D247531B500BF4AE6 /* LocationService.swift in Sources */,
 				EC0ECE322449B9F5008B1479 /* Environment.swift in Sources */,
 				EC1678E6244625D500C71203 /* NavigationView.swift in Sources */,
 				ECDF4B7222593AC600C98F71 /* MissionViewController.swift in Sources */,
@@ -536,12 +525,11 @@
 				EC950E8721B81EA600B3A03D /* AppDelegate.swift in Sources */,
 				ECD709A4244F3BB8004CB3B6 /* Slider.swift in Sources */,
 				EC98D94724570FE7006BEA9F /* TableSliderCell.swift in Sources */,
-				EC1C66782291C07B00BEA440 /* ServiceProtocol.swift in Sources */,
 				EC14732423B1F03400385067 /* PolygonVertexView.swift in Sources */,
 				ECD8AC212465A87900FCC8DB /* IdPath.swift in Sources */,
 				EC0ECE342449EACE008B1479 /* TableSection.swift in Sources */,
 				EC14731D23B1EEAE00385067 /* PolygonVertex.swift in Sources */,
-				ECEEEEF4226BA5E7005A71C6 /* ServiceBase.swift in Sources */,
+				ECEEEEF4226BA5E7005A71C6 /* BaseService.swift in Sources */,
 				EC12A715244B1DB200DEC7A6 /* ConsoleView.swift in Sources */,
 				EC98D94524570BAC006BEA9F /* TableCommandCell.swift in Sources */,
 				ECD8AC1F2465A87900FCC8DB /* SectionData.swift in Sources */,
