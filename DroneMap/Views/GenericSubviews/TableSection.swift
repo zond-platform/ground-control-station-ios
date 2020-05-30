@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TableSection: UITableViewHeaderFooterView {
+class TableSection : UITableViewHeaderFooterView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }

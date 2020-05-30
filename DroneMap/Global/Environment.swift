@@ -19,5 +19,6 @@ struct Environment {
     static let consoleViewController    = ConsoleViewController()
     static let missionViewController    = MissionViewController()
     static let navigationViewController = NavigationViewController()
+    static let statusViewController     = StatusViewController()
     static let rootViewController       = RootViewController()
 }

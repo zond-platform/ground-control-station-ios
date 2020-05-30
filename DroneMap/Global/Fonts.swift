@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct Font {
-    static let headingFont = UIFont.systemFont(ofSize: 12, weight: .bold)
+struct Fonts {
+    static let telemetryFont = UIFont.systemFont(ofSize: 16, weight: .semibold)
     static let titleFont = UIFont.systemFont(ofSize: 12, weight: .regular)
 }

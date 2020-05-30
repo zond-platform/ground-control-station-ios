@@ -13,12 +13,15 @@ import UIKit
 class ConsoleView : UIView {
     // Stored properties
     private var stackView = UIStackView()
-    private var timeStampLabel = Label()
-    private var messageLabel = Label()
+    private var timeStampLabel = InsetLabel()
+    private var messageLabel = InsetLabel()
 
     // Computed properties
     private var xOffset: CGFloat {
         return Dimensions.ContentView.width * Dimensions.ContentView.Ratio.h[0] + Dimensions.viewSpacer
+    }
+    private var yOffset: CGFloat {
+        return Dimensions.ContentView.height * Dimensions.ContentView.Ratio.v[1]
     }
     private var width: CGFloat {
         return Dimensions.ContentView.width * (Dimensions.ContentView.Ratio.h[1] + Dimensions.ContentView.Ratio.h[2])
@@ -36,19 +39,19 @@ class ConsoleView : UIView {
         super.init(frame: CGRect())
         frame = CGRect(
             x: Dimensions.ContentView.x + xOffset,
-            y: Dimensions.ContentView.y,
+            y: Dimensions.ContentView.y + yOffset,
             width: width,
             height: height
         )
         
-        backgroundColor = Color.Overlay.primaryColor
+        backgroundColor = Colors.Overlay.primaryColor
 
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .center
 
-        messageLabel.font = Font.titleFont
-        messageLabel.textColor = Color.Text.mainTitle
+        messageLabel.font = Fonts.titleFont
+        messageLabel.textColor = Colors.Text.mainTitle
         stackView.addArrangedSubview(messageLabel)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false;

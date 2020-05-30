@@ -16,9 +16,8 @@ Conceptual:
 * ~~Hook up all services and ensure error handling~~
 * ~~Consider sending telemetry as patches~~
 * ~~Consider splitting Constants file~~
-* Add telemetry view
+* ~~Add telemetry view~~
 * Consider adding live view from the drone
-* Monitor current aircraft velocity
 
 Map:
 * ~~Replace map icons and make them show direction~~
@@ -35,6 +34,7 @@ Map:
 * Draw copter trace on the map when executing a mission
 * Use callbacks instead of delegates for objects interaction
 * Fix zoom when locking on the moving object
+* Reposition apple legal labels
 
 Controls:
 * ~~Move simulator button out of settings~~
@@ -59,9 +59,10 @@ Mission:
 * Fix return home altitude
 * Create mission history
 * Record mission time
+* Monitor current aircraft velocity
 
 Style:
 * ~~Split console view into several labels~~
 * ~~Rework button selection style~~
-* Rework color scheme (1)
+* ~~Rework color scheme~~
 * Adapt map annotation views to the general style (2)

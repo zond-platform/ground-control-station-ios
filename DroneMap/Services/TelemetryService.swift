@@ -8,12 +8,48 @@
 
 import DJISDK
 
+enum TelemetryDataId {
+    case flightMode
+    case gpsSignal
+    case gpsSatellite
+    case batteryCharge
+    case altitude
+
+    var unit: String {
+        switch self {
+            case .flightMode:
+                return ""
+            case .gpsSignal:
+                return ""
+            case .gpsSatellite:
+                return "sat"
+            case .batteryCharge:
+                return "%"
+            case .altitude:
+                return "m"
+        }
+    }
+
+    var defaultValue: String {
+        switch self {
+            case .flightMode:
+                return "N/A"
+            case .gpsSignal:
+                return "N/A"
+            case .gpsSatellite:
+                return "0"
+            case .batteryCharge:
+                return "0"
+            case .altitude:
+                return "0"
+        }
+    }
+}
+
+extension TelemetryDataId : CaseIterable {}
+
 class TelemetryService : BaseService {
-    var gpsSignalStatusChanged: ((_ value: String) -> Void)?
-    var gpsSatelliteCountChanged: ((_ value: String) -> Void)?
-    var altitudeChanged: ((_ value: String) -> Void)?
-    var flightModeChanged: ((_ value: String) -> Void)?
-    var batteryChargeChanged: ((_ value: String) -> Void)?
+    var telemetryDataChanged: ((_ id: TelemetryDataId, _ value: String?) -> Void)?
 }
 
 // Public methods
@@ -23,11 +59,11 @@ extension TelemetryService {
             if model != nil {
                 super.start()
                 super.subscribe([
+                    DJIFlightControllerKey(param: DJIFlightControllerParamFlightModeString):self.onValueChange,
                     DJIFlightControllerKey(param: DJIFlightControllerParamGPSSignalStatus):self.onValueChange,
                     DJIFlightControllerKey(param: DJIFlightControllerParamSatelliteCount):self.onValueChange,
-                    DJIFlightControllerKey(param: DJIFlightControllerParamAltitudeInMeters):self.onValueChange,
-                    DJIFlightControllerKey(param: DJIFlightControllerParamFlightModeString):self.onValueChange,
-                    DJIBatteryKey(param: DJIBatteryParamChargeRemainingInPercent):self.onValueChange
+                    DJIBatteryKey(param: DJIBatteryParamChargeRemainingInPercent):self.onValueChange,
+                    DJIFlightControllerKey(param: DJIFlightControllerParamAltitudeInMeters):self.onValueChange
                 ])
             } else {
                 super.stop()
@@ -40,29 +76,20 @@ extension TelemetryService {
 // Private methods
 extension TelemetryService {
     private func onValueChange(_ value: DJIKeyedValue?, _ key: DJIKey?) {
-        if value != nil && key != nil {
-            switch key!.param {
-                case DJIFlightControllerParamGPSSignalStatus:
-                    let gpsSignalStatusMap: [UInt:String] = [
-                        0:"Almost no signal",
-                        1:"Very weak",
-                        2:"Weak",
-                        3:"Good",
-                        4:"Very good",
-                        5:"Very strong"
-                    ]
-                    gpsSignalStatusChanged?(gpsSignalStatusMap[value!.unsignedIntegerValue] ?? "-")
-                case DJIFlightControllerParamSatelliteCount:
-                    gpsSatelliteCountChanged?(String(value!.unsignedIntegerValue))
-                case DJIFlightControllerParamAltitudeInMeters:
-                    altitudeChanged?(String(value!.unsignedIntegerValue))
-                case DJIFlightControllerParamFlightModeString:
-                    flightModeChanged?(String(value!.stringValue ?? "-"))
-                case DJIBatteryParamChargeRemainingInPercent:
-                    batteryChargeChanged?(String(value!.unsignedIntegerValue))
-                default:
-                    break
-            }
+        let valuePresent = value != nil && value!.value != nil
+        switch key!.param {
+            case DJIFlightControllerParamFlightModeString:
+                telemetryDataChanged?(.flightMode, valuePresent ? value!.stringValue : nil)
+            case DJIFlightControllerParamGPSSignalStatus:
+                telemetryDataChanged?(.gpsSignal, valuePresent ? String(value!.unsignedIntegerValue) : nil)
+            case DJIFlightControllerParamSatelliteCount:
+                telemetryDataChanged?(.gpsSatellite, valuePresent ? String(value!.unsignedIntegerValue) : nil)
+            case DJIBatteryParamChargeRemainingInPercent:
+                telemetryDataChanged?(.batteryCharge, valuePresent ? String(value!.unsignedIntegerValue) : nil)
+            case DJIFlightControllerParamAltitudeInMeters:
+                telemetryDataChanged?(.altitude, valuePresent ? String(value!.unsignedIntegerValue) : nil)
+            default:
+                break
         }
     }
 }

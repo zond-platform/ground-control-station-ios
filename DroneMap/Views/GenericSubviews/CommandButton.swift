@@ -45,25 +45,23 @@ class CommandButton : UIButton {
     override var isEnabled: Bool {
         didSet {
             if isEnabled {
-                setTitleColor(Color.Text.detailTitle, for: .normal)
-                layer.borderColor = Color.Text.detailTitle.cgColor
+                backgroundColor = Colors.Overlay.userLocationColor
             } else {
-                setTitleColor(Color.Text.inactiveTitle, for: .normal)
-                layer.borderColor = Color.Text.inactiveTitle.cgColor
+                backgroundColor = Colors.Text.inactiveTitle
             }
         }
     }
-    override var isHighlighted: Bool {
-        didSet {
-            if isHighlighted {
-                setTitleColor(Color.Text.mainTitle, for: .normal)
-                layer.borderColor = Color.Text.mainTitle.cgColor
-            } else {
-                setTitleColor(Color.Text.detailTitle, for: .normal)
-                layer.borderColor = Color.Text.detailTitle.cgColor
-            }
-        }
-    }
+//    override var isHighlighted: Bool {
+//        didSet {
+//            if isHighlighted {
+//                setTitleColor(Colors.Text.mainTitle, for: .normal)
+//                layer.borderColor = Colors.Text.mainTitle.cgColor
+//            } else {
+//                setTitleColor(Colors.Text.detailTitle, for: .normal)
+//                layer.borderColor = Colors.Text.detailTitle.cgColor
+//            }
+//        }
+//    }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -73,11 +71,8 @@ class CommandButton : UIButton {
         super.init(frame: CGRect())
         self.id = id
         setTitle(id.title, for: .normal)
-        backgroundColor = .clear
-        titleLabel!.font = Font.titleFont
-        clipsToBounds = true
-        setTitleColor(Color.Text.detailTitle, for: .normal)
-        layer.borderColor = Color.Text.detailTitle.cgColor
-        layer.borderWidth = 0.5
+        titleLabel!.font = Fonts.titleFont
+        setTitleColor(Colors.Text.mainTitle, for: .normal)
+        backgroundColor = Colors.Text.success
     }
 }

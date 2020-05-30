@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Label : UILabel {
+class InsetLabel : UILabel {
     override func drawText(in rect: CGRect) {
         let insets = UIEdgeInsets(
             top: 0,

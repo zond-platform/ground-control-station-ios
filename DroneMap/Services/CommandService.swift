@@ -60,10 +60,12 @@ struct MissionParameters {
 }
 
 class CommandService : BaseService {
+    // Stored properties
     var currentWaypointIndex: Int?
     var missionOperator: DJIWaypointMissionOperator?
     var missionParameters = MissionParameters()
 
+    // Notifyer properties
     var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
     var commandResponded: ((_ id: MissionCommandId, _ success: Bool) -> Void)?
 }

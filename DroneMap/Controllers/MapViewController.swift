@@ -127,7 +127,7 @@ extension MapViewController {
             mapView.addAnnotations(polygonVertices)
             mapView.addOverlay(polygon)
             mapView.showAnnotations([user], animated: true)
-        } else {
+        } else if polygon != nil {
             mapView.removeAnnotations(polygonVertices)
             mapView.removeOverlay(polygon)
         }
@@ -158,6 +158,13 @@ extension MapViewController {
         Environment.locationService.homeLocationChanged = { location in
             self.showObject(self.home, location)
         }
+        Environment.missionViewController.stateListeners.append({ state in
+            if state == nil {
+                self.enableMissionEditing(false)
+            } else {
+                self.enableMissionEditing(true)
+            }
+        })
     }
 
     private func objectPresentOnMap(_ object: MovingObject) -> Bool {
@@ -222,11 +229,11 @@ extension MapViewController {
                 case .user:
                     movingObject.delegate = movingObjectView
                     let image = #imageLiteral(resourceName: "userPin")
-                    movingObjectView!.image = image.color(Color.Overlay.userLocationColor)
+                    movingObjectView!.image = image.color(Colors.Overlay.userLocationColor)
                 case .aircraft:
                     movingObject.delegate = movingObjectView
                     let image = #imageLiteral(resourceName: "aircraftPin")
-                    movingObjectView!.image = image.color(Color.Overlay.aircraftLocationColor)
+                    movingObjectView!.image = image.color(Colors.Overlay.aircraftLocationColor)
                 case .home:
                     movingObjectView!.image = #imageLiteral(resourceName: "homePin")
             }

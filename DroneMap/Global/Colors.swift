@@ -8,10 +8,10 @@
 
 import UIKit
 
-struct Color {
+struct Colors {
     private struct Alphas {
         static let opaque = CGFloat(1)
-        static let semiOpaque = CGFloat(0.8)
+        static let semiOpaque = CGFloat(0.9)
         static let semiTransparent = CGFloat(0.6)
         static let transparent = CGFloat(0.4)
     }

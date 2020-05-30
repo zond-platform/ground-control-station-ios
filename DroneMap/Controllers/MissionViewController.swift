@@ -9,7 +9,20 @@
 import DJISDK
 import UIKit
 
+enum MissionState {
+    case uploaded
+    case running
+    case paused
+    case finished
+    case disconnected
+}
+
 fileprivate var missionData = TableData([
+    SectionData(
+        id: .command,
+        rows: [
+            RowData(id: .command,       type: .command,    value: MissionState.finished, isEnabled: false)
+    ]),
     SectionData(
         id: .editor,
         rows: [
@@ -18,16 +31,24 @@ fileprivate var missionData = TableData([
             RowData(id: .altitude,      type: .slider, value: 50.0, isEnabled: true),
             RowData(id: .flightSpeed,   type: .slider, value: 10.0, isEnabled: true),
         ]),
-    SectionData(
-        id: .command,
-        rows: [
-            RowData(id: .command,       type: .command,    value: MissionStateId.finished, isEnabled: false)
-        ]),
 ])
 
 class MissionViewController : UIViewController {
+    // Stored properties
     private var missionView: MissionView!
     private var tableData: TableData = missionData
+
+    // Observer properties
+    private var missionState: MissionState? {
+        didSet {
+            for listener in stateListeners {
+                listener?(self.missionView.isButtonSelected ? missionState : nil)
+            }
+        }
+    }
+
+    // Notyfier properties
+    var stateListeners: [((_ state: MissionState?) -> Void)?] = []
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -53,34 +74,42 @@ class MissionViewController : UIViewController {
 // Private methods
 extension MissionViewController {
     private func registerListeners() {
-        missionView.buttonSelected = { isSelected in
-            self.missionView.showMissionEditor(isSelected)
-            Environment.mapViewController.enableMissionEditing(isSelected)
+        missionView.missionModeToggled = {
+            // Trigger observer
+            self.missionState = self.missionState
         }
         Environment.commandService.commandResponded = { id, success in
             if success {
                 switch id {
                     case .upload:
-                        self.editting(enable: false)
-                        self.tableData.updateRow(at: IdPath(.command, .command), with: MissionStateId.uploaded)
+                        self.missionState = MissionState.uploaded
                     case .start:
-                        self.tableData.updateRow(at: IdPath(.command, .command), with: MissionStateId.running)
+                        self.missionState = MissionState.running
                     case .pause:
-                        self.tableData.updateRow(at: IdPath(.command, .command), with: MissionStateId.paused)
+                        self.missionState = MissionState.paused
                     case .resume:
-                        self.tableData.updateRow(at: IdPath(.command, .command), with: MissionStateId.running)
+                        self.missionState = MissionState.running
                     case .stop:
-                        self.tableData.updateRow(at: IdPath(.command, .command), with: MissionStateId.finished)
+                        self.missionState = MissionState.finished
                 }
+            } else {
+                self.missionState = MissionState.finished
             }
         }
-    }
-
-    private func editting(enable: Bool) {
-        self.tableData.enableRow(at: IdPath(.editor, .gridDistance), enable)
-        self.tableData.enableRow(at: IdPath(.editor, .shootDistance), enable)
-        self.tableData.enableRow(at: IdPath(.editor, .altitude), enable)
-        self.tableData.enableRow(at: IdPath(.editor, .flightSpeed), enable)
+        Environment.connectionService.listeners.append({ model in
+            self.tableData.enableRow(at: IdPath(.command, .command), false)
+            if model == nil {
+                self.missionState = MissionState.disconnected
+            } else {
+                self.missionState = MissionState.finished
+            }
+        })
+        stateListeners.append({ state in
+            self.missionView.expand(for: state)
+            if state != nil {
+                self.tableData.updateRow(at: IdPath(.command, .command), with: state!)
+            }
+        })
     }
 
     private func sliderMoved(at idPath: IdPath, to value: Float) {
@@ -109,8 +138,7 @@ extension MissionViewController {
             case .start:
                 Environment.commandService.executeMissionCommand(.start)
             case .edit:
-                self.tableData.updateRow(at: IdPath(.command, .command), with: MissionStateId.finished)
-                self.editting(enable: true)
+                self.missionState = MissionState.finished
             case .pause:
                 Environment.commandService.executeMissionCommand(.pause)
             case .resume:

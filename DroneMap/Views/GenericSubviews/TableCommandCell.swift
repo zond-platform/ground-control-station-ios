@@ -8,18 +8,12 @@
 
 import UIKit
 
-enum MissionStateId {
-    case uploaded
-    case running
-    case paused
-    case finished
-}
-
-fileprivate let missionStateMap: [MissionStateId:[CommandButtonId]] = [
-    .uploaded : [CommandButtonId.edit,   CommandButtonId.start,  CommandButtonId.stop],
-    .running  : [CommandButtonId.edit,   CommandButtonId.pause,  CommandButtonId.stop],
-    .paused   : [CommandButtonId.edit,   CommandButtonId.resume, CommandButtonId.stop],
-    .finished : [CommandButtonId.upload, CommandButtonId.start,  CommandButtonId.stop],
+fileprivate let missionStateMap: [MissionState:[CommandButtonId]] = [
+    .uploaded     : [CommandButtonId.edit,   CommandButtonId.start,  CommandButtonId.stop],
+    .running      : [CommandButtonId.edit,   CommandButtonId.pause,  CommandButtonId.stop],
+    .paused       : [CommandButtonId.edit,   CommandButtonId.resume, CommandButtonId.stop],
+    .finished     : [CommandButtonId.upload, CommandButtonId.start,  CommandButtonId.stop],
+    .disconnected : [CommandButtonId.upload, CommandButtonId.start,  CommandButtonId.stop],
 ]
 
 class TableCommandCell : UITableViewCell {
@@ -75,9 +69,32 @@ class TableCommandCell : UITableViewCell {
 // Public methods
 extension TableCommandCell {
     func updateData(_ row: RowData<Any>) {
-        let id = row.value as! MissionStateId
+        let id = row.value as! MissionState
         for i in 0..<buttons.count {
             buttons[i].id = missionStateMap[id]![i]
+        }
+        switch id {
+        case .disconnected:
+            enable(buttons: [buttons[0], buttons[1], buttons[2]], false)
+        case .finished:
+            enable(buttons: [buttons[0]], true)
+            enable(buttons: [buttons[1], buttons[2]], false)
+        case .uploaded:
+            enable(buttons: [buttons[0], buttons[1], buttons[2]], true)
+        case .running:
+            fallthrough
+        case .paused:
+            enable(buttons: [buttons[0]], false)
+            enable(buttons: [buttons[1], buttons[2]], true)
+        }
+    }
+}
+
+// Private methods
+extension TableCommandCell {
+    func enable(buttons: [CommandButton], _ enable: Bool) {
+        for i in 0..<buttons.count {
+            buttons[i].isEnabled = enable
         }
     }
 }

@@ -20,9 +20,6 @@ class NavigationView : UIView {
     private var xOffset: CGFloat {
         return Dimensions.ContentView.width * (Dimensions.ContentView.Ratio.h[0] + Dimensions.ContentView.Ratio.h[1])
     }
-    private var yOffset: CGFloat {
-        return Dimensions.ContentView.height - height
-    }
     private var buttonHeight: CGFloat {
         return Dimensions.ContentView.height * Dimensions.ContentView.Ratio.v[0]
     }
@@ -42,7 +39,7 @@ class NavigationView : UIView {
         super.init(frame: CGRect())
         frame = CGRect(
             x: Dimensions.ContentView.x + xOffset,
-            y: Dimensions.ContentView.y + yOffset,
+            y: Dimensions.ContentView.y,
             width: NavigationView.width,
             height: height
         )

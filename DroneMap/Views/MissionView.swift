@@ -16,12 +16,12 @@ class MissionView : UIView {
     }
     struct TableSection {
         struct Editor {
-            static let headerHeight = TableRow.height * CGFloat(0.5)
+            static let headerHeight = CGFloat(0.0)
             static let footerHeight = TableRow.height * CGFloat(0.5)
         }
         struct Command {
-            static let headerHeight = CGFloat(0.0)
-            static let footerHeight = Dimensions.textSpacer
+            static let headerHeight = TableRow.height * CGFloat(0.5)
+            static let footerHeight = TableRow.height * CGFloat(0.5)
         }
     }
 
@@ -32,20 +32,29 @@ class MissionView : UIView {
     private var buttonHeight = MissionView.TableRow.height
     private var tableHeight = CGFloat(0)
 
+    // Computed properties
+    var isButtonSelected: Bool {
+        return button.isSelected
+    }
+    private var yOffset: CGFloat {
+        return Dimensions.ContentView.height * Dimensions.ContentView.Ratio.v[1]
+    }
+
     // Notifyer properties
-    var buttonSelected: ((_ isSelected: Bool) -> Void)?
+    var missionModeToggled: (() -> Void)?
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
     init(_ tableHeight: CGFloat) {
-        super.init(frame: CGRect(
+        super.init(frame: CGRect())
+        frame = CGRect(
             x: Dimensions.ContentView.x,
-            y: Dimensions.ContentView.y,
+            y: Dimensions.ContentView.y + yOffset,
             width: MissionView.width,
-            height: buttonHeight
-        ))
+            height: buttonHeight + tableHeight
+        )
 
         self.tableHeight = tableHeight
 
@@ -54,9 +63,9 @@ class MissionView : UIView {
         stackView.alignment = .top
 
         button.isSelected = false
-        button.backgroundColor = Color.Overlay.primaryColor
+        button.backgroundColor = Colors.Overlay.primaryColor
         button.setTitle("Mission", for: .normal)
-        button.titleLabel?.font = Font.titleFont
+        button.titleLabel?.font = Fonts.titleFont
         button.addTarget(self, action: #selector(buttonSelected(_:)), for: .touchUpInside)
         NSLayoutConstraint.activate([
             button.widthAnchor.constraint(equalToConstant: MissionView.width),
@@ -66,7 +75,7 @@ class MissionView : UIView {
 
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
-        tableView.backgroundColor = Color.Overlay.primaryColor
+        tableView.backgroundColor = Colors.Overlay.primaryColor
         NSLayoutConstraint.activate([
             tableView.widthAnchor.constraint(equalToConstant: MissionView.width)
         ])
@@ -83,12 +92,21 @@ class MissionView : UIView {
 
 // Public methods
 extension MissionView {
-    func showMissionEditor(_ show: Bool) {
-        UIView.animate(withDuration: 0.0, animations: {
-            if show {
-                self.frame.size.height = self.buttonHeight + self.tableHeight
+    func expand(for state: MissionState?) {
+        UIView.animate(withDuration: 0.3, animations: {
+            if state == nil {
+                self.frame.origin.y = Dimensions.ContentView.y
+                                      + self.yOffset
+            } else if state! == .disconnected || state! == .finished {
+                self.frame.origin.y = Dimensions.ContentView.y
+                                      + self.yOffset
+                                      - self.tableHeight
+                                      + Dimensions.viewSpacer
             } else {
-                self.frame.size.height = self.buttonHeight
+                self.frame.origin.y = Dimensions.ContentView.y
+                                      + self.yOffset
+                                      - TableRow.height
+                                      - TableSection.Command.footerHeight
             }
         })
     }
@@ -98,13 +116,6 @@ extension MissionView {
 extension MissionView {
     @objc func buttonSelected(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
-//        if sender.isSelected {
-//            button.backgroundColor = Color.Overlay.userLocationColor
-//            tableView.backgroundColor = Color.Overlay.userLocationColor
-//        } else {
-//            button.backgroundColor = Color.Overlay.primaryColor
-//            tableView.backgroundColor = Color.Overlay.primaryColor
-//        }
-        buttonSelected?(sender.isSelected)
+        missionModeToggled?()
     }
 }

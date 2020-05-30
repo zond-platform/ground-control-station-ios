@@ -37,16 +37,16 @@ class NavigationButton : UIButton {
             if isSelected {
                 switch self.id {
                     case .simulator:
-                        backgroundColor = Color.Overlay.simulatorActiveColor
+                        backgroundColor = Colors.Overlay.simulatorActiveColor
                     case .user:
-                        backgroundColor = Color.Overlay.userLocationColor
+                        backgroundColor = Colors.Overlay.userLocationColor
                     case .aircraft:
-                        backgroundColor = Color.Overlay.aircraftLocationColor
+                        backgroundColor = Colors.Overlay.aircraftLocationColor
                     default:
                         break
                 }
             } else {
-                backgroundColor = Color.Overlay.primaryColor
+                backgroundColor = Colors.Overlay.primaryColor
             }
         }
     }
@@ -59,8 +59,8 @@ class NavigationButton : UIButton {
         self.id = id
         super.init(frame: CGRect())
         setTitle(id.title, for: .normal)
-        backgroundColor = Color.Overlay.primaryColor
-        titleLabel!.font = Font.titleFont
+        backgroundColor = Colors.Overlay.primaryColor
+        titleLabel!.font = Fonts.titleFont
         clipsToBounds = true
     }
 }

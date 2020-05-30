@@ -24,5 +24,6 @@ class RootView : UIView {
         addSubview(Environment.consoleViewController.view)
         addSubview(Environment.missionViewController.view)
         addSubview(Environment.navigationViewController.view)
+        addSubview(Environment.statusViewController.view)
     }
 }

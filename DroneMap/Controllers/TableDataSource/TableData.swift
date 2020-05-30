@@ -50,6 +50,14 @@ extension TableData {
         return sections[indexPath.section].rows[indexPath.row]
     }
 
+    func rowValue(at idPath: IdPath) -> Any? {
+        if let indexPath = self.indexPath(for: idPath) {
+            return sections[indexPath.section].rows[indexPath.row].value
+        } else {
+            return nil
+        }
+    }
+
     func updateRow<ValueType>(at idPath: IdPath, with value: ValueType) {
         if let indexPath = self.indexPath(for: idPath) {
             let row = sections[indexPath.section].rows[indexPath.row]

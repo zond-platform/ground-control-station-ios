@@ -11,9 +11,9 @@ import UIKit
 class TableSliderCell : UITableViewCell {
     // Stored properties
     private let stackView = UIStackView()
-    private let title = Label()
-    private let value = Label()
-    private let slider = Slider()
+    private let title = InsetLabel()
+    private let value = InsetLabel()
+    private let slider = TableSlider()
 
     // Notifyer properties
     var sliderMoved: ((_ idPath: IdPath, _ value: Float) -> Void)?
@@ -33,7 +33,7 @@ class TableSliderCell : UITableViewCell {
         stackView.distribution = .fill
         stackView.alignment = .center
 
-        title.font = Font.titleFont
+        title.font = Fonts.titleFont
         NSLayoutConstraint.activate([
             title.widthAnchor.constraint(equalToConstant: MissionView.width * CGFloat(0.4))
         ])
@@ -44,8 +44,8 @@ class TableSliderCell : UITableViewCell {
         ])
         stackView.addArrangedSubview(slider)
 
-        value.font = Font.titleFont
-        value.textColor = Color.Text.detailTitle
+        value.font = Fonts.titleFont
+        value.textColor = Colors.Text.detailTitle
         stackView.addArrangedSubview(value)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false;
@@ -88,14 +88,14 @@ extension TableSliderCell {
         self.title.text = data.title
         self.value.text = String(format: "%.0f ", self.slider.value) + unit
 
-        self.title.textColor = data.isEnabled ? Color.Text.mainTitle   : Color.Text.inactiveTitle
-        self.value.textColor = data.isEnabled ? Color.Text.detailTitle : Color.Text.inactiveTitle
+        self.title.textColor = data.isEnabled ? Colors.Text.mainTitle   : Colors.Text.inactiveTitle
+        self.value.textColor = data.isEnabled ? Colors.Text.detailTitle : Colors.Text.inactiveTitle
     }
 }
 
 // Handle control events
 extension TableSliderCell {
-    @objc func sliderMoved(_ sender: Slider) {
+    @objc func sliderMoved(_ sender: TableSlider) {
         if let idPath = sender.idPath {
             sliderMoved?(idPath, sender.value)
         }

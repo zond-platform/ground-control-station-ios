@@ -11,7 +11,7 @@ import UIKit
 struct Dimensions {
     static let screenWidth = UIScreen.main.bounds.width
     static let screenHeight = UIScreen.main.bounds.height
-    static let viewSpacer = screenWidth * CGFloat(0.005)
+    static let viewSpacer = screenWidth * CGFloat(0.01)
     static let textSpacer = screenWidth * CGFloat(0.015)
 
     struct ContentView {
