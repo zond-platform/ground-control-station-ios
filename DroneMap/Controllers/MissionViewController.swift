@@ -13,15 +13,26 @@ enum MissionState {
     case uploaded
     case running
     case paused
-    case finished
-    case disconnected
+    case editting
 }
+
+fileprivate let allowedTransitions: KeyValuePairs<MissionState?,MissionState?> = [
+    nil             : .editting,
+    .editting       : nil,
+    .editting       : .uploaded,
+    .uploaded       : .editting,
+    .uploaded       : .running,
+    .running        : .editting,
+    .running        : .paused,
+    .paused         : .editting,
+    .paused         : .running,
+]
 
 fileprivate var missionData = TableData([
     SectionData(
         id: .command,
         rows: [
-            RowData(id: .command,       type: .command,    value: MissionState.finished, isEnabled: false)
+            RowData(id: .command,       type: .command,    value: MissionState.editting, isEnabled: false)
     ]),
     SectionData(
         id: .editor,
@@ -37,12 +48,15 @@ class MissionViewController : UIViewController {
     // Stored properties
     private var missionView: MissionView!
     private var tableData: TableData = missionData
+    private var previousMissionState: MissionState?
 
     // Observer properties
     private var missionState: MissionState? {
         didSet {
-            for listener in stateListeners {
-                listener?(self.missionView.isButtonSelected ? missionState : nil)
+            if allowedTransitions.contains(where: { $0 == oldValue && $1 == missionState }) {
+                for listener in stateListeners {
+                    listener?(missionState)
+                }
             }
         }
     }
@@ -74,9 +88,12 @@ class MissionViewController : UIViewController {
 // Private methods
 extension MissionViewController {
     private func registerListeners() {
-        missionView.missionModeToggled = {
-            // Trigger observer
-            self.missionState = self.missionState
+        missionView.missionButtonPressed = {
+            if self.missionState == nil {
+                self.missionState = MissionState.editting
+            } else if self.missionState == .editting {
+                self.missionState = nil
+            }
         }
         Environment.commandService.commandResponded = { id, success in
             if success {
@@ -90,18 +107,19 @@ extension MissionViewController {
                     case .resume:
                         self.missionState = MissionState.running
                     case .stop:
-                        self.missionState = MissionState.finished
+                        self.missionState = MissionState.editting
                 }
             } else {
-                self.missionState = MissionState.finished
+                self.missionState = MissionState.editting
             }
         }
         Environment.connectionService.listeners.append({ model in
-            self.tableData.enableRow(at: IdPath(.command, .command), false)
             if model == nil {
-                self.missionState = MissionState.disconnected
+                self.tableData.enableRow(at: IdPath(.command, .command), false)
+                self.missionState = MissionState.editting
             } else {
-                self.missionState = MissionState.finished
+                self.tableData.enableRow(at: IdPath(.command, .command), true)
+                self.tableData.updateRow(at: IdPath(.command, .command), with: MissionState.editting)
             }
         })
         stateListeners.append({ state in
@@ -138,7 +156,7 @@ extension MissionViewController {
             case .start:
                 Environment.commandService.executeMissionCommand(.start)
             case .edit:
-                self.missionState = MissionState.finished
+                self.missionState = MissionState.editting
             case .pause:
                 Environment.commandService.executeMissionCommand(.pause)
             case .resume:

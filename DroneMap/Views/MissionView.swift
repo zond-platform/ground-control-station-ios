@@ -33,15 +33,12 @@ class MissionView : UIView {
     private var tableHeight = CGFloat(0)
 
     // Computed properties
-    var isButtonSelected: Bool {
-        return button.isSelected
-    }
     private var yOffset: CGFloat {
         return Dimensions.ContentView.height * Dimensions.ContentView.Ratio.v[1]
     }
 
     // Notifyer properties
-    var missionModeToggled: (() -> Void)?
+    var missionButtonPressed: (() -> Void)?
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -66,7 +63,7 @@ class MissionView : UIView {
         button.backgroundColor = Colors.Overlay.primaryColor
         button.setTitle("Mission", for: .normal)
         button.titleLabel?.font = Fonts.titleFont
-        button.addTarget(self, action: #selector(buttonSelected(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(buttonPressed(_:)), for: .touchUpInside)
         NSLayoutConstraint.activate([
             button.widthAnchor.constraint(equalToConstant: MissionView.width),
             button.heightAnchor.constraint(equalToConstant: buttonHeight)
@@ -97,7 +94,7 @@ extension MissionView {
             if state == nil {
                 self.frame.origin.y = Dimensions.ContentView.y
                                       + self.yOffset
-            } else if state! == .disconnected || state! == .finished {
+            } else if state! == .editting {
                 self.frame.origin.y = Dimensions.ContentView.y
                                       + self.yOffset
                                       - self.tableHeight
@@ -114,8 +111,7 @@ extension MissionView {
 
 // Handle control events
 extension MissionView {
-    @objc func buttonSelected(_ sender: UIButton) {
-        sender.isSelected = !sender.isSelected
-        missionModeToggled?()
+    @objc func buttonPressed(_: UIButton) {
+        missionButtonPressed?()
     }
 }

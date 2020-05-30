@@ -12,8 +12,7 @@ fileprivate let missionStateMap: [MissionState:[CommandButtonId]] = [
     .uploaded     : [CommandButtonId.edit,   CommandButtonId.start,  CommandButtonId.stop],
     .running      : [CommandButtonId.edit,   CommandButtonId.pause,  CommandButtonId.stop],
     .paused       : [CommandButtonId.edit,   CommandButtonId.resume, CommandButtonId.stop],
-    .finished     : [CommandButtonId.upload, CommandButtonId.start,  CommandButtonId.stop],
-    .disconnected : [CommandButtonId.upload, CommandButtonId.start,  CommandButtonId.stop],
+    .editting     : [CommandButtonId.upload, CommandButtonId.start,  CommandButtonId.stop],
 ]
 
 class TableCommandCell : UITableViewCell {
@@ -47,7 +46,7 @@ class TableCommandCell : UITableViewCell {
         )
         stackView.isLayoutMarginsRelativeArrangement = true
 
-        for id in missionStateMap[.finished]! {
+        for id in missionStateMap[.editting]! {
             buttons.append(CommandButton(id))
             buttons.last!.addTarget(self, action: #selector(onButtonPressed(_:)), for: .touchUpInside)
             NSLayoutConstraint.activate([
@@ -73,19 +72,21 @@ extension TableCommandCell {
         for i in 0..<buttons.count {
             buttons[i].id = missionStateMap[id]![i]
         }
-        switch id {
-        case .disconnected:
+        if row.isEnabled {
+            switch id {
+                case .editting:
+                    enable(buttons: [buttons[0]], true)
+                    enable(buttons: [buttons[1], buttons[2]], false)
+                case .uploaded:
+                    enable(buttons: [buttons[0], buttons[1], buttons[2]], true)
+                case .running:
+                    fallthrough
+                case .paused:
+                    enable(buttons: [buttons[0]], false)
+                    enable(buttons: [buttons[1], buttons[2]], true)
+            }
+        } else {
             enable(buttons: [buttons[0], buttons[1], buttons[2]], false)
-        case .finished:
-            enable(buttons: [buttons[0]], true)
-            enable(buttons: [buttons[1], buttons[2]], false)
-        case .uploaded:
-            enable(buttons: [buttons[0], buttons[1], buttons[2]], true)
-        case .running:
-            fallthrough
-        case .paused:
-            enable(buttons: [buttons[0]], false)
-            enable(buttons: [buttons[1], buttons[2]], true)
         }
     }
 }
