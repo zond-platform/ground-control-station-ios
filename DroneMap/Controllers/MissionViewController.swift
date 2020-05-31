@@ -116,7 +116,11 @@ extension MissionViewController {
         Environment.connectionService.listeners.append({ model in
             if model == nil {
                 self.tableData.enableRow(at: IdPath(.command, .command), false)
-                self.missionState = MissionState.editting
+                if self.missionState == .uploaded
+                    || self.missionState == .running
+                    || self.missionState == .paused {
+                    self.missionState = MissionState.editting
+                }
             } else {
                 self.tableData.enableRow(at: IdPath(.command, .command), true)
                 self.tableData.updateRow(at: IdPath(.command, .command), with: MissionState.editting)

@@ -176,15 +176,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		EC12E78E2477E49800BF4AE6 /* Global */ = {
+		EC12E78E2477E49800BF4AE6 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				ECD7148E2365B09800958956 /* MapOverlayGeometry */,
 				EC0ECE312449B9F5008B1479 /* Environment.swift */,
 				EC12E7932477E4DF00BF4AE6 /* Dimensions.swift */,
 				EC12E78F2477E4C800BF4AE6 /* Fonts.swift */,
 				EC12E7912477E4D400BF4AE6 /* Colors.swift */,
 			);
-			path = Global;
+			path = Common;
 			sourceTree = "<group>";
 		};
 		EC14731923B1EE5B00385067 /* MapAnnotations */ = {
@@ -263,7 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				EC950E8621B81EA600B3A03D /* AppDelegate.swift */,
-				EC12E78E2477E49800BF4AE6 /* Global */,
+				EC12E78E2477E49800BF4AE6 /* Common */,
 				ECEEEEEA2267A96A005A71C6 /* Services */,
 				ECEEEEE92267A959005A71C6 /* Controllers */,
 				EC15EACE226DE7E70032ACB9 /* Views */,
@@ -316,7 +317,6 @@
 			isa = PBXGroup;
 			children = (
 				EC14731923B1EE5B00385067 /* MapAnnotations */,
-				ECD7148E2365B09800958956 /* MapOverlayGeometry */,
 				ECD8AC232465A88400FCC8DB /* TableDataSource */,
 				EC15EAD32270E0B80032ACB9 /* RootViewController.swift */,
 				EC15EAD1227080250032ACB9 /* MapViewController.swift */,
