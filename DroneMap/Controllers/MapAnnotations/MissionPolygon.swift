@@ -17,10 +17,14 @@ protocol MissionPolygonDelegate : AnyObject {
 }
 
 class MissionPolygon : MKPolygon {
-    private weak var mapView: MKMapView!
-    var verticies: [CGPoint] = []
-    var missionGrid: [CGPoint] = []
+    // Stored properties
+    private var verticies: [CGPoint] = []
+    private var vertexOffsets: [CGPoint] = []
+    private var missionGrid: [CGPoint] = []
+    private var draggedVertexId: Int?
+    var vertexArea = MissionRenderer.vertexRadius
 
+    // Observer properties
     weak var delegate: MissionPolygonDelegate? {
         didSet {
             verticies.removeAll(keepingCapacity: true)
@@ -30,7 +34,6 @@ class MissionPolygon : MKPolygon {
             delegate!.redrawRenderer()
         }
     }
-
     var gridDistance: CGFloat = 20.0 {
         didSet {
             if delegate != nil {
@@ -39,9 +42,8 @@ class MissionPolygon : MKPolygon {
         }
     }
 
-    convenience init(_ coordinates: [CLLocationCoordinate2D], _ mapView: MKMapView) {
+    convenience init(_ coordinates: [CLLocationCoordinate2D]) {
         self.init(coordinates: coordinates, count: coordinates.count)
-        self.mapView = mapView
     }
 }
 
@@ -68,7 +70,7 @@ extension MissionPolygon {
         }
     }
 
-    func containsCoordinate(_ coordinate: CLLocationCoordinate2D) -> Bool {
+    func bodyContainsCoordinate(_ coordinate: CLLocationCoordinate2D) -> Bool {
         if delegate != nil {
             let left = leftmost(verticies)
             let right = rightmost(verticies)
@@ -82,9 +84,28 @@ extension MissionPolygon {
             let polygonOrigin = delegate!.translateRawPoint(origin)
             let polygonSize = MKMapSize(width: width, height: height)
             let polygonRect = MKMapRect(origin: polygonOrigin, size: polygonSize)
-
+            
             return polygonRect.contains(MKMapPoint(coordinate))
         } else {
+            return false
+        }
+    }
+
+    func vertexContainsCoordinate(_ coordinate: CLLocationCoordinate2D) -> Bool {
+        if delegate != nil {
+            for id in 0..<pointCount {
+                let vertexPosition = delegate!.translateMapPoint(points()[id])
+                let touchPosition = delegate!.translateMapPoint(MKMapPoint(coordinate))
+                let distance = norm(Vector(vertexPosition, touchPosition))
+                if distance < vertexArea {
+                    draggedVertexId = id
+                    return true
+                }
+            }
+            draggedVertexId = nil
+            return false
+        } else {
+            draggedVertexId = nil
             return false
         }
     }
@@ -94,29 +115,42 @@ extension MissionPolygon {
         let up = delegate!.translateRawPoint(uppermost(verticies))
         return CGFloat(low.distance(to: up))
     }
-}
 
-// Private methods
-extension MissionPolygon {
-    private func updateVertex(_ newCoordinate: CLLocationCoordinate2D, _ id: Int) {
-        if delegate != nil {
-            points()[id] = MKMapPoint(newCoordinate)
-            verticies[id] = delegate!.translateMapPoint(points()[id])
-            delegate!.redrawRenderer()
+    func computeVertexOffsets(relativeTo coordinate: CLLocationCoordinate2D) {
+        vertexOffsets.removeAll(keepingCapacity: true)
+        for id in 0..<pointCount {
+            let dLat = points()[id].coordinate.latitude - coordinate.latitude
+            let dLon = points()[id].coordinate.longitude - coordinate.longitude
+            vertexOffsets.append(CGPoint(x: dLat, y: dLon))
+        }
+    }
+
+    func movePolygon(to coordinate: CLLocationCoordinate2D) {
+        for id in 0..<vertexOffsets.count {
+            let lat = coordinate.latitude + CLLocationDegrees(vertexOffsets[id].x)
+            let lon = coordinate.longitude + CLLocationDegrees(vertexOffsets[id].y)
+            updateVertex(CLLocationCoordinate2D(latitude: lat, longitude: lon), id: id, redraw: false)
+        }
+        delegate?.redrawRenderer()
+    }
+
+    func moveVertex(to coordinate: CLLocationCoordinate2D) {
+        if draggedVertexId != nil && vertexOffsets.count >= draggedVertexId! {
+            let lat = coordinate.latitude + CLLocationDegrees(vertexOffsets[draggedVertexId!].x)
+            let lon = coordinate.longitude + CLLocationDegrees(vertexOffsets[draggedVertexId!].y)
+            updateVertex(CLLocationCoordinate2D(latitude: lat, longitude: lon), id: draggedVertexId!, redraw: true)
         }
     }
 }
-
-// Track vertex drag
-extension MissionPolygon : PolygonVertexViewDelegate {
-    func vertexViewDragged(_ newPosition: CGPoint, _ id: Int) {
-        updateVertex(mapView.convert(newPosition, toCoordinateFrom: mapView), id)
-    }
-}
-
-// Track vertex coordinate update
-extension MissionPolygon : PolygonVertexDelegate {
-    func vertexCoordinateUpdated(_ newCoordinate: CLLocationCoordinate2D, _ id: Int) {
-        updateVertex(newCoordinate, id)
+// Private methods
+extension MissionPolygon {
+    private func updateVertex(_ coordinate: CLLocationCoordinate2D, id: Int, redraw: Bool) {
+        if delegate != nil {
+            points()[id] = MKMapPoint(coordinate)
+            verticies[id] = delegate!.translateMapPoint(points()[id])
+            if redraw {
+                delegate!.redrawRenderer()
+            }
+        }
     }
 }

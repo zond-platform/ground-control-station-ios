@@ -8,7 +8,15 @@
 
 import MapKit
 
+fileprivate let zoomScaleToVertexRadiusMap: [MKZoomScale:CGFloat] = [
+    1.0   : MissionRenderer.vertexRadius,
+    0.5   : MissionRenderer.vertexRadius * CGFloat(1.5),
+    0.25  : MissionRenderer.vertexRadius * CGFloat(2.0),
+    0.125 : MissionRenderer.vertexRadius * CGFloat(2.5),
+]
+
 class MissionRenderer : MKOverlayRenderer {
+    static let vertexRadius: CGFloat = 100.0
     private var vertexPositionChangeFired = false
     var gridDistance: CGFloat = 20.0
 
@@ -35,6 +43,21 @@ class MissionRenderer : MKOverlayRenderer {
             context.setLineWidth(MKRoadWidthAtZoomScale(zoomScale) * 0.5)
             context.addPath(gridPath)
             context.drawPath(using: .stroke)
+
+            var vertexRadius = zoomScaleToVertexRadiusMap[zoomScale]
+            if vertexRadius == nil {
+                vertexRadius = zoomScaleToVertexRadiusMap[0.125]
+            }
+            polygon.vertexArea = vertexRadius!
+            for point in hull.points() {
+                let vertexPath = CGMutablePath()
+                let circleOrigin = CGPoint(x: point.x - vertexRadius!, y: point.y - vertexRadius!)
+                let circleSize = CGSize(width: vertexRadius! * CGFloat(2.0), height: vertexRadius! * CGFloat(2.0))
+                vertexPath.addEllipse(in: CGRect.init(origin: circleOrigin, size: circleSize))
+                context.addPath(vertexPath)
+                context.setFillColor(red: 86.0, green: 167.0, blue: 20.0, alpha: 0.5)
+                context.drawPath(using: .fill)
+            }
         }
     }
 }
