@@ -29,6 +29,7 @@ Map:
 * ~~Fix or remove compass button completely~~
 * Add and remove points from the mission polygon with a tap
 * Add grid lines angle adjustment
+* ~~Fix grid distance bug~~
 * Don't show mission polygon when the mission is already uploaded
 * Center map with an offset if the menu is open
 * Draw copter trace on the map when executing a mission
@@ -55,7 +56,6 @@ Mission:
 * ~~Add mission start/stop/pause buttons~~
 * ~~Log progress into the console view~~
 * ~~Provide extended controls for setting mission parameters~~
-* Fix grid distance bug
 * Fix return home altitude
 * Create mission history
 * Record mission time
@@ -65,4 +65,4 @@ Style:
 * ~~Split console view into several labels~~
 * ~~Rework button selection style~~
 * ~~Rework color scheme~~
-* Adapt map annotation views to the general style (2)
+* Adapt map annotation views to the general style

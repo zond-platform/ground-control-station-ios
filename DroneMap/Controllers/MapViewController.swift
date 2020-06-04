@@ -230,8 +230,8 @@ extension MapViewController : MKMapViewDelegate {
     }
 
     internal func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        let renderer = MissionRenderer(overlay, gridDistance)
-        missionPolygon?.delegate = renderer
+        let renderer = MissionRenderer(overlay: overlay)
+        missionPolygon?.renderer = renderer
         return renderer
     }
 

@@ -9,13 +9,6 @@
 import UIKit
 import MapKit
 
-protocol MissionPolygonDelegate : AnyObject {
-    func redrawRenderer()
-    func setGridDistance(_ distance: CGFloat)
-    func translateMapPoint(_ mapPoint: MKMapPoint) -> CGPoint
-    func translateRawPoint(_ rawPoint: CGPoint) -> MKMapPoint
-}
-
 class MissionPolygon : MKPolygon {
     // Stored properties
     private var verticies: [CGPoint] = []
@@ -25,19 +18,23 @@ class MissionPolygon : MKPolygon {
     var vertexArea = MissionRenderer.vertexRadius
 
     // Observer properties
-    weak var delegate: MissionPolygonDelegate? {
+    weak var renderer: MissionRenderer? {
         didSet {
             verticies.removeAll(keepingCapacity: true)
             for id in 0..<pointCount {
-                verticies.append(delegate!.translateMapPoint(points()[id]))
+                verticies.append(renderer!.translateMapPoint(points()[id]))
             }
-            delegate!.redrawRenderer()
+            renderer!.redrawRenderer()
         }
     }
-    var gridDistance: CGFloat = 20.0 {
+    var gridDistance: CGFloat = 10.0 {
         didSet {
-            if delegate != nil {
-                delegate!.setGridDistance(gridDistance)
+            if renderer != nil {
+                let lowermostPoint = renderer!.translateRawPoint(lowermost(verticies))
+                let uppermostPoint = renderer!.translateRawPoint(uppermost(verticies))
+                let lowermostPointProjection = MKMapPoint(CLLocationCoordinate2D(latitude: lowermostPoint.coordinate.latitude, longitude: 0.0))
+                let uppermostPointProjection = MKMapPoint(CLLocationCoordinate2D(latitude: uppermostPoint.coordinate.latitude, longitude: 0.0))
+                renderer!.gridDelta = CGFloat(lowermostPointProjection.distance(to: uppermostPointProjection)) / gridDistance
             }
         }
     }
@@ -59,10 +56,10 @@ extension MissionPolygon {
     }
     
     func missionCoordinates() -> [CLLocationCoordinate2D] {
-        if delegate != nil {
+        if renderer != nil {
             var coordinates: [CLLocationCoordinate2D] = []
             for point in missionGrid {
-                coordinates.append(delegate!.translateRawPoint(point).coordinate)
+                coordinates.append(renderer!.translateRawPoint(point).coordinate)
             }
             return coordinates
         } else {
@@ -71,7 +68,7 @@ extension MissionPolygon {
     }
 
     func bodyContainsCoordinate(_ coordinate: CLLocationCoordinate2D) -> Bool {
-        if delegate != nil {
+        if renderer != nil {
             let left = leftmost(verticies)
             let right = rightmost(verticies)
             let low = lowermost(verticies)
@@ -81,7 +78,7 @@ extension MissionPolygon {
             let width = Double(right.x) - Double(left.x)
             let height = Double(up.y) - Double(low.y)
 
-            let polygonOrigin = delegate!.translateRawPoint(origin)
+            let polygonOrigin = renderer!.translateRawPoint(origin)
             let polygonSize = MKMapSize(width: width, height: height)
             let polygonRect = MKMapRect(origin: polygonOrigin, size: polygonSize)
             
@@ -92,10 +89,10 @@ extension MissionPolygon {
     }
 
     func vertexContainsCoordinate(_ coordinate: CLLocationCoordinate2D) -> Bool {
-        if delegate != nil {
+        if renderer != nil {
             for id in 0..<pointCount {
-                let vertexPosition = delegate!.translateMapPoint(points()[id])
-                let touchPosition = delegate!.translateMapPoint(MKMapPoint(coordinate))
+                let vertexPosition = renderer!.translateMapPoint(points()[id])
+                let touchPosition = renderer!.translateMapPoint(MKMapPoint(coordinate))
                 let distance = norm(Vector(vertexPosition, touchPosition))
                 if distance < vertexArea {
                     draggedVertexId = id
@@ -108,12 +105,6 @@ extension MissionPolygon {
             draggedVertexId = nil
             return false
         }
-    }
-
-    func verticalDistance() -> CGFloat {
-        let low = delegate!.translateRawPoint(lowermost(verticies))
-        let up = delegate!.translateRawPoint(uppermost(verticies))
-        return CGFloat(low.distance(to: up))
     }
 
     func computeVertexOffsets(relativeTo coordinate: CLLocationCoordinate2D) {
@@ -131,7 +122,7 @@ extension MissionPolygon {
             let lon = coordinate.longitude + CLLocationDegrees(vertexOffsets[id].y)
             updateVertex(CLLocationCoordinate2D(latitude: lat, longitude: lon), id: id, redraw: false)
         }
-        delegate?.redrawRenderer()
+        renderer?.redrawRenderer()
     }
 
     func moveVertex(to coordinate: CLLocationCoordinate2D) {
@@ -145,11 +136,11 @@ extension MissionPolygon {
 // Private methods
 extension MissionPolygon {
     private func updateVertex(_ coordinate: CLLocationCoordinate2D, id: Int, redraw: Bool) {
-        if delegate != nil {
+        if renderer != nil {
             points()[id] = MKMapPoint(coordinate)
-            verticies[id] = delegate!.translateMapPoint(points()[id])
+            verticies[id] = renderer!.translateMapPoint(points()[id])
             if redraw {
-                delegate!.redrawRenderer()
+                renderer!.redrawRenderer()
             }
         }
     }

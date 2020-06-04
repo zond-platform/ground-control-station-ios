@@ -16,80 +16,102 @@ fileprivate let zoomScaleToVertexRadiusMap: [MKZoomScale:CGFloat] = [
 ]
 
 class MissionRenderer : MKOverlayRenderer {
+    // Static properties
     static let vertexRadius: CGFloat = 100.0
-    private var vertexPositionChangeFired = false
-    var gridDistance: CGFloat = 20.0
 
-    init(_ overlay: MKOverlay, _ gridDistance: CGFloat) {
-        super.init(overlay: overlay)
-        self.gridDistance = gridDistance
+    // Stored properties
+    private var redrawTriggered = false
+    var hull: ConvexHull = ConvexHull()
+    var grid: [CGPoint] = []
+
+    // Observer properties
+    var gridDelta: CGFloat = 10.0 {
+        didSet {
+            redrawRenderer()
+        }
     }
 
     override func draw(_ : MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
         if let polygon = self.overlay as? MissionPolygon {
-            let hull = polygon.convexHull()
-            let grid = polygon.missionGrid(for: hull, with: polygon.verticalDistance() / gridDistance)
+            hull = polygon.convexHull()
+            grid = polygon.missionGrid(for: hull, with: gridDelta)
 
-            let polygonPath = CGMutablePath()
-            polygonPath.addLines(between: hull.points())
-            polygonPath.addLine(to: hull.points().first!)
-            context.addPath(polygonPath)
-            context.setFillColor(red: 86.0, green: 167.0, blue: 20.0, alpha: 0.5)
-            context.drawPath(using: .fill)
+            drawPolygon(in: context)
+            
+            let lineWidth = MKRoadWidthAtZoomScale(zoomScale) * 0.5
+            drawGrid(in: context, with: lineWidth)
 
-            let gridPath = CGMutablePath()
-            gridPath.addLines(between: grid)
-            context.setStrokeColor(UIColor.yellow.cgColor)
-            context.setLineWidth(MKRoadWidthAtZoomScale(zoomScale) * 0.5)
-            context.addPath(gridPath)
-            context.drawPath(using: .stroke)
-
-            var vertexRadius = zoomScaleToVertexRadiusMap[zoomScale]
-            if vertexRadius == nil {
-                vertexRadius = zoomScaleToVertexRadiusMap[0.125]
-            }
-            polygon.vertexArea = vertexRadius!
-            for point in hull.points() {
-                let vertexPath = CGMutablePath()
-                let circleOrigin = CGPoint(x: point.x - vertexRadius!, y: point.y - vertexRadius!)
-                let circleSize = CGSize(width: vertexRadius! * CGFloat(2.0), height: vertexRadius! * CGFloat(2.0))
-                vertexPath.addEllipse(in: CGRect.init(origin: circleOrigin, size: circleSize))
-                context.addPath(vertexPath)
-                context.setFillColor(red: 86.0, green: 167.0, blue: 20.0, alpha: 0.5)
-                context.drawPath(using: .fill)
-            }
+            let vertexRadius = computeVertexRadius(for: zoomScale)
+            drawPolygonVerticies(in: context, with: vertexRadius)
+            polygon.vertexArea = vertexRadius
         }
     }
 }
 
-// Handle updates of the polygon overlay
-extension MissionRenderer : MissionPolygonDelegate {
-    internal func redrawRenderer() {
+// Public methods
+extension MissionRenderer {
+    func redrawRenderer() {
         // The polygon renderer shall be redrawn every time the vertex position
         // changes. Though, the position change rate is way too fast for heavy
         // computations associated with the renderer update to keep up. As a result,
         // computationally expensive operations are queued which slows down the
         // entire application. Thus, limit the update rate to make redrawing smooth
         // and unnoticable to the user (as much as possible).
-        if !vertexPositionChangeFired {
-            vertexPositionChangeFired = true
+        if !redrawTriggered {
+            redrawTriggered = true
             setNeedsDisplay()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-                self.vertexPositionChangeFired = false
+                self.redrawTriggered = false
             }
         }
     }
-    
-    internal func setGridDistance(_ distance: CGFloat) {
-        gridDistance = distance
-        redrawRenderer()
-    }
 
-    internal func translateMapPoint(_ mapPoint: MKMapPoint) -> CGPoint {
+    func translateMapPoint(_ mapPoint: MKMapPoint) -> CGPoint {
         return point(for: mapPoint)
     }
-    
-    internal func translateRawPoint(_ rawPoint: CGPoint) -> MKMapPoint {
+
+    func translateRawPoint(_ rawPoint: CGPoint) -> MKMapPoint {
         return mapPoint(for: rawPoint)
+    }
+}
+
+// Private methods
+extension MissionRenderer {
+    private func drawPolygon(in context: CGContext) {
+        let polygonPath = CGMutablePath()
+        polygonPath.addLines(between: hull.points())
+        polygonPath.addLine(to: hull.points().first!)
+        context.addPath(polygonPath)
+        context.setFillColor(red: 86.0, green: 167.0, blue: 20.0, alpha: 0.5)
+        context.drawPath(using: .fill)
+    }
+
+    private func drawGrid(in context: CGContext, with lineWidth: MKZoomScale) {
+        let gridPath = CGMutablePath()
+        gridPath.addLines(between: grid)
+        context.setStrokeColor(UIColor.yellow.cgColor)
+        context.setLineWidth(lineWidth)
+        context.addPath(gridPath)
+        context.drawPath(using: .stroke)
+    }
+
+    private func drawPolygonVerticies(in context: CGContext, with radius: CGFloat) {
+        for point in hull.points() {
+            let vertexPath = CGMutablePath()
+            let circleOrigin = CGPoint(x: point.x - radius, y: point.y - radius)
+            let circleSize = CGSize(width: radius * CGFloat(2.0), height: radius * CGFloat(2.0))
+            vertexPath.addEllipse(in: CGRect.init(origin: circleOrigin, size: circleSize))
+            context.addPath(vertexPath)
+            context.setFillColor(red: 86.0, green: 167.0, blue: 20.0, alpha: 0.5)
+            context.drawPath(using: .fill)
+        }
+    }
+
+    private func computeVertexRadius(for zoomScale: MKZoomScale) -> CGFloat {
+        var vertexRadius = zoomScaleToVertexRadiusMap[zoomScale]
+        if vertexRadius == nil {
+            vertexRadius = zoomScaleToVertexRadiusMap[0.125]
+        }
+        return vertexRadius!
     }
 }
