@@ -29,12 +29,20 @@ class MissionPolygon : MKPolygon {
     }
     var gridDistance: CGFloat = 10.0 {
         didSet {
-            if renderer != nil {
-                let lowermostPoint = renderer!.translateRawPoint(lowermost(verticies))
-                let uppermostPoint = renderer!.translateRawPoint(uppermost(verticies))
+            if let renderer = self.renderer {
+                let lowermostPoint = renderer.translateRawPoint(lowermost(verticies))
+                let uppermostPoint = renderer.translateRawPoint(uppermost(verticies))
                 let lowermostPointProjection = MKMapPoint(CLLocationCoordinate2D(latitude: lowermostPoint.coordinate.latitude, longitude: 0.0))
                 let uppermostPointProjection = MKMapPoint(CLLocationCoordinate2D(latitude: uppermostPoint.coordinate.latitude, longitude: 0.0))
-                renderer!.gridDelta = CGFloat(lowermostPointProjection.distance(to: uppermostPointProjection)) / gridDistance
+                renderer.gridDelta = CGFloat(lowermostPointProjection.distance(to: uppermostPointProjection)) / gridDistance
+            }
+        }
+    }
+    var missionState: MissionState = .editting {
+        didSet {
+            if let renderer = self.renderer {
+                renderer.missionState = missionState
+                renderer.redrawRenderer()
             }
         }
     }

@@ -21,7 +21,8 @@ class MapViewController : UIViewController {
     private var aircraft = MovingObject(CLLocationCoordinate2D(), 0.0, .aircraft)
     private var home = MovingObject(CLLocationCoordinate2D(), 0.0, .home)
     private var missionPolygon: MissionPolygon?
-    var missionEditingEnabled = false
+    private var tapRecognizer = UILongPressGestureRecognizer()
+    private var panRecognizer = UIPanGestureRecognizer()
 
     // Observer properties
     var gridDistance: CGFloat = 10.0 {
@@ -60,17 +61,15 @@ class MapViewController : UIViewController {
         }
         locationManager.startUpdatingLocation()
         locationManager.startUpdatingHeading()
-        
-        let tapRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
+
         tapRecognizer.delegate = self
         tapRecognizer.minimumPressDuration = 0
-        mapView.addGestureRecognizer(tapRecognizer)
+        tapRecognizer.addTarget(self, action: #selector(handleTap(sender:)))
 
-        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePolygonDrag(sender:)))
         panRecognizer.delegate = self
         panRecognizer.minimumNumberOfTouches = 1
         panRecognizer.maximumNumberOfTouches = 1
-        mapView.addGestureRecognizer(panRecognizer)
+        panRecognizer.addTarget(self, action: #selector(handlePolygonDrag(sender:)))
 
         registerListeners()
     }
@@ -103,20 +102,9 @@ extension MapViewController {
         }
     }
 
-    func enableMissionEditing(_ enable: Bool) {
-        if missionPolygon != nil {
-            missionEditingEnabled = enable
-            if missionEditingEnabled {
-                mapView.addOverlay(missionPolygon!)
-            } else {
-                mapView.removeOverlay(missionPolygon!)
-            }
-        }
-    }
-    
     func missionCoordinates() -> [CLLocationCoordinate2D] {
-        if missionEditingEnabled && missionPolygon != nil {
-            return missionPolygon!.missionCoordinates()
+        if let missionPolygon = self.missionPolygon {
+            return missionPolygon.missionCoordinates()
         } else {
             logConsole?("Mission coordinates not set", .error)
             return []
@@ -140,12 +128,29 @@ extension MapViewController {
             self.showObject(self.home, location)
         }
         Environment.missionViewController.stateListeners.append({ state in
-            if state == nil {
-                self.enableMissionEditing(false)
-            } else {
-                self.enableMissionEditing(true)
+            if let missionPolygon = self.missionPolygon {
+                if state == nil {
+                    self.mapView.removeOverlay(missionPolygon)
+                    self.enableGestureRecognizers(false)
+                } else if state == .editting {
+                    self.mapView.addOverlay(missionPolygon)
+                    self.enableGestureRecognizers(true)
+                } else {
+                    missionPolygon.missionState = state!
+                    self.enableGestureRecognizers(false)
+                }
             }
         })
+    }
+
+    private func enableGestureRecognizers(_ enable: Bool) {
+        if enable {
+            mapView.addGestureRecognizer(tapRecognizer)
+            mapView.addGestureRecognizer(panRecognizer)
+        } else {
+            mapView.removeGestureRecognizer(tapRecognizer)
+            mapView.removeGestureRecognizer(panRecognizer)
+        }
     }
 
     private func objectPresentOnMap(_ object: MovingObject) -> Bool {
@@ -294,15 +299,15 @@ extension MapViewController : CLLocationManagerDelegate {
             user = MovingObject(newCoordinate, 0.0, .user)
             mapView.addAnnotation(user)
             mapView.showAnnotations([user], animated: true)
-            let lat = user.coordinate.latitude
-            let lon = user.coordinate.longitude
-            let polygonCoordinates = [
-                CLLocationCoordinate2D(latitude: lat - 0.0002, longitude: lon - 0.0002),
-                CLLocationCoordinate2D(latitude: lat - 0.0002, longitude: lon + 0.0002),
-                CLLocationCoordinate2D(latitude: lat + 0.0002, longitude: lon + 0.0002),
-                CLLocationCoordinate2D(latitude: lat + 0.0002, longitude: lon - 0.0002)
-            ]
             if missionPolygon == nil {
+                let lat = user.coordinate.latitude
+                let lon = user.coordinate.longitude
+                let polygonCoordinates = [
+                    CLLocationCoordinate2D(latitude: lat - 0.0002, longitude: lon - 0.0002),
+                    CLLocationCoordinate2D(latitude: lat - 0.0002, longitude: lon + 0.0002),
+                    CLLocationCoordinate2D(latitude: lat + 0.0002, longitude: lon + 0.0002),
+                    CLLocationCoordinate2D(latitude: lat + 0.0002, longitude: lon - 0.0002)
+                ]
                 missionPolygon = MissionPolygon(polygonCoordinates)
             }
         }

@@ -21,6 +21,7 @@ class MissionRenderer : MKOverlayRenderer {
 
     // Stored properties
     private var redrawTriggered = false
+    var missionState: MissionState = .editting
     var hull: ConvexHull = ConvexHull()
     var grid: [CGPoint] = []
 
@@ -31,19 +32,22 @@ class MissionRenderer : MKOverlayRenderer {
         }
     }
 
-    override func draw(_ : MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
+    override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
         if let polygon = self.overlay as? MissionPolygon {
             hull = polygon.convexHull()
             grid = polygon.missionGrid(for: hull, with: gridDelta)
 
-            drawPolygon(in: context)
-            
-            let lineWidth = MKRoadWidthAtZoomScale(zoomScale) * 0.5
-            drawGrid(in: context, with: lineWidth)
-
             let vertexRadius = computeVertexRadius(for: zoomScale)
-            drawPolygonVerticies(in: context, with: vertexRadius)
             polygon.vertexArea = vertexRadius
+
+            switch missionState {
+                case .editting:
+                    drawPolygon(in: context)
+                    drawPolygonVerticies(in: context, with: vertexRadius)
+                    drawGrid(in: context, lineWidth: MKRoadWidthAtZoomScale(zoomScale) * 0.5)
+                default:
+                    drawGrid(in: context, lineWidth: MKRoadWidthAtZoomScale(zoomScale) * 0.8)
+            }
         }
     }
 }
@@ -86,7 +90,7 @@ extension MissionRenderer {
         context.drawPath(using: .fill)
     }
 
-    private func drawGrid(in context: CGContext, with lineWidth: MKZoomScale) {
+    private func drawGrid(in context: CGContext, lineWidth: CGFloat) {
         let gridPath = CGMutablePath()
         gridPath.addLines(between: grid)
         context.setStrokeColor(UIColor.yellow.cgColor)
