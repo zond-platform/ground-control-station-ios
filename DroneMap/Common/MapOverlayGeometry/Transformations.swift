@@ -70,7 +70,7 @@ func convexHull(_ allPoints: [CGPoint]) -> ConvexHull {
 }
 
 func missionGrid(_ convexHull: ConvexHull, _ gridDelta: CGFloat) -> [CGPoint] {
-    guard convexHull.isValid else {
+    guard convexHull.isValid && gridDelta != 0.0 else {
         return []
     }
     

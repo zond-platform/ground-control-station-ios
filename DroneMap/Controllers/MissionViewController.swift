@@ -25,22 +25,22 @@ fileprivate let allowedTransitions: KeyValuePairs<MissionState?,MissionState?> =
     .running        : .editting,
     .running        : .paused,
     .paused         : .editting,
-    .paused         : .running,
+    .paused         : .running
 ]
 
 fileprivate var missionData = TableData([
     SectionData(
         id: .command,
         rows: [
-            RowData(id: .command,       type: .command,    value: MissionState.editting, isEnabled: false)
+            RowData(id: .command,       type: .command, value: MissionState.editting, isEnabled: false)
     ]),
     SectionData(
         id: .editor,
         rows: [
-            RowData(id: .gridDistance,  type: .slider, value: 20.0, isEnabled: true),
-            RowData(id: .shootDistance, type: .slider, value: 30.0, isEnabled: true),
-            RowData(id: .altitude,      type: .slider, value: 50.0, isEnabled: true),
-            RowData(id: .flightSpeed,   type: .slider, value: 10.0, isEnabled: true),
+            RowData(id: .gridDistance,  type: .slider,  value: Float(20.0),           isEnabled: true),
+            RowData(id: .shootDistance, type: .slider,  value: Float(30.0),           isEnabled: true),
+            RowData(id: .altitude,      type: .slider,  value: Float(50.0),           isEnabled: true),
+            RowData(id: .flightSpeed,   type: .slider,  value: Float(10.0),           isEnabled: true)
         ]),
 ])
 
@@ -183,6 +183,14 @@ extension MissionViewController {
 
     private func sliderCell(for rowData: RowData<Any>, at indexPath: IndexPath, in tableView: UITableView) -> TableSliderCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: rowData.type.reuseIdentifier, for: indexPath) as! TableSliderCell
+
+        // Slider default values in the data source should be delivered to the
+        // respective components upon creation, thus simulate slider "move" to the
+        // initial value which will notify a subscriber of the respective parameter.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.sliderMoved(at: IdPath(.editor, rowData.id), to: rowData.value as! Float)
+        }
+
         cell.sliderMoved = { id , value in
             self.sliderMoved(at: id, to: value)
         }

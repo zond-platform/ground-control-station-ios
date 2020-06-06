@@ -25,7 +25,7 @@ class MapViewController : UIViewController {
     private var panRecognizer = UIPanGestureRecognizer()
 
     // Observer properties
-    var gridDistance: CGFloat = 10.0 {
+    var gridDistance: CGFloat? {
         didSet {
             if let polygon = self.missionPolygon {
                 polygon.gridDistance = gridDistance
@@ -129,21 +129,17 @@ extension MapViewController {
         }
         Environment.missionViewController.stateListeners.append({ state in
             if let missionPolygon = self.missionPolygon {
-                if state == nil {
-                    self.mapView.removeOverlay(missionPolygon)
-                    self.enableGestureRecognizers(false)
-                } else if state == .editting {
-                    self.mapView.addOverlay(missionPolygon)
-                    self.enableGestureRecognizers(true)
+                missionPolygon.missionState = state
+                if state != nil && state == .editting {
+                    self.enableMissionPolygonInteration(true)
                 } else {
-                    missionPolygon.missionState = state!
-                    self.enableGestureRecognizers(false)
+                    self.enableMissionPolygonInteration(false)
                 }
             }
         })
     }
 
-    private func enableGestureRecognizers(_ enable: Bool) {
+    private func enableMissionPolygonInteration(_ enable: Bool) {
         if enable {
             mapView.addGestureRecognizer(tapRecognizer)
             mapView.addGestureRecognizer(panRecognizer)
@@ -151,6 +147,12 @@ extension MapViewController {
             mapView.removeGestureRecognizer(tapRecognizer)
             mapView.removeGestureRecognizer(panRecognizer)
         }
+    }
+
+    private func enableMapInteraction(_ enable: Bool) {
+        mapView.isScrollEnabled = enable
+        mapView.isZoomEnabled = enable
+        mapView.isUserInteractionEnabled = enable
     }
 
     private func objectPresentOnMap(_ object: MovingObject) -> Bool {
@@ -185,12 +187,6 @@ extension MapViewController {
         } else {
             return false
         }
-    }
-
-    private func enableMapInteraction(_ enable: Bool) {
-        mapView.isScrollEnabled = enable
-        mapView.isZoomEnabled = enable
-        mapView.isUserInteractionEnabled = enable
     }
 
     private func movingObjectView(for movingObject: MovingObject, on mapView: MKMapView) -> MovingObjectView? {
@@ -309,6 +305,7 @@ extension MapViewController : CLLocationManagerDelegate {
                     CLLocationCoordinate2D(latitude: lat + 0.0002, longitude: lon - 0.0002)
                 ]
                 missionPolygon = MissionPolygon(polygonCoordinates)
+                self.mapView.addOverlay(missionPolygon!)
             }
         }
     }

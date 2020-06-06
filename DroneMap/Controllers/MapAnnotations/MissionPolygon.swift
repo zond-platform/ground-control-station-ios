@@ -17,32 +17,38 @@ class MissionPolygon : MKPolygon {
     private var draggedVertexId: Int?
     var vertexArea = MissionRenderer.vertexRadius
 
+    // Computed properties
+    var gridDelta: CGFloat {
+        if renderer != nil && gridDistance != nil {
+            let lowermostPoint = MKMapPoint(x: 0.0, y: renderer!.mapPoint(for: lowermost(verticies)).y)
+            let uppermostPoint = MKMapPoint(x: 0.0, y: renderer!.mapPoint(for: uppermost(verticies)).y)
+            return CGFloat(lowermostPoint.distance(to: uppermostPoint)) / gridDistance!
+        } else {
+            return 0.0
+        }
+    }
+
     // Observer properties
+    var gridDistance: CGFloat? {
+        didSet {
+            if let renderer = self.renderer {
+                renderer.redrawRenderer()
+            }
+        }
+    }
     weak var renderer: MissionRenderer? {
         didSet {
             verticies.removeAll(keepingCapacity: true)
             for id in 0..<pointCount {
-                verticies.append(renderer!.translateMapPoint(points()[id]))
+                verticies.append(renderer!.point(for: points()[id]))
             }
             renderer!.redrawRenderer()
         }
     }
-    var gridDistance: CGFloat = 10.0 {
-        didSet {
-            if let renderer = self.renderer {
-                let lowermostPoint = renderer.translateRawPoint(lowermost(verticies))
-                let uppermostPoint = renderer.translateRawPoint(uppermost(verticies))
-                let lowermostPointProjection = MKMapPoint(CLLocationCoordinate2D(latitude: lowermostPoint.coordinate.latitude, longitude: 0.0))
-                let uppermostPointProjection = MKMapPoint(CLLocationCoordinate2D(latitude: uppermostPoint.coordinate.latitude, longitude: 0.0))
-                renderer.gridDelta = CGFloat(lowermostPointProjection.distance(to: uppermostPointProjection)) / gridDistance
-            }
-        }
-    }
-    var missionState: MissionState = .editting {
+    var missionState: MissionState? {
         didSet {
             if let renderer = self.renderer {
                 renderer.missionState = missionState
-                renderer.redrawRenderer()
             }
         }
     }
@@ -67,7 +73,7 @@ extension MissionPolygon {
         if renderer != nil {
             var coordinates: [CLLocationCoordinate2D] = []
             for point in missionGrid {
-                coordinates.append(renderer!.translateRawPoint(point).coordinate)
+                coordinates.append(renderer!.mapPoint(for: point).coordinate)
             }
             return coordinates
         } else {
@@ -86,7 +92,7 @@ extension MissionPolygon {
             let width = Double(right.x) - Double(left.x)
             let height = Double(up.y) - Double(low.y)
 
-            let polygonOrigin = renderer!.translateRawPoint(origin)
+            let polygonOrigin = renderer!.mapPoint(for: origin)
             let polygonSize = MKMapSize(width: width, height: height)
             let polygonRect = MKMapRect(origin: polygonOrigin, size: polygonSize)
             
@@ -99,8 +105,8 @@ extension MissionPolygon {
     func vertexContainsCoordinate(_ coordinate: CLLocationCoordinate2D) -> Bool {
         if renderer != nil {
             for id in 0..<pointCount {
-                let vertexPosition = renderer!.translateMapPoint(points()[id])
-                let touchPosition = renderer!.translateMapPoint(MKMapPoint(coordinate))
+                let vertexPosition = renderer!.point(for: points()[id])
+                let touchPosition = renderer!.point(for: MKMapPoint(coordinate))
                 let distance = norm(Vector(vertexPosition, touchPosition))
                 if distance < vertexArea {
                     draggedVertexId = id
@@ -146,7 +152,7 @@ extension MissionPolygon {
     private func updateVertex(_ coordinate: CLLocationCoordinate2D, id: Int, redraw: Bool) {
         if renderer != nil {
             points()[id] = MKMapPoint(coordinate)
-            verticies[id] = renderer!.translateMapPoint(points()[id])
+            verticies[id] = renderer!.point(for: points()[id])
             if redraw {
                 renderer!.redrawRenderer()
             }

@@ -21,32 +21,28 @@ class MissionRenderer : MKOverlayRenderer {
 
     // Stored properties
     private var redrawTriggered = false
-    var missionState: MissionState = .editting
-    var hull: ConvexHull = ConvexHull()
-    var grid: [CGPoint] = []
+    private var hull: ConvexHull = ConvexHull()
+    private var grid: [CGPoint] = []
 
     // Observer properties
-    var gridDelta: CGFloat = 10.0 {
+    var missionState: MissionState? {
         didSet {
             redrawRenderer()
         }
     }
 
     override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
-        if let polygon = self.overlay as? MissionPolygon {
-            hull = polygon.convexHull()
-            grid = polygon.missionGrid(for: hull, with: gridDelta)
-
-            let vertexRadius = computeVertexRadius(for: zoomScale)
-            polygon.vertexArea = vertexRadius
-
+        let polygon = self.overlay as? MissionPolygon
+        if polygon != nil && missionState != nil {
+            hull = polygon!.convexHull()
+            grid = polygon!.missionGrid(for: hull, with: polygon!.gridDelta)
             switch missionState {
                 case .editting:
                     drawPolygon(in: context)
-                    drawPolygonVerticies(in: context, with: vertexRadius)
-                    drawGrid(in: context, lineWidth: MKRoadWidthAtZoomScale(zoomScale) * 0.5)
+                    drawVerticies(in: context, for: zoomScale)
+                    drawGrid(in: context, for: zoomScale)
                 default:
-                    drawGrid(in: context, lineWidth: MKRoadWidthAtZoomScale(zoomScale) * 0.8)
+                    drawGrid(in: context, for: zoomScale)
             }
         }
     }
@@ -69,52 +65,49 @@ extension MissionRenderer {
             }
         }
     }
-
-    func translateMapPoint(_ mapPoint: MKMapPoint) -> CGPoint {
-        return point(for: mapPoint)
-    }
-
-    func translateRawPoint(_ rawPoint: CGPoint) -> MKMapPoint {
-        return mapPoint(for: rawPoint)
-    }
 }
 
 // Private methods
 extension MissionRenderer {
     private func drawPolygon(in context: CGContext) {
-        let polygonPath = CGMutablePath()
-        polygonPath.addLines(between: hull.points())
-        polygonPath.addLine(to: hull.points().first!)
-        context.addPath(polygonPath)
+        let path = CGMutablePath()
+        path.addLines(between: hull.points())
+        path.addLine(to: hull.points().first!)
+        context.addPath(path)
         context.setFillColor(red: 86.0, green: 167.0, blue: 20.0, alpha: 0.5)
         context.drawPath(using: .fill)
     }
 
-    private func drawGrid(in context: CGContext, lineWidth: CGFloat) {
-        let gridPath = CGMutablePath()
-        gridPath.addLines(between: grid)
-        context.setStrokeColor(UIColor.yellow.cgColor)
-        context.setLineWidth(lineWidth)
-        context.addPath(gridPath)
-        context.drawPath(using: .stroke)
-    }
-
-    private func drawPolygonVerticies(in context: CGContext, with radius: CGFloat) {
+    private func drawVerticies(in context: CGContext, for zoomScale: MKZoomScale) {
         for point in hull.points() {
-            let vertexPath = CGMutablePath()
+            let radius = computeVertexRadius(for: zoomScale)
+            let path = CGMutablePath()
             let circleOrigin = CGPoint(x: point.x - radius, y: point.y - radius)
             let circleSize = CGSize(width: radius * CGFloat(2.0), height: radius * CGFloat(2.0))
-            vertexPath.addEllipse(in: CGRect.init(origin: circleOrigin, size: circleSize))
-            context.addPath(vertexPath)
+            path.addEllipse(in: CGRect.init(origin: circleOrigin, size: circleSize))
+            context.addPath(path)
             context.setFillColor(red: 86.0, green: 167.0, blue: 20.0, alpha: 0.5)
             context.drawPath(using: .fill)
         }
+    }
+
+    private func drawGrid(in context: CGContext, for zoomScale: MKZoomScale) {
+        let lineWidth = MKRoadWidthAtZoomScale(zoomScale) * 0.5
+        let path = CGMutablePath()
+        path.addLines(between: grid)
+        context.setStrokeColor(UIColor.yellow.cgColor)
+        context.setLineWidth(lineWidth)
+        context.addPath(path)
+        context.drawPath(using: .stroke)
     }
 
     private func computeVertexRadius(for zoomScale: MKZoomScale) -> CGFloat {
         var vertexRadius = zoomScaleToVertexRadiusMap[zoomScale]
         if vertexRadius == nil {
             vertexRadius = zoomScaleToVertexRadiusMap[0.125]
+        }
+        if let polygon = self.overlay as? MissionPolygon {
+            polygon.vertexArea = vertexRadius!
         }
         return vertexRadius!
     }

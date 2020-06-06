@@ -82,8 +82,8 @@ extension TableSliderCell {
         slider.idPath = data.idPath
 
         let unit = data.id == .flightSpeed ? "m/s" : "m"
-        self.slider.isUserInteractionEnabled = data.isEnabled
         self.slider.value = data.value as? Float ?? 0.0
+        self.slider.isUserInteractionEnabled = data.isEnabled
 
         self.title.text = data.title
         self.value.text = String(format: "%.0f ", self.slider.value) + unit
