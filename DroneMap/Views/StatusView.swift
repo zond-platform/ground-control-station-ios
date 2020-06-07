@@ -26,7 +26,7 @@ class StatusView : UIView {
         return Dimensions.ContentView.height * Dimensions.ContentView.Ratio.v[0]
     }
     private var labelWidth: CGFloat {
-        return width * CGFloat(0.6) / CGFloat(TelemetryDataId.allCases.count)
+        return width / CGFloat(TelemetryDataId.allCases.count)
     }
 
     required init?(coder: NSCoder) {

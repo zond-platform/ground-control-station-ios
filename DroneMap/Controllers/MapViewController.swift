@@ -13,16 +13,19 @@ import DJISDK
 import MapKit
 import UIKit
 
+fileprivate let iconOrientationOffset = -45.0
+fileprivate let deviceOrientationOffset = UIDevice.current.orientation == .landscapeLeft ? 90.0 : -90.0
+
 class MapViewController : UIViewController {
     // Stored properties
     private var mapView = MapView()
     private var locationManager = CLLocationManager()
-    private var user = MovingObject(CLLocationCoordinate2D(), 0.0, .user)
-    private var aircraft = MovingObject(CLLocationCoordinate2D(), 0.0, .aircraft)
-    private var home = MovingObject(CLLocationCoordinate2D(), 0.0, .home)
-    private var missionPolygon: MissionPolygon?
     private var tapRecognizer = UILongPressGestureRecognizer()
     private var panRecognizer = UIPanGestureRecognizer()
+    private var user = MovingObject(CLLocationCoordinate2D(), 0.0, .user)
+    private var aircraft = MovingObject(CLLocationCoordinate2D(), iconOrientationOffset, .aircraft)
+    private var home = MovingObject(CLLocationCoordinate2D(), 0.0, .home)
+    private var missionPolygon: MissionPolygon?
 
     // Observer properties
     var gridDistance: CGFloat? {
@@ -63,7 +66,7 @@ class MapViewController : UIViewController {
         locationManager.startUpdatingHeading()
 
         tapRecognizer.delegate = self
-        tapRecognizer.minimumPressDuration = 0
+        tapRecognizer.minimumPressDuration = 1
         tapRecognizer.addTarget(self, action: #selector(handleTap(sender:)))
 
         panRecognizer.delegate = self
@@ -117,10 +120,10 @@ extension MapViewController {
     private func registerListeners() {
         Environment.locationService.aircraftLocationListeners.append({ location in
             self.showObject(self.aircraft, location)
+            self.missionPolygon?.aircraftLocation = location
         })
         Environment.locationService.aircraftHeadingChanged = { heading in
             if (heading != nil) {
-                let iconOrientationOffset = -45.0
                 self.aircraft.heading = heading! + iconOrientationOffset
             }
         }
@@ -128,13 +131,11 @@ extension MapViewController {
             self.showObject(self.home, location)
         }
         Environment.missionViewController.stateListeners.append({ state in
-            if let missionPolygon = self.missionPolygon {
-                missionPolygon.missionState = state
-                if state != nil && state == .editting {
-                    self.enableMissionPolygonInteration(true)
-                } else {
-                    self.enableMissionPolygonInteration(false)
-                }
+            self.missionPolygon?.missionState = state
+            if state != nil && state == .editing {
+                self.enableMissionPolygonInteration(true)
+            } else {
+                self.enableMissionPolygonInteration(false)
             }
         })
     }
@@ -176,9 +177,9 @@ extension MapViewController {
         if objectPresentOnMap(object) {
             object.isTracked = enable
             if enable {
-                mapView.setCenter(object.coordinate, animated: true)
+                focusOnCoordinate(object.coordinate)
                 object.coordinateChanged = { coordinate in
-                    self.mapView.setCenter(coordinate, animated: true)
+                    self.focusOnCoordinate(coordinate)
                 }
             } else {
                 object.coordinateChanged = nil
@@ -187,6 +188,13 @@ extension MapViewController {
         } else {
             return false
         }
+    }
+
+    func focusOnCoordinate(_ coordinate: CLLocationCoordinate2D) {
+        let region = MKCoordinateRegion(center: coordinate,
+                                        latitudinalMeters: CLLocationDistance(exactly: 200)!,
+                                        longitudinalMeters: CLLocationDistance(exactly: 200)!)
+        mapView.setRegion(mapView.regionThatFits(region), animated: true)
     }
 
     private func movingObjectView(for movingObject: MovingObject, on mapView: MKMapView) -> MovingObjectView? {
@@ -253,11 +261,11 @@ extension MapViewController : UIGestureRecognizerDelegate {
 
     @objc private func handleTap(sender: UIGestureRecognizer) {
         if sender.state == .began {
-//            print("touched")
+            //
         } else if sender.state == .changed {
-//            print("ongoing")
+            //
         } else if sender.state == .ended {
-//            print("released")
+            //
         }
     }
 
@@ -294,10 +302,10 @@ extension MapViewController : CLLocationManagerDelegate {
         } else {
             user = MovingObject(newCoordinate, 0.0, .user)
             mapView.addAnnotation(user)
-            mapView.showAnnotations([user], animated: true)
+            focusOnCoordinate(user.coordinate)
             if missionPolygon == nil {
                 let lat = user.coordinate.latitude
-                let lon = user.coordinate.longitude
+                let lon = user.coordinate.longitude + 0.001
                 let polygonCoordinates = [
                     CLLocationCoordinate2D(latitude: lat - 0.0002, longitude: lon - 0.0002),
                     CLLocationCoordinate2D(latitude: lat - 0.0002, longitude: lon + 0.0002),
@@ -315,8 +323,6 @@ extension MapViewController : CLLocationManagerDelegate {
             // Displace user heading by 90 degrees because of the landscape orientation.
             // Since only landscape orientation is allowed in the application settings
             // there are only two options: left and right. Thus, only two possible offsets.
-            let deviceOrientationOffset = UIDevice.current.orientation == .landscapeLeft ? 90.0 : -90.0
-            let iconOrientationOffset = -45.0
             user.heading = newHeading.trueHeading + deviceOrientationOffset + iconOrientationOffset
         }
     }

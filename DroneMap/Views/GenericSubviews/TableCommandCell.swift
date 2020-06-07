@@ -12,7 +12,7 @@ fileprivate let missionStateMap: [MissionState:[CommandButtonId]] = [
     .uploaded     : [CommandButtonId.edit,   CommandButtonId.start,  CommandButtonId.stop],
     .running      : [CommandButtonId.edit,   CommandButtonId.pause,  CommandButtonId.stop],
     .paused       : [CommandButtonId.edit,   CommandButtonId.resume, CommandButtonId.stop],
-    .editting     : [CommandButtonId.upload, CommandButtonId.start,  CommandButtonId.stop],
+    .editing     : [CommandButtonId.upload, CommandButtonId.start,  CommandButtonId.stop],
 ]
 
 class TableCommandCell : UITableViewCell {
@@ -46,7 +46,7 @@ class TableCommandCell : UITableViewCell {
         )
         stackView.isLayoutMarginsRelativeArrangement = true
 
-        for id in missionStateMap[.editting]! {
+        for id in missionStateMap[.editing]! {
             buttons.append(CommandButton(id))
             buttons.last!.addTarget(self, action: #selector(onButtonPressed(_:)), for: .touchUpInside)
             NSLayoutConstraint.activate([
@@ -74,7 +74,7 @@ extension TableCommandCell {
         }
         if row.isEnabled {
             switch id {
-                case .editting:
+                case .editing:
                     enable(buttons: [buttons[0]], true)
                     enable(buttons: [buttons[1], buttons[2]], false)
                 case .uploaded:

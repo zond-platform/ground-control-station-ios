@@ -16,6 +16,7 @@ class MissionPolygon : MKPolygon {
     private var missionGrid: [CGPoint] = []
     private var draggedVertexId: Int?
     var vertexArea = MissionRenderer.vertexRadius
+    var aircraftLocation: CLLocation?
 
     // Computed properties
     var gridDelta: CGFloat {
@@ -31,25 +32,19 @@ class MissionPolygon : MKPolygon {
     // Observer properties
     var gridDistance: CGFloat? {
         didSet {
-            if let renderer = self.renderer {
-                renderer.redrawRenderer()
-            }
+            renderer?.redrawRenderer()
         }
     }
     weak var renderer: MissionRenderer? {
         didSet {
-            verticies.removeAll(keepingCapacity: true)
             for id in 0..<pointCount {
                 verticies.append(renderer!.point(for: points()[id]))
             }
-            renderer!.redrawRenderer()
         }
     }
     var missionState: MissionState? {
         didSet {
-            if let renderer = self.renderer {
-                renderer.missionState = missionState
-            }
+            renderer?.missionState = missionState
         }
     }
 
@@ -136,6 +131,7 @@ extension MissionPolygon {
             let lon = coordinate.longitude + CLLocationDegrees(vertexOffsets[id].y)
             updateVertex(CLLocationCoordinate2D(latitude: lat, longitude: lon), id: id, redraw: false)
         }
+        // Redraw manually only after all points are updated
         renderer?.redrawRenderer()
     }
 

@@ -17,7 +17,10 @@ Conceptual:
 * ~~Consider sending telemetry as patches~~
 * ~~Consider splitting Constants file~~
 * ~~Add telemetry view~~
-* Consider adding live view from the drone
+
+Controls:
+* ~~Move simulator button out of settings~~
+* ~~Make multistate control buttons~~
 
 Map:
 * ~~Replace map icons and make them show direction~~
@@ -27,27 +30,20 @@ Map:
 * ~~Limit polygon update rate~~
 * ~~Add grid lines distance adjustment~~
 * ~~Fix or remove compass button completely~~
-* Add and remove points from the mission polygon with a tap
-* Add grid lines angle adjustment
 * ~~Fix grid distance bug~~
-* Don't show mission polygon when the mission is already uploaded
-* Center map with an offset if the menu is open
-* Draw copter trace on the map when executing a mission
+* ~~Don't show mission polygon when the mission is already uploaded~~
+* ~~Center map with an offset if the menu is open~~
+* ~~Fix zoom when locking on the moving object~~
+* ~~Add home position dashed line~~
+* Add mission start and stop points
 * Use callbacks instead of delegates for objects interaction
-* Fix zoom when locking on the moving object
 * Reposition apple legal labels
 
-Controls:
-* ~~Move simulator button out of settings~~
-* ~~Make multistate control buttons~~
-
-Mission Editor:
+Mission:
 * ~~Subclass UITableViewCell for different settings types~~
 * ~~Add custom images to the UISwitch and UISlider~~
 * ~~Consider splitting settings view into tabs~~
 * ~~Add global constants for mission parameter constraints~~
-
-Mission:
 * ~~Activate mission upload button~~
 * ~~Relocate view and add slide animation~~
 * ~~Resolve table view slider cell update issue~~
@@ -56,13 +52,24 @@ Mission:
 * ~~Add mission start/stop/pause buttons~~
 * ~~Log progress into the console view~~
 * ~~Provide extended controls for setting mission parameters~~
-* Fix return home altitude
-* Create mission history
-* Record mission time
+* ~~Fix return home altitude (maybe don't return home at all; add parameter?)~~
+* ~~Switch back to editing state when mission is finished~~
+* Do not allow upload if aircraft gps is not locked
+
+Telemetry:
 * Monitor current aircraft velocity
+* Fix flight mode appearance
 
 Style:
 * ~~Split console view into several labels~~
 * ~~Rework button selection style~~
 * ~~Rework color scheme~~
 * Adapt map annotation views to the general style
+
+Future versions:
+* Add and remove points from the mission polygon with a tap
+* Consider adding live view from the drone (interfere with shooting photos?)
+* Add grid lines angle adjustment
+* Create mission history
+* Record mission time
+* Draw copter trace on the map when executing a mission

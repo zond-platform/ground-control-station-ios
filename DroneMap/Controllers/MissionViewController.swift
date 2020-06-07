@@ -13,18 +13,18 @@ enum MissionState {
     case uploaded
     case running
     case paused
-    case editting
+    case editing
 }
 
 fileprivate let allowedTransitions: KeyValuePairs<MissionState?,MissionState?> = [
-    nil             : .editting,
-    .editting       : nil,
-    .editting       : .uploaded,
-    .uploaded       : .editting,
+    nil             : .editing,
+    .editing        : nil,
+    .editing        : .uploaded,
+    .uploaded       : .editing,
     .uploaded       : .running,
-    .running        : .editting,
+    .running        : .editing,
     .running        : .paused,
-    .paused         : .editting,
+    .paused         : .editing,
     .paused         : .running
 ]
 
@@ -32,15 +32,15 @@ fileprivate var missionData = TableData([
     SectionData(
         id: .command,
         rows: [
-            RowData(id: .command,       type: .command, value: MissionState.editting, isEnabled: false)
+            RowData(id: .command,       type: .command, value: MissionState.editing, isEnabled: false)
     ]),
     SectionData(
         id: .editor,
         rows: [
-            RowData(id: .gridDistance,  type: .slider,  value: Float(20.0),           isEnabled: true),
-            RowData(id: .shootDistance, type: .slider,  value: Float(30.0),           isEnabled: true),
-            RowData(id: .altitude,      type: .slider,  value: Float(50.0),           isEnabled: true),
-            RowData(id: .flightSpeed,   type: .slider,  value: Float(10.0),           isEnabled: true)
+            RowData(id: .gridDistance,  type: .slider,  value: Float(20.0),          isEnabled: true),
+            RowData(id: .shootDistance, type: .slider,  value: Float(30.0),          isEnabled: true),
+            RowData(id: .altitude,      type: .slider,  value: Float(50.0),          isEnabled: true),
+            RowData(id: .flightSpeed,   type: .slider,  value: Float(10.0),          isEnabled: true)
         ]),
 ])
 
@@ -90,8 +90,8 @@ extension MissionViewController {
     private func registerListeners() {
         missionView.missionButtonPressed = {
             if self.missionState == nil {
-                self.missionState = MissionState.editting
-            } else if self.missionState == .editting {
+                self.missionState = MissionState.editing
+            } else if self.missionState == .editing {
                 self.missionState = nil
             }
         }
@@ -107,11 +107,14 @@ extension MissionViewController {
                     case .resume:
                         self.missionState = MissionState.running
                     case .stop:
-                        self.missionState = MissionState.editting
+                        self.missionState = MissionState.editing
                 }
             } else {
-                self.missionState = MissionState.editting
+                self.missionState = MissionState.editing
             }
+        }
+        Environment.commandService.missionFinished = { success in
+            self.missionState = MissionState.editing
         }
         Environment.connectionService.listeners.append({ model in
             if model == nil {
@@ -119,11 +122,11 @@ extension MissionViewController {
                 if self.missionState == .uploaded
                     || self.missionState == .running
                     || self.missionState == .paused {
-                    self.missionState = MissionState.editting
+                    self.missionState = MissionState.editing
                 }
             } else {
                 self.tableData.enableRow(at: IdPath(.command, .command), true)
-                self.tableData.updateRow(at: IdPath(.command, .command), with: MissionState.editting)
+                self.tableData.updateRow(at: IdPath(.command, .command), with: MissionState.editing)
             }
         })
         stateListeners.append({ state in
@@ -160,7 +163,7 @@ extension MissionViewController {
             case .start:
                 Environment.commandService.executeMissionCommand(.start)
             case .edit:
-                self.missionState = MissionState.editting
+                self.missionState = MissionState.editing
             case .pause:
                 Environment.commandService.executeMissionCommand(.pause)
             case .resume:
@@ -240,8 +243,7 @@ extension MissionViewController : UITableViewDelegate {
     }
 
     internal func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = missionView.tableView.dequeueReusableHeaderFooterView(withIdentifier: SectionType.spacer.reuseIdentifier) as! TableSection
-        return view
+        return missionView.tableView.dequeueReusableHeaderFooterView(withIdentifier: SectionType.spacer.reuseIdentifier) as! TableSection
     }
 
     internal func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {

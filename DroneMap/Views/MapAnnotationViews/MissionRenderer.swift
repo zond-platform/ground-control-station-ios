@@ -24,9 +24,24 @@ class MissionRenderer : MKOverlayRenderer {
     private var hull: ConvexHull = ConvexHull()
     private var grid: [CGPoint] = []
 
+    // Computed properties
+    var aircraftLocation: CGPoint? {
+        let polygon = self.overlay as? MissionPolygon
+        var point: CGPoint?
+        if polygon != nil && polygon!.aircraftLocation != nil {
+            point = self.point(for: MKMapPoint(polygon!.aircraftLocation!.coordinate))
+        } else {
+            point = nil
+        }
+        return point
+    }
+
     // Observer properties
     var missionState: MissionState? {
         didSet {
+            if missionState != nil && (missionState! == .running || missionState! == .paused) {
+                return
+            }
             redrawRenderer()
         }
     }
@@ -37,12 +52,13 @@ class MissionRenderer : MKOverlayRenderer {
             hull = polygon!.convexHull()
             grid = polygon!.missionGrid(for: hull, with: polygon!.gridDelta)
             switch missionState {
-                case .editting:
+                case .editing:
                     drawPolygon(in: context)
                     drawVerticies(in: context, for: zoomScale)
                     drawGrid(in: context, for: zoomScale)
                 default:
                     drawGrid(in: context, for: zoomScale)
+                    drawAircraftLine(in: context, for: zoomScale)
             }
         }
     }
@@ -88,6 +104,20 @@ extension MissionRenderer {
             context.addPath(path)
             context.setFillColor(red: 86.0, green: 167.0, blue: 20.0, alpha: 0.5)
             context.drawPath(using: .fill)
+        }
+    }
+
+    private func drawAircraftLine(in context: CGContext, for zoomScale: MKZoomScale) {
+        if let aircraftLocation = self.aircraftLocation {
+            let lineWidth = MKRoadWidthAtZoomScale(zoomScale) * 0.2
+            let path = CGMutablePath()
+            path.move(to: aircraftLocation)
+            path.addLine(to: grid.first!)
+            context.setStrokeColor(UIColor.yellow.cgColor)
+            context.setLineWidth(lineWidth)
+            context.setLineDash(phase: 0.0, lengths: [30, 30])
+            context.addPath(path)
+            context.drawPath(using: .stroke)
         }
     }
 

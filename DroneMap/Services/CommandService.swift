@@ -68,6 +68,7 @@ class CommandService : BaseService {
     // Notifyer properties
     var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
     var commandResponded: ((_ id: MissionCommandId, _ success: Bool) -> Void)?
+    var missionFinished: ((_ success: Bool) -> Void)?
 }
 
 // Public methods
@@ -131,19 +132,21 @@ extension CommandService {
         missionOperator = DJISDKManager.missionControl()?.waypointMissionOperator()
         missionOperator?.addListener(toUploadEvent: self, with: DispatchQueue.main, andBlock: { (event: DJIWaypointMissionUploadEvent) in
             if event.error != nil {
-                self.logConsole?("Upload listener error: \(event.error!.localizedDescription)", .error)
+                self.logConsole?("Mission upload error: \(event.error!.localizedDescription)", .error)
             }
         })
         missionOperator?.addListener(toFinished: self, with: DispatchQueue.main, andBlock: { (error: Error?) in
             if error != nil {
-                self.logConsole?("Finished listener error: \(error!.localizedDescription)", .error)
+                self.logConsole?("Mission finished with error: \(error!.localizedDescription)", .error)
+                self.missionFinished?(false)
             } else {
-                self.logConsole?("Mission finished", .debug)
+                self.logConsole?("Mission finished successfully", .debug)
+                self.missionFinished?(true)
             }
         })
         missionOperator?.addListener(toExecutionEvent: self, with: DispatchQueue.main, andBlock: { (event: DJIWaypointMissionExecutionEvent) in
             if event.error != nil {
-                self.logConsole?("Execution listener error: \(event.error!.localizedDescription)", .error)
+                self.logConsole?("Mission execution listener error: \(event.error!.localizedDescription)", .error)
             } else if let progress = event.progress {
                 if self.currentWaypointIndex == nil || self.currentWaypointIndex != progress.targetWaypointIndex {
                     self.currentWaypointIndex = progress.targetWaypointIndex
@@ -164,7 +167,7 @@ extension CommandService {
         let mission = DJIMutableWaypointMission()
         mission.maxFlightSpeed = 15
         mission.autoFlightSpeed = missionParameters.flightSpeed
-        mission.finishedAction = .goHome
+        mission.finishedAction = .noAction
         mission.headingMode = .auto
         mission.flightPathMode = .curved
         mission.rotateGimbalPitch = true

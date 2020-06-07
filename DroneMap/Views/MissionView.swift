@@ -94,7 +94,7 @@ extension MissionView {
             if state == nil {
                 self.frame.origin.y = Dimensions.ContentView.y
                                       + self.yOffset
-            } else if state! == .editting {
+            } else if state! == .editing {
                 self.frame.origin.y = Dimensions.ContentView.y
                                       + self.yOffset
                                       - self.tableHeight
