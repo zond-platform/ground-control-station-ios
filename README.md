@@ -35,7 +35,7 @@ Map:
 * ~~Center map with an offset if the menu is open~~
 * ~~Fix zoom when locking on the moving object~~
 * ~~Add home position dashed line~~
-* Add mission start and stop points
+* ~~Add mission start and stop points~~
 * Use callbacks instead of delegates for objects interaction
 * Reposition apple legal labels
 
@@ -54,7 +54,8 @@ Mission:
 * ~~Provide extended controls for setting mission parameters~~
 * ~~Fix return home altitude (maybe don't return home at all; add parameter?)~~
 * ~~Switch back to editing state when mission is finished~~
-* Do not allow upload if aircraft gps is not locked
+* ~~Do not allow upload if aircraft gps is not locked~~
+* React to command service errors
 
 Telemetry:
 * Monitor current aircraft velocity
