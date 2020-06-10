@@ -11,30 +11,13 @@ import MapKit
 
 class MissionPolygon : MKPolygon {
     // Stored properties
-    private var verticies: [CGPoint] = []
+    var vertexArea = MissionRenderer.vertexRadius
+    var verticies: [CGPoint] = []
     private var vertexOffsets: [CGPoint] = []
     private var missionGrid: [CGPoint] = []
     private var draggedVertexId: Int?
-    var vertexArea = MissionRenderer.vertexRadius
-    var aircraftLocation: CLLocation?
-
-    // Computed properties
-    var gridDelta: CGFloat {
-        if renderer != nil && gridDistance != nil {
-            let lowermostPoint = MKMapPoint(x: 0.0, y: renderer!.mapPoint(for: lowermost(verticies)).y)
-            let uppermostPoint = MKMapPoint(x: 0.0, y: renderer!.mapPoint(for: uppermost(verticies)).y)
-            return CGFloat(lowermostPoint.distance(to: uppermostPoint)) / gridDistance!
-        } else {
-            return 0.0
-        }
-    }
 
     // Observer properties
-    var gridDistance: CGFloat? {
-        didSet {
-            renderer?.redrawRenderer()
-        }
-    }
     weak var renderer: MissionRenderer? {
         didSet {
             for id in 0..<pointCount {
@@ -42,9 +25,19 @@ class MissionPolygon : MKPolygon {
             }
         }
     }
+    var gridDistance: CGFloat? {
+        didSet {
+            renderer?.redrawRenderer()
+        }
+    }
     var missionState: MissionState? {
         didSet {
             renderer?.missionState = missionState
+        }
+    }
+    var aircraftLocation: CLLocation? {
+        didSet {
+            renderer?.redrawRenderer()
         }
     }
 

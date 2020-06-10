@@ -23,9 +23,10 @@ class MissionRenderer : MKOverlayRenderer {
     private var redrawTriggered = false
     private var hull: ConvexHull = ConvexHull()
     private var grid: [CGPoint] = []
+    private var lastAircraftPoint: CGPoint?
 
     // Computed properties
-    var aircraftLocation: CGPoint? {
+    var liveAircraftPoint: CGPoint? {
         let polygon = self.overlay as? MissionPolygon
         var point: CGPoint?
         if polygon != nil && polygon!.aircraftLocation != nil {
@@ -33,15 +34,23 @@ class MissionRenderer : MKOverlayRenderer {
         } else {
             point = nil
         }
+        lastAircraftPoint = point
         return point
+    }
+    var liveGridDelta: CGFloat {
+        let polygon = self.overlay as? MissionPolygon
+        if polygon!.gridDistance != nil {
+            let lowermostPoint = MKMapPoint(x: 0.0, y: self.mapPoint(for: lowermost(polygon!.verticies)).y)
+            let uppermostPoint = MKMapPoint(x: 0.0, y: self.mapPoint(for: uppermost(polygon!.verticies)).y)
+            return CGFloat(lowermostPoint.distance(to: uppermostPoint)) / polygon!.gridDistance!
+        } else {
+            return 0.0
+        }
     }
 
     // Observer properties
     var missionState: MissionState? {
         didSet {
-            if missionState != nil && (missionState! == .running || missionState! == .paused) {
-                return
-            }
             redrawRenderer()
         }
     }
@@ -50,15 +59,19 @@ class MissionRenderer : MKOverlayRenderer {
         let polygon = self.overlay as? MissionPolygon
         if polygon != nil && missionState != nil {
             hull = polygon!.convexHull()
-            grid = polygon!.missionGrid(for: hull, with: polygon!.gridDelta)
+            grid = polygon!.missionGrid(for: hull, with: liveGridDelta)
             switch missionState {
                 case .editing:
                     drawPolygon(in: context)
                     drawVerticies(in: context, for: zoomScale)
                     drawGrid(in: context, for: zoomScale)
+                    drawAircraftLine(in: context, for: zoomScale, and: liveAircraftPoint)
+                case .uploaded:
+                    drawGrid(in: context, for: zoomScale)
+                    drawAircraftLine(in: context, for: zoomScale, and: liveAircraftPoint)
                 default:
                     drawGrid(in: context, for: zoomScale)
-                    drawAircraftLine(in: context, for: zoomScale)
+                    drawAircraftLine(in: context, for: zoomScale, and: lastAircraftPoint)
             }
         }
     }
@@ -107,15 +120,15 @@ extension MissionRenderer {
         }
     }
 
-    private func drawAircraftLine(in context: CGContext, for zoomScale: MKZoomScale) {
-        if let aircraftLocation = self.aircraftLocation {
-            let lineWidth = MKRoadWidthAtZoomScale(zoomScale) * 0.2
+    private func drawAircraftLine(in context: CGContext, for zoomScale: MKZoomScale, and location: CGPoint?) {
+        if let aircraftLocation = location {
+            let lineWidth = MKRoadWidthAtZoomScale(zoomScale) * 0.5
             let path = CGMutablePath()
             path.move(to: aircraftLocation)
             path.addLine(to: grid.first!)
             context.setStrokeColor(UIColor.yellow.cgColor)
             context.setLineWidth(lineWidth)
-            context.setLineDash(phase: 0.0, lengths: [30, 30])
+            context.setLineDash(phase: 0.0, lengths: [40, 40])
             context.addPath(path)
             context.drawPath(using: .stroke)
         }
