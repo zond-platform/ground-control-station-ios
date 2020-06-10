@@ -202,11 +202,15 @@ extension MapViewController {
         if movingObjectView != nil {
             switch movingObject.type {
                 case .user:
-                    movingObject.delegate = movingObjectView
+                    movingObject.headingChanged = { heading in
+                        movingObjectView!.onHeadingChanged(heading)
+                    }
                     let image = #imageLiteral(resourceName: "userPin")
                     movingObjectView!.image = image.color(Colors.Overlay.userLocationColor)
                 case .aircraft:
-                    movingObject.delegate = movingObjectView
+                    movingObject.headingChanged = { heading in
+                        movingObjectView!.onHeadingChanged(heading)
+                    }
                     let image = #imageLiteral(resourceName: "aircraftPin")
                     movingObjectView!.image = image.color(Colors.Overlay.aircraftLocationColor)
                 case .home:

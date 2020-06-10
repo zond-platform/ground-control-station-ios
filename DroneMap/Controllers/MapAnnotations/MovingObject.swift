@@ -15,22 +15,19 @@ enum MovingObjectType {
     case user
 }
 
-protocol MovingObjectDelegate : AnyObject {
-    func objectHeadingChanged(_ heading: CLLocationDirection)
-}
-
 class MovingObject : MKPointAnnotation {
-    weak var delegate: MovingObjectDelegate?
+    // Stored properties
     var type: MovingObjectType
     var isTracked = false
     var coordinateChanged: ((_ coordinate: CLLocationCoordinate2D) -> Void)?
+    var headingChanged: ((_ coordinate: CLLocationDirection) -> Void)?
 
+    // Observer properties
     var heading: CLLocationDirection {
         didSet {
-            delegate?.objectHeadingChanged(heading)
+            headingChanged?(heading)
         }
     }
-
     override var coordinate: CLLocationCoordinate2D {
         didSet {
             coordinateChanged?(coordinate)

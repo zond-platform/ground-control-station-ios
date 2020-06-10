@@ -8,8 +8,8 @@
 
 import MapKit
 
-class MovingObjectView : MKAnnotationView, MovingObjectDelegate {
-    func objectHeadingChanged(_ heading: CLLocationDirection) {
+class MovingObjectView : MKAnnotationView {
+    func onHeadingChanged(_ heading: CLLocationDirection) {
         UIView.animate(withDuration: 0.1, animations: { [unowned self] in
             self.transform = CGAffineTransform(rotationAngle: CGFloat(heading / 180 * .pi))
         })

@@ -36,7 +36,7 @@ Map:
 * ~~Fix zoom when locking on the moving object~~
 * ~~Add home position dashed line~~
 * ~~Add mission start and stop points~~
-* Use callbacks instead of delegates for objects interaction
+* ~~Use callbacks instead of delegates for objects interaction~~
 * Reposition apple legal labels
 
 Mission:
@@ -55,17 +55,16 @@ Mission:
 * ~~Fix return home altitude (maybe don't return home at all; add parameter?)~~
 * ~~Switch back to editing state when mission is finished~~
 * ~~Do not allow upload if aircraft gps is not locked~~
-* React to command service errors
 
 Telemetry:
+* ~~Fix flight mode appearance~~
 * Monitor current aircraft velocity
-* Fix flight mode appearance
 
 Style:
 * ~~Split console view into several labels~~
 * ~~Rework button selection style~~
 * ~~Rework color scheme~~
-* Adapt map annotation views to the general style
+* Finilize general app style
 
 Future versions:
 * Add and remove points from the mission polygon with a tap
