@@ -13,9 +13,6 @@ import DJISDK
 import MapKit
 import UIKit
 
-fileprivate let iconOrientationOffset = -45.0
-fileprivate let deviceOrientationOffset = UIDevice.current.orientation == .landscapeLeft ? 90.0 : -90.0
-
 class MapViewController : UIViewController {
     // Stored properties
     private var mapView = MapView()
@@ -23,7 +20,7 @@ class MapViewController : UIViewController {
     private var tapRecognizer = UILongPressGestureRecognizer()
     private var panRecognizer = UIPanGestureRecognizer()
     private var user = MovingObject(CLLocationCoordinate2D(), 0.0, .user)
-    private var aircraft = MovingObject(CLLocationCoordinate2D(), iconOrientationOffset, .aircraft)
+    private var aircraft = MovingObject(CLLocationCoordinate2D(), 0.0, .aircraft)
     private var home = MovingObject(CLLocationCoordinate2D(), 0.0, .home)
     private var missionPolygon: MissionPolygon?
 
@@ -128,7 +125,7 @@ extension MapViewController {
         })
         Environment.locationService.aircraftHeadingChanged = { heading in
             if (heading != nil) {
-                self.aircraft.heading = heading! + iconOrientationOffset
+                self.aircraft.heading = heading!
             }
         }
         Environment.locationService.homeLocationChanged = { location in
@@ -235,6 +232,14 @@ extension MapViewController : MKMapViewDelegate {
         return annotationView
     }
 
+    internal func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
+        for view in views {
+            if let movingObjectView = view as? MovingObjectView {
+                movingObjectView.addedToMapView()
+            }
+        }
+    }
+
     internal func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
         switch newState {
             case .starting:
@@ -331,7 +336,7 @@ extension MapViewController : CLLocationManagerDelegate {
             // Displace user heading by 90 degrees because of the landscape orientation.
             // Since only landscape orientation is allowed in the application settings
             // there are only two options: left and right. Thus, only two possible offsets.
-            user.heading = newHeading.trueHeading + deviceOrientationOffset + iconOrientationOffset
+            user.heading = newHeading.trueHeading
         }
     }
 }
