@@ -19,5 +19,9 @@ class AppDelegate : UIResponder, UIApplicationDelegate {
         Environment.connectionService.start()
         return true
     }
+
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        Environment.mapViewController.repositionLegalLabels()
+    }
 }
 

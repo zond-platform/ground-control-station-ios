@@ -32,7 +32,7 @@ class MapView : MKMapView {
 
 // Public methods
 extension MapView {
-    func moveLegalLabel() {
+    func repositionLegalLabels() {
         appleLogo.frame = CGRect(
             x: Dimensions.ContentView.x,
             y: ConsoleView.yOffset - appleLogo.frame.size.height,

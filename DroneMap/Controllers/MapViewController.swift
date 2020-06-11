@@ -79,7 +79,7 @@ class MapViewController : UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.mapView.moveLegalLabel()
+        repositionLegalLabels()
     }
 }
 
@@ -112,6 +112,10 @@ extension MapViewController {
             logConsole?("Mission coordinates not set", .error)
             return []
         }
+    }
+
+    func repositionLegalLabels() {
+        mapView.repositionLegalLabels()
     }
 }
 
@@ -249,11 +253,11 @@ extension MapViewController : MKMapViewDelegate {
     }
 
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
-        self.mapView.moveLegalLabel()
+        repositionLegalLabels()
     }
 
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-       self.mapView.moveLegalLabel()
+       repositionLegalLabels()
     }
 }
 
