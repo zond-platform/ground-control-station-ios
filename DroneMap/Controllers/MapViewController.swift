@@ -90,7 +90,7 @@ extension MapViewController {
             let _ = trackObject(aircraft, false)
             return true
         } else {
-            logConsole?("Failed to track user", .error)
+            logConsole?("Cannot track user", .error)
             return false
         }
     }
@@ -100,7 +100,7 @@ extension MapViewController {
             let _ = trackObject(user, false)
             return true
         } else {
-            logConsole?("Failed to track aircraft", .error)
+            logConsole?("Cannot track aircraft. Aircraft not connected.", .error)
             return false
         }
     }

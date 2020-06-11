@@ -39,10 +39,8 @@ extension NavigationViewController {
                             }
                         })
                     } else {
-                        Environment.simulatorService.stopSimulator({ success in
-                            if success {
-                                self.navigationView.deselectButton(with: .simulator)
-                            }
+                        Environment.simulatorService.stopSimulator({ _ in
+                            self.navigationView.deselectButton(with: .simulator)
                         })
                     }
                 case .user:

@@ -49,7 +49,7 @@ extension SimulatorService {
                 }
             })
         } else {
-            logConsole?("Failed to start simulator", .error)
+            logConsole?("Cannot start simulator. Aircraft not connected.", .error)
             simulatorStarted(false)
         }
     }
@@ -67,7 +67,7 @@ extension SimulatorService {
                 }
             })
         } else {
-            logConsole?("Failed to stop simulator", .error)
+            logConsole?("Cannot start simulator. Aircraft not connected.", .error)
             simulatorStopped(false)
         }
     }
