@@ -39,7 +39,7 @@ Map:
 * ~~Add home position dashed line~~
 * ~~Add mission start and stop points~~
 * ~~Use callbacks instead of delegates for objects interaction~~
-* Reposition apple legal labels
+* ~~Reposition apple legal labels~~
 
 Mission:
 * ~~Subclass UITableViewCell for different settings types~~

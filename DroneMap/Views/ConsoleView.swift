@@ -11,6 +11,11 @@ import os.log
 import UIKit
 
 class ConsoleView : UIView {
+    // Static properties
+    static var yOffset: CGFloat {
+        return Dimensions.ContentView.height * Dimensions.ContentView.Ratio.v[1]
+    }
+
     // Stored properties
     private var stackView = UIStackView()
     private var timeStampLabel = InsetLabel()
@@ -19,9 +24,6 @@ class ConsoleView : UIView {
     // Computed properties
     private var xOffset: CGFloat {
         return Dimensions.ContentView.width * Dimensions.ContentView.Ratio.h[0] + Dimensions.viewSpacer
-    }
-    private var yOffset: CGFloat {
-        return Dimensions.ContentView.height * Dimensions.ContentView.Ratio.v[1]
     }
     private var width: CGFloat {
         return Dimensions.ContentView.width * (Dimensions.ContentView.Ratio.h[1] + Dimensions.ContentView.Ratio.h[2])
@@ -39,7 +41,7 @@ class ConsoleView : UIView {
         super.init(frame: CGRect())
         frame = CGRect(
             x: Dimensions.ContentView.x + xOffset,
-            y: Dimensions.ContentView.y + yOffset,
+            y: Dimensions.ContentView.y + ConsoleView.yOffset,
             width: width,
             height: height
         )

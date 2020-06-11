@@ -9,8 +9,8 @@
 import MapKit
 
 class MapView : MKMapView {
+    private var appleLogo: UIView!
     private var legalLabel: UIView!
-    private var legalLabelMinX: CGFloat = 0.0
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -25,17 +25,23 @@ class MapView : MKMapView {
         ))
         mapType = .satellite
         showsCompass = false
+        appleLogo = subviews[1]
         legalLabel = subviews[2]
-        legalLabelMinX = legalLabel.frame.minX
     }
 }
 
 // Public methods
 extension MapView {
     func moveLegalLabel() {
+        appleLogo.frame = CGRect(
+            x: Dimensions.ContentView.x,
+            y: ConsoleView.yOffset - appleLogo.frame.size.height,
+            width: appleLogo.frame.size.width,
+            height: appleLogo.frame.size.height
+        )
         legalLabel.frame = CGRect(
-            x: legalLabelMinX - NavigationView.width,
-            y: legalLabel.frame.minY,
+            x: Dimensions.ContentView.x + Dimensions.ContentView.width - legalLabel.frame.size.width,
+            y: ConsoleView.yOffset - legalLabel.frame.size.height,
             width: legalLabel.frame.size.width,
             height: legalLabel.frame.size.height
         )
