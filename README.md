@@ -17,6 +17,8 @@ Conceptual:
 * ~~Consider sending telemetry as patches~~
 * ~~Consider splitting Constants file~~
 * ~~Add telemetry view~~
+* Rephrase log messages
+* Change app name
 
 Controls:
 * ~~Move simulator button out of settings~~
@@ -58,7 +60,7 @@ Mission:
 
 Telemetry:
 * ~~Fix flight mode appearance~~
-* Monitor current aircraft velocity
+* ~~Display aircraft horizontal velocity~~
 
 Style:
 * ~~Split console view into several labels~~

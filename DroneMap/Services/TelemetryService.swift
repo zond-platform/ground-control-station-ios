@@ -10,16 +10,14 @@ import DJISDK
 
 enum TelemetryDataId {
     case flightMode
-    case gpsSignal
     case gpsSatellite
     case batteryCharge
     case altitude
+    case velocity
 
     var unit: String {
         switch self {
             case .flightMode:
-                return ""
-            case .gpsSignal:
                 return ""
             case .gpsSatellite:
                 return "sat"
@@ -27,6 +25,8 @@ enum TelemetryDataId {
                 return "%"
             case .altitude:
                 return "m"
+            case .velocity:
+                return "m/s"
         }
     }
 
@@ -34,14 +34,14 @@ enum TelemetryDataId {
         switch self {
             case .flightMode:
                 return "N/A"
-            case .gpsSignal:
-                return "N/A"
             case .gpsSatellite:
                 return "0"
             case .batteryCharge:
                 return "0"
             case .altitude:
                 return "0"
+            case .velocity:
+                return "0.0"
         }
     }
 }
@@ -60,10 +60,10 @@ extension TelemetryService {
                 super.start()
                 super.subscribe([
                     DJIFlightControllerKey(param: DJIFlightControllerParamFlightModeString):self.onValueChange,
-                    DJIFlightControllerKey(param: DJIFlightControllerParamGPSSignalStatus):self.onValueChange,
                     DJIFlightControllerKey(param: DJIFlightControllerParamSatelliteCount):self.onValueChange,
                     DJIBatteryKey(param: DJIBatteryParamChargeRemainingInPercent):self.onValueChange,
-                    DJIFlightControllerKey(param: DJIFlightControllerParamAltitudeInMeters):self.onValueChange
+                    DJIFlightControllerKey(param: DJIFlightControllerParamAltitudeInMeters):self.onValueChange,
+                    DJIFlightControllerKey(param: DJIFlightControllerParamVelocity):self.onValueChange
                 ])
             } else {
                 super.stop()
@@ -80,14 +80,20 @@ extension TelemetryService {
         switch key!.param {
             case DJIFlightControllerParamFlightModeString:
                 telemetryDataChanged?(.flightMode, valuePresent ? value!.stringValue : nil)
-            case DJIFlightControllerParamGPSSignalStatus:
-                telemetryDataChanged?(.gpsSignal, valuePresent ? String(value!.unsignedIntegerValue) : nil)
             case DJIFlightControllerParamSatelliteCount:
                 telemetryDataChanged?(.gpsSatellite, valuePresent ? String(value!.unsignedIntegerValue) : nil)
             case DJIBatteryParamChargeRemainingInPercent:
                 telemetryDataChanged?(.batteryCharge, valuePresent ? String(value!.unsignedIntegerValue) : nil)
             case DJIFlightControllerParamAltitudeInMeters:
                 telemetryDataChanged?(.altitude, valuePresent ? String(value!.unsignedIntegerValue) : nil)
+            case DJIFlightControllerParamVelocity:
+                if valuePresent {
+                    let velocityVector = value!.value! as! DJISDKVector3D
+                    let horizontalVelocity = norm(Vector(CGPoint(x: 0.0, y: 0.0), CGPoint(x: velocityVector.x, y: velocityVector.y)))
+                    telemetryDataChanged?(.velocity, String(format: "%.1f", Double(horizontalVelocity)))
+                } else {
+                    telemetryDataChanged?(.velocity, nil)
+                }
             default:
                 break
         }

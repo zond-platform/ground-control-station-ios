@@ -8,14 +8,10 @@
 
 import UIKit
 
-fileprivate let displayExceptionList: [TelemetryDataId] = [
-    .gpsSignal
-]
-
 class StatusView : UIView {
     // Stored properties
     private var stackView = UIStackView()
-    private var labels: [StatusLabel] = []
+    private var labels: [TelemetryDataId:StatusLabel] = [:]
 
     // Computed properties
     private var width: CGFloat {
@@ -47,17 +43,13 @@ class StatusView : UIView {
         stackView.alignment = .firstBaseline
 
         for id in TelemetryDataId.allCases {
-            if displayExceptionList.contains(id) {
-                continue
-            } else {
-                labels.append(StatusLabel(id))
-                labels.last!.updateText(nil)
-                NSLayoutConstraint.activate([
-                    labels.last!.heightAnchor.constraint(equalToConstant: height),
-                    labels.last!.widthAnchor.constraint(equalToConstant: labelWidth)
-                ])
-                stackView.addArrangedSubview(labels.last!)
-            }
+            labels[id] = StatusLabel(id)
+            labels[id]!.updateText(nil)
+            NSLayoutConstraint.activate([
+                labels[id]!.heightAnchor.constraint(equalToConstant: height),
+                labels[id]!.widthAnchor.constraint(equalToConstant: labelWidth)
+            ])
+            stackView.addArrangedSubview(labels[id]!)
         }
 
         stackView.translatesAutoresizingMaskIntoConstraints = false;
@@ -68,10 +60,6 @@ class StatusView : UIView {
 // Public methods
 extension StatusView {
     func updateData(_ id: TelemetryDataId, _ value: String?) {
-        for i in 0..<labels.count {
-            if labels[i].id == id {
-                labels[i].updateText(value)
-            }
-        }
+        labels[id]!.updateText(value)
     }
 }
