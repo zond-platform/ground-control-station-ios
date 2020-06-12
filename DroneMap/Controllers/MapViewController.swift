@@ -87,7 +87,7 @@ extension MapViewController {
             let _ = trackObject(aircraft, false)
             return true
         } else {
-            logConsole?("Cannot track user", .error)
+            logConsole?("Unable to track user. User location unknown", .error)
             return false
         }
     }
@@ -97,7 +97,7 @@ extension MapViewController {
             let _ = trackObject(user, false)
             return true
         } else {
-            logConsole?("Cannot track aircraft. Aircraft not connected.", .error)
+            logConsole?("Unable to track aircraft. Aircraft location unknown.", .error)
             return false
         }
     }
@@ -134,6 +134,10 @@ extension MapViewController {
         Environment.missionViewController.stateListeners.append({ state in
             self.missionPolygon?.missionState = state
             if state != nil && state == .editing {
+                if let polygon = self.missionPolygon {
+                    polygon.computeVertexOffsets(relativeTo: polygon.computeCenter())
+                    polygon.movePolygon(to: self.user.coordinate)
+                }
                 self.enableMissionPolygonInteration(true)
             } else {
                 self.enableMissionPolygonInteration(false)
@@ -318,7 +322,7 @@ extension MapViewController : CLLocationManagerDelegate {
             focusOnCoordinate(user.coordinate)
             if missionPolygon == nil {
                 let lat = user.coordinate.latitude
-                let lon = user.coordinate.longitude + 0.001
+                let lon = user.coordinate.longitude
                 let polygonCoordinates = [
                     CLLocationCoordinate2D(latitude: lat - 0.0002, longitude: lon - 0.0002),
                     CLLocationCoordinate2D(latitude: lat - 0.0002, longitude: lon + 0.0002),
@@ -333,9 +337,6 @@ extension MapViewController : CLLocationManagerDelegate {
 
     internal func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         if (objectPresentOnMap(user)) {
-            // Displace user heading by 90 degrees because of the landscape orientation.
-            // Since only landscape orientation is allowed in the application settings
-            // there are only two options: left and right. Thus, only two possible offsets.
             user.heading = newHeading.trueHeading
         }
     }

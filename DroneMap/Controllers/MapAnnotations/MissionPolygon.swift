@@ -109,6 +109,17 @@ extension MissionPolygon {
         }
     }
 
+    func computeCenter() -> CLLocationCoordinate2D {
+        var lat = CLLocationDegrees()
+        var lon = CLLocationDegrees()
+        for id in 0..<pointCount {
+            lat += points()[id].coordinate.latitude
+            lon += points()[id].coordinate.longitude
+        }
+        return CLLocationCoordinate2D(latitude: lat / Double(pointCount),
+                                      longitude: lon / Double(pointCount))
+    }
+
     func computeVertexOffsets(relativeTo coordinate: CLLocationCoordinate2D) {
         vertexOffsets.removeAll(keepingCapacity: true)
         for id in 0..<pointCount {
@@ -136,6 +147,7 @@ extension MissionPolygon {
         }
     }
 }
+
 // Private methods
 extension MissionPolygon {
     private func updateVertex(_ coordinate: CLLocationCoordinate2D, id: Int, redraw: Bool) {
