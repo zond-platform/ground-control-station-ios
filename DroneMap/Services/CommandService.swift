@@ -44,7 +44,7 @@ struct MissionParameters {
 
     var shootDistance: Float = 10.0 {
         didSet {
-            if shootDistance <= Float(10.0) && shootDistance >= Float(50.0) {
+            if shootDistance <= Float(5.0) && shootDistance >= Float(50.0) {
                 shootDistance = Float(10.0)
             }
         }

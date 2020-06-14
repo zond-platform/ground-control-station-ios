@@ -66,13 +66,13 @@ extension TableSliderCell {
                 slider.minimumValue = 20
                 slider.maximumValue = 200
             case .gridDistance:
-                slider.minimumValue = 10
+                slider.minimumValue = 5
                 slider.maximumValue = 50
             case .flightSpeed:
                 slider.minimumValue = 1
                 slider.maximumValue = 15
             case .shootDistance:
-                slider.minimumValue = 10
+                slider.minimumValue = 5
                 slider.maximumValue = 50
             default:
                 break

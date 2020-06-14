@@ -17,8 +17,9 @@ Conceptual:
 * ~~Consider sending telemetry as patches~~
 * ~~Consider splitting Constants file~~
 * ~~Add telemetry view~~
-* Rephrase log messages
-* Change app name
+* ~~Rephrase log messages~~
+* Change app and repository name (1)
+* Add app to the App Store Connect (2)
 
 Controls:
 * ~~Move simulator button out of settings~~
@@ -57,6 +58,7 @@ Mission:
 * ~~Fix return home altitude (maybe don't return home at all; add parameter?)~~
 * ~~Switch back to editing state when mission is finished~~
 * ~~Do not allow upload if aircraft gps is not locked~~
+* Change mission parameter ranges reliably
 
 Telemetry:
 * ~~Fix flight mode appearance~~
@@ -66,9 +68,9 @@ Style:
 * ~~Split console view into several labels~~
 * ~~Rework button selection style~~
 * ~~Rework color scheme~~
-* Finilize general app style
 
 Future versions:
+* Finilize general app style
 * Add and remove points from the mission polygon with a tap
 * Consider adding live view from the drone (interfere with shooting photos?)
 * Add grid lines angle adjustment

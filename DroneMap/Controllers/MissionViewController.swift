@@ -37,8 +37,8 @@ fileprivate var missionData = TableData([
     SectionData(
         id: .editor,
         rows: [
-            RowData(id: .gridDistance,  type: .slider,  value: Float(20.0),          isEnabled: true),
-            RowData(id: .shootDistance, type: .slider,  value: Float(30.0),          isEnabled: true),
+            RowData(id: .gridDistance,  type: .slider,  value: Float(10.0),          isEnabled: true),
+            RowData(id: .shootDistance, type: .slider,  value: Float(10.0),          isEnabled: true),
             RowData(id: .altitude,      type: .slider,  value: Float(50.0),          isEnabled: true),
             RowData(id: .flightSpeed,   type: .slider,  value: Float(10.0),          isEnabled: true)
         ]),
