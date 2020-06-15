@@ -18,8 +18,8 @@ Conceptual:
 * ~~Consider splitting Constants file~~
 * ~~Add telemetry view~~
 * ~~Rephrase log messages~~
-* Change app and repository name (1)
-* Add app to the App Store Connect (2)
+* ~~Change app and repository name ~~
+* Add app to the App Store Connect
 * Write proper readme file with screenshots and docs (3)
 
 Controls:
