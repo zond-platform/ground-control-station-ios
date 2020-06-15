@@ -49,11 +49,11 @@ class MissionPolygon : MKPolygon {
 // Public methods
 extension MissionPolygon {
     func convexHull() -> ConvexHull {
-        return DroneMap.convexHull(verticies)
+        return AeroGlaz.convexHull(verticies)
     }
 
     func missionGrid(for hull: ConvexHull, with delta: CGFloat) -> [CGPoint] {
-        missionGrid = DroneMap.missionGrid(hull, delta)
+        missionGrid = AeroGlaz.missionGrid(hull, delta)
         return missionGrid
     }
     

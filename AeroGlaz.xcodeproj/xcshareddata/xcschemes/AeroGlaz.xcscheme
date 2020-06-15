@@ -15,9 +15,37 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "EC950E8221B81EA600B3A03D"
-               BuildableName = "DroneMap.app"
-               BlueprintName = "DroneMap"
-               ReferencedContainer = "container:DroneMap.xcodeproj">
+               BuildableName = "AeroGlaz.app"
+               BlueprintName = "AeroGlaz"
+               ReferencedContainer = "container:AeroGlaz.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "EC950E9621B81EA700B3A03D"
+               BuildableName = "AeroGlazTests.xctest"
+               BlueprintName = "AeroGlazTests"
+               ReferencedContainer = "container:AeroGlaz.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "EC950EA121B81EA800B3A03D"
+               BuildableName = "AeroGlazUITests.xctest"
+               BlueprintName = "AeroGlazUITests"
+               ReferencedContainer = "container:AeroGlaz.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -37,26 +65,6 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EC950E9621B81EA700B3A03D"
-               BuildableName = "DroneMapTests.xctest"
-               BlueprintName = "DroneMapTests"
-               ReferencedContainer = "container:DroneMap.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EC950EA121B81EA800B3A03D"
-               BuildableName = "DroneMapUITests.xctest"
-               BlueprintName = "DroneMapUITests"
-               ReferencedContainer = "container:DroneMap.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -74,9 +82,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EC950E8221B81EA600B3A03D"
-            BuildableName = "DroneMap.app"
-            BlueprintName = "DroneMap"
-            ReferencedContainer = "container:DroneMap.xcodeproj">
+            BuildableName = "AeroGlaz.app"
+            BlueprintName = "AeroGlaz"
+            ReferencedContainer = "container:AeroGlaz.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -86,16 +94,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EC950E8221B81EA600B3A03D"
-            BuildableName = "DroneMap.app"
-            BlueprintName = "DroneMap"
-            ReferencedContainer = "container:DroneMap.xcodeproj">
+            BuildableName = "AeroGlaz.app"
+            BlueprintName = "AeroGlaz"
+            ReferencedContainer = "container:AeroGlaz.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

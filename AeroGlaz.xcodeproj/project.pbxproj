@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EAB8DEAC428EE385E1B9C15E /* libPods-DroneMap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0A5FA8B00CB41927D89D276 /* libPods-DroneMap.a */; };
+		6AF15F54C300312AD4151E5B /* libPods-AeroGlaz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D6935011A9215A707673D56 /* libPods-AeroGlaz.a */; };
 		EC0ECE322449B9F5008B1479 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0ECE312449B9F5008B1479 /* Environment.swift */; };
 		EC0ECE342449EACE008B1479 /* TableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0ECE332449EACE008B1479 /* TableSection.swift */; };
 		EC12A715244B1DB200DEC7A6 /* ConsoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC12A714244B1DB200DEC7A6 /* ConsoleView.swift */; };
@@ -39,11 +39,11 @@
 		EC950E8921B81EA600B3A03D /* ConnectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8821B81EA600B3A03D /* ConnectionService.swift */; };
 		EC950E8E21B81EA700B3A03D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC950E8D21B81EA700B3A03D /* Assets.xcassets */; };
 		EC950E9C21B81EA700B3A03D /* GeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E9B21B81EA700B3A03D /* GeometryTests.swift */; };
-		EC950EA721B81EA800B3A03D /* DroneMapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950EA621B81EA800B3A03D /* DroneMapUITests.swift */; };
 		EC98D9412455EBE6006BEA9F /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98D9402455EBE6006BEA9F /* InsetLabel.swift */; };
 		EC98D94524570BAC006BEA9F /* TableCommandCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98D94424570BAC006BEA9F /* TableCommandCell.swift */; };
 		EC98D94724570FE7006BEA9F /* TableSliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98D94624570FE7006BEA9F /* TableSliderCell.swift */; };
 		ECAAC83A2299B83700FB360F /* MissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAAC8392299B83700FB360F /* MissionView.swift */; };
+		ECAE717A24979A6600B381F3 /* AeroGlazUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAE717924979A6600B381F3 /* AeroGlazUITests.swift */; };
 		ECC51897247943CF007852E7 /* StatusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC51896247943CF007852E7 /* StatusLabel.swift */; };
 		ECD709A4244F3BB8004CB3B6 /* TableSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD709A3244F3BB8004CB3B6 /* TableSlider.swift */; };
 		ECD714902365B0F200958956 /* Transformations.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD7148F2365B0F200958956 /* Transformations.swift */; };
@@ -73,9 +73,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		36FCEE976A7521F8A5A31429 /* Pods-DroneMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DroneMap.release.xcconfig"; path = "Target Support Files/Pods-DroneMap/Pods-DroneMap.release.xcconfig"; sourceTree = "<group>"; };
-		9A2289144CFB654F00B72808 /* Pods-DroneMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DroneMap.debug.xcconfig"; path = "Target Support Files/Pods-DroneMap/Pods-DroneMap.debug.xcconfig"; sourceTree = "<group>"; };
-		C0A5FA8B00CB41927D89D276 /* libPods-DroneMap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DroneMap.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		097F1AB90CD555528FD5EFD6 /* Pods-AeroGlaz.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AeroGlaz.debug.xcconfig"; path = "Target Support Files/Pods-AeroGlaz/Pods-AeroGlaz.debug.xcconfig"; sourceTree = "<group>"; };
+		7A605E403BFEFE2FCB6E2F85 /* Pods-AeroGlaz.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AeroGlaz.release.xcconfig"; path = "Target Support Files/Pods-AeroGlaz/Pods-AeroGlaz.release.xcconfig"; sourceTree = "<group>"; };
+		8D6935011A9215A707673D56 /* libPods-AeroGlaz.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AeroGlaz.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC0ECE312449B9F5008B1479 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		EC0ECE332449EACE008B1479 /* TableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSection.swift; sourceTree = "<group>"; };
 		EC12A714244B1DB200DEC7A6 /* ConsoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleView.swift; sourceTree = "<group>"; };
@@ -103,21 +103,21 @@
 		EC1678E5244625D500C71203 /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 		EC1678E824473DF400C71203 /* NavigationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButton.swift; sourceTree = "<group>"; };
 		EC18EBC524630AA6001A29D1 /* CommandButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandButton.swift; sourceTree = "<group>"; };
-		EC950E8321B81EA600B3A03D /* DroneMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DroneMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC950E8321B81EA600B3A03D /* AeroGlaz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AeroGlaz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC950E8621B81EA600B3A03D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC950E8821B81EA600B3A03D /* ConnectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionService.swift; sourceTree = "<group>"; };
 		EC950E8D21B81EA700B3A03D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC950E9221B81EA700B3A03D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EC950E9721B81EA700B3A03D /* DroneMapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DroneMapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC950E9721B81EA700B3A03D /* AeroGlazTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AeroGlazTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC950E9B21B81EA700B3A03D /* GeometryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryTests.swift; sourceTree = "<group>"; };
 		EC950E9D21B81EA700B3A03D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EC950EA221B81EA800B3A03D /* DroneMapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DroneMapUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EC950EA621B81EA800B3A03D /* DroneMapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroneMapUITests.swift; sourceTree = "<group>"; };
+		EC950EA221B81EA800B3A03D /* AeroGlazUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AeroGlazUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC950EA821B81EA800B3A03D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC98D9402455EBE6006BEA9F /* InsetLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetLabel.swift; sourceTree = "<group>"; };
 		EC98D94424570BAC006BEA9F /* TableCommandCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCommandCell.swift; sourceTree = "<group>"; };
 		EC98D94624570FE7006BEA9F /* TableSliderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSliderCell.swift; sourceTree = "<group>"; };
 		ECAAC8392299B83700FB360F /* MissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionView.swift; sourceTree = "<group>"; };
+		ECAE717924979A6600B381F3 /* AeroGlazUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AeroGlazUITests.swift; sourceTree = "<group>"; };
 		ECC51896247943CF007852E7 /* StatusLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusLabel.swift; sourceTree = "<group>"; };
 		ECD709A3244F3BB8004CB3B6 /* TableSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSlider.swift; sourceTree = "<group>"; };
 		ECD7148F2365B0F200958956 /* Transformations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transformations.swift; sourceTree = "<group>"; };
@@ -134,7 +134,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EAB8DEAC428EE385E1B9C15E /* libPods-DroneMap.a in Frameworks */,
+				6AF15F54C300312AD4151E5B /* libPods-AeroGlaz.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,8 +158,8 @@
 		918ECB132C2AC04D3D2E620F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9A2289144CFB654F00B72808 /* Pods-DroneMap.debug.xcconfig */,
-				36FCEE976A7521F8A5A31429 /* Pods-DroneMap.release.xcconfig */,
+				097F1AB90CD555528FD5EFD6 /* Pods-AeroGlaz.debug.xcconfig */,
+				7A605E403BFEFE2FCB6E2F85 /* Pods-AeroGlaz.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -167,7 +167,7 @@
 		ABE370997E7D2DC38A5094D4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C0A5FA8B00CB41927D89D276 /* libPods-DroneMap.a */,
+				8D6935011A9215A707673D56 /* libPods-AeroGlaz.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -235,9 +235,9 @@
 		EC950E7A21B81EA600B3A03D = {
 			isa = PBXGroup;
 			children = (
-				EC950E8521B81EA600B3A03D /* DroneMap */,
-				EC950E9A21B81EA700B3A03D /* DroneMapTests */,
-				EC950EA521B81EA800B3A03D /* DroneMapUITests */,
+				EC950E8521B81EA600B3A03D /* AeroGlaz */,
+				EC950E9A21B81EA700B3A03D /* AeroGlazTests */,
+				EC950EA521B81EA800B3A03D /* AeroGlazUITests */,
 				EC950E8421B81EA600B3A03D /* Products */,
 				918ECB132C2AC04D3D2E620F /* Pods */,
 				ABE370997E7D2DC38A5094D4 /* Frameworks */,
@@ -247,14 +247,14 @@
 		EC950E8421B81EA600B3A03D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EC950E8321B81EA600B3A03D /* DroneMap.app */,
-				EC950E9721B81EA700B3A03D /* DroneMapTests.xctest */,
-				EC950EA221B81EA800B3A03D /* DroneMapUITests.xctest */,
+				EC950E8321B81EA600B3A03D /* AeroGlaz.app */,
+				EC950E9721B81EA700B3A03D /* AeroGlazTests.xctest */,
+				EC950EA221B81EA800B3A03D /* AeroGlazUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		EC950E8521B81EA600B3A03D /* DroneMap */ = {
+		EC950E8521B81EA600B3A03D /* AeroGlaz */ = {
 			isa = PBXGroup;
 			children = (
 				EC950E8621B81EA600B3A03D /* AppDelegate.swift */,
@@ -265,25 +265,25 @@
 				EC950E8D21B81EA700B3A03D /* Assets.xcassets */,
 				EC950E9221B81EA700B3A03D /* Info.plist */,
 			);
-			path = DroneMap;
+			path = AeroGlaz;
 			sourceTree = "<group>";
 		};
-		EC950E9A21B81EA700B3A03D /* DroneMapTests */ = {
+		EC950E9A21B81EA700B3A03D /* AeroGlazTests */ = {
 			isa = PBXGroup;
 			children = (
 				EC950E9B21B81EA700B3A03D /* GeometryTests.swift */,
 				EC950E9D21B81EA700B3A03D /* Info.plist */,
 			);
-			path = DroneMapTests;
+			path = AeroGlazTests;
 			sourceTree = "<group>";
 		};
-		EC950EA521B81EA800B3A03D /* DroneMapUITests */ = {
+		EC950EA521B81EA800B3A03D /* AeroGlazUITests */ = {
 			isa = PBXGroup;
 			children = (
-				EC950EA621B81EA800B3A03D /* DroneMapUITests.swift */,
+				ECAE717924979A6600B381F3 /* AeroGlazUITests.swift */,
 				EC950EA821B81EA800B3A03D /* Info.plist */,
 			);
-			path = DroneMapUITests;
+			path = AeroGlazUITests;
 			sourceTree = "<group>";
 		};
 		ECD7148E2365B09800958956 /* MapOverlayGeometry */ = {
@@ -338,9 +338,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		EC950E8221B81EA600B3A03D /* DroneMap */ = {
+		EC950E8221B81EA600B3A03D /* AeroGlaz */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EC950EAB21B81EA800B3A03D /* Build configuration list for PBXNativeTarget "DroneMap" */;
+			buildConfigurationList = EC950EAB21B81EA800B3A03D /* Build configuration list for PBXNativeTarget "AeroGlaz" */;
 			buildPhases = (
 				E9B7230BF60843A69B025722 /* [CP] Check Pods Manifest.lock */,
 				EC950E7F21B81EA600B3A03D /* Sources */,
@@ -352,14 +352,14 @@
 			);
 			dependencies = (
 			);
-			name = DroneMap;
+			name = AeroGlaz;
 			productName = DroneMap;
-			productReference = EC950E8321B81EA600B3A03D /* DroneMap.app */;
+			productReference = EC950E8321B81EA600B3A03D /* AeroGlaz.app */;
 			productType = "com.apple.product-type.application";
 		};
-		EC950E9621B81EA700B3A03D /* DroneMapTests */ = {
+		EC950E9621B81EA700B3A03D /* AeroGlazTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EC950EAE21B81EA800B3A03D /* Build configuration list for PBXNativeTarget "DroneMapTests" */;
+			buildConfigurationList = EC950EAE21B81EA800B3A03D /* Build configuration list for PBXNativeTarget "AeroGlazTests" */;
 			buildPhases = (
 				EC950E9321B81EA700B3A03D /* Sources */,
 				EC950E9421B81EA700B3A03D /* Frameworks */,
@@ -370,14 +370,14 @@
 			dependencies = (
 				EC950E9921B81EA700B3A03D /* PBXTargetDependency */,
 			);
-			name = DroneMapTests;
+			name = AeroGlazTests;
 			productName = DroneMapTests;
-			productReference = EC950E9721B81EA700B3A03D /* DroneMapTests.xctest */;
+			productReference = EC950E9721B81EA700B3A03D /* AeroGlazTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		EC950EA121B81EA800B3A03D /* DroneMapUITests */ = {
+		EC950EA121B81EA800B3A03D /* AeroGlazUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EC950EB121B81EA800B3A03D /* Build configuration list for PBXNativeTarget "DroneMapUITests" */;
+			buildConfigurationList = EC950EB121B81EA800B3A03D /* Build configuration list for PBXNativeTarget "AeroGlazUITests" */;
 			buildPhases = (
 				EC950E9E21B81EA800B3A03D /* Sources */,
 				EC950E9F21B81EA800B3A03D /* Frameworks */,
@@ -388,9 +388,9 @@
 			dependencies = (
 				EC950EA421B81EA800B3A03D /* PBXTargetDependency */,
 			);
-			name = DroneMapUITests;
+			name = AeroGlazUITests;
 			productName = DroneMapUITests;
-			productReference = EC950EA221B81EA800B3A03D /* DroneMapUITests.xctest */;
+			productReference = EC950EA221B81EA800B3A03D /* AeroGlazUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -419,7 +419,7 @@
 					};
 				};
 			};
-			buildConfigurationList = EC950E7E21B81EA600B3A03D /* Build configuration list for PBXProject "DroneMap" */;
+			buildConfigurationList = EC950E7E21B81EA600B3A03D /* Build configuration list for PBXProject "AeroGlaz" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -432,9 +432,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EC950E8221B81EA600B3A03D /* DroneMap */,
-				EC950E9621B81EA700B3A03D /* DroneMapTests */,
-				EC950EA121B81EA800B3A03D /* DroneMapUITests */,
+				EC950E8221B81EA600B3A03D /* AeroGlaz */,
+				EC950E9621B81EA700B3A03D /* AeroGlazTests */,
+				EC950EA121B81EA800B3A03D /* AeroGlazUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -471,15 +471,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DroneMap/Pods-DroneMap-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-AeroGlaz/Pods-AeroGlaz-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DroneMap/Pods-DroneMap-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-AeroGlaz/Pods-AeroGlaz-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DroneMap/Pods-DroneMap-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AeroGlaz/Pods-AeroGlaz-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E9B7230BF60843A69B025722 /* [CP] Check Pods Manifest.lock */ = {
@@ -497,7 +497,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-DroneMap-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-AeroGlaz-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -568,7 +568,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC950EA721B81EA800B3A03D /* DroneMapUITests.swift in Sources */,
+				ECAE717A24979A6600B381F3 /* AeroGlazUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -577,12 +577,12 @@
 /* Begin PBXTargetDependency section */
 		EC950E9921B81EA700B3A03D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = EC950E8221B81EA600B3A03D /* DroneMap */;
+			target = EC950E8221B81EA600B3A03D /* AeroGlaz */;
 			targetProxy = EC950E9821B81EA700B3A03D /* PBXContainerItemProxy */;
 		};
 		EC950EA421B81EA800B3A03D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = EC950E8221B81EA600B3A03D /* DroneMap */;
+			target = EC950E8221B81EA600B3A03D /* AeroGlaz */;
 			targetProxy = EC950EA321B81EA800B3A03D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -639,7 +639,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -694,7 +694,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -706,20 +706,21 @@
 		};
 		EC950EAC21B81EA800B3A03D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9A2289144CFB654F00B72808 /* Pods-DroneMap.debug.xcconfig */;
+			baseConfigurationReference = 097F1AB90CD555528FD5EFD6 /* Pods-AeroGlaz.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JF2NVCP8SN;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = "$(PODS_ROOT)/Headers/Public";
-				INFOPLIST_FILE = DroneMap/Info.plist;
+				INFOPLIST_FILE = AeroGlaz/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.company.DroneMap;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.company.AeroGlaz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -728,20 +729,21 @@
 		};
 		EC950EAD21B81EA800B3A03D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 36FCEE976A7521F8A5A31429 /* Pods-DroneMap.release.xcconfig */;
+			baseConfigurationReference = 7A605E403BFEFE2FCB6E2F85 /* Pods-AeroGlaz.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JF2NVCP8SN;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = "$(PODS_ROOT)/Headers/Public";
-				INFOPLIST_FILE = DroneMap/Info.plist;
+				INFOPLIST_FILE = AeroGlaz/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.company.DroneMap;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.company.AeroGlaz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -755,18 +757,18 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JF2NVCP8SN;
-				INFOPLIST_FILE = DroneMapTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				INFOPLIST_FILE = AeroGlazTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.company.DroneMapTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.company.AeroGlazTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DroneMap.app/DroneMap";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AeroGlaz.app/AeroGlaz";
 			};
 			name = Debug;
 		};
@@ -777,18 +779,18 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JF2NVCP8SN;
-				INFOPLIST_FILE = DroneMapTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				INFOPLIST_FILE = AeroGlazTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.company.DroneMapTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.company.AeroGlazTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DroneMap.app/DroneMap";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AeroGlaz.app/AeroGlaz";
 			};
 			name = Release;
 		};
@@ -798,18 +800,18 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JF2NVCP8SN;
-				INFOPLIST_FILE = DroneMapUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				INFOPLIST_FILE = AeroGlazUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.company.DroneMapUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.company.AeroGlazUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = DroneMap;
+				TEST_TARGET_NAME = AeroGlaz;
 			};
 			name = Debug;
 		};
@@ -819,25 +821,25 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JF2NVCP8SN;
-				INFOPLIST_FILE = DroneMapUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				INFOPLIST_FILE = AeroGlazUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.company.DroneMapUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.company.AeroGlazUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = DroneMap;
+				TEST_TARGET_NAME = AeroGlaz;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EC950E7E21B81EA600B3A03D /* Build configuration list for PBXProject "DroneMap" */ = {
+		EC950E7E21B81EA600B3A03D /* Build configuration list for PBXProject "AeroGlaz" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EC950EA921B81EA800B3A03D /* Debug */,
@@ -846,7 +848,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EC950EAB21B81EA800B3A03D /* Build configuration list for PBXNativeTarget "DroneMap" */ = {
+		EC950EAB21B81EA800B3A03D /* Build configuration list for PBXNativeTarget "AeroGlaz" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EC950EAC21B81EA800B3A03D /* Debug */,
@@ -855,7 +857,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EC950EAE21B81EA800B3A03D /* Build configuration list for PBXNativeTarget "DroneMapTests" */ = {
+		EC950EAE21B81EA800B3A03D /* Build configuration list for PBXNativeTarget "AeroGlazTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EC950EAF21B81EA800B3A03D /* Debug */,
@@ -864,7 +866,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EC950EB121B81EA800B3A03D /* Build configuration list for PBXNativeTarget "DroneMapUITests" */ = {
+		EC950EB121B81EA800B3A03D /* Build configuration list for PBXNativeTarget "AeroGlazUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EC950EB221B81EA800B3A03D /* Debug */,

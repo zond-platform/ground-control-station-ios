@@ -147,29 +147,33 @@ extension MissionRenderer {
     }
 
     private func drawWaypoints(in context: CGContext, for zoomScale: MKZoomScale) {
-        let path = CGMutablePath()
-        let radius = computeRadius(for: zoomScaleToWaypointRadiusMap, with: zoomScale)
-        let size = CGSize(width: radius * CGFloat(2.0), height: radius * CGFloat(2.0))
-        let startOrigin = CGPoint(x: grid.first!.x - radius, y: grid.first!.y - radius)
-        path.addEllipse(in: CGRect.init(origin: startOrigin, size: size))
-        let finishOrigin = CGPoint(x: grid.last!.x - radius, y: grid.last!.y - radius)
-        path.addEllipse(in: CGRect.init(origin: finishOrigin, size: size))
-        context.setFillColor(UIColor.yellow.cgColor)
-        context.addPath(path)
-        context.drawPath(using: .fill)
+        if !grid.isEmpty {
+            let path = CGMutablePath()
+            let radius = computeRadius(for: zoomScaleToWaypointRadiusMap, with: zoomScale)
+            let size = CGSize(width: radius * CGFloat(2.0), height: radius * CGFloat(2.0))
+            let startOrigin = CGPoint(x: grid.first!.x - radius, y: grid.first!.y - radius)
+            path.addEllipse(in: CGRect.init(origin: startOrigin, size: size))
+            let finishOrigin = CGPoint(x: grid.last!.x - radius, y: grid.last!.y - radius)
+            path.addEllipse(in: CGRect.init(origin: finishOrigin, size: size))
+            context.setFillColor(UIColor.yellow.cgColor)
+            context.addPath(path)
+            context.drawPath(using: .fill)
+        }
     }
 
     private func drawAircraftLine(in context: CGContext, for zoomScale: MKZoomScale, and location: CGPoint?) {
         if let aircraftLocation = location {
-            let lineWidth = MKRoadWidthAtZoomScale(zoomScale) * 0.5
-            let path = CGMutablePath()
-            path.move(to: aircraftLocation)
-            path.addLine(to: grid.first!)
-            context.setStrokeColor(UIColor.yellow.cgColor)
-            context.setLineWidth(lineWidth)
-            context.setLineDash(phase: 0.0, lengths: [40, 40])
-            context.addPath(path)
-            context.drawPath(using: .stroke)
+            if !grid.isEmpty {
+                let lineWidth = MKRoadWidthAtZoomScale(zoomScale) * 0.5
+                let path = CGMutablePath()
+                path.move(to: aircraftLocation)
+                path.addLine(to: grid.first!)
+                context.setStrokeColor(UIColor.yellow.cgColor)
+                context.setLineWidth(lineWidth)
+                context.setLineDash(phase: 0.0, lengths: [40, 40])
+                context.addPath(path)
+                context.drawPath(using: .stroke)
+            }
         }
     }
 

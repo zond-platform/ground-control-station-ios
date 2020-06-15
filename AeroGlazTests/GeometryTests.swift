@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import DroneMap
+@testable import AeroGlaz
 
 class GeometryTests: XCTestCase {
     let pi = CGFloat(Double.pi)
