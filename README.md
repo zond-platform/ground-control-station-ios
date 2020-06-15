@@ -20,6 +20,7 @@ Conceptual:
 * ~~Rephrase log messages~~
 * Change app and repository name (1)
 * Add app to the App Store Connect (2)
+* Write proper readme file with screenshots and docs (3)
 
 Controls:
 * ~~Move simulator button out of settings~~
@@ -77,3 +78,8 @@ Future versions:
 * Create mission history
 * Record mission time
 * Draw copter trace on the map when executing a mission
+* Write UI tests
+* Handle mission interruptions
+* Consider trajectory overshooting on turns
+* Make photo shooting more agile e.g. do not take pictures on turns
+* Include mission name and parameters into the picture file name
