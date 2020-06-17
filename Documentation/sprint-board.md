@@ -68,7 +68,7 @@
 * Add and remove points from the mission polygon with a tap
 * Consider adding live view from the drone (interfere with shooting photos?)
 * Add grid lines angle adjustment
-* Create mission history
+* Store missions
 * Record mission time
 * Draw copter trace on the map when executing a mission
 * Write UI tests
@@ -76,3 +76,6 @@
 * Consider trajectory overshooting on turns
 * Make photo shooting more agile e.g. do not take pictures on turns
 * Include mission name and parameters into the picture file name
+* Add map ruler
+* Further scale the vertex size with the zoom
+* Consider adding intermediate waypoints between "long" travel distances
