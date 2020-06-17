@@ -1,7 +1,13 @@
-## Description
+## Project Overview
 
 This is a simple GCS (Ground Control Station) application for DJI drones which
 is supposed to make standard quad copters execute mapping missions.
+
+## Demonstration
+
+# Create Mission
+
+# Run Mission
 
 ## Todos
 
