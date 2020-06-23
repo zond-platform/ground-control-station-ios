@@ -1,85 +1,34 @@
-## Description
+## Project Overview
 
-This is a simple GCS (Ground Control Station) application for DJI drones which
-is supposed to make standard quad copters execute mapping missions.
+This is a simple GCS (Ground Control Station) iOS app for DJI drones that allows execution of mapping missions.
 
-## Todos
+Current functionality includes:
+* Connection to the DJI product via DJI's iOS SDK. Only USB remote controller connection is supported.
+* Mission editor that allows the adjustment of different mission parameters.
+* Simulator integration. Allows running missions without flying which is very useful for testing.
+* Executing missions with the given parameters.
+* Tracking user and aircraft positions.
+* Displaying telemetry.
+* Outputing log messages in the console for better user experience.
 
-Conceptual:
-* ~~Redesign and refactor the entire view system. Consider using Swift UI~~
-* ~~Refactor Logger class~~
-* ~~Access environment via static function instead of passing it around~~
-* ~~Create one unified telemetry service~~
-* ~~Consider using callbacks instead of delegates for internal component communication~~
-* ~~Start telemetry services only if aircraft is connected (not the remote controller)~~
-* ~~Control initialization order of static variables~~
-* ~~Hook up all services and ensure error handling~~
-* ~~Consider sending telemetry as patches~~
-* ~~Consider splitting Constants file~~
-* ~~Add telemetry view~~
-* ~~Rephrase log messages~~
-* ~~Change app and repository name ~~
-* Add app to the App Store Connect
-* Write proper readme file with screenshots and docs (3)
+The app is tested on Phantom 4 V2 and Mavic Pro models but theoretically all DJI drones should be supported.
 
-Controls:
-* ~~Move simulator button out of settings~~
-* ~~Make multistate control buttons~~
+### Create Mission
 
-Map:
-* ~~Replace map icons and make them show direction~~
-* ~~Extend MapViewController with adding polygons on the map~~
-* ~~Transform polygon's area into grid coordinates suitable for mission planning~~
-* ~~Make polygons draggable~~
-* ~~Limit polygon update rate~~
-* ~~Add grid lines distance adjustment~~
-* ~~Fix or remove compass button completely~~
-* ~~Fix grid distance bug~~
-* ~~Don't show mission polygon when the mission is already uploaded~~
-* ~~Center map with an offset if the menu is open~~
-* ~~Fix zoom when locking on the moving object~~
-* ~~Add home position dashed line~~
-* ~~Add mission start and stop points~~
-* ~~Use callbacks instead of delegates for objects interaction~~
-* ~~Reposition apple legal labels~~
+Is enabled by tapping the "Mission" button. The "mission" polygon will be added to the map at the user position.
+It then can be adjusted by dragging the verticies or the polygon itself. Once the editing is finished the mission can
+be uploaded on the drone.
 
-Mission:
-* ~~Subclass UITableViewCell for different settings types~~
-* ~~Add custom images to the UISwitch and UISlider~~
-* ~~Consider splitting settings view into tabs~~
-* ~~Add global constants for mission parameter constraints~~
-* ~~Activate mission upload button~~
-* ~~Relocate view and add slide animation~~
-* ~~Resolve table view slider cell update issue~~
-* ~~Add commands for mission upload and execution~~
-* ~~Make CommandService report result via delegate~~
-* ~~Add mission start/stop/pause buttons~~
-* ~~Log progress into the console view~~
-* ~~Provide extended controls for setting mission parameters~~
-* ~~Fix return home altitude (maybe don't return home at all; add parameter?)~~
-* ~~Switch back to editing state when mission is finished~~
-* ~~Do not allow upload if aircraft gps is not locked~~
-* Change mission parameter ranges reliably
+![Alt Text](Documentation/Screenshots/edit-mission.GIF)
 
-Telemetry:
-* ~~Fix flight mode appearance~~
-* ~~Display aircraft horizontal velocity~~
+Please note that the aircraft has to be connected in order to run the simulator or upload the mission.
 
-Style:
-* ~~Split console view into several labels~~
-* ~~Rework button selection style~~
-* ~~Rework color scheme~~
+### Run Mission
 
-Future versions:
-* Finilize general app style
-* Add and remove points from the mission polygon with a tap
-* Consider adding live view from the drone (interfere with shooting photos?)
-* Add grid lines angle adjustment
-* Create mission history
-* Record mission time
-* Draw copter trace on the map when executing a mission
-* Write UI tests
-* Handle mission interruptions
-* Consider trajectory overshooting on turns
-* Make photo shooting more agile e.g. do not take pictures on turns
-* Include mission name and parameters into the picture file name
+If the upload finished succesfully the drone can safely start the mission. During the mission execution the status
+will be reported via the console. Once finished the "mission" polygon will return to the editing state.
+
+![Alt Text](Documentation/Screenshots/run-mission.GIF)
+
+At every stage the mission can be safely paused/resumed or stopped completely. In the latter case the aircraft will
+hover at the current position allowing the user to either execute a new mission or use a remote controller directly.
