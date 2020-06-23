@@ -1,6 +1,6 @@
 //
 //  ControlButton.swift
-//  DroneMap
+//  Aeroglaz
 //
 //  Created by Evgeny Agamirzov on 15.04.20.
 //  Copyright © 2020 Evgeny Agamirzov. All rights reserved.

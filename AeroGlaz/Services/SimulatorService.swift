@@ -1,6 +1,6 @@
 //
 //  SimulatorService.swift
-//  DroneMap
+//  Aeroglaz
 //
 //  Created by Evgeny Agamirzov on 5/11/19.
 //  Copyright © 2019 Evgeny Agamirzov. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  MapView.swift
-//  DroneMap
+//  Aeroglaz
 //
 //  Created by Evgeny Agamirzov on 4/27/19.
 //  Copyright © 2019 Evgeny Agamirzov. All rights reserved.

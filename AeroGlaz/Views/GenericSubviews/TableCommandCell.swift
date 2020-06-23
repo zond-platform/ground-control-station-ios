@@ -1,6 +1,6 @@
 //
 //  TableViewButtonCell.swift
-//  DroneMap
+//  Aeroglaz
 //
 //  Created by Evgeny Agamirzov on 27.04.20.
 //  Copyright © 2020 Evgeny Agamirzov. All rights reserved.
@@ -9,10 +9,10 @@
 import UIKit
 
 fileprivate let missionStateMap: [MissionState:[CommandButtonId]] = [
-    .uploaded     : [CommandButtonId.edit,   CommandButtonId.start,  CommandButtonId.stop],
-    .running      : [CommandButtonId.edit,   CommandButtonId.pause,  CommandButtonId.stop],
-    .paused       : [CommandButtonId.edit,   CommandButtonId.resume, CommandButtonId.stop],
-    .editing     : [CommandButtonId.upload, CommandButtonId.start,  CommandButtonId.stop],
+    .uploaded : [CommandButtonId.edit,   CommandButtonId.start,  CommandButtonId.stop],
+    .running  : [CommandButtonId.edit,   CommandButtonId.pause,  CommandButtonId.stop],
+    .paused   : [CommandButtonId.edit,   CommandButtonId.resume, CommandButtonId.stop],
+    .editing  : [CommandButtonId.upload, CommandButtonId.start,  CommandButtonId.stop],
 ]
 
 class TableCommandCell : UITableViewCell {

@@ -44,6 +44,9 @@
 		EC98D94724570FE7006BEA9F /* TableSliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98D94624570FE7006BEA9F /* TableSliderCell.swift */; };
 		ECAAC83A2299B83700FB360F /* MissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAAC8392299B83700FB360F /* MissionView.swift */; };
 		ECAE717A24979A6600B381F3 /* AeroGlazUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAE717924979A6600B381F3 /* AeroGlazUITests.swift */; };
+		ECB6B8EE24A2442E002C4B04 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB6B8ED24A2442E002C4B04 /* Line.swift */; };
+		ECB6B8F024A2883D002C4B04 /* LineTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB6B8EF24A2883D002C4B04 /* LineTest.swift */; };
+		ECB6B8F224A28E19002C4B04 /* GeometryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB6B8F124A28E19002C4B04 /* GeometryUtils.swift */; };
 		ECC51897247943CF007852E7 /* StatusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC51896247943CF007852E7 /* StatusLabel.swift */; };
 		ECD709A4244F3BB8004CB3B6 /* TableSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD709A3244F3BB8004CB3B6 /* TableSlider.swift */; };
 		ECD714902365B0F200958956 /* Transformations.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD7148F2365B0F200958956 /* Transformations.swift */; };
@@ -118,6 +121,9 @@
 		EC98D94624570FE7006BEA9F /* TableSliderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSliderCell.swift; sourceTree = "<group>"; };
 		ECAAC8392299B83700FB360F /* MissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionView.swift; sourceTree = "<group>"; };
 		ECAE717924979A6600B381F3 /* AeroGlazUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AeroGlazUITests.swift; sourceTree = "<group>"; };
+		ECB6B8ED24A2442E002C4B04 /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
+		ECB6B8EF24A2883D002C4B04 /* LineTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineTest.swift; sourceTree = "<group>"; };
+		ECB6B8F124A28E19002C4B04 /* GeometryUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryUtils.swift; sourceTree = "<group>"; };
 		ECC51896247943CF007852E7 /* StatusLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusLabel.swift; sourceTree = "<group>"; };
 		ECD709A3244F3BB8004CB3B6 /* TableSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSlider.swift; sourceTree = "<group>"; };
 		ECD7148F2365B0F200958956 /* Transformations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transformations.swift; sourceTree = "<group>"; };
@@ -272,6 +278,7 @@
 			isa = PBXGroup;
 			children = (
 				EC950E9B21B81EA700B3A03D /* GeometryTests.swift */,
+				ECB6B8EF24A2883D002C4B04 /* LineTest.swift */,
 				EC950E9D21B81EA700B3A03D /* Info.plist */,
 			);
 			path = AeroGlazTests;
@@ -289,8 +296,10 @@
 		ECD7148E2365B09800958956 /* MapOverlayGeometry */ = {
 			isa = PBXGroup;
 			children = (
+				ECB6B8F124A28E19002C4B04 /* GeometryUtils.swift */,
 				EC14732723B1F62000385067 /* ConvexHull.swift */,
 				EC14732923B1F63000385067 /* Vector.swift */,
+				ECB6B8ED24A2442E002C4B04 /* Line.swift */,
 				ECD7148F2365B0F200958956 /* Transformations.swift */,
 			);
 			path = MapOverlayGeometry;
@@ -518,6 +527,7 @@
 				EC14732623B1F07E00385067 /* MissionRenderer.swift in Sources */,
 				ECD714902365B0F200958956 /* Transformations.swift in Sources */,
 				EC1678E924473DF400C71203 /* NavigationButton.swift in Sources */,
+				ECB6B8F224A28E19002C4B04 /* GeometryUtils.swift in Sources */,
 				EC18EBC624630AA6001A29D1 /* CommandButton.swift in Sources */,
 				EC1678E4244623AD00C71203 /* NavigationViewController.swift in Sources */,
 				EC14732223B1F02200385067 /* MovingObjectView.swift in Sources */,
@@ -548,6 +558,7 @@
 				ECD709A4244F3BB8004CB3B6 /* TableSlider.swift in Sources */,
 				EC98D94724570FE7006BEA9F /* TableSliderCell.swift in Sources */,
 				ECD8AC212465A87900FCC8DB /* IdPath.swift in Sources */,
+				ECB6B8EE24A2442E002C4B04 /* Line.swift in Sources */,
 				EC0ECE342449EACE008B1479 /* TableSection.swift in Sources */,
 				ECEEEEF4226BA5E7005A71C6 /* BaseService.swift in Sources */,
 				EC12A715244B1DB200DEC7A6 /* ConsoleView.swift in Sources */,
@@ -561,6 +572,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC950E9C21B81EA700B3A03D /* GeometryTests.swift in Sources */,
+				ECB6B8F024A2883D002C4B04 /* LineTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -719,11 +731,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
+				MARKETING_VERSION = 0.21;
 				PRODUCT_BUNDLE_IDENTIFIER = com.company.AeroGlaz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -742,11 +754,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
+				MARKETING_VERSION = 0.21;
 				PRODUCT_BUNDLE_IDENTIFIER = com.company.AeroGlaz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

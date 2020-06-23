@@ -1,6 +1,6 @@
 //
 //  Utils.swift
-//  DroneMap
+//  Aeroglaz
 //
 //  Created by Evgeny Agamirzov on 27.10.19.
 //  Copyright © 2019 Evgeny Agamirzov. All rights reserved.
@@ -103,3 +103,28 @@ func missionGrid(_ convexHull: ConvexHull, _ gridDelta: CGFloat) -> [CGPoint] {
     
     return gridPoints
 }
+
+//func missionGrid(_ convexHull: ConvexHull, _ gridDelta: CGFloat, _ angle: CGFloat) -> [CGPoint] {
+//    guard convexHull.isValid && gridDelta != 0.0 else {
+//        return []
+//    }
+//    
+//    let uppermostPoint = uppermost(convexHull.points())
+//    let lowermostPoint = lowermost(convexHull.points())
+//
+//    var direction = false
+//    var gridPoints: [CGPoint] = []
+//    let delta = (uppermostPoint.y - lowermostPoint.y) / gridDelta
+//    var referenceLine = lowermostPoint.y + delta / 2.0
+//
+//    while referenceLine < uppermostPoint.y {
+//        var intersectionPoints = convexHull.intersections(with: <#T##Vector#>)
+//
+//        referenceLine += delta
+//        direction = !direction
+//        intersectionPoints.sort(by: { a, b in direction ? a.x < b.x : a.x > b.x })
+//        gridPoints.append(contentsOf: intersectionPoints)
+//    }
+//    
+//    return gridPoints
+//}

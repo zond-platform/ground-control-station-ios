@@ -1,6 +1,6 @@
 //
 //  ConnectionService.swift
-//  DroneMap
+//  Aeroglaz
 //
 //  Created by Evgeny Agamirzov on 12/5/18.
 //  Copyright © 2018 Evgeny Agamirzov. All rights reserved.
@@ -31,9 +31,9 @@ class ConnectionService : BaseService {
 extension ConnectionService : DJISDKManagerDelegate {
     internal func appRegisteredWithError(_ error: Error?) {
         if error != nil {
-            os_log("SDK registration failed: %@", type: .error, error!.localizedDescription)
+            logConsole?("SDK registration failed: \(error!.localizedDescription)", .error)
         } else {
-            os_log("SDK Registration succeeded", type: .debug)
+            logConsole?("SDK Registration succeeded", .debug)
             DJISDKManager.startConnectionToProduct()
             DJISDKManager.closeConnection(whenEnteringBackground: true)
             onModelNameChanged(nil, nil)

@@ -29,6 +29,8 @@
 	</dict>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>Description</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Bluetooth is used by DJI-SDK for connecting to product. Though not used by the app it cannot be disabled in the SDK.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Warning</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

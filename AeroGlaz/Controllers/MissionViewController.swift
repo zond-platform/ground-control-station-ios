@@ -1,6 +1,6 @@
 //
 //  MissionViewController.swift
-//  DroneMap
+//  Aeroglaz
 //
 //  Created by Evgeny Agamirzov on 4/6/19.
 //  Copyright © 2019 Evgeny Agamirzov. All rights reserved.

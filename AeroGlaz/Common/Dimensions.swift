@@ -1,6 +1,6 @@
 //
 //  Dimensions.swift
-//  DroneMap
+//  Aeroglaz
 //
 //  Created by Evgeny Agamirzov on 22.05.20.
 //  Copyright © 2020 Evgeny Agamirzov. All rights reserved.
