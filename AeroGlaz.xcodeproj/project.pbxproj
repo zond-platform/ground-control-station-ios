@@ -38,7 +38,7 @@
 		EC950E8721B81EA600B3A03D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8621B81EA600B3A03D /* AppDelegate.swift */; };
 		EC950E8921B81EA600B3A03D /* ConnectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8821B81EA600B3A03D /* ConnectionService.swift */; };
 		EC950E8E21B81EA700B3A03D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC950E8D21B81EA700B3A03D /* Assets.xcassets */; };
-		EC950E9C21B81EA700B3A03D /* GeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E9B21B81EA700B3A03D /* GeometryTests.swift */; };
+		EC950E9C21B81EA700B3A03D /* PointCloudTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E9B21B81EA700B3A03D /* PointCloudTest.swift */; };
 		EC98D9412455EBE6006BEA9F /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98D9402455EBE6006BEA9F /* InsetLabel.swift */; };
 		EC98D94524570BAC006BEA9F /* TableCommandCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98D94424570BAC006BEA9F /* TableCommandCell.swift */; };
 		EC98D94724570FE7006BEA9F /* TableSliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98D94624570FE7006BEA9F /* TableSliderCell.swift */; };
@@ -48,6 +48,7 @@
 		ECB6B8F024A2883D002C4B04 /* LineTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB6B8EF24A2883D002C4B04 /* LineTest.swift */; };
 		ECB6B8F424A414CE002C4B04 /* Rect.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB6B8F324A414CE002C4B04 /* Rect.swift */; };
 		ECB6B8F624A4178F002C4B04 /* RectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB6B8F524A4178F002C4B04 /* RectTest.swift */; };
+		ECB6B8F824A41F1D002C4B04 /* VectorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB6B8F724A41F1D002C4B04 /* VectorTest.swift */; };
 		ECC51897247943CF007852E7 /* StatusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC51896247943CF007852E7 /* StatusLabel.swift */; };
 		ECD709A4244F3BB8004CB3B6 /* TableSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD709A3244F3BB8004CB3B6 /* TableSlider.swift */; };
 		ECD714902365B0F200958956 /* Transformations.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD7148F2365B0F200958956 /* Transformations.swift */; };
@@ -113,7 +114,7 @@
 		EC950E8D21B81EA700B3A03D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC950E9221B81EA700B3A03D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC950E9721B81EA700B3A03D /* AeroGlazTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AeroGlazTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EC950E9B21B81EA700B3A03D /* GeometryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryTests.swift; sourceTree = "<group>"; };
+		EC950E9B21B81EA700B3A03D /* PointCloudTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCloudTest.swift; sourceTree = "<group>"; };
 		EC950E9D21B81EA700B3A03D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC950EA221B81EA800B3A03D /* AeroGlazUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AeroGlazUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC950EA821B81EA800B3A03D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -126,6 +127,7 @@
 		ECB6B8EF24A2883D002C4B04 /* LineTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineTest.swift; sourceTree = "<group>"; };
 		ECB6B8F324A414CE002C4B04 /* Rect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rect.swift; sourceTree = "<group>"; };
 		ECB6B8F524A4178F002C4B04 /* RectTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectTest.swift; sourceTree = "<group>"; };
+		ECB6B8F724A41F1D002C4B04 /* VectorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorTest.swift; sourceTree = "<group>"; };
 		ECC51896247943CF007852E7 /* StatusLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusLabel.swift; sourceTree = "<group>"; };
 		ECD709A3244F3BB8004CB3B6 /* TableSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSlider.swift; sourceTree = "<group>"; };
 		ECD7148F2365B0F200958956 /* Transformations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transformations.swift; sourceTree = "<group>"; };
@@ -279,9 +281,10 @@
 		EC950E9A21B81EA700B3A03D /* AeroGlazTests */ = {
 			isa = PBXGroup;
 			children = (
-				EC950E9B21B81EA700B3A03D /* GeometryTests.swift */,
 				ECB6B8EF24A2883D002C4B04 /* LineTest.swift */,
 				ECB6B8F524A4178F002C4B04 /* RectTest.swift */,
+				ECB6B8F724A41F1D002C4B04 /* VectorTest.swift */,
+				EC950E9B21B81EA700B3A03D /* PointCloudTest.swift */,
 				EC950E9D21B81EA700B3A03D /* Info.plist */,
 			);
 			path = AeroGlazTests;
@@ -574,8 +577,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC950E9C21B81EA700B3A03D /* GeometryTests.swift in Sources */,
+				EC950E9C21B81EA700B3A03D /* PointCloudTest.swift in Sources */,
 				ECB6B8F024A2883D002C4B04 /* LineTest.swift in Sources */,
+				ECB6B8F824A41F1D002C4B04 /* VectorTest.swift in Sources */,
 				ECB6B8F624A4178F002C4B04 /* RectTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

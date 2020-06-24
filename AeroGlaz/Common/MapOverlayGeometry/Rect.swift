@@ -14,12 +14,14 @@ class Rect : Equatable {
     let dy: CGFloat
     let minX: CGFloat
     let minY: CGFloat
+    let center: CGPoint
 
     init(_ startPoint: CGPoint, _ endPoint: CGPoint) {
         self.dx = endPoint.x - startPoint.x
         self.dy = endPoint.y - startPoint.y
         self.minX = endPoint.x > startPoint.x ? startPoint.x : endPoint.x
         self.minY = endPoint.y > startPoint.y ? startPoint.y : endPoint.y
+        self.center = CGPoint(x: minX + abs(dx) / 2, y: minY + abs(dy) / 2)
     }
 }
 

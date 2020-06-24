@@ -51,20 +51,20 @@ extension ConvexHull {
 //        }
 //    }
 
-    func intersections(with vector: Vector) -> [CGPoint] {
-        if !isValid {
-            return []
-        }
-        var intersectionPoints: [CGPoint] = []
-        for hullVector in hullVectors {
-            if let intersectionPoint = hullVector.intersectionPoint(with: vector) {
-                if !intersectionPoints.contains(intersectionPoint) {
-                    intersectionPoints.append(intersectionPoint)
-                }
-            }
-        }
-        return intersectionPoints
-    }
+//    func intersections(with vector: Vector) -> [CGPoint] {
+//        if !isValid {
+//            return []
+//        }
+//        var intersectionPoints: [CGPoint] = []
+//        for hullVector in hullVectors {
+//            if let intersectionPoint = hullVector.intersectionPoint(with: vector) {
+//                if !intersectionPoints.contains(intersectionPoint) {
+//                    intersectionPoints.append(intersectionPoint)
+//                }
+//            }
+//        }
+//        return intersectionPoints
+//    }
 }
 
 func ==(lhs: ConvexHull, rhs: ConvexHull) -> Bool {
