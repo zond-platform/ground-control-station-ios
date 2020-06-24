@@ -28,20 +28,6 @@ class LineTest: XCTestCase {
         XCTAssertTrue(line.a == nil)
         XCTAssertTrue(line.b == nil)
         XCTAssertEqual(line.x!, 3)
-
-        // Line from vertical vector
-        var v = Vector(CGPoint(x: 0.0, y: 1.0), CGPoint(x: 2.0, y: 3.0))
-        line = Line(vector: v)
-        XCTAssertEqual(line.a!, 1)
-        XCTAssertEqual(line.b!, 1)
-        XCTAssertTrue(line.x == nil)
-
-        // Vertical line from vertical vector
-        v = Vector(CGPoint(x: 0.0, y: 0.0), CGPoint(x: 0.0, y: 2.0))
-        line = Line(vector: v)
-        XCTAssertTrue(line.a == nil)
-        XCTAssertTrue(line.b == nil)
-        XCTAssertEqual(line.x!, 0)
     }
 
     func testVectorIntersection() {
@@ -106,5 +92,62 @@ class LineTest: XCTestCase {
         XCTAssertThrowsError(try result.get()) {
             XCTAssertEqual($0 as! IntersectionError, .overlap)
         }
+    }
+
+    func testLineMovement() {
+        // Trivial case moving down positive tangent
+        var line = Line(a: 1, b: 2)
+        line.move(for: -(2 * sqrt(2)))
+        XCTAssertEqual(line.a!, 1)
+        XCTAssertEqual(line.b!, -2, accuracy: GeometryUtils.eps)
+        XCTAssertTrue(line.x == nil)
+
+        // Trivial case moving up positive tangent
+        line = Line(a: 1, b: 2)
+        line.move(for: sqrt(2))
+        XCTAssertEqual(line.a!, 1)
+        XCTAssertEqual(line.b!, 4, accuracy: GeometryUtils.eps)
+        XCTAssertTrue(line.x == nil)
+
+        // Trivial case moving down negative tangent
+        line = Line(a: -1, b: 2)
+        line.move(for: -(2 * sqrt(2)))
+        XCTAssertEqual(line.a!, -1)
+        XCTAssertEqual(line.b!, -2, accuracy: GeometryUtils.eps)
+        XCTAssertTrue(line.x == nil)
+
+        // Trivial case moving up negative tangent
+        line = Line(a: -1, b: 2)
+        line.move(for: sqrt(2))
+        XCTAssertEqual(line.a!, -1)
+        XCTAssertEqual(line.b!, 4, accuracy: GeometryUtils.eps)
+        XCTAssertTrue(line.x == nil)
+
+        // Edge case moving vertical line left
+        line = Line(x: 1)
+        line.move(for: -2)
+        XCTAssertTrue(line.a == nil)
+        XCTAssertTrue(line.b == nil)
+        XCTAssertEqual(line.x!, -1)
+
+        // Edge case moving vertical line up
+        line = Line(x: 1)
+        line.move(for: 3)
+        XCTAssertTrue(line.a == nil)
+        XCTAssertTrue(line.b == nil)
+        XCTAssertEqual(line.x!, 4)
+    }
+
+    func testLineContainsPoint() {
+        // Trivial case
+        var line = Line(a: 1, b: 2)
+        XCTAssertTrue(line.contains(CGPoint(x: 2, y: 4)))
+        XCTAssertFalse(line.contains(CGPoint(x: 3, y: 4)))
+
+        // Edge case vertical line
+        line = Line(x: 3)
+        XCTAssertTrue(line.contains(CGPoint(x: 3, y: 0)))
+        XCTAssertTrue(line.contains(CGPoint(x: 3, y: 10)))
+        XCTAssertFalse(line.contains(CGPoint(x: 2, y: 3)))
     }
 }

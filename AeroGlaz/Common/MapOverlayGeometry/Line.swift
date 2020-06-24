@@ -14,21 +14,9 @@ enum IntersectionError : Error {
 }
 
 class Line : Equatable {
-    // Stored properties
-    private(set) var a: CGFloat?
+    let a: CGFloat?
     private(set) var b: CGFloat?
     private(set) var x: CGFloat?
-
-    // Create line from vector
-    convenience init(vector: Vector) {
-        if vector.dx == 0 {
-            self.init(a: nil, b: nil, x: vector.startPoint.x)
-        } else {
-            let a = vector.dy / vector.dx
-            let b = vector.startPoint.y - a * vector.startPoint.x
-            self.init(a: a, b: b)
-        }
-    }
 
     // Create vertical line
     convenience init(x: CGFloat) {
@@ -37,7 +25,7 @@ class Line : Equatable {
 
     // Create line from angle (radian) and point
     convenience init(angle: CGFloat, point: CGPoint) {
-        if angle == GeometryUtils.pi / 2 {
+        if angle == GeometryUtils.pi / 2 || angle == -GeometryUtils.pi / 2 {
             self.init(a: nil, b: nil, x: point.x)
         } else {
             self.init(a: tan(angle), b: point.y - tan(angle) * point.x)
@@ -55,7 +43,15 @@ class Line : Equatable {
 // Public methods
 extension Line {
     func contains(_ point: CGPoint) -> Bool {
-        return x == nil ? (point.y == a! * point.x - b!) : (x! == point.x)
+        return x == nil ? (point.y == a! * point.x + b!) : (x! == point.x)
+    }
+
+    func move(for normalDistance: CGFloat) {
+        if x == nil {
+            b! += normalDistance / cos(atan(a!))
+        } else {
+            x! += normalDistance
+        }
     }
 
     func intersectionPoint(with line: Line) -> Result<CGPoint, IntersectionError> {

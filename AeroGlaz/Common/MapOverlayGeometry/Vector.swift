@@ -10,15 +10,13 @@ import CoreGraphics
 
 class Vector : Equatable {
     // Stored properties
-    private(set) var startPoint: CGPoint
-    private(set) var endPoint: CGPoint
-
-    // Computed properties (vector parameters)
-    var dx: CGFloat { endPoint.x - startPoint.x }
-    var dy: CGFloat { endPoint.y - startPoint.y }
-    let minX: CGFLoat { endPoint.x > startPoint.x ? startPoint.x : endPoint.x }
-    let minY: CGFLoat { endPoint.y > startPoint.y ? startPoint.y : endPoint.y }
-    var line: Line { Line(self) }
+    let startPoint: CGPoint
+    let endPoint: CGPoint
+    let dx: CGFloat
+    let dy: CGFloat
+    let minX: CGFloat
+    let minY: CGFloat
+    let line: Line
 
     // Create a null vector
     convenience init() {
@@ -34,6 +32,11 @@ class Vector : Equatable {
     init(_ startPoint: CGPoint, _ endPoint: CGPoint) {
         self.startPoint = startPoint
         self.endPoint = endPoint
+        self.dx = endPoint.x - startPoint.x
+        self.dy = endPoint.y - startPoint.y
+        self.minX = endPoint.x > startPoint.x ? startPoint.x : endPoint.x
+        self.minY = endPoint.y > startPoint.y ? startPoint.y : endPoint.y
+        self.line = Line(angle: dx == 0 ? (GeometryUtils.pi / 2) : (dy / dx), point: startPoint)
     }
 }
 
@@ -43,30 +46,31 @@ extension Vector {
     func contains(_ point: CGPoint) -> Bool {
         return line.contains(point)
                && point.x >= minX && point.x <= minX + abs(dx)
-               && point.y >= minY && point.y <= minY + abd(dy)
+               && point.y >= minY && point.y <= minY + abs(dy)
     }
 
     // Find intersection points between given vectors
     func intersectionPoint(with vector: Vector) -> CGPoint? {
-        var intersectionPoint = CGPoint()
-        if dx == 0 && vector.dx == 0 {
-            return nil
-        } else if a == vector.a && b != vector.b {
-            return nil
-        } else if a == vector.a && b == vector.b {
-            let x = startPoint.x
-            intersectionPoint = CGPoint(x: x, y: vector.a * x + vector.b)
-        } else if dx == 0 {
-            let x = startPoint.x
-            intersectionPoint = CGPoint(x: x, y: vector.a * x + vector.b)
-        } else if vector.dx == 0 {
-            let x = vector.startPoint.x
-            intersectionPoint = CGPoint(x: x, y: a * x + b)
-        } else {
-            let x = (vector.b - b) / (a - vector.a)
-            intersectionPoint = CGPoint(x: x, y: a * x + b)
-        }
-        return contains(intersectionPoint) ? intersectionPoint : nil
+//        var intersectionPoint = CGPoint()
+//        if dx == 0 && vector.dx == 0 {
+//            return nil
+//        } else if a == vector.a && b != vector.b {
+//            return nil
+//        } else if a == vector.a && b == vector.b {
+//            let x = startPoint.x
+//            intersectionPoint = CGPoint(x: x, y: vector.a * x + vector.b)
+//        } else if dx == 0 {
+//            let x = startPoint.x
+//            intersectionPoint = CGPoint(x: x, y: vector.a * x + vector.b)
+//        } else if vector.dx == 0 {
+//            let x = vector.startPoint.x
+//            intersectionPoint = CGPoint(x: x, y: a * x + b)
+//        } else {
+//            let x = (vector.b - b) / (a - vector.a)
+//            intersectionPoint = CGPoint(x: x, y: a * x + b)
+//        }
+//        return contains(intersectionPoint) ? intersectionPoint : nil
+        return nil
     }
 }
 
