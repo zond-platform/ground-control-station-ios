@@ -9,11 +9,11 @@
 import CoreGraphics
 
 func norm(_ v: Vector) -> CGFloat {
-    return sqrt(pow(v.dx, 2) + pow(v.dy, 2))
+    return sqrt(pow(v.rect.dx, 2) + pow(v.rect.dy, 2))
 }
 
 func dot(_ v: Vector, _ u: Vector) -> CGFloat {
-    return v.dx * u.dx + v.dy * u.dy
+    return v.rect.dx * u.rect.dx + v.rect.dy * u.rect.dy
 }
 
 func theta(_ v: Vector, _ u: Vector) -> CGFloat {

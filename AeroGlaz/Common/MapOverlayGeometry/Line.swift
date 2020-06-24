@@ -88,5 +88,7 @@ extension Line {
 }
 
 func ==(lhs: Line, rhs: Line) -> Bool {
-    return lhs.a == rhs.a && lhs.b == rhs.b && lhs.x == rhs.x
+    return lhs.a == rhs.a
+           && lhs.b == rhs.b
+           && lhs.x == rhs.x
 }

@@ -118,7 +118,7 @@ class GeometryTests: XCTestCase {
 //            let grid = missionGrid(hull, 4.0)
 //            XCTAssertEqual(grid, expected)
 //        }
-//        
+//
 //        // Edge case, invalid hull
 //        points = [
 //            CGPoint(x: 0.0, y: 0.0),
