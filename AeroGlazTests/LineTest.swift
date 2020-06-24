@@ -10,6 +10,8 @@ import XCTest
 @testable import AeroGlaz
 
 class LineTest: XCTestCase {
+    let eps = CGFloat(10e-6)
+
     func testLineCreation() {
         // Trivial case
         var line = Line(a: 1, b: 2)
@@ -18,9 +20,9 @@ class LineTest: XCTestCase {
         XCTAssertTrue(line.x == nil)
 
         // Line from angle and point
-        line = Line(angle: GeometryUtils.pi / 3 , point: CGPoint(x: 3, y: 4))
-        XCTAssertEqual(line.a!, sqrt(3), accuracy: GeometryUtils.eps)
-        XCTAssertEqual(line.b!, 4 - 3 * sqrt(3), accuracy: GeometryUtils.eps)
+        line = Line(angle: CGFloat.pi / 3 , point: CGPoint(x: 3, y: 4))
+        XCTAssertEqual(line.a!, sqrt(3), accuracy: eps)
+        XCTAssertEqual(line.b!, 4 - 3 * sqrt(3), accuracy: eps)
         XCTAssertTrue(line.x == nil)
 
         // Vertical line from angle and point
@@ -99,28 +101,28 @@ class LineTest: XCTestCase {
         var line = Line(a: 1, b: 2)
         line.move(for: -(2 * sqrt(2)))
         XCTAssertEqual(line.a!, 1)
-        XCTAssertEqual(line.b!, -2, accuracy: GeometryUtils.eps)
+        XCTAssertEqual(line.b!, -2, accuracy: eps)
         XCTAssertTrue(line.x == nil)
 
         // Trivial case moving up positive tangent
         line = Line(a: 1, b: 2)
         line.move(for: sqrt(2))
         XCTAssertEqual(line.a!, 1)
-        XCTAssertEqual(line.b!, 4, accuracy: GeometryUtils.eps)
+        XCTAssertEqual(line.b!, 4, accuracy: eps)
         XCTAssertTrue(line.x == nil)
 
         // Trivial case moving down negative tangent
         line = Line(a: -1, b: 2)
         line.move(for: -(2 * sqrt(2)))
         XCTAssertEqual(line.a!, -1)
-        XCTAssertEqual(line.b!, -2, accuracy: GeometryUtils.eps)
+        XCTAssertEqual(line.b!, -2, accuracy: eps)
         XCTAssertTrue(line.x == nil)
 
         // Trivial case moving up negative tangent
         line = Line(a: -1, b: 2)
         line.move(for: sqrt(2))
         XCTAssertEqual(line.a!, -1)
-        XCTAssertEqual(line.b!, 4, accuracy: GeometryUtils.eps)
+        XCTAssertEqual(line.b!, 4, accuracy: eps)
         XCTAssertTrue(line.x == nil)
 
         // Edge case moving vertical line left

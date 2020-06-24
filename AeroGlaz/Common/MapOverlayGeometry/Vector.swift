@@ -30,7 +30,7 @@ class Vector : Equatable {
         self.endPoint = endPoint
         self.rect = Rect(startPoint, endPoint)
         self.line = Line(angle: rect.dx == 0
-                                ? (GeometryUtils.pi / 2)
+                                ? (CGFloat.pi / 2)
                                 : (rect.dy / rect.dx),
                          point: startPoint)
     }

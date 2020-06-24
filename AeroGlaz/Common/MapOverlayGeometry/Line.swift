@@ -20,12 +20,12 @@ class Line : Equatable {
 
     // Create vertical line
     convenience init(x: CGFloat) {
-        self.init(angle: GeometryUtils.pi / 2, point: CGPoint(x: x, y: 0))
+        self.init(angle: CGFloat.pi / 2, point: CGPoint(x: x, y: 0))
     }
 
     // Create line from angle (radian) and point
     convenience init(angle: CGFloat, point: CGPoint) {
-        if angle == GeometryUtils.pi / 2 || angle == -GeometryUtils.pi / 2 {
+        if angle == CGFloat.pi / 2 || angle == -CGFloat.pi / 2 {
             self.init(a: nil, b: nil, x: point.x)
         } else {
             self.init(a: tan(angle), b: point.y - tan(angle) * point.x)

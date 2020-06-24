@@ -10,21 +10,16 @@ import XCTest
 @testable import AeroGlaz
 
 class GeometryTests: XCTestCase {
-    let pi = CGFloat(Double.pi)
     let eps = CGFloat(10e-6)
 
-    func isEqual(_ a: CGFloat, _ b: CGFloat) -> Bool {
-        return abs(a - b) < eps
-    }
-
     func testVectorsAngleCaculation() {
-        // Standard case
+        // Trivial case
         var v = Vector(CGPoint(x: 0.0, y: 0.0), CGPoint(x: 2.0, y: 2.0))
         var u = Vector(CGPoint(x: 0.0, y: 0.0), CGPoint(x: 3.0, y: 0.0))
         XCTAssertEqual(norm(v), sqrt(8.0))
         XCTAssertEqual(norm(u), sqrt(9.0))
         XCTAssertEqual(dot(v, u), 6.0)
-        XCTAssertTrue(isEqual(theta(v, u), pi / 4))
+        XCTAssertEqual(theta(v, u), CGFloat.pi / 4, accuracy: eps)
         
         // Edge case, parallel vectors
         v = Vector(CGPoint(x: 0.0, y: 0.0), CGPoint(x: 2.0, y: 0.0))
@@ -32,7 +27,7 @@ class GeometryTests: XCTestCase {
         XCTAssertEqual(norm(v), sqrt(4.0))
         XCTAssertEqual(norm(u), sqrt(9.0))
         XCTAssertEqual(dot(v, u), 6.0)
-        XCTAssertTrue(isEqual(theta(v, u), 0.0))
+        XCTAssertEqual(theta(v, u), 0.0, accuracy: eps)
         
         // Edge case, anti-parallel vectors
         v = Vector(CGPoint(x: 0.0, y: 0.0), CGPoint(x: 2.0, y: 2.0))
@@ -40,11 +35,11 @@ class GeometryTests: XCTestCase {
         XCTAssertEqual(norm(v), sqrt(8.0))
         XCTAssertEqual(norm(u), sqrt(8.0))
         XCTAssertEqual(dot(v, u), -8.0)
-        XCTAssertTrue(isEqual(theta(v, u), pi))
+        XCTAssertEqual(theta(v, u), CGFloat.pi, accuracy: eps)
     }
 
     func testConvexHull() {
-        // Standard case
+        // Trivial case
         var points = [
             CGPoint(x: 2.0, y: 1.0),
             CGPoint(x: 1.0, y: 1.0),
