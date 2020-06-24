@@ -14,6 +14,7 @@ enum IntersectionError : Error {
 }
 
 class Line : Equatable {
+    // Stored properties
     private(set) var a: CGFloat?
     private(set) var b: CGFloat?
     private(set) var x: CGFloat?
@@ -53,6 +54,10 @@ class Line : Equatable {
 
 // Public methods
 extension Line {
+    func contains(_ point: CGPoint) -> Bool {
+        return x == nil ? (point.y == a! * point.x - b!) : (x! == point.x)
+    }
+
     func intersectionPoint(with line: Line) -> Result<CGPoint, IntersectionError> {
         // Both lines vertical
         if x != nil && line.x != nil {
