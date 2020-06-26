@@ -30,7 +30,7 @@ extension PointSet {
 
     func convexHull() -> [CGPoint] {
         hull.compute(points)
-        return hull.points
+        return hull.isValid ? hull.points : []
     }
 
     func leftmost() -> CGPoint {

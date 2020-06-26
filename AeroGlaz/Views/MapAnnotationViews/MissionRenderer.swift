@@ -110,12 +110,14 @@ extension MissionRenderer {
 // Private methods
 extension MissionRenderer {
     private func drawPolygon(in context: CGContext) {
-        let path = CGMutablePath()
-        path.addLines(between: hull)
-        path.addLine(to: hull.first!)
-        context.addPath(path)
-        context.setFillColor(red: 86.0, green: 167.0, blue: 20.0, alpha: 0.5)
-        context.drawPath(using: .fill)
+        if !hull.isEmpty {
+            let path = CGMutablePath()
+            path.addLines(between: hull)
+            path.addLine(to: hull.first!)
+            context.addPath(path)
+            context.setFillColor(red: 86.0, green: 167.0, blue: 20.0, alpha: 0.5)
+            context.drawPath(using: .fill)
+        }
     }
 
     private func drawrawPoints(in context: CGContext, for zoomScale: MKZoomScale) {
