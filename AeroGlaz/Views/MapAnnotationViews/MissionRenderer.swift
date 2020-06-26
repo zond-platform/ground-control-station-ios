@@ -71,7 +71,7 @@ class MissionRenderer : MKOverlayRenderer {
             switch missionState {
                 case .editing:
                     drawPolygon(in: context)
-                    drawrawPoints(in: context, for: zoomScale)
+                    drawVerticies(in: context, for: zoomScale)
                     drawGrid(in: context, for: zoomScale)
                     drawWaypoints(in: context, for: zoomScale)
                     drawAircraftLine(in: context, for: zoomScale, and: liveAircraftPoint)
@@ -120,14 +120,13 @@ extension MissionRenderer {
         }
     }
 
-    private func drawrawPoints(in context: CGContext, for zoomScale: MKZoomScale) {
+    private func drawVerticies(in context: CGContext, for zoomScale: MKZoomScale) {
         for point in hull {
             let radius = computeRadius(for: zoomScaleToVertexRadiusMap, with: zoomScale)
             if let polygon = self.overlay as? MissionPolygon {
                 // Change active touch area
                 polygon.vertexArea = radius
             }
-
             let path = CGMutablePath()
             let circleOrigin = CGPoint(x: point.x - radius, y: point.y - radius)
             let circleSize = CGSize(width: radius * CGFloat(2.0), height: radius * CGFloat(2.0))

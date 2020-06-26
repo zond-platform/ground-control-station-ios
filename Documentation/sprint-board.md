@@ -64,7 +64,6 @@
 * ~~Rework color scheme~~
 
 ## Future versions:
-* Add PointSpan class
 * Finilize general app style
 * Add and remove points from the mission polygon with a tap
 * Consider adding live view from the drone (interfere with shooting photos?)
