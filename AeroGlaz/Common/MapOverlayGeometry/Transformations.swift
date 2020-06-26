@@ -8,18 +8,6 @@
 
 import CoreGraphics
 
-func norm(_ v: Vector) -> CGFloat {
-    return sqrt(pow(v.rect.dx, 2) + pow(v.rect.dy, 2))
-}
-
-func dot(_ v: Vector, _ u: Vector) -> CGFloat {
-    return v.rect.dx * u.rect.dx + v.rect.dy * u.rect.dy
-}
-
-func theta(_ v: Vector, _ u: Vector) -> CGFloat {
-    return acos(dot(v, u) / (norm(v) * norm(u)))
-}
-
 func leftmost(_ allPoints: [CGPoint]) -> CGPoint {
     return allPoints.min{ left, right in left.x < right.x } ?? CGPoint(x: 0.0, y: 0.0)
 }
@@ -51,12 +39,12 @@ func convexHull(_ allPoints: [CGPoint]) -> ConvexHull {
         for currentPoint in allPoints {
             if currentPoint != referenceVector.endPoint {
                 let currentVector = Vector(referenceVector.endPoint, currentPoint)
-                let currentTheta = theta(referenceVector, currentVector)
+                let currentTheta = referenceVector.theta(currentVector)
                 if currentTheta < minTheta {
                     minTheta = currentTheta
                     nextVector = currentVector
                 } else if currentTheta == minTheta {
-                    nextVector = norm(currentVector) < norm(nextVector) || norm(nextVector) == 0.0
+                    nextVector = currentVector.norm < nextVector.norm || nextVector.norm == 0.0
                                  ? currentVector
                                  : nextVector
                 }
@@ -104,28 +92,3 @@ func missionGrid(_ convexHull: ConvexHull, _ gridDelta: CGFloat) -> [CGPoint] {
 //    return gridPoints
     return []
 }
-
-//func missionGrid(_ convexHull: ConvexHull, _ gridDelta: CGFloat, _ angle: CGFloat) -> [CGPoint] {
-//    guard convexHull.isValid && gridDelta != 0.0 else {
-//        return []
-//    }
-//    
-//    let uppermostPoint = uppermost(convexHull.points())
-//    let lowermostPoint = lowermost(convexHull.points())
-//
-//    var direction = false
-//    var gridPoints: [CGPoint] = []
-//    let delta = (uppermostPoint.y - lowermostPoint.y) / gridDelta
-//    var referenceLine = lowermostPoint.y + delta / 2.0
-//
-//    while referenceLine < uppermostPoint.y {
-//        var intersectionPoints = convexHull.intersections(with: <#T##Vector#>)
-//
-//        referenceLine += delta
-//        direction = !direction
-//        intersectionPoints.sort(by: { a, b in direction ? a.x < b.x : a.x > b.x })
-//        gridPoints.append(contentsOf: intersectionPoints)
-//    }
-//    
-//    return gridPoints
-//}

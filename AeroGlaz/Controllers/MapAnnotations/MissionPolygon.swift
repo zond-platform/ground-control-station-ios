@@ -95,7 +95,7 @@ extension MissionPolygon {
             for id in 0..<pointCount {
                 let vertexPosition = renderer!.point(for: points()[id])
                 let touchPosition = renderer!.point(for: MKMapPoint(coordinate))
-                let distance = norm(Vector(vertexPosition, touchPosition))
+                let distance = Vector(vertexPosition, touchPosition).norm
                 if distance < vertexArea {
                     draggedVertexId = id
                     return true

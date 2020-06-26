@@ -89,7 +89,7 @@ extension TelemetryService {
             case DJIFlightControllerParamVelocity:
                 if valuePresent {
                     let velocityVector = value!.value! as! DJISDKVector3D
-                    let horizontalVelocity = norm(Vector(CGPoint(x: 0.0, y: 0.0), CGPoint(x: velocityVector.x, y: velocityVector.y)))
+                    let horizontalVelocity = Vector(CGPoint(x: 0.0, y: 0.0), CGPoint(x: velocityVector.x, y: velocityVector.y)).norm
                     telemetryDataChanged?(.velocity, String(format: "%.1f", Double(horizontalVelocity)))
                 } else {
                     telemetryDataChanged?(.velocity, nil)

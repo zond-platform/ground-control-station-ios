@@ -25,7 +25,7 @@ class Line : Equatable {
 
     // Create line from angle (radian) and point
     convenience init(angle: CGFloat, point: CGPoint) {
-        if angle == CGFloat.pi / 2 || angle == -CGFloat.pi / 2 {
+        if angle.remainder(dividingBy: CGFloat.pi / 2) == 0 {
             self.init(a: nil, b: nil, x: point.x)
         } else {
             self.init(a: tan(angle), b: point.y - tan(angle) * point.x)

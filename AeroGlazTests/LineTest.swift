@@ -25,19 +25,31 @@ class LineTest: XCTestCase {
         XCTAssertEqual(line.b!, 4 - 3 * sqrt(3), accuracy: eps)
         XCTAssertTrue(line.x == nil)
 
-        // Vertical line from angle and point
+        // Edge case vertical line from angle and point
+        line = Line(angle: 3 * CGFloat.pi / 2 , point: CGPoint(x: 3, y: 4))
+        XCTAssertTrue(line.a == nil)
+        XCTAssertTrue(line.b == nil)
+        XCTAssertEqual(line.x!, 3)
+
+        // Edge case vertical line
         line = Line(x: 3)
         XCTAssertTrue(line.a == nil)
         XCTAssertTrue(line.b == nil)
         XCTAssertEqual(line.x!, 3)
     }
 
-    func testVectorIntersection() {
+    func testLineIntersection() {
         // Trivial case
         var l1 = Line(a: 1, b: 0)
         var l2 = Line(a: -1, b: 2)
         var result = l1.intersectionPoint(with: l2)
         XCTAssertEqual(try result.get(), CGPoint(x: 1, y: 1))
+
+        // Trivial case irrational numbers
+        l1 = Line(a: sqrt(2), b: 0)
+        l2 = Line(a: -1, b: 2)
+        result = l1.intersectionPoint(with: l2)
+        XCTAssertEqual(try result.get(), CGPoint(x: 2 / (sqrt(2) + 1), y: 2 * sqrt(2) / (sqrt(2) + 1)))
 
         // Edge case with vectors touching common point
         l1 = Line(a: 1, b: 0)

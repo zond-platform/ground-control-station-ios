@@ -14,6 +14,7 @@ class Vector : Equatable {
     let endPoint: CGPoint
     let rect: Rect
     let line: Line
+    let norm: CGFloat
 
     // Create null vector
     convenience init() {
@@ -29,15 +30,26 @@ class Vector : Equatable {
         self.startPoint = startPoint
         self.endPoint = endPoint
         self.rect = Rect(startPoint, endPoint)
-        self.line = Line(angle: rect.dx == 0
-                                ? (CGFloat.pi / 2)
-                                : (rect.dy / rect.dx),
-                         point: startPoint)
+        if rect.dx == 0 {
+            self.line = Line(x: startPoint.x)
+        } else {
+            let tangent = rect.dy / rect.dx
+            self.line = Line(a: tangent, b: startPoint.y - tangent * startPoint.x)
+        }
+        self.norm = sqrt(pow(self.rect.dx, 2) + pow(self.rect.dy, 2))
     }
 }
 
 // Public methods
 extension Vector {
+    func dot(_ v: Vector) -> CGFloat {
+        return self.rect.dx * v.rect.dx + self.rect.dy * v.rect.dy
+    }
+
+    func theta(_ v: Vector) -> CGFloat {
+        return acos(self.dot(v) / (self.norm * v.norm))
+    }
+
     func contains(_ point: CGPoint) -> Bool {
         return line.contains(point) && rect.contains(point)
     }

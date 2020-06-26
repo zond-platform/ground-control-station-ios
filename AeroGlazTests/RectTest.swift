@@ -11,18 +11,28 @@ import XCTest
 
 class RectTest: XCTestCase {
     func testRectContainsPoint() {
-        let rect = Rect(CGPoint(x: 0, y: 0), CGPoint(x: 2, y: 1))
-
-        // Trivial case point inside
+        // Trivial case
+        var rect = Rect(CGPoint(x: 0, y: 0), CGPoint(x: 2, y: 1))
         XCTAssertTrue(rect.contains(CGPoint(x: 1, y: 1)))
-
-        // Trivial case point outside
         XCTAssertFalse(rect.contains(CGPoint(x: 3, y: 2)))
-
-        // Edge case minimum point
         XCTAssertTrue(rect.contains(CGPoint(x: 0, y: 1)))
-
-        // Edge case maximum point
         XCTAssertTrue(rect.contains(CGPoint(x: 2, y: 0.5)))
+
+        // Edge case rect with no width
+        rect = Rect(CGPoint(x: 0, y: 0), CGPoint(x: 0, y: 1))
+        XCTAssertTrue(rect.contains(CGPoint(x: 0, y: 0)))
+        XCTAssertTrue(rect.contains(CGPoint(x: 0, y: 0.3)))
+        XCTAssertTrue(rect.contains(CGPoint(x: 0, y: 1)))
+        XCTAssertFalse(rect.contains(CGPoint(x: 0, y: 1.1)))
+    }
+
+    func testRectCenterPoint() {
+        // Trivial case
+        var rect = Rect(CGPoint(x: 0, y: 0), CGPoint(x: 2, y: 1))
+        XCTAssertEqual(rect.center, CGPoint(x: 1, y: 0.5))
+
+        // Edge case rect with no width
+        rect = Rect(CGPoint(x: 0, y: 0), CGPoint(x: 0, y: 1))
+        XCTAssertEqual(rect.center, CGPoint(x: 0, y: 0.5))
     }
 }
