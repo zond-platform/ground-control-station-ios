@@ -18,6 +18,7 @@
 		EC12E7942477E4DF00BF4AE6 /* Dimensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC12E7932477E4DF00BF4AE6 /* Dimensions.swift */; };
 		EC12E79624792EFF00BF4AE6 /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC12E79524792EFF00BF4AE6 /* StatusViewController.swift */; };
 		EC12E798247933E900BF4AE6 /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC12E797247933E900BF4AE6 /* StatusView.swift */; };
+		EC13B6C424A5F771007ADDEF /* PointSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC13B6C324A5F771007ADDEF /* PointSet.swift */; };
 		EC14731B23B1EE9300385067 /* MovingObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14731A23B1EE9300385067 /* MovingObject.swift */; };
 		EC14731F23B1EED500385067 /* MissionPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14731E23B1EED500385067 /* MissionPolygon.swift */; };
 		EC14732223B1F02200385067 /* MovingObjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14732123B1F02200385067 /* MovingObjectView.swift */; };
@@ -38,7 +39,7 @@
 		EC950E8721B81EA600B3A03D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8621B81EA600B3A03D /* AppDelegate.swift */; };
 		EC950E8921B81EA600B3A03D /* ConnectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8821B81EA600B3A03D /* ConnectionService.swift */; };
 		EC950E8E21B81EA700B3A03D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC950E8D21B81EA700B3A03D /* Assets.xcassets */; };
-		EC950E9C21B81EA700B3A03D /* PointCloudTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E9B21B81EA700B3A03D /* PointCloudTest.swift */; };
+		EC950E9C21B81EA700B3A03D /* ConvexHullTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E9B21B81EA700B3A03D /* ConvexHullTest.swift */; };
 		EC98D9412455EBE6006BEA9F /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98D9402455EBE6006BEA9F /* InsetLabel.swift */; };
 		EC98D94524570BAC006BEA9F /* TableCommandCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98D94424570BAC006BEA9F /* TableCommandCell.swift */; };
 		EC98D94724570FE7006BEA9F /* TableSliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98D94624570FE7006BEA9F /* TableSliderCell.swift */; };
@@ -51,7 +52,6 @@
 		ECB6B8F824A41F1D002C4B04 /* VectorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB6B8F724A41F1D002C4B04 /* VectorTest.swift */; };
 		ECC51897247943CF007852E7 /* StatusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC51896247943CF007852E7 /* StatusLabel.swift */; };
 		ECD709A4244F3BB8004CB3B6 /* TableSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD709A3244F3BB8004CB3B6 /* TableSlider.swift */; };
-		ECD714902365B0F200958956 /* Transformations.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD7148F2365B0F200958956 /* Transformations.swift */; };
 		ECD8AC1F2465A87900FCC8DB /* SectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD8AC1B2465A87900FCC8DB /* SectionData.swift */; };
 		ECD8AC202465A87900FCC8DB /* RowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD8AC1C2465A87900FCC8DB /* RowData.swift */; };
 		ECD8AC212465A87900FCC8DB /* IdPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD8AC1D2465A87900FCC8DB /* IdPath.swift */; };
@@ -91,6 +91,7 @@
 		EC12E7932477E4DF00BF4AE6 /* Dimensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dimensions.swift; sourceTree = "<group>"; };
 		EC12E79524792EFF00BF4AE6 /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
 		EC12E797247933E900BF4AE6 /* StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusView.swift; sourceTree = "<group>"; };
+		EC13B6C324A5F771007ADDEF /* PointSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointSet.swift; sourceTree = "<group>"; };
 		EC14731A23B1EE9300385067 /* MovingObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingObject.swift; sourceTree = "<group>"; };
 		EC14731E23B1EED500385067 /* MissionPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionPolygon.swift; sourceTree = "<group>"; };
 		EC14732123B1F02200385067 /* MovingObjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingObjectView.swift; sourceTree = "<group>"; };
@@ -114,7 +115,7 @@
 		EC950E8D21B81EA700B3A03D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC950E9221B81EA700B3A03D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC950E9721B81EA700B3A03D /* AeroGlazTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AeroGlazTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EC950E9B21B81EA700B3A03D /* PointCloudTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCloudTest.swift; sourceTree = "<group>"; };
+		EC950E9B21B81EA700B3A03D /* ConvexHullTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexHullTest.swift; sourceTree = "<group>"; };
 		EC950E9D21B81EA700B3A03D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC950EA221B81EA800B3A03D /* AeroGlazUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AeroGlazUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC950EA821B81EA800B3A03D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -130,7 +131,6 @@
 		ECB6B8F724A41F1D002C4B04 /* VectorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorTest.swift; sourceTree = "<group>"; };
 		ECC51896247943CF007852E7 /* StatusLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusLabel.swift; sourceTree = "<group>"; };
 		ECD709A3244F3BB8004CB3B6 /* TableSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSlider.swift; sourceTree = "<group>"; };
-		ECD7148F2365B0F200958956 /* Transformations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transformations.swift; sourceTree = "<group>"; };
 		ECD8AC1B2465A87900FCC8DB /* SectionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionData.swift; sourceTree = "<group>"; };
 		ECD8AC1C2465A87900FCC8DB /* RowData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RowData.swift; sourceTree = "<group>"; };
 		ECD8AC1D2465A87900FCC8DB /* IdPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdPath.swift; sourceTree = "<group>"; };
@@ -284,7 +284,7 @@
 				ECB6B8EF24A2883D002C4B04 /* LineTest.swift */,
 				ECB6B8F524A4178F002C4B04 /* RectTest.swift */,
 				ECB6B8F724A41F1D002C4B04 /* VectorTest.swift */,
-				EC950E9B21B81EA700B3A03D /* PointCloudTest.swift */,
+				EC950E9B21B81EA700B3A03D /* ConvexHullTest.swift */,
 				EC950E9D21B81EA700B3A03D /* Info.plist */,
 			);
 			path = AeroGlazTests;
@@ -306,7 +306,7 @@
 				ECB6B8F324A414CE002C4B04 /* Rect.swift */,
 				EC14732923B1F63000385067 /* Vector.swift */,
 				EC14732723B1F62000385067 /* ConvexHull.swift */,
-				ECD7148F2365B0F200958956 /* Transformations.swift */,
+				EC13B6C324A5F771007ADDEF /* PointSet.swift */,
 			);
 			path = MapOverlayGeometry;
 			sourceTree = "<group>";
@@ -531,7 +531,6 @@
 				EC12A717244B316700DEC7A6 /* ConsoleViewController.swift in Sources */,
 				ECD8AC222465A87900FCC8DB /* TableData.swift in Sources */,
 				EC14732623B1F07E00385067 /* MissionRenderer.swift in Sources */,
-				ECD714902365B0F200958956 /* Transformations.swift in Sources */,
 				EC1678E924473DF400C71203 /* NavigationButton.swift in Sources */,
 				EC18EBC624630AA6001A29D1 /* CommandButton.swift in Sources */,
 				EC1678E4244623AD00C71203 /* NavigationViewController.swift in Sources */,
@@ -566,6 +565,7 @@
 				ECD8AC212465A87900FCC8DB /* IdPath.swift in Sources */,
 				ECB6B8EE24A2442E002C4B04 /* Line.swift in Sources */,
 				EC0ECE342449EACE008B1479 /* TableSection.swift in Sources */,
+				EC13B6C424A5F771007ADDEF /* PointSet.swift in Sources */,
 				ECEEEEF4226BA5E7005A71C6 /* BaseService.swift in Sources */,
 				EC12A715244B1DB200DEC7A6 /* ConsoleView.swift in Sources */,
 				EC98D94524570BAC006BEA9F /* TableCommandCell.swift in Sources */,
@@ -577,7 +577,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC950E9C21B81EA700B3A03D /* PointCloudTest.swift in Sources */,
+				EC950E9C21B81EA700B3A03D /* ConvexHullTest.swift in Sources */,
 				ECB6B8F024A2883D002C4B04 /* LineTest.swift in Sources */,
 				ECB6B8F824A41F1D002C4B04 /* VectorTest.swift in Sources */,
 				ECB6B8F624A4178F002C4B04 /* RectTest.swift in Sources */,

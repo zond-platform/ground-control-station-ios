@@ -29,7 +29,7 @@ class MissionRenderer : MKOverlayRenderer {
 
     // Stored properties
     private var redrawTriggered = false
-    private var hull: ConvexHull = ConvexHull()
+    private var hull: [CGPoint] = []
     private var grid: [CGPoint] = []
     private var lastAircraftPoint: CGPoint?
 
@@ -48,8 +48,8 @@ class MissionRenderer : MKOverlayRenderer {
     var liveGridDelta: CGFloat {
         let polygon = self.overlay as? MissionPolygon
         if polygon!.gridDistance != nil {
-            let lowermostPoint = MKMapPoint(x: 0.0, y: self.mapPoint(for: lowermost(polygon!.verticies)).y)
-            let uppermostPoint = MKMapPoint(x: 0.0, y: self.mapPoint(for: uppermost(polygon!.verticies)).y)
+            let lowermostPoint = MKMapPoint(x: 0.0, y: self.mapPoint(for: polygon!.rawPoints.lowermost()).y)
+            let uppermostPoint = MKMapPoint(x: 0.0, y: self.mapPoint(for: polygon!.rawPoints.uppermost()).y)
             return CGFloat(lowermostPoint.distance(to: uppermostPoint)) / polygon!.gridDistance!
         } else {
             return 0.0
@@ -66,12 +66,12 @@ class MissionRenderer : MKOverlayRenderer {
     override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
         let polygon = self.overlay as? MissionPolygon
         if polygon != nil && missionState != nil {
-            hull = polygon!.convexHull()
-            grid = polygon!.missionGrid(for: hull, with: liveGridDelta)
+            hull = polygon!.rawPoints.convexHull()
+            grid = []
             switch missionState {
                 case .editing:
                     drawPolygon(in: context)
-                    drawVerticies(in: context, for: zoomScale)
+                    drawrawPoints(in: context, for: zoomScale)
                     drawGrid(in: context, for: zoomScale)
                     drawWaypoints(in: context, for: zoomScale)
                     drawAircraftLine(in: context, for: zoomScale, and: liveAircraftPoint)
@@ -111,15 +111,15 @@ extension MissionRenderer {
 extension MissionRenderer {
     private func drawPolygon(in context: CGContext) {
         let path = CGMutablePath()
-        path.addLines(between: hull.points())
-        path.addLine(to: hull.points().first!)
+        path.addLines(between: hull)
+        path.addLine(to: hull.first!)
         context.addPath(path)
         context.setFillColor(red: 86.0, green: 167.0, blue: 20.0, alpha: 0.5)
         context.drawPath(using: .fill)
     }
 
-    private func drawVerticies(in context: CGContext, for zoomScale: MKZoomScale) {
-        for point in hull.points() {
+    private func drawrawPoints(in context: CGContext, for zoomScale: MKZoomScale) {
+        for point in hull {
             let radius = computeRadius(for: zoomScaleToVertexRadiusMap, with: zoomScale)
             if let polygon = self.overlay as? MissionPolygon {
                 // Change active touch area

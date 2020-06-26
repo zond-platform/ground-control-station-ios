@@ -12,7 +12,7 @@ import MapKit
 class MissionPolygon : MKPolygon {
     // Stored properties
     var vertexArea = MissionRenderer.vertexRadius
-    var verticies: [CGPoint] = []
+    var rawPoints = PointSet()
     private var vertexOffsets: [CGPoint] = []
     private var missionGrid: [CGPoint] = []
     private var draggedVertexId: Int?
@@ -21,7 +21,7 @@ class MissionPolygon : MKPolygon {
     weak var renderer: MissionRenderer? {
         didSet {
             for id in 0..<pointCount {
-                verticies.append(renderer!.point(for: points()[id]))
+                rawPoints.append(point: renderer!.point(for: points()[id]))
             }
         }
     }
@@ -48,15 +48,6 @@ class MissionPolygon : MKPolygon {
 
 // Public methods
 extension MissionPolygon {
-    func convexHull() -> ConvexHull {
-        return AeroGlaz.convexHull(verticies)
-    }
-
-    func missionGrid(for hull: ConvexHull, with delta: CGFloat) -> [CGPoint] {
-        missionGrid = AeroGlaz.missionGrid(hull, delta)
-        return missionGrid
-    }
-    
     func missionCoordinates() -> [CLLocationCoordinate2D] {
         if renderer != nil {
             var coordinates: [CLLocationCoordinate2D] = []
@@ -71,19 +62,10 @@ extension MissionPolygon {
 
     func bodyContainsCoordinate(_ coordinate: CLLocationCoordinate2D) -> Bool {
         if renderer != nil {
-            let left = leftmost(verticies)
-            let right = rightmost(verticies)
-            let low = lowermost(verticies)
-            let up = uppermost(verticies)
-
-            let origin = CGPoint(x: left.x, y: low.y)
-            let width = Double(right.x) - Double(left.x)
-            let height = Double(up.y) - Double(low.y)
-
-            let polygonOrigin = renderer!.mapPoint(for: origin)
-            let polygonSize = MKMapSize(width: width, height: height)
+            let rect = rawPoints.enclosingRect()
+            let polygonOrigin = renderer!.mapPoint(for: rect.origin)
+            let polygonSize = MKMapSize(width: Double(rect.width), height: Double(rect.height))
             let polygonRect = MKMapRect(origin: polygonOrigin, size: polygonSize)
-            
             return polygonRect.contains(MKMapPoint(coordinate))
         } else {
             return false
@@ -153,7 +135,7 @@ extension MissionPolygon {
     private func updateVertex(_ coordinate: CLLocationCoordinate2D, id: Int, redraw: Bool) {
         if renderer != nil {
             points()[id] = MKMapPoint(coordinate)
-            verticies[id] = renderer!.point(for: points()[id])
+            rawPoints.update(point: renderer!.point(for: points()[id]), at: id)
             if redraw {
                 renderer!.redrawRenderer()
             }

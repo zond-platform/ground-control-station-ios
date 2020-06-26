@@ -9,7 +9,7 @@
 import XCTest
 @testable import AeroGlaz
 
-class PointCloudTest: XCTestCase {
+class ConvexHullTest: XCTestCase {
     func testConvexHull() {
         // Trivial case
         var points = [
@@ -28,9 +28,9 @@ class PointCloudTest: XCTestCase {
             CGPoint(x: 0.0, y: 1.0),
         ]
         measure {
-            let hull = convexHull(points)
+            let hull = ConvexHull(points)
             XCTAssertTrue(hull.isValid)
-            XCTAssertEqual(hull.points(), expected)
+            XCTAssertEqual(hull.points, expected)
         }
 
         // Edge case, points on one line are legal
@@ -45,9 +45,9 @@ class PointCloudTest: XCTestCase {
             CGPoint(x: 0.0, y: 1.0),
             CGPoint(x: 0.0, y: 0.0),
         ]
-        var hull = convexHull(points)
+        var hull = ConvexHull(points)
         XCTAssertTrue(hull.isValid)
-        XCTAssertEqual(hull.points(), expected)
+        XCTAssertEqual(hull.points, expected)
 
         // Edge case, less than three points is illegal
         points = [
@@ -58,7 +58,7 @@ class PointCloudTest: XCTestCase {
             CGPoint(x: 0.0, y: 1.0),
             CGPoint(x: 0.0, y: 0.0)
         ]
-        hull = convexHull(points)
+        hull = ConvexHull(points)
         XCTAssertFalse(hull.isValid)
     }
 
