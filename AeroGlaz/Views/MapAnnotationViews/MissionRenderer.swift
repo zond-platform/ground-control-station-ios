@@ -66,6 +66,7 @@ class MissionRenderer : MKOverlayRenderer {
     override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
         let polygon = self.overlay as? MissionPolygon
         if polygon != nil && missionState != nil {
+            polygon!.rawPoints.recomputeShapes()
             hull = polygon!.rawPoints.convexHull()
             grid = []
             switch missionState {

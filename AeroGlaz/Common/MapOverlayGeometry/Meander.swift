@@ -8,7 +8,7 @@
 
 import CoreGraphics
 
-class FillingGrid : Equatable {
+class Meander : Equatable {
     private let minPoints = 2
     private(set) var points: [CGPoint] = []
     var isValid = false
@@ -19,14 +19,14 @@ class FillingGrid : Equatable {
 }
 
 // Private methods
-extension FillingGrid {
+extension Meander {
     private func add(_ vector: Vector) {
 
     }
 }
 
 // Public methods
-extension FillingGrid {
+extension Meander {
     func compute(_ allPoints: [CGPoint]) {
         //func missionGrid(_ convexHull: ConvexHull, _ gridDelta: CGFloat) -> [CGPoint] {
         //    guard convexHull.isValid && gridDelta != 0.0 else {
@@ -66,7 +66,7 @@ extension FillingGrid {
     }
 }
 
-func ==(lhs: FillingGrid, rhs: FillingGrid) -> Bool {
+func ==(lhs: Meander, rhs: Meander) -> Bool {
     return lhs.points == rhs.points
            && lhs.isValid == rhs.isValid
 }

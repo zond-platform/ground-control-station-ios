@@ -28,8 +28,11 @@ extension PointSet {
         points[id] = point
     }
 
-    func convexHull() -> [CGPoint] {
+    func recomputeShapes() {
         hull.compute(points)
+    }
+
+    func convexHull() -> [CGPoint] {
         return hull.isValid ? hull.points : []
     }
 
