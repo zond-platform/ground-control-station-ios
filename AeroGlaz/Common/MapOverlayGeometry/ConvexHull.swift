@@ -18,8 +18,6 @@ class ConvexHull : Equatable {
     private(set) var vectors: [Vector] = []
     private(set) var isValid = false
     private let minPoints = 3
-    private var uppermostPoint: CGPoint?
-    private var lowermostPoint: CGPoint?
 }
 
 // Private methods
@@ -37,10 +35,9 @@ extension ConvexHull {
 extension ConvexHull {
     // Jarvis algorithm (gift wrapping)
     func compute(_ allPoints: [CGPoint]) {
-        if !allPoints.isEmpty {
+        if let initialPoint = allPoints.min(by: { $0.x <= $1.x }) {
             points.removeAll(keepingCapacity: true)
             vectors.removeAll(keepingCapacity: true)
-            let initialPoint = allPoints.min{ left, right in left.x < right.x }!
             var referenceVector = Vector(endPoint: initialPoint)
             repeat {
                 var nextVector = Vector()
@@ -62,8 +59,6 @@ extension ConvexHull {
                 referenceVector = nextVector
                 add(nextVector)
             } while referenceVector.endPoint != initialPoint
-            uppermostPoint = points.max{ $0.y < $1.y }!
-            lowermostPoint = points.min{ $0.y < $1.y }!
         } else {
             isValid = false
         }

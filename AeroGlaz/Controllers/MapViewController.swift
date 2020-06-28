@@ -27,9 +27,12 @@ class MapViewController : UIViewController {
     // Observer properties
     var gridDistance: CGFloat? {
         didSet {
-            if let polygon = self.missionPolygon {
-                polygon.gridDistance = gridDistance
-            }
+            self.missionPolygon?.gridDistance = gridDistance
+        }
+    }
+    var gridAngle: CGFloat? {
+        didSet {
+            self.missionPolygon?.gridAngle = gridAngle
         }
     }
 
@@ -323,11 +326,12 @@ extension MapViewController : CLLocationManagerDelegate {
             if missionPolygon == nil {
                 let lat = user.coordinate.latitude
                 let lon = user.coordinate.longitude
+                let span = 0.0004
                 let polygonCoordinates = [
-                    CLLocationCoordinate2D(latitude: lat - 0.0002, longitude: lon - 0.0002),
-                    CLLocationCoordinate2D(latitude: lat - 0.0002, longitude: lon + 0.0002),
-                    CLLocationCoordinate2D(latitude: lat + 0.0002, longitude: lon + 0.0002),
-                    CLLocationCoordinate2D(latitude: lat + 0.0002, longitude: lon - 0.0002)
+                    CLLocationCoordinate2D(latitude: lat - span, longitude: lon - span),
+                    CLLocationCoordinate2D(latitude: lat - span, longitude: lon + span),
+                    CLLocationCoordinate2D(latitude: lat + span, longitude: lon + span),
+                    CLLocationCoordinate2D(latitude: lat + span, longitude: lon - span)
                 ]
                 missionPolygon = MissionPolygon(polygonCoordinates)
                 self.mapView.addOverlay(missionPolygon!)

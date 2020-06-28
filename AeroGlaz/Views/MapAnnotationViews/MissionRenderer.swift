@@ -9,10 +9,12 @@
 import MapKit
 
 fileprivate let zoomScaleToVertexRadiusMap: [MKZoomScale:CGFloat] = [
-    1.0   : MissionRenderer.vertexRadius,
-    0.5   : MissionRenderer.vertexRadius * CGFloat(1.5),
-    0.25  : MissionRenderer.vertexRadius * CGFloat(2.0),
-    0.125 : MissionRenderer.vertexRadius * CGFloat(2.5),
+    1.0     : MissionRenderer.vertexRadius * CGFloat(1.5),
+    0.5     : MissionRenderer.vertexRadius * CGFloat(2.5),
+    0.25    : MissionRenderer.vertexRadius * CGFloat(4.0),
+    0.125   : MissionRenderer.vertexRadius * CGFloat(6.0),
+    0.0625  : MissionRenderer.vertexRadius * CGFloat(9.0),
+    0.03125 : MissionRenderer.vertexRadius * CGFloat(12.0),
 ]
 
 fileprivate let zoomScaleToWaypointRadiusMap: [MKZoomScale:CGFloat] = [
@@ -30,7 +32,7 @@ class MissionRenderer : MKOverlayRenderer {
     // Stored properties
     private var redrawTriggered = false
     private var hull: [CGPoint] = []
-    private var grid: [CGPoint] = []
+    private(set) var grid: [CGPoint] = []
     private var lastAircraftPoint: CGPoint?
 
     // Computed properties
@@ -47,13 +49,27 @@ class MissionRenderer : MKOverlayRenderer {
     }
     var liveGridDelta: CGFloat {
         let polygon = self.overlay as? MissionPolygon
-        if polygon!.gridDistance != nil {
+        if polygon != nil && polygon!.gridDistance != nil {
             let lowermostPoint = polygon!.rawPoints.lowermost()
             let uppermostPoint = polygon!.rawPoints.uppermost()
             let lowermostMapPoint = MKMapPoint(x: 0.0, y: self.mapPoint(for: lowermostPoint).y)
             let uppermostMapPoint = MKMapPoint(x: 0.0, y: self.mapPoint(for: uppermostPoint).y)
             let numLines = CGFloat(lowermostMapPoint.distance(to: uppermostMapPoint)) / polygon!.gridDistance!
             return (uppermostPoint.y - lowermostPoint.y) / numLines
+        } else {
+            return 0.0
+        }
+    }
+    var liveGridTangent: CGFloat? {
+        let polygon = self.overlay as? MissionPolygon
+        if polygon != nil && polygon!.gridAngle != nil {
+            let angle = polygon!.gridAngle! * (CGFloat.pi / 180)
+            if angle != 0 && angle.remainder(dividingBy: CGFloat.pi / 2) == 0 {
+                return nil
+            } else {
+                // Inverse tangent so that inclination is correct in the flipped coordinate system
+                return -tan(angle)
+            }
         } else {
             return 0.0
         }
@@ -69,7 +85,7 @@ class MissionRenderer : MKOverlayRenderer {
     override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
         let polygon = self.overlay as? MissionPolygon
         if polygon != nil && missionState != nil {
-            polygon!.rawPoints.recomputeShapes(liveGridDelta, 2.0)
+            polygon!.rawPoints.recomputeShapes(liveGridDelta, liveGridTangent)
             hull = polygon!.rawPoints.convexHull()
             grid = polygon!.rawPoints.meanderGrid()
             switch missionState {
@@ -187,7 +203,7 @@ extension MissionRenderer {
     private func computeRadius(for map: [MKZoomScale:CGFloat], with zoomScale: MKZoomScale) -> CGFloat {
         var vertexRadius = map[zoomScale]
         if vertexRadius == nil {
-            vertexRadius = map[0.125]
+            vertexRadius = map.keys.max{ $0 > $1 }
         }
         return vertexRadius!
     }

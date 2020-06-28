@@ -24,7 +24,7 @@ extension PointSet {
         points[id] = point
     }
 
-    func recomputeShapes(_ delta: CGFloat, _ tangent: CGFloat) {
+    func recomputeShapes(_ delta: CGFloat, _ tangent: CGFloat?) {
         hull.compute(points)
         meander.compute(hull, delta, tangent)
     }

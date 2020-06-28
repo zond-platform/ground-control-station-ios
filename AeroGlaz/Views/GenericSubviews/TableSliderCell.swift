@@ -68,6 +68,9 @@ extension TableSliderCell {
             case .gridDistance:
                 slider.minimumValue = 5
                 slider.maximumValue = 50
+            case .gridAngle:
+                slider.minimumValue = -90
+                slider.maximumValue = 90
             case .flightSpeed:
                 slider.minimumValue = 1
                 slider.maximumValue = 15
@@ -81,12 +84,11 @@ extension TableSliderCell {
         slider.addTarget(self, action: #selector(sliderMoved(_:)), for: .valueChanged)
         slider.idPath = data.idPath
 
-        let unit = data.id == .flightSpeed ? "m/s" : "m"
         self.slider.value = data.value as? Float ?? 0.0
         self.slider.isUserInteractionEnabled = data.isEnabled
 
         self.title.text = data.title
-        self.value.text = String(format: "%.0f ", self.slider.value) + unit
+        self.value.text = String(format: "%.0f ", self.slider.value) + (data.id.unit ?? "")
 
         self.title.textColor = data.isEnabled ? Colors.Text.mainTitle   : Colors.Text.inactiveTitle
         self.value.textColor = data.isEnabled ? Colors.Text.detailTitle : Colors.Text.inactiveTitle

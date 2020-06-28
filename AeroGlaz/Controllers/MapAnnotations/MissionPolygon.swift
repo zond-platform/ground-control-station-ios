@@ -30,6 +30,11 @@ class MissionPolygon : MKPolygon {
             renderer?.redrawRenderer()
         }
     }
+    var gridAngle: CGFloat? {
+        didSet {
+            renderer?.redrawRenderer()
+        }
+    }
     var missionState: MissionState? {
         didSet {
             renderer?.missionState = missionState
@@ -51,7 +56,7 @@ extension MissionPolygon {
     func missionCoordinates() -> [CLLocationCoordinate2D] {
         if renderer != nil {
             var coordinates: [CLLocationCoordinate2D] = []
-            for point in missionGrid {
+            for point in renderer!.grid {
                 coordinates.append(renderer!.mapPoint(for: point).coordinate)
             }
             return coordinates

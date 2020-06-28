@@ -38,6 +38,7 @@ fileprivate var missionData = TableData([
         id: .editor,
         rows: [
             RowData(id: .gridDistance,  type: .slider,  value: Float(10.0),          isEnabled: true),
+            RowData(id: .gridAngle,     type: .slider,  value: Float(0.0),           isEnabled: true),
             RowData(id: .shootDistance, type: .slider,  value: Float(10.0),          isEnabled: true),
             RowData(id: .altitude,      type: .slider,  value: Float(50.0),          isEnabled: true),
             RowData(id: .flightSpeed,   type: .slider,  value: Float(10.0),          isEnabled: true)
@@ -142,6 +143,8 @@ extension MissionViewController {
         switch idPath{
             case IdPath(.editor, .gridDistance):
                 Environment.mapViewController.gridDistance = CGFloat(value)
+            case IdPath(.editor, .gridAngle):
+                Environment.mapViewController.gridAngle = CGFloat(value)
             case IdPath(.editor, .altitude):
                 Environment.commandService.missionParameters.altitude = Float(value)
             case IdPath(.editor, .shootDistance):

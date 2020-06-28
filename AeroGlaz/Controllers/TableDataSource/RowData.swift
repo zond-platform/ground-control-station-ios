@@ -10,6 +10,7 @@ import UIKit
 
 enum RowId {
     case gridDistance
+    case gridAngle
     case shootDistance
     case altitude
     case flightSpeed
@@ -19,6 +20,8 @@ enum RowId {
         switch self {
             case .gridDistance:
                 return "Grid Distance"
+            case .gridAngle:
+                return "Grid Angle"
             case .shootDistance:
                 return "Shoot Distance"
             case .altitude:
@@ -27,6 +30,23 @@ enum RowId {
                 return "Flight Speed"
             case .command:
                 return "Command"
+        }
+    }
+
+    var unit: String? {
+        switch self {
+            case .gridDistance:
+                return "m"
+            case .gridAngle:
+                return "°"
+            case .shootDistance:
+                return "m"
+            case .altitude:
+                return "m"
+            case .flightSpeed:
+                return "m/s"
+            case .command:
+                return nil
         }
     }
 }
