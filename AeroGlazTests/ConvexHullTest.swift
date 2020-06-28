@@ -100,27 +100,6 @@ class ConvexHullTest: XCTestCase {
         XCTAssertEqual(intersectionPoints[1], CGPoint(x: 0, y: -2))
     }
 
-    func test() {
-        let points = [
-            CGPoint(x: 0, y: 0),
-            CGPoint(x: 1, y: 0),
-            CGPoint(x: 0, y: 1),
-            CGPoint(x: 1, y: 1),
-        ]
-        let hull = ConvexHull()
-        hull.compute(points)
-        XCTAssertTrue(hull.isValid)
-
-        // Edge case lines from vertices
-        measure {
-            for point in hull.points {
-                let line = Line(tangent: 1, point: point)
-                let intersectionPoints = hull.intersections(with: line)
-                XCTAssertNotEqual(intersectionPoints.count, 0)
-            }
-        }
-    }
-
     func testConvexHullPointsBelongOneEdge() {
         let points = [
             CGPoint(x: 0, y: 2),

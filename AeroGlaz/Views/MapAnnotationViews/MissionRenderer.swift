@@ -79,12 +79,6 @@ class MissionRenderer : MKOverlayRenderer {
                     drawGrid(in: context, for: zoomScale)
                     drawWaypoints(in: context, for: zoomScale)
                     drawAircraftLine(in: context, for: zoomScale, and: liveAircraftPoint)
-                    
-                    // Debug
-                    for i in 0..<polygon!.rawPoints.meander.failedPoints.count {
-                        drawFailedPoint(polygon!.rawPoints.meander.failedPoints[i], in: context)
-                        drawFailedVector(polygon!.rawPoints.meander.failedVectors[i], in: context, for: zoomScale)
-                    }
                 case .uploaded:
                     drawGrid(in: context, for: zoomScale)
                     drawWaypoints(in: context, for: zoomScale)
@@ -119,27 +113,6 @@ extension MissionRenderer {
 
 // Private methods
 extension MissionRenderer {
-    // Debug
-    private func drawFailedPoint(_ point: CGPoint, in context: CGContext) {
-        let path = CGMutablePath()
-        let radius = CGFloat(20.0)
-        let size = CGSize(width: radius * CGFloat(2.0), height: radius * CGFloat(2.0))
-        let startOrigin = CGPoint(x: point.x - radius, y: point.y - radius)
-        path.addEllipse(in: CGRect.init(origin: startOrigin, size: size))
-        context.setFillColor(UIColor.yellow.cgColor)
-        context.addPath(path)
-        context.drawPath(using: .fill)
-    }
-    private func drawFailedVector(_ vector: Vector, in context: CGContext, for zoomScale: MKZoomScale) {
-        let lineWidth = MKRoadWidthAtZoomScale(zoomScale) * 0.5
-        let path = CGMutablePath()
-        path.addLines(between: [vector.startPoint, vector.endPoint])
-        context.setStrokeColor(UIColor.yellow.cgColor)
-        context.setLineWidth(lineWidth)
-        context.addPath(path)
-        context.drawPath(using: .stroke)
-    }
-    
     private func drawPolygon(in context: CGContext) {
         if !hull.isEmpty {
             let path = CGMutablePath()

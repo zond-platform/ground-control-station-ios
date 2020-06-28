@@ -95,20 +95,6 @@ extension ConvexHull {
         }
         return false
     }
-
-    func printVertex(_ point: CGPoint) {
-        if let i = vectors.firstIndex(where: { $0.endPoint == point }) {
-            print("Vector1: \(vectors[i].startPoint), \(vectors[i].endPoint)")
-            let nextIndex = i == vectors.count - 1 ? 0 : i + 1
-            print("Vector2: \(vectors[nextIndex].startPoint), \(vectors[nextIndex].endPoint)")
-        } else {
-            print("No such point...")
-        }
-    }
-
-    func vector(for point: CGPoint) -> Vector {
-        return vectors.first(where: { $0.endPoint == point })!
-    }
 }
 
 func ==(lhs: ConvexHull, rhs: ConvexHull) -> Bool {

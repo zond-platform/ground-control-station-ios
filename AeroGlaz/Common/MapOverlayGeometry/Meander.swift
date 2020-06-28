@@ -11,10 +11,6 @@ import CoreGraphics
 class Meander : Equatable {
     private(set) var points: [CGPoint] = []
     var isValid = false
-
-    // Debug
-    private(set) var failedPoints: [CGPoint] = []
-    private(set) var failedVectors: [Vector] = []
 }
 
 // Public methods
@@ -41,50 +37,24 @@ extension Meander {
     func compute(_ hull: ConvexHull, _ delta: CGFloat, _ tangent: CGFloat?) {
         if hull.isValid && delta != 0.0 {
             // Reset and initialize
-            points.removeAll(keepingCapacity: true)
-//            failedPoints.removeAll(keepingCapacity: true)
-//            failedVectors.removeAll(keepingCapacity: true)
-//
-//            for point in hull.points {
-//                let line = Line(tangent: tangent, point: point)
-//                let intersectionPoints = hull.intersections(with: line)
-//                if intersectionPoints.count == 0 {
-//                    failedPoints.append(point)
-//                    let height = CGFloat(1000)
-//                    let startPoint = CGPoint(x: (-height - line.b!) / line.a!, y: -height)
-//                    let endPoint = CGPoint(x: (height - line.b!) / line.a!, y: height)
-//                    failedVectors.append(Vector(startPoint, endPoint))
-//
-//                    let points = hull.vector(for: point).intersectionPoint(with: line)
-////                    print("isEmpty??? \(points.isEmpty)")
-//                    print("NO INTERSECTIONS")
-//                } else {
-////                    print("Line: \(line.a!)x + \(line.b!)")
-////                    print("Point: \(point)")
-////                    print("Epsilon: \(point.y - line.a!*point.x - line.b!)")
-////                    hull.printVertex(point)
-////                    print(intersectionPoints)
-////                    print("----------------------")
-//                    print(intersectionPoints.count)
-//                }
-//            }
-            
+            points.removeAll(keepingCapacity: true)            
             let line = referenceLine(for: hull, withTangent: tangent)
             var direction = true
             var intersectionPoints: [CGPoint] = []
 
             // Move reference line through the hull
             repeat {
+                // Check intersections and move line further
+                intersectionPoints = hull.intersections(with: line)
                 if tangent == nil {
                     line.move(for: delta)
+                    intersectionPoints.sort(by: { direction ? $0.y < $1.y : $0.y > $1.y })
+                } else if tangent! > 0 {
+                    line.move(for: -delta)
+                    intersectionPoints.sort(by: { direction ? $0.x < $1.x : $0.x > $1.x })
                 } else {
-                    line.move(for: tangent! > 0 ? -delta : delta)
-                }
-
-                // Check intersections
-                intersectionPoints = hull.intersections(with: line)
-                if !direction {
-                    intersectionPoints.reverse()
+                    line.move(for: delta)
+                    intersectionPoints.sort(by: { direction ? $0.x > $1.x : $0.x < $1.x })
                 }
 
                 // Accumulate the result and reverse direction

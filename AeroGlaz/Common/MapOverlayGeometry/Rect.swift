@@ -28,12 +28,8 @@ class Rect : Equatable {
 // Public methods
 extension Rect {
     func contains(_ point: CGPoint) -> Bool {
-//        print("Rect Point: \(point)")
-//        print("X Range: [\(minX), \(minX + abs(dx))")
-//        print("Y Range: [\(minY), \(minY + abs(dy))")
-        let eps = CGFloat(10e-6)
-        return point.x >= (minX - eps) && point.x <= (minX + abs(dx) + eps)
-               && point.y >= (minY - eps) && point.y <= (minY + abs(dy) + eps)
+        return point.x >= minX && point.x <= minX + abs(dx)
+               && point.y >= minY && point.y <= minY + abs(dy)
     }
 }
 

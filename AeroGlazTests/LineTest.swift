@@ -10,8 +10,6 @@ import XCTest
 @testable import AeroGlaz
 
 class LineTest: XCTestCase {
-    let eps = CGFloat(10e-6)
-
     func testLineCreation() {
         // Trivial case
         var line = Line(a: 1, b: 2)
@@ -109,6 +107,8 @@ class LineTest: XCTestCase {
     }
 
     func testLineMovement() {
+        let eps = CGFloat(10e-6)
+
         // Trivial case moving down positive tangent
         var line = Line(a: 1, b: 2)
         line.move(for: -(2 * sqrt(2)))
