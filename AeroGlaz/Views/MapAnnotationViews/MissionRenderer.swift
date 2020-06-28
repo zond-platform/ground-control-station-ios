@@ -48,9 +48,12 @@ class MissionRenderer : MKOverlayRenderer {
     var liveGridDelta: CGFloat {
         let polygon = self.overlay as? MissionPolygon
         if polygon!.gridDistance != nil {
-            let lowermostPoint = MKMapPoint(x: 0.0, y: self.mapPoint(for: polygon!.rawPoints.lowermost()).y)
-            let uppermostPoint = MKMapPoint(x: 0.0, y: self.mapPoint(for: polygon!.rawPoints.uppermost()).y)
-            return CGFloat(lowermostPoint.distance(to: uppermostPoint)) / polygon!.gridDistance!
+            let lowermostPoint = polygon!.rawPoints.lowermost()
+            let uppermostPoint = polygon!.rawPoints.uppermost()
+            let lowermostMapPoint = MKMapPoint(x: 0.0, y: self.mapPoint(for: lowermostPoint).y)
+            let uppermostMapPoint = MKMapPoint(x: 0.0, y: self.mapPoint(for: uppermostPoint).y)
+            let numLines = CGFloat(lowermostMapPoint.distance(to: uppermostMapPoint)) / polygon!.gridDistance!
+            return (uppermostPoint.y - lowermostPoint.y) / numLines
         } else {
             return 0.0
         }
@@ -66,9 +69,9 @@ class MissionRenderer : MKOverlayRenderer {
     override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
         let polygon = self.overlay as? MissionPolygon
         if polygon != nil && missionState != nil {
-            polygon!.rawPoints.recomputeShapes()
+            polygon!.rawPoints.recomputeShapes(liveGridDelta, 2.0)
             hull = polygon!.rawPoints.convexHull()
-            grid = []
+            grid = polygon!.rawPoints.meanderGrid()
             switch missionState {
                 case .editing:
                     drawPolygon(in: context)
@@ -76,6 +79,12 @@ class MissionRenderer : MKOverlayRenderer {
                     drawGrid(in: context, for: zoomScale)
                     drawWaypoints(in: context, for: zoomScale)
                     drawAircraftLine(in: context, for: zoomScale, and: liveAircraftPoint)
+                    
+                    // Debug
+                    for i in 0..<polygon!.rawPoints.meander.failedPoints.count {
+                        drawFailedPoint(polygon!.rawPoints.meander.failedPoints[i], in: context)
+                        drawFailedVector(polygon!.rawPoints.meander.failedVectors[i], in: context, for: zoomScale)
+                    }
                 case .uploaded:
                     drawGrid(in: context, for: zoomScale)
                     drawWaypoints(in: context, for: zoomScale)
@@ -110,6 +119,27 @@ extension MissionRenderer {
 
 // Private methods
 extension MissionRenderer {
+    // Debug
+    private func drawFailedPoint(_ point: CGPoint, in context: CGContext) {
+        let path = CGMutablePath()
+        let radius = CGFloat(20.0)
+        let size = CGSize(width: radius * CGFloat(2.0), height: radius * CGFloat(2.0))
+        let startOrigin = CGPoint(x: point.x - radius, y: point.y - radius)
+        path.addEllipse(in: CGRect.init(origin: startOrigin, size: size))
+        context.setFillColor(UIColor.yellow.cgColor)
+        context.addPath(path)
+        context.drawPath(using: .fill)
+    }
+    private func drawFailedVector(_ vector: Vector, in context: CGContext, for zoomScale: MKZoomScale) {
+        let lineWidth = MKRoadWidthAtZoomScale(zoomScale) * 0.5
+        let path = CGMutablePath()
+        path.addLines(between: [vector.startPoint, vector.endPoint])
+        context.setStrokeColor(UIColor.yellow.cgColor)
+        context.setLineWidth(lineWidth)
+        context.addPath(path)
+        context.drawPath(using: .stroke)
+    }
+    
     private func drawPolygon(in context: CGContext) {
         if !hull.isEmpty {
             let path = CGMutablePath()
@@ -139,13 +169,15 @@ extension MissionRenderer {
     }
 
     private func drawGrid(in context: CGContext, for zoomScale: MKZoomScale) {
-        let lineWidth = MKRoadWidthAtZoomScale(zoomScale) * 0.5
-        let path = CGMutablePath()
-        path.addLines(between: grid)
-        context.setStrokeColor(UIColor.yellow.cgColor)
-        context.setLineWidth(lineWidth)
-        context.addPath(path)
-        context.drawPath(using: .stroke)
+        if !grid.isEmpty {
+            let lineWidth = MKRoadWidthAtZoomScale(zoomScale) * 0.5
+            let path = CGMutablePath()
+            path.addLines(between: grid)
+            context.setStrokeColor(UIColor.yellow.cgColor)
+            context.setLineWidth(lineWidth)
+            context.addPath(path)
+            context.drawPath(using: .stroke)
+        }
     }
 
     private func drawWaypoints(in context: CGContext, for zoomScale: MKZoomScale) {

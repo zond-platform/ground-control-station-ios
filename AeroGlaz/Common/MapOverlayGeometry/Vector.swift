@@ -34,7 +34,7 @@ class Vector : Equatable {
             self.line = Line(x: startPoint.x)
         } else {
             let tangent = rect.dy / rect.dx
-            self.line = Line(a: tangent, b: startPoint.y - tangent * startPoint.x)
+            self.line = Line(tangent: tangent, point: endPoint)
         }
         self.norm = sqrt(pow(self.rect.dx, 2) + pow(self.rect.dy, 2))
     }
@@ -50,16 +50,20 @@ extension Vector {
         return acos(self.dot(v) / (self.norm * v.norm))
     }
 
-    func contains(_ point: CGPoint) -> Bool {
-        return line.contains(point) && rect.contains(point)
-    }
-
-    func intersectionPoint(with line: Line) -> CGPoint? {
-        switch self.line.intersectionPoint(with: line) {
-            case .success(let point):
-                return contains(point) ? point : nil
-            case .failure(let error):
-                return error == .parallel ? nil : rect.center
+    func intersectionPoint(with line: Line) -> [CGPoint] {
+        if line.contains(self.startPoint) && line.contains(self.endPoint) {
+            return [self.startPoint, self.endPoint]
+        } else if line.contains(self.startPoint) {
+            return [self.startPoint]
+        } else if line.contains(self.endPoint) {
+            return [self.endPoint]
+        } else {
+            switch self.line.intersectionPoint(with: line) {
+                case .success(let point):
+                    return self.rect.contains(point) ? [point] : []
+                case .failure(let error):
+                    return error == .parallel ? [] : [self.startPoint, self.endPoint]
+            }
         }
     }
 }

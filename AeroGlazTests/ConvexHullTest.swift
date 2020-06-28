@@ -10,91 +10,141 @@ import XCTest
 @testable import AeroGlaz
 
 class ConvexHullTest: XCTestCase {
-    func testConvexHull() {
+    func testConvexHullCreation() {
         // Trivial case
         var points = [
-            CGPoint(x: 2.0, y: 1.0),
-            CGPoint(x: 1.0, y: 1.0),
-            CGPoint(x: 0.0, y: 1.0),
-            CGPoint(x: 0.0, y: 0.0),
+            CGPoint(x: 2, y: 1),
+            CGPoint(x: 1, y: 1),
+            CGPoint(x: 0, y: 1),
+            CGPoint(x: 0, y: 0),
             CGPoint(x: 0.5, y: 0.5),
-            CGPoint(x: 1.0, y: 0.0),
+            CGPoint(x: 1, y: 0),
         ]
         var expected = [
-            CGPoint(x: 1.0, y: 1.0),
-            CGPoint(x: 2.0, y: 1.0),
-            CGPoint(x: 1.0, y: 0.0),
-            CGPoint(x: 0.0, y: 0.0),
-            CGPoint(x: 0.0, y: 1.0),
+            CGPoint(x: 1, y: 1),
+            CGPoint(x: 2, y: 1),
+            CGPoint(x: 1, y: 0),
+            CGPoint(x: 0, y: 0),
+            CGPoint(x: 0, y: 1),
         ]
         measure {
-            let hull = ConvexHull(points)
+            let hull = ConvexHull()
+            hull.compute(points)
             XCTAssertTrue(hull.isValid)
             XCTAssertEqual(hull.points, expected)
         }
 
-        // Edge case, points on one line are legal
+        // Edge case points on one line are legal
         points = [
-            CGPoint(x: 0.0, y: 0.0),
-            CGPoint(x: 0.0, y: 1.0),
-            CGPoint(x: 0.0, y: 2.0),
+            CGPoint(x: 0, y: 0),
+            CGPoint(x: 0, y: 1),
+            CGPoint(x: 0, y: 2),
         ]
         expected = [
-            CGPoint(x: 0.0, y: 1.0),
-            CGPoint(x: 0.0, y: 2.0),
-            CGPoint(x: 0.0, y: 1.0),
-            CGPoint(x: 0.0, y: 0.0),
+            CGPoint(x: 0, y: 1),
+            CGPoint(x: 0, y: 2),
+            CGPoint(x: 0, y: 1),
+            CGPoint(x: 0, y: 0),
         ]
-        var hull = ConvexHull(points)
+        var hull = ConvexHull()
+        hull.compute(points)
         XCTAssertTrue(hull.isValid)
         XCTAssertEqual(hull.points, expected)
 
-        // Edge case, less than three points is illegal
+        // Edge case less than three points is illegal
         points = [
-            CGPoint(x: 0.0, y: 0.0),
-            CGPoint(x: 0.0, y: 1.0)
+            CGPoint(x: 0, y: 0),
+            CGPoint(x: 0, y: 1)
         ]
         expected = [
-            CGPoint(x: 0.0, y: 1.0),
-            CGPoint(x: 0.0, y: 0.0)
+            CGPoint(x: 0, y: 1),
+            CGPoint(x: 0, y: 0)
         ]
-        hull = ConvexHull(points)
+        hull = ConvexHull()
+        hull.compute(points)
         XCTAssertFalse(hull.isValid)
     }
 
-//    func testMissionGrid() {
-//        // Standard case
-//        var points = [
-//            CGPoint(x: -2.0, y: 0.0),
-//            CGPoint(x: 0.0, y: 2.0),
-//            CGPoint(x: 0.0, y: -2.0),
-//            CGPoint(x: 2.0, y: 0.0),
-//        ]
-//        var expected = [
-//            CGPoint(x: -0.5, y: -1.5),
-//            CGPoint(x: 0.5, y: -1.5),
-//            CGPoint(x: 1.5, y: -0.5),
-//            CGPoint(x: -1.5, y: -0.5),
-//            CGPoint(x: -1.5, y: 0.5),
-//            CGPoint(x: 1.5, y: 0.5),
-//            CGPoint(x: 0.5, y: 1.5),
-//            CGPoint(x: -0.5, y: 1.5),
-//        ]
-//        measure {
-//            let hull = convexHull(points)
-//            let grid = missionGrid(hull, 4.0)
-//            XCTAssertEqual(grid, expected)
-//        }
-//
-//        // Edge case, invalid hull
-//        points = [
-//            CGPoint(x: 0.0, y: 0.0),
-//            CGPoint(x: 0.0, y: 1.0)
-//        ]
-//        expected = []
-//        let hull = convexHull(points)
-//        XCTAssertFalse(hull.isValid)
-//        let grid = missionGrid(hull, 4.0)
-//        XCTAssertEqual(grid, expected)
-//    }
+    func testConvexHullLineIntersection() {
+        let points = [
+            CGPoint(x: 0, y: 2),
+            CGPoint(x: -1, y: 2),
+            CGPoint(x: -2, y: 1),
+            CGPoint(x: -2, y: -1),
+            CGPoint(x: 0, y: -2),
+            CGPoint(x: 2, y: -1),
+            CGPoint(x: 2, y: 1),
+        ]
+        let hull = ConvexHull()
+        hull.compute(points)
+        XCTAssertTrue(hull.isValid)
+        
+        // Trivial case
+        var line = Line(a: 0.25, b: 0)
+        var intersectionPoints = hull.intersections(with: line)
+        XCTAssertEqual(intersectionPoints.count, 2)
+        XCTAssertEqual(intersectionPoints[0], CGPoint(x: 2, y: 0.5))
+        XCTAssertEqual(intersectionPoints[1], CGPoint(x: -2, y: -0.5))
+
+        // Edge case vertex intersection
+        line = Line(a: -1, b: 3)
+        intersectionPoints = hull.intersections(with: line)
+        XCTAssertEqual(intersectionPoints.count, 1)
+        XCTAssertEqual(intersectionPoints[0], CGPoint(x: 2, y: 1))
+
+        // Edge case overlap with one edge
+        line = Line(a: 0.5, b: -2)
+        intersectionPoints = hull.intersections(with: line)
+        XCTAssertEqual(intersectionPoints.count, 2)
+        XCTAssertEqual(intersectionPoints[0], CGPoint(x: 2, y: -1))
+        XCTAssertEqual(intersectionPoints[1], CGPoint(x: 0, y: -2))
+    }
+
+    func test() {
+        let points = [
+            CGPoint(x: 0, y: 0),
+            CGPoint(x: 1, y: 0),
+            CGPoint(x: 0, y: 1),
+            CGPoint(x: 1, y: 1),
+        ]
+        let hull = ConvexHull()
+        hull.compute(points)
+        XCTAssertTrue(hull.isValid)
+
+        // Edge case lines from vertices
+        measure {
+            for point in hull.points {
+                let line = Line(tangent: 1, point: point)
+                let intersectionPoints = hull.intersections(with: line)
+                XCTAssertNotEqual(intersectionPoints.count, 0)
+            }
+        }
+    }
+
+    func testConvexHullPointsBelongOneEdge() {
+        let points = [
+            CGPoint(x: 0, y: 2),
+            CGPoint(x: -1, y: 2),
+            CGPoint(x: -2, y: 1),
+            CGPoint(x: -2, y: -1),
+            CGPoint(x: 0, y: -2),
+            CGPoint(x: 2, y: -1),
+            CGPoint(x: 2, y: 1),
+        ]
+        let hull = ConvexHull()
+        hull.compute(points)
+        XCTAssertTrue(hull.isValid)
+
+        // Trivial case one edge
+        XCTAssertTrue(hull.pointsBelongOneEdge(points[0], points[1]))
+        XCTAssertTrue(hull.pointsBelongOneEdge(points[1], points[0]))
+        XCTAssertTrue(hull.pointsBelongOneEdge(points[3], points[4]))
+        XCTAssertTrue(hull.pointsBelongOneEdge(points[2], points[3]))
+
+        // Trivial case different edges
+        XCTAssertFalse(hull.pointsBelongOneEdge(points[0], points[2]))
+
+        // Edge case same point
+        XCTAssertFalse(hull.pointsBelongOneEdge(points[0], points[0]))
+    }
 }

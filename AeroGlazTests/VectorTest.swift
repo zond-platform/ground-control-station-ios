@@ -38,41 +38,32 @@ class VectorTest: XCTestCase {
         XCTAssertEqual(v.theta(u), CGFloat.pi, accuracy: eps)
     }
 
-    func testVectorsContainsPoint() {
-        // Trivial case
-        var v = Vector(CGPoint(x: 0, y: 0), CGPoint(x: 2, y: 2))
-        XCTAssertTrue(v.contains(CGPoint(x: 0, y: 0)))
-        XCTAssertTrue(v.contains(CGPoint(x: 1, y: 1)))
-        XCTAssertFalse(v.contains(CGPoint(x: 0, y: 2)))
-        XCTAssertFalse(v.contains(CGPoint(x: 3, y: 3)))
-
-        // Edge case vertical line
-        v = Vector(endPoint: CGPoint(x: 0, y: 1))
-        XCTAssertTrue(v.contains(CGPoint(x: 0, y: 0)))
-        XCTAssertTrue(v.contains(CGPoint(x: 0, y: 0.5)))
-        XCTAssertFalse(v.contains(CGPoint(x: 1, y: 1)))
-        XCTAssertFalse(v.contains(CGPoint(x: -1, y: 0)))
-    }
-
     func testVectorLineIntersection() {
         // Trivial case intersection within vector span
         var line = Line(a: sqrt(2), b: 0)
         var vector = Vector(CGPoint(x: 0, y: 1), CGPoint(x: 2, y: 2))
         var point = vector.intersectionPoint(with: line)
-        XCTAssertFalse(point == nil)
-        XCTAssertTrue(vector.contains(point!))
+        XCTAssertEqual(point.count, 1)
 
         // Trivial case intersection beyond vector span
         line = Line(a: sqrt(2), b: 0)
         vector = Vector(CGPoint(x: 0, y: 1), CGPoint(x: 2, y: 3))
         point = vector.intersectionPoint(with: line)
-        XCTAssertTrue(point == nil)
+        XCTAssertEqual(point.count, 0)
 
         // Edge case line overlap
         line = Line(a: 1, b: 0)
         vector = Vector(CGPoint(x: 0, y: 0), CGPoint(x: 2, y: 2))
         point = vector.intersectionPoint(with: line)
-        XCTAssertFalse(point == nil)
-        XCTAssertEqual(point!, CGPoint(x: 1, y: 1))
+        XCTAssertEqual(point.count, 2)
+        XCTAssertEqual(point[0], CGPoint(x: 0, y: 0))
+        XCTAssertEqual(point[1], CGPoint(x: 2, y: 2))
+
+        // Edge case line touches vector point
+        line = Line(tangent: 2, point: CGPoint(x: -1, y: 2))
+        vector = Vector(CGPoint(x: -2, y: 1), CGPoint(x: -1, y: 2))
+        point = vector.intersectionPoint(with: line)
+        XCTAssertEqual(point.count, 1)
+        XCTAssertEqual(point[0], CGPoint(x: -1, y: 2))
     }
 }

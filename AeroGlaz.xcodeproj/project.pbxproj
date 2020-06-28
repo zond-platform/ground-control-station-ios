@@ -37,6 +37,7 @@
 		EC1678E6244625D500C71203 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678E5244625D500C71203 /* NavigationView.swift */; };
 		EC1678E924473DF400C71203 /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678E824473DF400C71203 /* NavigationButton.swift */; };
 		EC18EBC624630AA6001A29D1 /* CommandButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC18EBC524630AA6001A29D1 /* CommandButton.swift */; };
+		EC302E9D24A6A74300F4389B /* MeanderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC302E9C24A6A74300F4389B /* MeanderTest.swift */; };
 		EC950E8721B81EA600B3A03D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8621B81EA600B3A03D /* AppDelegate.swift */; };
 		EC950E8921B81EA600B3A03D /* ConnectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8821B81EA600B3A03D /* ConnectionService.swift */; };
 		EC950E8E21B81EA700B3A03D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC950E8D21B81EA700B3A03D /* Assets.xcassets */; };
@@ -111,6 +112,7 @@
 		EC1678E5244625D500C71203 /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 		EC1678E824473DF400C71203 /* NavigationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButton.swift; sourceTree = "<group>"; };
 		EC18EBC524630AA6001A29D1 /* CommandButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandButton.swift; sourceTree = "<group>"; };
+		EC302E9C24A6A74300F4389B /* MeanderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeanderTest.swift; sourceTree = "<group>"; };
 		EC950E8321B81EA600B3A03D /* AeroGlaz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AeroGlaz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC950E8621B81EA600B3A03D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC950E8821B81EA600B3A03D /* ConnectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionService.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				ECB6B8F524A4178F002C4B04 /* RectTest.swift */,
 				ECB6B8F724A41F1D002C4B04 /* VectorTest.swift */,
 				EC950E9B21B81EA700B3A03D /* ConvexHullTest.swift */,
+				EC302E9C24A6A74300F4389B /* MeanderTest.swift */,
 				EC950E9D21B81EA700B3A03D /* Info.plist */,
 			);
 			path = AeroGlazTests;
@@ -584,6 +587,7 @@
 				EC950E9C21B81EA700B3A03D /* ConvexHullTest.swift in Sources */,
 				ECB6B8F024A2883D002C4B04 /* LineTest.swift in Sources */,
 				ECB6B8F824A41F1D002C4B04 /* VectorTest.swift in Sources */,
+				EC302E9D24A6A74300F4389B /* MeanderTest.swift in Sources */,
 				ECB6B8F624A4178F002C4B04 /* RectTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

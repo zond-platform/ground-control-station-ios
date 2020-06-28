@@ -18,18 +18,18 @@ class Line : Equatable {
     private(set) var b: CGFloat?
     private(set) var x: CGFloat?
 
-    // Create vertical line
-    convenience init(x: CGFloat) {
-        self.init(angle: CGFloat.pi / 2, point: CGPoint(x: x, y: 0))
-    }
-
-    // Create line from angle (radian) and point
-    convenience init(angle: CGFloat, point: CGPoint) {
-        if angle.remainder(dividingBy: CGFloat.pi / 2) == 0 {
+    // Create line from tangent and reference point
+    convenience init(tangent: CGFloat?, point: CGPoint) {
+        if tangent == nil {
             self.init(a: nil, b: nil, x: point.x)
         } else {
-            self.init(a: tan(angle), b: point.y - tan(angle) * point.x)
+            self.init(a: tangent!, b: point.y - tangent! * point.x)
         }
+    }
+
+    // Create vertical line
+    convenience init(x: CGFloat) {
+        self.init(a: nil, b: nil, x: x)
     }
 
     // Create line from coefficients

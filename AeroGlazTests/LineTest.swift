@@ -20,13 +20,13 @@ class LineTest: XCTestCase {
         XCTAssertTrue(line.x == nil)
 
         // Line from angle and point
-        line = Line(angle: CGFloat.pi / 3 , point: CGPoint(x: 3, y: 4))
-        XCTAssertEqual(line.a!, sqrt(3), accuracy: eps)
-        XCTAssertEqual(line.b!, 4 - 3 * sqrt(3), accuracy: eps)
+        line = Line(tangent: 2 , point: CGPoint(x: 3, y: 4))
+        XCTAssertEqual(line.a!, 2)
+        XCTAssertEqual(line.b!, 4 - 3 * 2)
         XCTAssertTrue(line.x == nil)
 
         // Edge case vertical line from angle and point
-        line = Line(angle: 3 * CGFloat.pi / 2 , point: CGPoint(x: 3, y: 4))
+        line = Line(tangent: nil , point: CGPoint(x: 3, y: 4))
         XCTAssertTrue(line.a == nil)
         XCTAssertTrue(line.b == nil)
         XCTAssertEqual(line.x!, 3)
@@ -144,7 +144,7 @@ class LineTest: XCTestCase {
         XCTAssertTrue(line.b == nil)
         XCTAssertEqual(line.x!, -1)
 
-        // Edge case moving vertical line up
+        // Edge case moving vertical line right
         line = Line(x: 1)
         line.move(for: 3)
         XCTAssertTrue(line.a == nil)

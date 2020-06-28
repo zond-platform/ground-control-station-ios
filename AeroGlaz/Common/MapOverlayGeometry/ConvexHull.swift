@@ -8,15 +8,18 @@
 
 import CoreGraphics
 
+enum HullTraverseDirection {
+    case forward
+    case backward
+}
+
 class ConvexHull : Equatable {
-    private let minPoints = 3
     private(set) var points: [CGPoint] = []
     private(set) var vectors: [Vector] = []
-    var isValid = false
-
-    init(_ points: [CGPoint]) {
-        compute(points)
-    }
+    private(set) var isValid = false
+    private let minPoints = 3
+    private var uppermostPoint: CGPoint?
+    private var lowermostPoint: CGPoint?
 }
 
 // Private methods
@@ -59,23 +62,53 @@ extension ConvexHull {
                 referenceVector = nextVector
                 add(nextVector)
             } while referenceVector.endPoint != initialPoint
+            uppermostPoint = points.max{ $0.y < $1.y }!
+            lowermostPoint = points.min{ $0.y < $1.y }!
+        } else {
+            isValid = false
         }
     }
 
-//    func intersections(with vector: Vector) -> [CGPoint] {
-//        if !isValid {
-//            return []
-//        }
-//        var intersectionPoints: [CGPoint] = []
-//        for hullVector in hullVectors {
-//            if let intersectionPoint = hullVector.intersectionPoint(with: vector) {
-//                if !intersectionPoints.contains(intersectionPoint) {
-//                    intersectionPoints.append(intersectionPoint)
-//                }
-//            }
-//        }
-//        return intersectionPoints
-//    }
+    func intersections(with line: Line) -> [CGPoint] {
+        if isValid {
+            var result: [CGPoint] = []
+            for vector in vectors {
+                let intersectionPoints = vector.intersectionPoint(with: line)
+                for point in intersectionPoints {
+                    if !result.contains(point) {
+                        result.append(point)
+                    }
+                }
+            }
+            return result
+        } else {
+            return []
+        }
+    }
+
+    func pointsBelongOneEdge(_ point1: CGPoint, _ point2: CGPoint) -> Bool {
+        for vector in vectors {
+            if (vector.startPoint == point1 && vector.endPoint == point2)
+                || (vector.startPoint == point2 && vector.endPoint == point1) {
+                return true
+            }
+        }
+        return false
+    }
+
+    func printVertex(_ point: CGPoint) {
+        if let i = vectors.firstIndex(where: { $0.endPoint == point }) {
+            print("Vector1: \(vectors[i].startPoint), \(vectors[i].endPoint)")
+            let nextIndex = i == vectors.count - 1 ? 0 : i + 1
+            print("Vector2: \(vectors[nextIndex].startPoint), \(vectors[nextIndex].endPoint)")
+        } else {
+            print("No such point...")
+        }
+    }
+
+    func vector(for point: CGPoint) -> Vector {
+        return vectors.first(where: { $0.endPoint == point })!
+    }
 }
 
 func ==(lhs: ConvexHull, rhs: ConvexHull) -> Bool {
