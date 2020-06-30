@@ -9,7 +9,7 @@
 import CoreGraphics
 
 class PointSet {
-    private var points: [CGPoint] = []
+    private(set) var points: [CGPoint] = []
     private var hull = ConvexHull()
     private var meander = Meander()
 }

@@ -31,6 +31,7 @@ class MissionRenderer : MKOverlayRenderer {
 
     // Stored properties
     private var redrawTriggered = false
+    private var points: [CGPoint] = []
     private var hull: [CGPoint] = []
     private(set) var grid: [CGPoint] = []
     private var lastAircraftPoint: CGPoint?
@@ -50,8 +51,8 @@ class MissionRenderer : MKOverlayRenderer {
     var liveGridDelta: CGFloat {
         let polygon = self.overlay as? MissionPolygon
         if polygon != nil && polygon!.gridDistance != nil {
-            let lowermostPoint = polygon!.rawPoints.lowermost()
-            let uppermostPoint = polygon!.rawPoints.uppermost()
+            let lowermostPoint = polygon!.pointSet.lowermost()
+            let uppermostPoint = polygon!.pointSet.uppermost()
             let lowermostMapPoint = MKMapPoint(x: 0.0, y: self.mapPoint(for: lowermostPoint).y)
             let uppermostMapPoint = MKMapPoint(x: 0.0, y: self.mapPoint(for: uppermostPoint).y)
             let numLines = CGFloat(lowermostMapPoint.distance(to: uppermostMapPoint)) / polygon!.gridDistance!
@@ -85,9 +86,10 @@ class MissionRenderer : MKOverlayRenderer {
     override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
         let polygon = self.overlay as? MissionPolygon
         if polygon != nil && missionState != nil {
-            polygon!.rawPoints.recomputeShapes(liveGridDelta, liveGridTangent)
-            hull = polygon!.rawPoints.convexHull()
-            grid = polygon!.rawPoints.meanderGrid()
+            polygon!.pointSet.recomputeShapes(liveGridDelta, liveGridTangent)
+            points = polygon!.pointSet.points
+            hull = polygon!.pointSet.convexHull()
+            grid = polygon!.pointSet.meanderGrid()
             switch missionState {
                 case .editing:
                     drawPolygon(in: context)
@@ -141,12 +143,9 @@ extension MissionRenderer {
     }
 
     private func drawVerticies(in context: CGContext, for zoomScale: MKZoomScale) {
-        for point in hull {
+        for point in points {
             let radius = computeRadius(for: zoomScaleToVertexRadiusMap, with: zoomScale)
-            if let polygon = self.overlay as? MissionPolygon {
-                // Change active touch area
-                polygon.vertexArea = radius
-            }
+            (self.overlay as? MissionPolygon)?.vertexArea = radius
             let path = CGMutablePath()
             let circleOrigin = CGPoint(x: point.x - radius, y: point.y - radius)
             let circleSize = CGSize(width: radius * CGFloat(2.0), height: radius * CGFloat(2.0))

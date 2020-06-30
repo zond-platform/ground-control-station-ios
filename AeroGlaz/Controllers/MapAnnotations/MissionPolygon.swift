@@ -14,7 +14,7 @@ fileprivate let maxVertexCount: Int = 20
 class MissionPolygon : MKPolygon {
     // Stored properties
     var vertexArea = MissionRenderer.vertexRadius
-    var rawPoints = PointSet()
+    var pointSet = PointSet()
     private var vertexOffsets: [CGPoint] = []
     private var missionGrid: [CGPoint] = []
     private var vertexCount: Int = 0
@@ -24,7 +24,7 @@ class MissionPolygon : MKPolygon {
     weak var renderer: MissionRenderer? {
         didSet {
             for id in 0..<vertexCount {
-                rawPoints.append(point: renderer!.point(for: points()[id]))
+                pointSet.append(point: renderer!.point(for: points()[id]))
             }
         }
     }
@@ -61,14 +61,14 @@ class MissionPolygon : MKPolygon {
 // Public methods
 extension MissionPolygon {
     func addVetrex(at coordinate: CLLocationCoordinate2D) {
-        rawPoints.append(point: renderer!.point(for: MKMapPoint(coordinate)))
+        pointSet.append(point: renderer!.point(for: MKMapPoint(coordinate)))
         updateVertex(coordinate, id: vertexCount, redraw: true)
         vertexCount += 1
     }
 
     func removeVetrex() {
         if draggedVertexId != nil && vertexCount > 3 {
-            rawPoints.remove(point: renderer!.point(for: points()[draggedVertexId!]))
+            pointSet.remove(point: renderer!.point(for: points()[draggedVertexId!]))
             let maxCount = (vertexCount == maxVertexCount) ? (maxVertexCount - 1) : (vertexCount - 1)
             for id in draggedVertexId!..<maxCount {
                 points()[id] = points()[id + 1]
@@ -92,7 +92,7 @@ extension MissionPolygon {
 
     func bodyContainsCoordinate(_ coordinate: CLLocationCoordinate2D) -> Bool {
         if renderer != nil {
-            let rect = rawPoints.enclosingRect()
+            let rect = pointSet.enclosingRect()
             let polygonOrigin = renderer!.mapPoint(for: rect.origin)
             let polygonSize = MKMapSize(width: Double(rect.width), height: Double(rect.height))
             let polygonRect = MKMapRect(origin: polygonOrigin, size: polygonSize)
@@ -165,7 +165,7 @@ extension MissionPolygon {
     private func updateVertex(_ coordinate: CLLocationCoordinate2D, id: Int, redraw: Bool) {
         if renderer != nil {
             points()[id] = MKMapPoint(coordinate)
-            rawPoints.update(point: renderer!.point(for: points()[id]), at: id)
+            pointSet.update(point: renderer!.point(for: points()[id]), at: id)
             if redraw {
                 renderer!.redrawRenderer()
             }
