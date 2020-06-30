@@ -43,14 +43,10 @@ class Line : Equatable {
 // Public methods
 extension Line {
     func contains(_ point: CGPoint) -> Bool {
-        // 
-        return x == nil ? (point.y - a! * point.x - b! == 0) : (x! == point.x)
-    }
-
-    func containsDebug(_ point: CGPoint) -> Bool {
-        print("eps: \(point.y - a! * point.x - b!)")
-        print("y: \(point.y)")
-        print("ax + b: \(a! * point.x + b!)")
+        // Use formula from the initializer. Otherwise, scrambling of the parameters
+        // may lead to incorrect calculations because of the floating point precision
+        // issues and the reference point from which the line was created might be
+        // considered to be off the line.
         return x == nil ? (point.y - a! * point.x - b! == 0) : (x! == point.x)
     }
 

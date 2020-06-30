@@ -67,10 +67,6 @@ extension Meander {
                 } while !intersectionPoints.isEmpty
                 isValid = true
             } else {
-                for point in hull.points {
-                    let line = Line(tangent: tangent, point: point)
-                    let _ = hull.intersectionsDebug(with: line)
-                }
                 isValid = false
             }
         } else {

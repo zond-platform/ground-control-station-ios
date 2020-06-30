@@ -51,6 +51,10 @@ extension Vector {
     }
 
     func intersectionPoint(with line: Line) -> [CGPoint] {
+        // Need explicit checks if vector points belong the line. Otherwise
+        // the bounding rect of the vector may not contain the intersection
+        // point on the edge  fo the vector because of the floating point
+        // precision issues (line created from vector is always sligtly off).
         if line.contains(self.startPoint) && line.contains(self.endPoint) {
             return [self.startPoint, self.endPoint]
         } else if line.contains(self.startPoint) {
@@ -62,28 +66,6 @@ extension Vector {
                 case .success(let point):
                     return self.rect.contains(point) ? [point] : []
                 case .failure(let error):
-                    return error == .parallel ? [] : [self.startPoint, self.endPoint]
-            }
-        }
-    }
-
-    func intersectionPointDebug(with line: Line) -> [CGPoint] {
-        if line.containsDebug(self.startPoint) && line.containsDebug(self.endPoint) {
-            print("Both points on line")
-            return [self.startPoint, self.endPoint]
-        } else if line.containsDebug(self.startPoint) {
-            print("Start point on line")
-            return [self.startPoint]
-        } else if line.containsDebug(self.endPoint) {
-            print("End point on line")
-            return [self.endPoint]
-        } else {
-            switch self.line.intersectionPoint(with: line) {
-                case .success(let point):
-                    print("Success")
-                    return self.rect.containsDebug(point) ? [point] : []
-                case .failure(let error):
-                    print("Failure")
                     return error == .parallel ? [] : [self.startPoint, self.endPoint]
             }
         }
