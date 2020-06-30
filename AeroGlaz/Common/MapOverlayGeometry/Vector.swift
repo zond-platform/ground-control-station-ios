@@ -66,6 +66,28 @@ extension Vector {
             }
         }
     }
+
+    func intersectionPointDebug(with line: Line) -> [CGPoint] {
+        if line.containsDebug(self.startPoint) && line.containsDebug(self.endPoint) {
+            print("Both points on line")
+            return [self.startPoint, self.endPoint]
+        } else if line.containsDebug(self.startPoint) {
+            print("Start point on line")
+            return [self.startPoint]
+        } else if line.containsDebug(self.endPoint) {
+            print("End point on line")
+            return [self.endPoint]
+        } else {
+            switch self.line.intersectionPoint(with: line) {
+                case .success(let point):
+                    print("Success")
+                    return self.rect.containsDebug(point) ? [point] : []
+                case .failure(let error):
+                    print("Failure")
+                    return error == .parallel ? [] : [self.startPoint, self.endPoint]
+            }
+        }
+    }
 }
 
 func ==(lhs: Vector, rhs: Vector) -> Bool {

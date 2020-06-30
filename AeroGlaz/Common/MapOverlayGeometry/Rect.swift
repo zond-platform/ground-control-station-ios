@@ -31,6 +31,13 @@ extension Rect {
         return point.x >= minX && point.x <= minX + abs(dx)
                && point.y >= minY && point.y <= minY + abs(dy)
     }
+
+    func containsDebug(_ point: CGPoint) -> Bool {
+        print("Line intersection point: \(point)")
+        print("Range: [\(minX), \(minX + abs(dx))],[\(minY), \(minY + abs(dy))]")
+        return point.x >= minX && point.x <= minX + abs(dx)
+               && point.y >= minY && point.y <= minY + abs(dy)
+    }
 }
 
 func ==(lhs: Rect, rhs: Rect) -> Bool {

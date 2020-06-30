@@ -81,6 +81,35 @@ extension ConvexHull {
         }
     }
 
+    func intersectionsDebug(with line: Line) -> [CGPoint] {
+        if isValid {
+            var result: [CGPoint] = []
+            for vector in vectors {
+                let intersectionPoints = vector.intersectionPoint(with: line)
+                for point in intersectionPoints {
+                    if !result.contains(point) {
+                        result.append(point)
+                    }
+                }
+            }
+            if result.isEmpty {
+                print("Line: \(line.a!)x + \(line.b!)")
+                for i in 0..<points.count {
+                    if points[i].y - line.a! * points[i].x - line.b! == 0 {
+                        print("Point \(i): \(points[i])")
+                        print("Vector \(i): \(vectors[i].startPoint), \(vectors[i].endPoint)")
+                        let intersections = vectors[i].intersectionPointDebug(with: line)
+                        print("Vector intersection point: \(intersections)")
+                    }
+                }
+                print("------------------------------------------------")
+            }
+            return result
+        } else {
+            return []
+        }
+    }
+
     func pointsBelongOneEdge(_ point1: CGPoint, _ point2: CGPoint) -> Bool {
         for vector in vectors {
             if (vector.startPoint == point1 && vector.endPoint == point2)
