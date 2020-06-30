@@ -280,12 +280,13 @@ extension MapViewController : UIGestureRecognizerDelegate {
     }
 
     @objc private func handleTap(sender: UIGestureRecognizer) {
-        if sender.state == .began {
-            //
-        } else if sender.state == .changed {
-            //
-        } else if sender.state == .ended {
-            //
+        if sender.state == .began && self.missionPolygon != nil {
+            let touchCoordinate = mapView.convert(sender.location(in: mapView), toCoordinateFrom: mapView)
+            if self.missionPolygon!.vertexContainsCoordinate(touchCoordinate) {
+                self.missionPolygon!.removeVetrex()
+            } else {
+                self.missionPolygon!.addVetrex(at: touchCoordinate)
+            }
         }
     }
 

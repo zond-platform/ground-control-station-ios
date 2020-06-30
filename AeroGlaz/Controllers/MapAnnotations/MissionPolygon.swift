@@ -9,18 +9,21 @@
 import UIKit
 import MapKit
 
+fileprivate let maxVertexCount: Int = 20
+
 class MissionPolygon : MKPolygon {
     // Stored properties
     var vertexArea = MissionRenderer.vertexRadius
     var rawPoints = PointSet()
     private var vertexOffsets: [CGPoint] = []
     private var missionGrid: [CGPoint] = []
+    private var vertexCount: Int = 0
     private var draggedVertexId: Int?
 
     // Observer properties
     weak var renderer: MissionRenderer? {
         didSet {
-            for id in 0..<pointCount {
+            for id in 0..<vertexCount {
                 rawPoints.append(point: renderer!.point(for: points()[id]))
             }
         }
@@ -47,12 +50,34 @@ class MissionPolygon : MKPolygon {
     }
 
     convenience init(_ coordinates: [CLLocationCoordinate2D]) {
-        self.init(coordinates: coordinates, count: coordinates.count)
+        let vertexCount = coordinates.count
+        var preallocatedCoordinates = Array(repeating: CLLocationCoordinate2D(), count: maxVertexCount)
+        preallocatedCoordinates.replaceSubrange(0...vertexCount - 1, with: coordinates)
+        self.init(coordinates: preallocatedCoordinates, count: maxVertexCount)
+        self.vertexCount = vertexCount
     }
 }
 
 // Public methods
 extension MissionPolygon {
+    func addVetrex(at coordinate: CLLocationCoordinate2D) {
+        rawPoints.append(point: renderer!.point(for: MKMapPoint(coordinate)))
+        updateVertex(coordinate, id: vertexCount, redraw: true)
+        vertexCount += 1
+    }
+
+    func removeVetrex() {
+        if draggedVertexId != nil && vertexCount > 3 {
+            rawPoints.remove(point: renderer!.point(for: points()[draggedVertexId!]))
+            let maxCount = (vertexCount == maxVertexCount) ? (maxVertexCount - 1) : (vertexCount - 1)
+            for id in draggedVertexId!..<maxCount {
+                points()[id] = points()[id + 1]
+            }
+            vertexCount -= 1
+            renderer?.redrawRenderer()
+        }
+    }
+
     func missionCoordinates() -> [CLLocationCoordinate2D] {
         if renderer != nil {
             var coordinates: [CLLocationCoordinate2D] = []
@@ -79,7 +104,7 @@ extension MissionPolygon {
 
     func vertexContainsCoordinate(_ coordinate: CLLocationCoordinate2D) -> Bool {
         if renderer != nil {
-            for id in 0..<pointCount {
+            for id in 0..<vertexCount {
                 let vertexPosition = renderer!.point(for: points()[id])
                 let touchPosition = renderer!.point(for: MKMapPoint(coordinate))
                 let distance = Vector(vertexPosition, touchPosition).norm
@@ -99,17 +124,17 @@ extension MissionPolygon {
     func computeCenter() -> CLLocationCoordinate2D {
         var lat = CLLocationDegrees()
         var lon = CLLocationDegrees()
-        for id in 0..<pointCount {
+        for id in 0..<vertexCount {
             lat += points()[id].coordinate.latitude
             lon += points()[id].coordinate.longitude
         }
-        return CLLocationCoordinate2D(latitude: lat / Double(pointCount),
-                                      longitude: lon / Double(pointCount))
+        return CLLocationCoordinate2D(latitude: lat / Double(vertexCount),
+                                      longitude: lon / Double(vertexCount))
     }
 
     func computeVertexOffsets(relativeTo coordinate: CLLocationCoordinate2D) {
         vertexOffsets.removeAll(keepingCapacity: true)
-        for id in 0..<pointCount {
+        for id in 0..<vertexCount {
             let dLat = points()[id].coordinate.latitude - coordinate.latitude
             let dLon = points()[id].coordinate.longitude - coordinate.longitude
             vertexOffsets.append(CGPoint(x: dLat, y: dLon))

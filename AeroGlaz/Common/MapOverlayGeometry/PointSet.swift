@@ -20,6 +20,11 @@ extension PointSet {
         points.append(point)
     }
 
+    func remove(point: CGPoint) {
+        let id = points.firstIndex(of: point)
+        points.remove(at: id!)
+    }
+
     func update(point: CGPoint, at id: Int) {
         points[id] = point
     }
