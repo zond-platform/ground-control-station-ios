@@ -21,11 +21,11 @@ class ConvexHullTest: XCTestCase {
             CGPoint(x: 1, y: 0),
         ]
         var expected = [
+            CGPoint(x: 0, y: 1),
             CGPoint(x: 1, y: 1),
             CGPoint(x: 2, y: 1),
             CGPoint(x: 1, y: 0),
             CGPoint(x: 0, y: 0),
-            CGPoint(x: 0, y: 1),
         ]
         measure {
             let hull = ConvexHull()
@@ -42,9 +42,9 @@ class ConvexHullTest: XCTestCase {
         ]
         expected = [
             CGPoint(x: 0, y: 1),
-            CGPoint(x: 0, y: 2),
-            CGPoint(x: 0, y: 1),
             CGPoint(x: 0, y: 0),
+            CGPoint(x: 0, y: 1),
+            CGPoint(x: 0, y: 2),
         ]
         var hull = ConvexHull()
         hull.compute(points)
@@ -83,8 +83,8 @@ class ConvexHullTest: XCTestCase {
         var line = Line(a: 0.25, b: 0)
         var intersectionPoints = hull.intersections(with: line)
         XCTAssertEqual(intersectionPoints.count, 2)
-        XCTAssertEqual(intersectionPoints[0], CGPoint(x: 2, y: 0.5))
-        XCTAssertEqual(intersectionPoints[1], CGPoint(x: -2, y: -0.5))
+        XCTAssertEqual(intersectionPoints[0], CGPoint(x: -2, y: -0.5))
+        XCTAssertEqual(intersectionPoints[1], CGPoint(x: 2, y: 0.5))
 
         // Edge case vertex intersection
         line = Line(a: -1, b: 3)
@@ -98,32 +98,5 @@ class ConvexHullTest: XCTestCase {
         XCTAssertEqual(intersectionPoints.count, 2)
         XCTAssertEqual(intersectionPoints[0], CGPoint(x: 2, y: -1))
         XCTAssertEqual(intersectionPoints[1], CGPoint(x: 0, y: -2))
-    }
-
-    func testConvexHullPointsBelongOneEdge() {
-        let points = [
-            CGPoint(x: 0, y: 2),
-            CGPoint(x: -1, y: 2),
-            CGPoint(x: -2, y: 1),
-            CGPoint(x: -2, y: -1),
-            CGPoint(x: 0, y: -2),
-            CGPoint(x: 2, y: -1),
-            CGPoint(x: 2, y: 1),
-        ]
-        let hull = ConvexHull()
-        hull.compute(points)
-        XCTAssertTrue(hull.isValid)
-
-        // Trivial case one edge
-        XCTAssertTrue(hull.pointsBelongOneEdge(points[0], points[1]))
-        XCTAssertTrue(hull.pointsBelongOneEdge(points[1], points[0]))
-        XCTAssertTrue(hull.pointsBelongOneEdge(points[3], points[4]))
-        XCTAssertTrue(hull.pointsBelongOneEdge(points[2], points[3]))
-
-        // Trivial case different edges
-        XCTAssertFalse(hull.pointsBelongOneEdge(points[0], points[2]))
-
-        // Edge case same point
-        XCTAssertFalse(hull.pointsBelongOneEdge(points[0], points[0]))
     }
 }

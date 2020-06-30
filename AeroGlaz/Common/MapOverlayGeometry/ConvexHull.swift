@@ -80,16 +80,6 @@ extension ConvexHull {
             return []
         }
     }
-
-    func pointsBelongOneEdge(_ point1: CGPoint, _ point2: CGPoint) -> Bool {
-        for vector in vectors {
-            if (vector.startPoint == point1 && vector.endPoint == point2)
-                || (vector.startPoint == point2 && vector.endPoint == point1) {
-                return true
-            }
-        }
-        return false
-    }
 }
 
 func ==(lhs: ConvexHull, rhs: ConvexHull) -> Bool {

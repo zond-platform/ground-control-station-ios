@@ -18,13 +18,7 @@ extension Meander {
     func referenceLine(for hull: ConvexHull, withTangent tangent: CGFloat?) -> Line? {
         var referenceLines: [Line] = []
         for point in hull.points {
-            let line = Line(tangent: tangent, point: point)
-            let intersectionPoints = hull.intersections(with: line)
-            if intersectionPoints.count == 1
-               || (intersectionPoints.count == 2
-                   && hull.pointsBelongOneEdge(intersectionPoints[0], intersectionPoints[1])) {
-                referenceLines.append(line)
-            }
+            referenceLines.append(Line(tangent: tangent, point: point))
         }
         if tangent == nil {
             referenceLines.sort(by: { $0.x! < $1.x! })
