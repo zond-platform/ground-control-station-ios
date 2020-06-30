@@ -137,10 +137,6 @@ extension MapViewController {
         Environment.missionViewController.stateListeners.append({ state in
             self.missionPolygon?.missionState = state
             if state != nil && state == .editing {
-                if let polygon = self.missionPolygon {
-                    polygon.computeVertexOffsets(relativeTo: polygon.computeCenter())
-                    polygon.movePolygon(to: self.user.coordinate)
-                }
                 self.enableMissionPolygonInteration(true)
             } else {
                 self.enableMissionPolygonInteration(false)
