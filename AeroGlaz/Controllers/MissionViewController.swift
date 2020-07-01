@@ -50,6 +50,7 @@ class MissionViewController : UIViewController {
     private var missionView: MissionView!
     private var tableData: TableData = missionData
     private var previousMissionState: MissionState?
+    private let documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypeJSON], in: .import)
 
     // Observer properties
     private var missionState: MissionState? {
@@ -77,6 +78,9 @@ class MissionViewController : UIViewController {
         missionView.tableView.register(TableSection.self, forHeaderFooterViewReuseIdentifier: SectionType.spacer.reuseIdentifier)
         missionView.tableView.register(TableCommandCell.self, forCellReuseIdentifier: RowType.command.reuseIdentifier)
         missionView.tableView.register(TableSliderCell.self, forCellReuseIdentifier: RowType.slider.reuseIdentifier)
+        documentPicker.delegate = self
+        documentPicker.shouldShowFileExtensions = true
+        documentPicker.allowsMultipleSelection = false
         registerListeners()
         view = missionView
     }
@@ -251,5 +255,25 @@ extension MissionViewController : UITableViewDelegate {
 
     internal func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return missionView.tableView.dequeueReusableHeaderFooterView(withIdentifier: SectionType.spacer.reuseIdentifier) as! TableSection
+    }
+}
+
+// Document picker updates
+extension MissionViewController {
+    internal func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        if let jsonUrl = urls.first {
+            do {
+                let jsonFile = try String(contentsOf: fileURL, encoding: .utf8)
+                /*
+                Parse JSON
+                */
+            } catch {
+                pirint("Unable to read file: \(error)")
+            }
+        }
+    }
+
+    internal func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+
     }
 }
