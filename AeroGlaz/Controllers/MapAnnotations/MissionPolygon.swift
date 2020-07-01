@@ -78,6 +78,14 @@ extension MissionPolygon {
         }
     }
 
+    func setMissionCoordinates(_ coordinates: [CLLocationCoordinate2D]) {
+        pointSet.points.removeAll()
+        vertexCount = 0
+        for coordinate in coordinates {
+            addVetrex(at:coordinates)
+        }
+    }
+
     func missionCoordinates() -> [CLLocationCoordinate2D] {
         if renderer != nil {
             var coordinates: [CLLocationCoordinate2D] = []
