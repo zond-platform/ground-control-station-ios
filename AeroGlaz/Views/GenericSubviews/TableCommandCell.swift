@@ -9,10 +9,10 @@
 import UIKit
 
 fileprivate let missionStateMap: [MissionState:[CommandButtonId]] = [
-    .uploaded : [CommandButtonId.edit,   CommandButtonId.start,  CommandButtonId.stop],
-    .running  : [CommandButtonId.edit,   CommandButtonId.pause,  CommandButtonId.stop],
-    .paused   : [CommandButtonId.edit,   CommandButtonId.resume, CommandButtonId.stop],
-    .editing  : [CommandButtonId.upload, CommandButtonId.start,  CommandButtonId.stop],
+    .uploaded : [CommandButtonId.importJson, CommandButtonId.edit,   CommandButtonId.start,  CommandButtonId.stop],
+    .running  : [CommandButtonId.importJson, CommandButtonId.edit,   CommandButtonId.pause,  CommandButtonId.stop],
+    .paused   : [CommandButtonId.importJson, CommandButtonId.edit,   CommandButtonId.resume, CommandButtonId.stop],
+    .editing  : [CommandButtonId.importJson, CommandButtonId.upload, CommandButtonId.start,  CommandButtonId.stop],
 ]
 
 class TableCommandCell : UITableViewCell {
@@ -75,18 +75,20 @@ extension TableCommandCell {
         if row.isEnabled {
             switch id {
                 case .editing:
-                    enable(buttons: [buttons[0]], true)
-                    enable(buttons: [buttons[1], buttons[2]], false)
+                    enable(buttons: [buttons[0], buttons[1]], true)
+                    enable(buttons: [buttons[2], buttons[3]], false)
                 case .uploaded:
-                    enable(buttons: [buttons[0], buttons[1], buttons[2]], true)
+                    enable(buttons: [buttons[0]], false)
+                    enable(buttons: [buttons[1], buttons[2], buttons[3]], true)
                 case .running:
                     fallthrough
                 case .paused:
-                    enable(buttons: [buttons[0]], false)
-                    enable(buttons: [buttons[1], buttons[2]], true)
+                    enable(buttons: [buttons[0], buttons[1]], false)
+                    enable(buttons: [buttons[2], buttons[3]], true)
             }
         } else {
-            enable(buttons: [buttons[0], buttons[1], buttons[2]], false)
+            enable(buttons: [buttons[0]], true)
+            enable(buttons: [buttons[1], buttons[2], buttons[3]], false)
         }
     }
 }

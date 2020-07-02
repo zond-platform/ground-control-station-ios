@@ -60,9 +60,9 @@ class MissionPolygon : MKPolygon {
 
 // Public methods
 extension MissionPolygon {
-    func addVetrex(at coordinate: CLLocationCoordinate2D) {
+    func addVetrex(at coordinate: CLLocationCoordinate2D, redraw: Bool) {
         pointSet.append(point: renderer!.point(for: MKMapPoint(coordinate)))
-        updateVertex(coordinate, id: vertexCount, redraw: true)
+        updateVertex(coordinate, id: vertexCount, redraw: redraw)
         vertexCount += 1
     }
 
@@ -78,12 +78,15 @@ extension MissionPolygon {
         }
     }
 
-    func setMissionCoordinates(_ coordinates: [CLLocationCoordinate2D]) {
+    func setRawMissionCoordinates(_ coordinates: [[Float]]) {
         pointSet.points.removeAll()
         vertexCount = 0
         for coordinate in coordinates {
-            addVetrex(at:coordinates)
+            let lat = CLLocationDegrees(coordinate[1])
+            let lon = CLLocationDegrees(coordinate[0])
+            addVetrex(at: CLLocationCoordinate2D(latitude: lat, longitude: lon), redraw: false)
         }
+        renderer?.redrawRenderer()
     }
 
     func missionCoordinates() -> [CLLocationCoordinate2D] {

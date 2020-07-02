@@ -6,7 +6,10 @@
 //  Copyright © 2019 Evgeny Agamirzov. All rights reserved.
 //
 
+import os.log
+
 import DJISDK
+import MobileCoreServices
 import UIKit
 
 enum MissionState {
@@ -14,6 +17,24 @@ enum MissionState {
     case running
     case paused
     case editing
+}
+
+struct Misson : Codable {
+    struct Properties : Codable {
+        let distance: Float
+        let angle: Float
+        let shoot: Float
+        let altitude: Float
+        let speed: Float
+    }
+
+    struct Geometry : Codable {
+        let type: String
+        let coordinates: [[[Float]]]
+    }
+
+    let properties: Properties
+    let geometry: Geometry
 }
 
 fileprivate let allowedTransitions: KeyValuePairs<MissionState?,MissionState?> = [
@@ -50,7 +71,6 @@ class MissionViewController : UIViewController {
     private var missionView: MissionView!
     private var tableData: TableData = missionData
     private var previousMissionState: MissionState?
-    private let documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypeJSON], in: .import)
 
     // Observer properties
     private var missionState: MissionState? {
@@ -65,6 +85,7 @@ class MissionViewController : UIViewController {
 
     // Notyfier properties
     var stateListeners: [((_ state: MissionState?) -> Void)?] = []
+    var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -78,9 +99,6 @@ class MissionViewController : UIViewController {
         missionView.tableView.register(TableSection.self, forHeaderFooterViewReuseIdentifier: SectionType.spacer.reuseIdentifier)
         missionView.tableView.register(TableCommandCell.self, forCellReuseIdentifier: RowType.command.reuseIdentifier)
         missionView.tableView.register(TableSliderCell.self, forCellReuseIdentifier: RowType.slider.reuseIdentifier)
-        documentPicker.delegate = self
-        documentPicker.shouldShowFileExtensions = true
-        documentPicker.allowsMultipleSelection = false
         registerListeners()
         view = missionView
     }
@@ -146,9 +164,9 @@ extension MissionViewController {
         tableData.updateRow(at: idPath, with: value)
         switch idPath{
             case IdPath(.editor, .gridDistance):
-                Environment.mapViewController.gridDistance = CGFloat(value)
+                Environment.mapViewController.missionPolygon?.gridDistance = CGFloat(value)
             case IdPath(.editor, .gridAngle):
-                Environment.mapViewController.gridAngle = CGFloat(value)
+                Environment.mapViewController.missionPolygon?.gridAngle = CGFloat(value)
             case IdPath(.editor, .altitude):
                 Environment.commandService.missionParameters.altitude = Float(value)
             case IdPath(.editor, .shootDistance):
@@ -162,6 +180,12 @@ extension MissionViewController {
 
     private func buttonPressed(with id: CommandButtonId) {
         switch id {
+            case .importJson:
+                let documentPicker = UIDocumentPickerViewController(documentTypes: [String(kUTTypeJSON)], in: .import)
+                documentPicker.delegate = self
+                documentPicker.shouldShowFileExtensions = true
+                documentPicker.allowsMultipleSelection = false
+                Environment.rootViewController.present(documentPicker, animated: true, completion: nil)
             case .upload:
                 let coordinates = Environment.mapViewController.missionCoordinates()
                 if Environment.commandService.setMissionCoordinates(coordinates) {
@@ -259,21 +283,34 @@ extension MissionViewController : UITableViewDelegate {
 }
 
 // Document picker updates
-extension MissionViewController {
+extension MissionViewController : UIDocumentPickerDelegate {
     internal func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         if let jsonUrl = urls.first {
             do {
-                let jsonFile = try String(contentsOf: fileURL, encoding: .utf8)
-                /*
-                Parse JSON
-                */
+                let jsonFile = try String(contentsOf: jsonUrl, encoding: .utf8)
+                do {
+                    let jsonData = jsonFile.data(using: .utf8)!
+                    let decoder = JSONDecoder()
+                    let mission = try decoder.decode(Misson.self, from: jsonData)
+
+                    sliderMoved(at: IdPath(.editor, .gridDistance), to: mission.properties.distance)
+                    sliderMoved(at: IdPath(.editor, .gridAngle), to: mission.properties.angle)
+                    sliderMoved(at: IdPath(.editor, .shootDistance), to: mission.properties.shoot)
+                    sliderMoved(at: IdPath(.editor, .altitude), to: mission.properties.altitude)
+                    sliderMoved(at: IdPath(.editor, .flightSpeed), to: mission.properties.speed)
+
+                    // First element of the geometry is the outer polygon
+                    if mission.geometry.type == "Polygon"
+                       && !mission.geometry.coordinates.isEmpty
+                       && mission.geometry.coordinates[0].count >= 3 {
+                        Environment.mapViewController.missionPolygon?.setRawMissionCoordinates(mission.geometry.coordinates[0])
+                    }
+                } catch {
+                    logConsole?("JSON parse error: \(error)", .error)
+                }
             } catch {
-                pirint("Unable to read file: \(error)")
+                logConsole?("JSON read error: \(error)", .error)
             }
         }
-    }
-
-    internal func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-
     }
 }

@@ -9,6 +9,7 @@
 import UIKit
 
 enum CommandButtonId {
+    case importJson
     case upload
     case edit
     case start
@@ -18,6 +19,8 @@ enum CommandButtonId {
 
     var title: String {
         switch self {
+            case .importJson:
+                return "Import"
             case .upload:
                 return "Upload"
             case .edit:
@@ -51,17 +54,6 @@ class CommandButton : UIButton {
             }
         }
     }
-//    override var isHighlighted: Bool {
-//        didSet {
-//            if isHighlighted {
-//                setTitleColor(Colors.Text.mainTitle, for: .normal)
-//                layer.borderColor = Colors.Text.mainTitle.cgColor
-//            } else {
-//                setTitleColor(Colors.Text.detailTitle, for: .normal)
-//                layer.borderColor = Colors.Text.detailTitle.cgColor
-//            }
-//        }
-//    }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)

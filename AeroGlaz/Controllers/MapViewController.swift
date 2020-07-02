@@ -22,19 +22,7 @@ class MapViewController : UIViewController {
     private var user = MovingObject(CLLocationCoordinate2D(), 0.0, .user)
     private var aircraft = MovingObject(CLLocationCoordinate2D(), 0.0, .aircraft)
     private var home = MovingObject(CLLocationCoordinate2D(), 0.0, .home)
-    private var missionPolygon: MissionPolygon?
-
-    // Observer properties
-    var gridDistance: CGFloat? {
-        didSet {
-            self.missionPolygon?.gridDistance = gridDistance
-        }
-    }
-    var gridAngle: CGFloat? {
-        didSet {
-            self.missionPolygon?.gridAngle = gridAngle
-        }
-    }
+    private(set) var missionPolygon: MissionPolygon?
 
     // Computed properties
     var userLocation: CLLocationCoordinate2D? {
@@ -281,7 +269,7 @@ extension MapViewController : UIGestureRecognizerDelegate {
             if self.missionPolygon!.vertexContainsCoordinate(touchCoordinate) {
                 self.missionPolygon!.removeVetrex()
             } else {
-                self.missionPolygon!.addVetrex(at: touchCoordinate)
+                self.missionPolygon!.addVetrex(at: touchCoordinate, redraw: true)
             }
         }
     }
