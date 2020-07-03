@@ -299,11 +299,11 @@ extension MissionViewController : UIDocumentPickerDelegate {
                     sliderMoved(at: IdPath(.editor, .altitude), to: mission.properties.altitude)
                     sliderMoved(at: IdPath(.editor, .flightSpeed), to: mission.properties.speed)
 
-                    // First element of the geometry is the outer polygon
-                    if mission.geometry.type == "Polygon"
-                       && !mission.geometry.coordinates.isEmpty
-                       && mission.geometry.coordinates[0].count >= 3 {
-                        Environment.mapViewController.missionPolygon?.setRawMissionCoordinates(mission.geometry.coordinates[0])
+                    if mission.geometry.type == "Polygon"  && !mission.geometry.coordinates.isEmpty {
+                        // First element of the geometry is always the outer polygon
+                        var rawCoordinates = mission.geometry.coordinates[0]
+                        rawCoordinates.removeLast()
+                        Environment.mapViewController.missionPolygon?.setRawMissionCoordinates(rawCoordinates)
                     }
                 } catch {
                     logConsole?("JSON parse error: \(error)", .error)

@@ -78,15 +78,17 @@ extension MissionPolygon {
         }
     }
 
-    func setRawMissionCoordinates(_ coordinates: [[Float]]) {
-        pointSet.points.removeAll()
-        vertexCount = 0
-        for coordinate in coordinates {
-            let lat = CLLocationDegrees(coordinate[1])
-            let lon = CLLocationDegrees(coordinate[0])
-            addVetrex(at: CLLocationCoordinate2D(latitude: lat, longitude: lon), redraw: false)
+    func setRawMissionCoordinates( _ coordinates: [[Float]]) {
+        if coordinates.count >= 3 {
+            pointSet.points.removeAll()
+            vertexCount = 0
+            for coordinate in coordinates {
+                let lat = CLLocationDegrees(coordinate[1])
+                let lon = CLLocationDegrees(coordinate[0])
+                addVetrex(at: CLLocationCoordinate2D(latitude: lat, longitude: lon), redraw: false)
+            }
+            renderer?.redrawRenderer()
         }
-        renderer?.redrawRenderer()
     }
 
     func missionCoordinates() -> [CLLocationCoordinate2D] {
