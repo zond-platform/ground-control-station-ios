@@ -20,21 +20,25 @@ enum MissionState {
 }
 
 struct Misson : Codable {
-    struct Properties : Codable {
-        let distance: Float
-        let angle: Float
-        let shoot: Float
-        let altitude: Float
-        let speed: Float
+    struct Feature : Codable {
+        struct Properties : Codable {
+            let distance: Float
+            let angle: Float
+            let shoot: Float
+            let altitude: Float
+            let speed: Float
+        }
+
+        struct Geometry : Codable {
+            let type: String
+            let coordinates: [[[Double]]]
+        }
+
+        let properties: Properties
+        let geometry: Geometry
     }
 
-    struct Geometry : Codable {
-        let type: String
-        let coordinates: [[[Float]]]
-    }
-
-    let properties: Properties
-    let geometry: Geometry
+    let features: [Feature]
 }
 
 fileprivate let allowedTransitions: KeyValuePairs<MissionState?,MissionState?> = [
@@ -291,7 +295,7 @@ extension MissionViewController : UIDocumentPickerDelegate {
                 do {
                     let jsonData = jsonFile.data(using: .utf8)!
                     let decoder = JSONDecoder()
-                    let mission = try decoder.decode(Misson.self, from: jsonData)
+                    let mission = try decoder.decode(Misson.self, from: jsonData).features[0]
 
                     sliderMoved(at: IdPath(.editor, .gridDistance), to: mission.properties.distance)
                     sliderMoved(at: IdPath(.editor, .gridAngle), to: mission.properties.angle)
@@ -303,7 +307,7 @@ extension MissionViewController : UIDocumentPickerDelegate {
                         // First element of the geometry is always the outer polygon
                         var rawCoordinates = mission.geometry.coordinates[0]
                         rawCoordinates.removeLast()
-                        Environment.mapViewController.missionPolygon?.setRawMissionCoordinates(rawCoordinates)
+                        Environment.mapViewController.showMissionPolygon(rawCoordinates)
                     }
                 } catch {
                     logConsole?("JSON parse error: \(error)", .error)

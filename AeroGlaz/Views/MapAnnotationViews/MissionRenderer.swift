@@ -90,7 +90,7 @@ class MissionRenderer : MKOverlayRenderer {
             points = polygon!.pointSet.points
             hull = polygon!.pointSet.convexHull()
             grid = polygon!.pointSet.meanderGrid()
-            switch missionState {
+            switch missionState! {
                 case .editing:
                     drawPolygon(in: context)
                     drawVerticies(in: context, for: zoomScale)

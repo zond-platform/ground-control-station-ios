@@ -93,6 +93,13 @@ extension MapViewController {
         }
     }
 
+    func showMissionPolygon(_ rawCoordinates: [[Double]]) {
+        if let polygon = missionPolygon {
+            polygon.setRawMissionCoordinates(rawCoordinates)
+            focusOnCoordinate(polygon.computeCenter())
+        }
+    }
+
     func missionCoordinates() -> [CLLocationCoordinate2D] {
         if let missionPolygon = self.missionPolygon {
             return missionPolygon.missionCoordinates()
@@ -184,8 +191,8 @@ extension MapViewController {
 
     func focusOnCoordinate(_ coordinate: CLLocationCoordinate2D) {
         let region = MKCoordinateRegion(center: coordinate,
-                                        latitudinalMeters: CLLocationDistance(exactly: 200)!,
-                                        longitudinalMeters: CLLocationDistance(exactly: 200)!)
+                                        latitudinalMeters: CLLocationDistance(exactly: 400)!,
+                                        longitudinalMeters: CLLocationDistance(exactly: 400)!)
         mapView.setRegion(mapView.regionThatFits(region), animated: true)
     }
 
