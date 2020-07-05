@@ -35,7 +35,7 @@ extension ConnectionService : DJISDKManagerDelegate {
         } else {
             logConsole?("SDK Registration succeeded", .debug)
             DJISDKManager.startConnectionToProduct()
-            DJISDKManager.closeConnection(whenEnteringBackground: false)
+            DJISDKManager.closeConnection(whenEnteringBackground: true)
             onModelNameChanged(nil, nil)
         }
     }
