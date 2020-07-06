@@ -24,7 +24,7 @@ class MissionPolygon : MKPolygon {
     weak var renderer: MissionRenderer? {
         didSet {
             for id in 0..<vertexCount {
-                pointSet.append(point: renderer!.point(for: points()[id]))
+                pointSet.points.append(renderer!.point(for: points()[id]))
             }
         }
     }
@@ -61,14 +61,14 @@ class MissionPolygon : MKPolygon {
 // Public methods
 extension MissionPolygon {
     func addVetrex(at coordinate: CLLocationCoordinate2D, redraw: Bool) {
-        pointSet.append(point: renderer!.point(for: MKMapPoint(coordinate)))
+        pointSet.points.append(renderer!.point(for: MKMapPoint(coordinate)))
         updateVertex(coordinate, id: vertexCount, redraw: redraw)
         vertexCount += 1
     }
 
     func removeVetrex() {
         if draggedVertexId != nil && vertexCount > 3 {
-            pointSet.remove(point: renderer!.point(for: points()[draggedVertexId!]))
+            pointSet.points.remove(at: draggedVertexId!)
             let maxCount = (vertexCount == maxVertexCount) ? (maxVertexCount - 1) : (vertexCount - 1)
             for id in draggedVertexId!..<maxCount {
                 points()[id] = points()[id + 1]
@@ -97,7 +97,7 @@ extension MissionPolygon {
     func missionCoordinates() -> [CLLocationCoordinate2D] {
         if renderer != nil {
             var coordinates: [CLLocationCoordinate2D] = []
-            for point in renderer!.grid {
+            for point in renderer!.meander {
                 coordinates.append(renderer!.mapPoint(for: point).coordinate)
             }
             return coordinates
@@ -181,7 +181,7 @@ extension MissionPolygon {
     private func updateVertex(_ coordinate: CLLocationCoordinate2D, id: Int, redraw: Bool) {
         if renderer != nil {
             points()[id] = MKMapPoint(coordinate)
-            pointSet.update(point: renderer!.point(for: points()[id]), at: id)
+            pointSet.points[id] = renderer!.point(for: points()[id])
             if redraw {
                 renderer!.redrawRenderer()
             }

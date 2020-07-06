@@ -10,7 +10,6 @@ import CoreGraphics
 
 class Meander : Equatable {
     private(set) var points: [CGPoint] = []
-    var isValid = false
 }
 
 // Public methods
@@ -29,7 +28,7 @@ extension Meander {
     }
 
     func compute(_ hull: ConvexHull, _ delta: CGFloat, _ tangent: CGFloat?) {
-        if hull.isValid && delta != 0.0 {
+        if delta != 0.0 {
             if let line = referenceLine(for: hull, withTangent: tangent) {
                 // Reset and initialize
                 points.removeAll(keepingCapacity: true)
@@ -59,17 +58,11 @@ extension Meander {
                     points.append(contentsOf: intersectionPoints)
                     direction = !direction
                 } while !intersectionPoints.isEmpty
-                isValid = true
-            } else {
-                isValid = false
             }
-        } else {
-            isValid = false
         }
     }
 }
 
 func ==(lhs: Meander, rhs: Meander) -> Bool {
     return lhs.points == rhs.points
-           && lhs.isValid == rhs.isValid
 }

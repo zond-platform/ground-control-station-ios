@@ -10,36 +10,15 @@ import CoreGraphics
 
 class PointSet {
     var points: [CGPoint] = []
-    private var hull = ConvexHull()
-    private var meander = Meander()
+    private(set) var hull = ConvexHull()
+    private(set) var meander = Meander()
 }
 
 // Public methods
 extension PointSet {
-    func append(point: CGPoint) {
-        points.append(point)
-    }
-
-    func remove(point: CGPoint) {
-        let id = points.firstIndex(of: point)
-        points.remove(at: id!)
-    }
-
-    func update(point: CGPoint, at id: Int) {
-        points[id] = point
-    }
-
     func recomputeShapes(_ delta: CGFloat, _ tangent: CGFloat?) {
         hull.compute(points)
         meander.compute(hull, delta, tangent)
-    }
-
-    func convexHull() -> [CGPoint] {
-        return hull.isValid ? hull.points : []
-    }
-
-    func meanderGrid() -> [CGPoint] {
-        return meander.isValid ? meander.points : []
     }
 
     func leftmost() -> CGPoint {

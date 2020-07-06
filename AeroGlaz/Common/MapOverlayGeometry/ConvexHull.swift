@@ -16,19 +16,6 @@ enum HullTraverseDirection {
 class ConvexHull : Equatable {
     private(set) var points: [CGPoint] = []
     private(set) var vectors: [Vector] = []
-    private(set) var isValid = false
-    private let minPoints = 3
-}
-
-// Private methods
-extension ConvexHull {
-    private func add(_ vector: Vector) {
-        vectors.append(vector)
-        points.append(vector.endPoint)
-        if points.count >= minPoints {
-            isValid = true
-        }
-    }
 }
 
 // Public methods
@@ -40,7 +27,7 @@ extension ConvexHull {
             vectors.removeAll(keepingCapacity: true)
             var referenceVector = Vector(endPoint: initialPoint)
             repeat {
-                var nextVector = Vector()
+                var nextVector = Vector(at: initialPoint)
                 var minTheta = CGFloat.pi
                 for currentPoint in allPoints {
                     if currentPoint != referenceVector.endPoint {
@@ -57,33 +44,27 @@ extension ConvexHull {
                     }
                 }
                 referenceVector = nextVector
-                add(nextVector)
+                vectors.append(nextVector)
+                points.append(nextVector.endPoint)
             } while referenceVector.endPoint != initialPoint
-        } else {
-            isValid = false
         }
     }
 
     func intersections(with line: Line) -> [CGPoint] {
-        if isValid {
-            var result: [CGPoint] = []
-            for vector in vectors {
-                let intersectionPoints = vector.intersectionPoint(with: line)
-                for point in intersectionPoints {
-                    if !result.contains(point) {
-                        result.append(point)
-                    }
+        var result: [CGPoint] = []
+        for vector in vectors {
+            let intersectionPoints = vector.intersectionPoint(with: line)
+            for point in intersectionPoints {
+                if !result.contains(point) {
+                    result.append(point)
                 }
             }
-            return result
-        } else {
-            return []
         }
+        return result
     }
 }
 
 func ==(lhs: ConvexHull, rhs: ConvexHull) -> Bool {
     return lhs.points == rhs.points
            && lhs.vectors == rhs.vectors
-           && lhs.isValid == rhs.isValid
 }

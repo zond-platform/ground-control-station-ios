@@ -30,7 +30,6 @@ class ConvexHullTest: XCTestCase {
         measure {
             let hull = ConvexHull()
             hull.compute(points)
-            XCTAssertTrue(hull.isValid)
             XCTAssertEqual(hull.points, expected)
         }
 
@@ -48,7 +47,6 @@ class ConvexHullTest: XCTestCase {
         ]
         var hull = ConvexHull()
         hull.compute(points)
-        XCTAssertTrue(hull.isValid)
         XCTAssertEqual(hull.points, expected)
 
         // Edge case less than three points is illegal
@@ -57,12 +55,23 @@ class ConvexHullTest: XCTestCase {
             CGPoint(x: 0, y: 1)
         ]
         expected = [
-            CGPoint(x: 0, y: 1),
-            CGPoint(x: 0, y: 0)
+            CGPoint(x: 0, y: 0),
+            CGPoint(x: 0, y: 1)
         ]
         hull = ConvexHull()
         hull.compute(points)
-        XCTAssertFalse(hull.isValid)
+        XCTAssertEqual(hull.points, expected)
+
+        // One point
+        points = [
+            CGPoint(x: 23, y: -6)
+        ]
+        expected = [
+            CGPoint(x: 23, y: -6)
+        ]
+        hull = ConvexHull()
+        hull.compute(points)
+        XCTAssertEqual(hull.points, expected)
     }
 
     func testConvexHullLineIntersection() {
@@ -77,7 +86,6 @@ class ConvexHullTest: XCTestCase {
         ]
         let hull = ConvexHull()
         hull.compute(points)
-        XCTAssertTrue(hull.isValid)
         
         // Trivial case
         var line = Line(a: 0.25, b: 0)

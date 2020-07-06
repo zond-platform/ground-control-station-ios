@@ -33,7 +33,7 @@ class MissionRenderer : MKOverlayRenderer {
     private var redrawTriggered = false
     private var points: [CGPoint] = []
     private var hull: [CGPoint] = []
-    private(set) var grid: [CGPoint] = []
+    private(set) var meander: [CGPoint] = []
     private var lastAircraftPoint: CGPoint?
 
     // Computed properties
@@ -88,8 +88,8 @@ class MissionRenderer : MKOverlayRenderer {
         if polygon != nil && missionState != nil {
             polygon!.pointSet.recomputeShapes(liveGridDelta, liveGridTangent)
             points = polygon!.pointSet.points
-            hull = polygon!.pointSet.convexHull()
-            grid = polygon!.pointSet.meanderGrid()
+            hull = polygon!.pointSet.hull.points
+            meander = polygon!.pointSet.meander.points
             switch missionState! {
                 case .editing:
                     drawPolygon(in: context)
@@ -157,10 +157,10 @@ extension MissionRenderer {
     }
 
     private func drawGrid(in context: CGContext, for zoomScale: MKZoomScale) {
-        if !grid.isEmpty {
+        if !meander.isEmpty {
             let lineWidth = MKRoadWidthAtZoomScale(zoomScale) * 0.5
             let path = CGMutablePath()
-            path.addLines(between: grid)
+            path.addLines(between: meander)
             context.setStrokeColor(UIColor.yellow.cgColor)
             context.setLineWidth(lineWidth)
             context.addPath(path)
@@ -169,13 +169,13 @@ extension MissionRenderer {
     }
 
     private func drawWaypoints(in context: CGContext, for zoomScale: MKZoomScale) {
-        if !grid.isEmpty {
+        if !meander.isEmpty {
             let path = CGMutablePath()
             let radius = computeRadius(for: zoomScaleToWaypointRadiusMap, with: zoomScale)
             let size = CGSize(width: radius * CGFloat(2.0), height: radius * CGFloat(2.0))
-            let startOrigin = CGPoint(x: grid.first!.x - radius, y: grid.first!.y - radius)
+            let startOrigin = CGPoint(x: meander.first!.x - radius, y: meander.first!.y - radius)
             path.addEllipse(in: CGRect.init(origin: startOrigin, size: size))
-            let finishOrigin = CGPoint(x: grid.last!.x - radius, y: grid.last!.y - radius)
+            let finishOrigin = CGPoint(x: meander.last!.x - radius, y: meander.last!.y - radius)
             path.addEllipse(in: CGRect.init(origin: finishOrigin, size: size))
             context.setFillColor(UIColor.yellow.cgColor)
             context.addPath(path)
@@ -185,11 +185,11 @@ extension MissionRenderer {
 
     private func drawAircraftLine(in context: CGContext, for zoomScale: MKZoomScale, and location: CGPoint?) {
         if let aircraftLocation = location {
-            if !grid.isEmpty {
+            if !meander.isEmpty {
                 let lineWidth = MKRoadWidthAtZoomScale(zoomScale) * 0.5
                 let path = CGMutablePath()
                 path.move(to: aircraftLocation)
-                path.addLine(to: grid.first!)
+                path.addLine(to: meander.first!)
                 context.setStrokeColor(UIColor.yellow.cgColor)
                 context.setLineWidth(lineWidth)
                 context.setLineDash(phase: 0.0, lengths: [40, 40])

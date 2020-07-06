@@ -17,8 +17,8 @@ class Vector : Equatable {
     let norm: CGFloat
 
     // Create null vector
-    convenience init() {
-        self.init(CGPoint(x: 0.0, y: 0.0), CGPoint(x: 0.0, y: 0.0))
+    convenience init(at point: CGPoint = CGPoint(x: 0, y: 0)) {
+        self.init(point, point)
     }
 
     // Create identitiy vector parrallel to y axis
