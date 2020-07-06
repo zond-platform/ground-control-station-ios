@@ -14,7 +14,7 @@ class Meander : Equatable {
 
 // Public methods
 extension Meander {
-    func referenceLine(for hull: ConvexHull, withTangent tangent: CGFloat?) -> Line? {
+    func referenceLine(for hull: Hull, withTangent tangent: CGFloat?) -> Line? {
         var referenceLines: [Line] = []
         for point in hull.points {
             referenceLines.append(Line(tangent: tangent, point: point))
@@ -27,7 +27,7 @@ extension Meander {
         return referenceLines.first
     }
 
-    func compute(_ hull: ConvexHull, _ delta: CGFloat, _ tangent: CGFloat?) {
+    func compute(_ hull: Hull, _ delta: CGFloat, _ tangent: CGFloat?) {
         if delta != 0.0 {
             if let line = referenceLine(for: hull, withTangent: tangent) {
                 // Reset and initialize

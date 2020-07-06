@@ -14,7 +14,7 @@ fileprivate let maxVertexCount: Int = 20
 class MissionPolygon : MKPolygon {
     // Stored properties
     var vertexArea = MissionRenderer.vertexRadius
-    var pointSet = PointSet()
+    var pointSet = Points()
     private var vertexOffsets: [CGPoint] = []
     private var missionGrid: [CGPoint] = []
     private var vertexCount: Int = 0
@@ -108,7 +108,7 @@ extension MissionPolygon {
 
     func bodyContainsCoordinate(_ coordinate: CLLocationCoordinate2D) -> Bool {
         if renderer != nil {
-            let rect = pointSet.enclosingRect()
+            let rect = pointSet.rect.rect
             let polygonOrigin = renderer!.mapPoint(for: rect.origin)
             let polygonSize = MKMapSize(width: Double(rect.width), height: Double(rect.height))
             let polygonRect = MKMapRect(origin: polygonOrigin, size: polygonSize)

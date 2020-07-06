@@ -51,8 +51,8 @@ class MissionRenderer : MKOverlayRenderer {
     var liveGridDelta: CGFloat {
         let polygon = self.overlay as? MissionPolygon
         if polygon != nil && polygon!.gridDistance != nil {
-            let lowermostPoint = polygon!.pointSet.lowermost()
-            let uppermostPoint = polygon!.pointSet.uppermost()
+            let lowermostPoint = CGPoint(x: 0, y: polygon!.pointSet.rect.minY)
+            let uppermostPoint = CGPoint(x: 0, y: polygon!.pointSet.rect.maxY)
             let lowermostMapPoint = MKMapPoint(x: 0.0, y: self.mapPoint(for: lowermostPoint).y)
             let uppermostMapPoint = MKMapPoint(x: 0.0, y: self.mapPoint(for: uppermostPoint).y)
             let numLines = CGFloat(lowermostMapPoint.distance(to: uppermostMapPoint)) / polygon!.gridDistance!

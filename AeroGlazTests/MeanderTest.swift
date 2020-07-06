@@ -20,7 +20,7 @@ class MeanderTest: XCTestCase {
             CGPoint(x: 2, y: -1),
             CGPoint(x: 2, y: 1),
         ]
-        let hull = ConvexHull()
+        let hull = Hull()
         hull.compute(points)
         let meander = Meander()
         

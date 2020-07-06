@@ -1,5 +1,5 @@
 //
-//  ConvexHull.swift
+//  Hull.swift
 //  Aeroglaz
 //
 //  Created by Evgeny Agamirzov on 24.12.19.
@@ -8,28 +8,23 @@
 
 import CoreGraphics
 
-enum HullTraverseDirection {
-    case forward
-    case backward
-}
-
-class ConvexHull : Equatable {
+class Hull : Equatable {
     private(set) var points: [CGPoint] = []
     private(set) var vectors: [Vector] = []
 }
 
 // Public methods
-extension ConvexHull {
+extension Hull {
     // Jarvis algorithm (gift wrapping)
-    func compute(_ allPoints: [CGPoint]) {
-        if let initialPoint = allPoints.min(by: { $0.x <= $1.x }) {
+    func compute(_ rawPoints: [CGPoint]) {
+        if let initialPoint = rawPoints.min(by: { $0.x <= $1.x }) {
             points.removeAll(keepingCapacity: true)
             vectors.removeAll(keepingCapacity: true)
             var referenceVector = Vector(endPoint: initialPoint)
             repeat {
                 var nextVector = Vector(at: initialPoint)
                 var minTheta = CGFloat.pi
-                for currentPoint in allPoints {
+                for currentPoint in rawPoints {
                     if currentPoint != referenceVector.endPoint {
                         let currentVector = Vector(referenceVector.endPoint, currentPoint)
                         let currentTheta = referenceVector.theta(currentVector)
@@ -64,7 +59,7 @@ extension ConvexHull {
     }
 }
 
-func ==(lhs: ConvexHull, rhs: ConvexHull) -> Bool {
+func ==(lhs: Hull, rhs: Hull) -> Bool {
     return lhs.points == rhs.points
            && lhs.vectors == rhs.vectors
 }

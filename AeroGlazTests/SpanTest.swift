@@ -12,14 +12,14 @@ import XCTest
 class RectTest: XCTestCase {
     func testRectContainsPoint() {
         // Trivial case
-        var rect = Rect(CGPoint(x: 0, y: 0), CGPoint(x: 2, y: 1))
+        var rect = Span(CGPoint(x: 0, y: 0), CGPoint(x: 2, y: 1))
         XCTAssertTrue(rect.contains(CGPoint(x: 1, y: 1)))
         XCTAssertFalse(rect.contains(CGPoint(x: 3, y: 2)))
         XCTAssertTrue(rect.contains(CGPoint(x: 0, y: 1)))
         XCTAssertTrue(rect.contains(CGPoint(x: 2, y: 0.5)))
 
         // Edge case rect with no width
-        rect = Rect(CGPoint(x: 0, y: 0), CGPoint(x: 0, y: 1))
+        rect = Span(CGPoint(x: 0, y: 0), CGPoint(x: 0, y: 1))
         XCTAssertTrue(rect.contains(CGPoint(x: 0, y: 0)))
         XCTAssertTrue(rect.contains(CGPoint(x: 0, y: 0.3)))
         XCTAssertTrue(rect.contains(CGPoint(x: 0, y: 1)))
@@ -28,11 +28,11 @@ class RectTest: XCTestCase {
 
     func testRectCenterPoint() {
         // Trivial case
-        var rect = Rect(CGPoint(x: 0, y: 0), CGPoint(x: 2, y: 1))
+        var rect = Span(CGPoint(x: 0, y: 0), CGPoint(x: 2, y: 1))
         XCTAssertEqual(rect.center, CGPoint(x: 1, y: 0.5))
 
         // Edge case rect with no width
-        rect = Rect(CGPoint(x: 0, y: 0), CGPoint(x: 0, y: 1))
+        rect = Span(CGPoint(x: 0, y: 0), CGPoint(x: 0, y: 1))
         XCTAssertEqual(rect.center, CGPoint(x: 0, y: 0.5))
     }
 }

@@ -2,7 +2,7 @@
 //  Rect.swift
 //  AeroGlaz
 //
-//  Created by Evgeny Agamirzov on 25.06.20.
+//  Created by Evgeny Agamirzov on 06.07.20.
 //  Copyright © 2020 Evgeny Agamirzov. All rights reserved.
 //
 
@@ -10,32 +10,37 @@ import CoreGraphics
 
 class Rect : Equatable {
     // Stored properties
-    let dx: CGFloat
-    let dy: CGFloat
-    let minX: CGFloat
-    let minY: CGFloat
-    let center: CGPoint
+    private(set) var rect = CGRect()
 
-    init(_ startPoint: CGPoint, _ endPoint: CGPoint) {
-        self.dx = endPoint.x - startPoint.x
-        self.dy = endPoint.y - startPoint.y
-        self.minX = endPoint.x > startPoint.x ? startPoint.x : endPoint.x
-        self.minY = endPoint.y > startPoint.y ? startPoint.y : endPoint.y
-        self.center = CGPoint(x: minX + abs(dx) / 2, y: minY + abs(dy) / 2)
+    // Computed properties
+    var minX: CGFloat {
+        rect.minX
+    }
+    var minY: CGFloat {
+        rect.minX
+    }
+    var maxX: CGFloat {
+        rect.maxX
+    }
+    var maxY: CGFloat {
+        rect.maxX
     }
 }
 
 // Public methods
 extension Rect {
-    func contains(_ point: CGPoint) -> Bool {
-        return point.x >= minX && point.x <= minX + abs(dx)
-               && point.y >= minY && point.y <= minY + abs(dy)
+    // Jarvis algorithm (gift wrapping)
+    func compute(_ rawPoints: [CGPoint]) {
+        if !rawPoints.isEmpty {
+            let minX = rawPoints.min{ left, right in left.x < right.x }!.x
+            let minY = rawPoints.min{ left, right in left.y < right.y }!.y
+            let width = abs(rawPoints.max{ left, right in left.x < right.x }!.x - minX)
+            let height = abs(rawPoints.max{ left, right in left.y < right.y }!.y - minY)
+            rect = CGRect(x: minX, y: minY, width: width, height: height)
+        }
     }
 }
 
 func ==(lhs: Rect, rhs: Rect) -> Bool {
-    return lhs.dx == rhs.dx
-           && lhs.dy == rhs.dy
-           && lhs.minX == rhs.minX
-           && lhs.minY == rhs.minY
+    return lhs.rect == rhs.rect
 }

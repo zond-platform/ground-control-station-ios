@@ -28,7 +28,7 @@ class ConvexHullTest: XCTestCase {
             CGPoint(x: 0, y: 0),
         ]
         measure {
-            let hull = ConvexHull()
+            let hull = Hull()
             hull.compute(points)
             XCTAssertEqual(hull.points, expected)
         }
@@ -45,7 +45,7 @@ class ConvexHullTest: XCTestCase {
             CGPoint(x: 0, y: 1),
             CGPoint(x: 0, y: 2),
         ]
-        var hull = ConvexHull()
+        var hull = Hull()
         hull.compute(points)
         XCTAssertEqual(hull.points, expected)
 
@@ -58,7 +58,7 @@ class ConvexHullTest: XCTestCase {
             CGPoint(x: 0, y: 0),
             CGPoint(x: 0, y: 1)
         ]
-        hull = ConvexHull()
+        hull = Hull()
         hull.compute(points)
         XCTAssertEqual(hull.points, expected)
 
@@ -69,7 +69,7 @@ class ConvexHullTest: XCTestCase {
         expected = [
             CGPoint(x: 23, y: -6)
         ]
-        hull = ConvexHull()
+        hull = Hull()
         hull.compute(points)
         XCTAssertEqual(hull.points, expected)
     }
@@ -84,7 +84,7 @@ class ConvexHullTest: XCTestCase {
             CGPoint(x: 2, y: -1),
             CGPoint(x: 2, y: 1),
         ]
-        let hull = ConvexHull()
+        let hull = Hull()
         hull.compute(points)
         
         // Trivial case

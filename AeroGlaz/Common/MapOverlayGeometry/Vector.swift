@@ -9,10 +9,9 @@
 import CoreGraphics
 
 class Vector : Equatable {
-    // Stored properties
     let startPoint: CGPoint
     let endPoint: CGPoint
-    let rect: Rect
+    let span: Span
     let line: Line
     let norm: CGFloat
 
@@ -29,21 +28,21 @@ class Vector : Equatable {
     init(_ startPoint: CGPoint, _ endPoint: CGPoint) {
         self.startPoint = startPoint
         self.endPoint = endPoint
-        self.rect = Rect(startPoint, endPoint)
-        if rect.dx == 0 {
+        self.span = Span(startPoint, endPoint)
+        if span.dx == 0 {
             self.line = Line(x: startPoint.x)
         } else {
-            let tangent = rect.dy / rect.dx
+            let tangent = span.dy / span.dx
             self.line = Line(tangent: tangent, point: endPoint)
         }
-        self.norm = sqrt(pow(self.rect.dx, 2) + pow(self.rect.dy, 2))
+        self.norm = sqrt(pow(self.span.dx, 2) + pow(self.span.dy, 2))
     }
 }
 
 // Public methods
 extension Vector {
     func dot(_ v: Vector) -> CGFloat {
-        return self.rect.dx * v.rect.dx + self.rect.dy * v.rect.dy
+        return self.span.dx * v.span.dx + self.span.dy * v.span.dy
     }
 
     func theta(_ v: Vector) -> CGFloat {
@@ -52,9 +51,9 @@ extension Vector {
 
     func intersectionPoint(with line: Line) -> [CGPoint] {
         // Need explicit checks if vector points belong the line. Otherwise
-        // the bounding rect of the vector may not contain the intersection
-        // point on the edge  fo the vector because of the floating point
-        // precision issues (line created from vector is always sligtly off).
+        // vector span may not contain the intersection  point on the edge
+        // of the vector because of the floating point precision issues
+        // (line created from vector is always sligtly off).
         if line.contains(self.startPoint) && line.contains(self.endPoint) {
             return [self.startPoint, self.endPoint]
         } else if line.contains(self.startPoint) {
@@ -64,7 +63,7 @@ extension Vector {
         } else {
             switch self.line.intersectionPoint(with: line) {
                 case .success(let point):
-                    return self.rect.contains(point) ? [point] : []
+                    return self.span.contains(point) ? [point] : []
                 case .failure(let error):
                     return error == .parallel ? [] : [self.startPoint, self.endPoint]
             }
