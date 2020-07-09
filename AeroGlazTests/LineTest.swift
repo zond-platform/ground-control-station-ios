@@ -9,7 +9,7 @@
 import XCTest
 @testable import AeroGlaz
 
-class LineTest: XCTestCase {
+class LineTest : XCTestCase {
     func testLineCreation() {
         // Trivial case
         var line = Line(a: 1, b: 2)

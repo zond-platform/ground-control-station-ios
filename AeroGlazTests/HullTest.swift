@@ -9,7 +9,7 @@
 import XCTest
 @testable import AeroGlaz
 
-class ConvexHullTest: XCTestCase {
+class ConvexHullTest : XCTestCase {
     func testConvexHullCreation() {
         // Trivial case
         var points = [

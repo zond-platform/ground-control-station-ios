@@ -9,7 +9,7 @@
 import XCTest
 @testable import AeroGlaz
 
-class VectorTest: XCTestCase {
+class VectorTest : XCTestCase {
     let eps = CGFloat(10e-6)
 
     func testVectorsAngleCaculation() {

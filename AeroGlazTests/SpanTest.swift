@@ -9,7 +9,7 @@
 import XCTest
 @testable import AeroGlaz
 
-class RectTest: XCTestCase {
+class RectTest : XCTestCase {
     func testRectContainsPoint() {
         // Trivial case
         var rect = Span(CGPoint(x: 0, y: 0), CGPoint(x: 2, y: 1))

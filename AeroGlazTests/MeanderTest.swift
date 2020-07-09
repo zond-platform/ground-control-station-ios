@@ -9,7 +9,7 @@
 import XCTest
 @testable import AeroGlaz
 
-class MeanderTest: XCTestCase {
+class MeanderTest : XCTestCase {
     func testMeanderReferenceLine() {
         let points = [
             CGPoint(x: 0, y: 2),
