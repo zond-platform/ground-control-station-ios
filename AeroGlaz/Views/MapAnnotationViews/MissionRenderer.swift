@@ -10,11 +10,11 @@ import MapKit
 
 fileprivate let zoomScaleToVertexRadiusMap: [MKZoomScale:CGFloat] = [
     1.0     : MissionRenderer.vertexRadius * CGFloat(1.5),
-    0.5     : MissionRenderer.vertexRadius * CGFloat(2.5),
-    0.25    : MissionRenderer.vertexRadius * CGFloat(4.0),
-    0.125   : MissionRenderer.vertexRadius * CGFloat(6.0),
-    0.0625  : MissionRenderer.vertexRadius * CGFloat(9.0),
-    0.03125 : MissionRenderer.vertexRadius * CGFloat(12.0),
+    0.5     : MissionRenderer.vertexRadius * CGFloat(2.0),
+    0.25    : MissionRenderer.vertexRadius * CGFloat(2.5),
+    0.125   : MissionRenderer.vertexRadius * CGFloat(3.0),
+    0.0625  : MissionRenderer.vertexRadius * CGFloat(3.5),
+    0.03125 : MissionRenderer.vertexRadius * CGFloat(4.0),
 ]
 
 fileprivate let zoomScaleToWaypointRadiusMap: [MKZoomScale:CGFloat] = [
@@ -26,14 +26,12 @@ fileprivate let zoomScaleToWaypointRadiusMap: [MKZoomScale:CGFloat] = [
 
 class MissionRenderer : MKOverlayRenderer {
     // Static properties
-    static let vertexRadius: CGFloat = 100.0
+    static let vertexRadius: CGFloat = 10.0
     static let waypointRadius: CGFloat = 20.0
 
     // Stored properties
+    private var pointSet = Points()
     private var redrawTriggered = false
-    private var points: [CGPoint] = []
-    private var hull: [CGPoint] = []
-    private(set) var meander: [CGPoint] = []
     private var lastAircraftPoint: CGPoint?
 
     // Computed properties
@@ -51,8 +49,8 @@ class MissionRenderer : MKOverlayRenderer {
     var liveGridDelta: CGFloat {
         let polygon = self.overlay as? MissionPolygon
         if polygon != nil && polygon!.gridDistance != nil {
-            let lowermostPoint = CGPoint(x: 0, y: polygon!.pointSet.rect.minY)
-            let uppermostPoint = CGPoint(x: 0, y: polygon!.pointSet.rect.maxY)
+            let lowermostPoint = CGPoint(x: 0, y: pointSet.rect.minY)
+            let uppermostPoint = CGPoint(x: 0, y: pointSet.rect.maxY)
             let lowermostMapPoint = MKMapPoint(x: 0.0, y: self.mapPoint(for: lowermostPoint).y)
             let uppermostMapPoint = MKMapPoint(x: 0.0, y: self.mapPoint(for: uppermostPoint).y)
             let numLines = CGFloat(lowermostMapPoint.distance(to: uppermostMapPoint)) / polygon!.gridDistance!
@@ -76,21 +74,11 @@ class MissionRenderer : MKOverlayRenderer {
         }
     }
 
-    // Observer properties
-    var missionState: MissionState? {
-        didSet {
-            redrawRenderer()
-        }
-    }
-
     override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
         let polygon = self.overlay as? MissionPolygon
-        if polygon != nil && missionState != nil {
-            polygon!.pointSet.recomputeShapes(liveGridDelta, liveGridTangent)
-            points = polygon!.pointSet.points
-            hull = polygon!.pointSet.hull.points
-            meander = polygon!.pointSet.meander.points
-            switch missionState! {
+        if polygon != nil && polygon!.missionState != nil {
+            calculateRawPoints(from: polygon!.coordinates)
+            switch polygon!.missionState! {
                 case .editing:
                     drawPolygon(in: context)
                     drawVerticies(in: context, for: zoomScale)
@@ -129,13 +117,32 @@ extension MissionRenderer {
     }
 }
 
-// Private methods
+// Private utility methods
+extension MissionRenderer {
+    private func calculateRawPoints(from coordinates: [CLLocationCoordinate2D]) {
+        pointSet.points.removeAll(keepingCapacity: true)
+        for coordinate in coordinates {
+            pointSet.points.append(point(for: MKMapPoint(coordinate)))
+        }
+        pointSet.recomputeShapes(liveGridDelta, liveGridTangent)
+    }
+
+    private func computeRadius(for map: [MKZoomScale:CGFloat], with zoomScale: MKZoomScale) -> CGFloat {
+        var vertexRadius = map[zoomScale]
+        if vertexRadius == nil {
+            vertexRadius = map.keys.max{ $0 < $1 }
+        }
+        return vertexRadius!
+    }
+}
+
+// Private drawing methods
 extension MissionRenderer {
     private func drawPolygon(in context: CGContext) {
-        if !hull.isEmpty {
+        if !pointSet.hull.points.isEmpty {
             let path = CGMutablePath()
-            path.addLines(between: hull)
-            path.addLine(to: hull.first!)
+            path.addLines(between: pointSet.hull.points)
+            path.addLine(to: pointSet.hull.points.first!)
             context.addPath(path)
             context.setFillColor(red: 86.0, green: 167.0, blue: 20.0, alpha: 0.5)
             context.drawPath(using: .fill)
@@ -143,9 +150,9 @@ extension MissionRenderer {
     }
 
     private func drawVerticies(in context: CGContext, for zoomScale: MKZoomScale) {
-        for point in points {
+        for point in pointSet.points {
             let radius = computeRadius(for: zoomScaleToVertexRadiusMap, with: zoomScale)
-            (self.overlay as? MissionPolygon)?.vertexArea = radius
+            (self.overlay as? MissionPolygon)?.vertexRadius = Double(radius)
             let path = CGMutablePath()
             let circleOrigin = CGPoint(x: point.x - radius, y: point.y - radius)
             let circleSize = CGSize(width: radius * CGFloat(2.0), height: radius * CGFloat(2.0))
@@ -157,10 +164,10 @@ extension MissionRenderer {
     }
 
     private func drawGrid(in context: CGContext, for zoomScale: MKZoomScale) {
-        if !meander.isEmpty {
+        if !pointSet.meander.points.isEmpty {
             let lineWidth = MKRoadWidthAtZoomScale(zoomScale) * 0.5
             let path = CGMutablePath()
-            path.addLines(between: meander)
+            path.addLines(between: pointSet.meander.points)
             context.setStrokeColor(UIColor.yellow.cgColor)
             context.setLineWidth(lineWidth)
             context.addPath(path)
@@ -169,13 +176,13 @@ extension MissionRenderer {
     }
 
     private func drawWaypoints(in context: CGContext, for zoomScale: MKZoomScale) {
-        if !meander.isEmpty {
+        if !pointSet.meander.points.isEmpty {
             let path = CGMutablePath()
             let radius = computeRadius(for: zoomScaleToWaypointRadiusMap, with: zoomScale)
             let size = CGSize(width: radius * CGFloat(2.0), height: radius * CGFloat(2.0))
-            let startOrigin = CGPoint(x: meander.first!.x - radius, y: meander.first!.y - radius)
+            let startOrigin = CGPoint(x: pointSet.meander.points.first!.x - radius, y: pointSet.meander.points.first!.y - radius)
             path.addEllipse(in: CGRect.init(origin: startOrigin, size: size))
-            let finishOrigin = CGPoint(x: meander.last!.x - radius, y: meander.last!.y - radius)
+            let finishOrigin = CGPoint(x: pointSet.meander.points.last!.x - radius, y: pointSet.meander.points.last!.y - radius)
             path.addEllipse(in: CGRect.init(origin: finishOrigin, size: size))
             context.setFillColor(UIColor.yellow.cgColor)
             context.addPath(path)
@@ -185,11 +192,11 @@ extension MissionRenderer {
 
     private func drawAircraftLine(in context: CGContext, for zoomScale: MKZoomScale, and location: CGPoint?) {
         if let aircraftLocation = location {
-            if !meander.isEmpty {
+            if !pointSet.meander.points.isEmpty {
                 let lineWidth = MKRoadWidthAtZoomScale(zoomScale) * 0.5
                 let path = CGMutablePath()
                 path.move(to: aircraftLocation)
-                path.addLine(to: meander.first!)
+                path.addLine(to: pointSet.meander.points.first!)
                 context.setStrokeColor(UIColor.yellow.cgColor)
                 context.setLineWidth(lineWidth)
                 context.setLineDash(phase: 0.0, lengths: [40, 40])
@@ -197,13 +204,5 @@ extension MissionRenderer {
                 context.drawPath(using: .stroke)
             }
         }
-    }
-
-    private func computeRadius(for map: [MKZoomScale:CGFloat], with zoomScale: MKZoomScale) -> CGFloat {
-        var vertexRadius = map[zoomScale]
-        if vertexRadius == nil {
-            vertexRadius = map.keys.max{ $0 > $1 }
-        }
-        return vertexRadius!
     }
 }

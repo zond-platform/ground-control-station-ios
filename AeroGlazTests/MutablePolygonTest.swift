@@ -20,7 +20,7 @@ class MutablePolygonTest : XCTestCase {
     ]
 
     func testPolygonCreation() {
-        let polygon = MutablePolygon(coordinates)
+        let polygon = MissionPolygon(coordinates)
         XCTAssertTrue(polygon != nil)
         XCTAssertEqual(polygon!.pointCount, 4)
         XCTAssertEqual(polygon!.center?.latitude, 12.5)
@@ -28,14 +28,14 @@ class MutablePolygonTest : XCTestCase {
     }
 
     func testPolygonCapacity() {
-        let polygon = MutablePolygon(coordinates)
+        let polygon = MissionPolygon(coordinates)
         XCTAssertTrue(polygon != nil)
         polygon!.appendVetrex(with: CLLocationCoordinate2D(latitude: 15, longitude: 20))
         XCTAssertEqual(polygon!.pointCount, 5)
     }
 
     func testPolygonContains() {
-        let polygon = MutablePolygon(coordinates)
+        let polygon = MissionPolygon(coordinates)
         XCTAssertTrue(polygon != nil)
         XCTAssertFalse(polygon!.bodyContains(coordinate: CLLocationCoordinate2D(latitude: 15, longitude: 20)))
         XCTAssertTrue(polygon!.bodyContains(coordinate: CLLocationCoordinate2D(latitude: 10, longitude: 15)))

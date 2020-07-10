@@ -95,18 +95,22 @@ extension MapViewController {
 
     func showMissionPolygon(_ rawCoordinates: [[Double]]) {
         if let polygon = missionPolygon {
-            polygon.setRawMissionCoordinates(rawCoordinates)
-            focusOnCoordinate(polygon.computeCenter())
+            var coordinates: [CLLocationCoordinate2D] = []
+            for coordinate in rawCoordinates {
+                let lat = coordinate[1]
+                let lon = coordinate[0]
+                coordinates.append(CLLocationCoordinate2D(latitude: lat, longitude: lon))
+            }
+            polygon.replaceAllVertices(with: coordinates)
+            if let center = polygon.center {
+                focusOnCoordinate(center)
+            }
         }
     }
 
     func missionCoordinates() -> [CLLocationCoordinate2D] {
-        if let missionPolygon = self.missionPolygon {
-            return missionPolygon.missionCoordinates()
-        } else {
-            logConsole?("Mission coordinates not set", .error)
-            return []
-        }
+        os_log("Add mission coordinates getter!!!", type: .error)
+        return []
     }
 
     func repositionLegalLabels() {
@@ -251,7 +255,6 @@ extension MapViewController : MKMapViewDelegate {
 
     internal func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MissionRenderer(overlay: overlay)
-        missionPolygon?.renderer = renderer
         return renderer
     }
 
@@ -273,10 +276,10 @@ extension MapViewController : UIGestureRecognizerDelegate {
     @objc private func handleTap(sender: UIGestureRecognizer) {
         if sender.state == .began && self.missionPolygon != nil {
             let touchCoordinate = mapView.convert(sender.location(in: mapView), toCoordinateFrom: mapView)
-            if self.missionPolygon!.vertexContainsCoordinate(touchCoordinate) {
-                self.missionPolygon!.removeVetrex()
+            if self.missionPolygon!.vertexContains(coordinate: touchCoordinate) {
+                self.missionPolygon!.removeVetrex(at: missionPolygon!.dragIndex!)
             } else {
-                self.missionPolygon!.addVetrex(at: touchCoordinate, redraw: true)
+                self.missionPolygon!.appendVetrex(with: touchCoordinate)
             }
         }
     }
@@ -284,18 +287,18 @@ extension MapViewController : UIGestureRecognizerDelegate {
     @objc private func handlePolygonDrag(sender: UIGestureRecognizer) {
         let touchCoordinate = mapView.convert(sender.location(in: mapView), toCoordinateFrom: mapView)
         if let polygon = self.missionPolygon {
-            let canDragPolygon = polygon.bodyContainsCoordinate(touchCoordinate)
-            let canDragVertex = polygon.vertexContainsCoordinate(touchCoordinate)
+            let canDragPolygon = polygon.bodyContains(coordinate: touchCoordinate)
+            let canDragVertex = polygon.vertexContains(coordinate: touchCoordinate)
 
             if !canDragVertex && !canDragPolygon {
                 enableMapInteraction(true)
             } else if sender.state == .began {
                 enableMapInteraction(false)
-                polygon.computeVertexOffsets(relativeTo: touchCoordinate)
+                polygon.computeOffsets(relativeTo: touchCoordinate)
             } else if sender.state == .changed && canDragVertex {
-                polygon.moveVertex(to: touchCoordinate)
+                polygon.moveVertex(following: touchCoordinate)
             } else if sender.state == .changed && canDragPolygon {
-                polygon.movePolygon(to: touchCoordinate)
+                polygon.movePolygon(following: touchCoordinate)
             } else if sender.state == .ended {
                 enableMapInteraction(true)
             }
@@ -326,7 +329,12 @@ extension MapViewController : CLLocationManagerDelegate {
                     CLLocationCoordinate2D(latitude: lat + span, longitude: lon - span)
                 ]
                 missionPolygon = MissionPolygon(polygonCoordinates)
-                self.mapView.addOverlay(missionPolygon!)
+                missionPolygon!.updated = {
+                    if let renderer = self.mapView.renderer(for: self.missionPolygon!) as? MissionRenderer {
+                        renderer.redrawRenderer()
+                    }
+                }
+                mapView.addOverlay(missionPolygon!)
             }
         }
     }
