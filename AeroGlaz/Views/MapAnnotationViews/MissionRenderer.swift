@@ -35,6 +35,15 @@ class MissionRenderer : MKOverlayRenderer {
     private var lastAircraftPoint: CGPoint?
 
     // Computed properties
+    var pixelsPerMeter: CGFloat {
+        let lowermostPoint = CGPoint(x: 0, y: pointSet.rect.minY)
+        let uppermostPoint = CGPoint(x: 0, y: pointSet.rect.maxY)
+        let lowermostMapPoint = MKMapPoint(x: 0, y: self.mapPoint(for: lowermostPoint).y)
+        let uppermostMapPoint = MKMapPoint(x: 0, y: self.mapPoint(for: uppermostPoint).y)
+        let pixelHeight = abs(pointSet.rect.maxY - pointSet.rect.minY)
+        let meterHeight = CGFloat(lowermostMapPoint.distance(to: uppermostMapPoint))
+        return pixelHeight / meterHeight
+    }
     var liveAircraftPoint: CGPoint? {
         let polygon = self.overlay as? MissionPolygon
         var point: CGPoint?
@@ -49,12 +58,7 @@ class MissionRenderer : MKOverlayRenderer {
     var liveGridDelta: CGFloat {
         let polygon = self.overlay as? MissionPolygon
         if polygon != nil && polygon!.gridDistance != nil {
-            let lowermostPoint = CGPoint(x: 0, y: pointSet.rect.minY)
-            let uppermostPoint = CGPoint(x: 0, y: pointSet.rect.maxY)
-            let lowermostMapPoint = MKMapPoint(x: 0.0, y: self.mapPoint(for: lowermostPoint).y)
-            let uppermostMapPoint = MKMapPoint(x: 0.0, y: self.mapPoint(for: uppermostPoint).y)
-            let numLines = CGFloat(lowermostMapPoint.distance(to: uppermostMapPoint)) / polygon!.gridDistance!
-            return (uppermostPoint.y - lowermostPoint.y) / numLines
+            return pixelsPerMeter * polygon!.gridDistance!
         } else {
             return 0.0
         }
@@ -151,11 +155,12 @@ extension MissionRenderer {
 
     private func drawVerticies(in context: CGContext, for zoomScale: MKZoomScale) {
         for point in pointSet.points {
-            let radius = computeRadius(for: zoomScaleToVertexRadiusMap, with: zoomScale)
-            (self.overlay as? MissionPolygon)?.vertexRadius = Double(radius)
+            let meterRadius = computeRadius(for: zoomScaleToVertexRadiusMap, with: zoomScale)
+            (self.overlay as? MissionPolygon)?.vertexRadius = Double(meterRadius)
             let path = CGMutablePath()
-            let circleOrigin = CGPoint(x: point.x - radius, y: point.y - radius)
-            let circleSize = CGSize(width: radius * CGFloat(2.0), height: radius * CGFloat(2.0))
+            let pixelRadius = meterRadius * pixelsPerMeter
+            let circleOrigin = CGPoint(x: point.x - pixelRadius, y: point.y - pixelRadius)
+            let circleSize = CGSize(width: pixelRadius * CGFloat(2.0), height: pixelRadius * CGFloat(2.0))
             path.addEllipse(in: CGRect.init(origin: circleOrigin, size: circleSize))
             context.addPath(path)
             context.setFillColor(red: 86.0, green: 167.0, blue: 20.0, alpha: 0.5)
