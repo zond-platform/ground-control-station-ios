@@ -13,11 +13,13 @@ import MapKit
 
 fileprivate let maxVertexCount: Int = 20
 
+
+
 class MissionPolygon : MKPolygon {
     // Stored properties
     var dragIndex: Int?
-    var coordinates: [CLLocationCoordinate2D] = []
     var vertexRadius: CLLocationDistance = 50
+    var coordinates: [CLLocationCoordinate2D] = []
     private var offsets: [CGPoint] = []
 
     // Computed properties

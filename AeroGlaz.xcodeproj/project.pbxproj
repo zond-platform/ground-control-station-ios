@@ -10,7 +10,7 @@
 		6AF15F54C300312AD4151E5B /* libPods-AeroGlaz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D6935011A9215A707673D56 /* libPods-AeroGlaz.a */; };
 		EC0ECE322449B9F5008B1479 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0ECE312449B9F5008B1479 /* Environment.swift */; };
 		EC0ECE342449EACE008B1479 /* TableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0ECE332449EACE008B1479 /* TableSection.swift */; };
-		EC0F7D4624B51EDC005BB020 /* MutablePolygonTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0F7D4524B51EDC005BB020 /* MutablePolygonTest.swift */; };
+		EC0F7D4624B51EDC005BB020 /* MissionPolygonTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0F7D4524B51EDC005BB020 /* MissionPolygonTest.swift */; };
 		EC12A715244B1DB200DEC7A6 /* ConsoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC12A714244B1DB200DEC7A6 /* ConsoleView.swift */; };
 		EC12A717244B316700DEC7A6 /* ConsoleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC12A716244B316700DEC7A6 /* ConsoleViewController.swift */; };
 		EC12E78D247531B500BF4AE6 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC12E78C247531B500BF4AE6 /* LocationService.swift */; };
@@ -19,7 +19,7 @@
 		EC12E7942477E4DF00BF4AE6 /* Dimensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC12E7932477E4DF00BF4AE6 /* Dimensions.swift */; };
 		EC12E79624792EFF00BF4AE6 /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC12E79524792EFF00BF4AE6 /* StatusViewController.swift */; };
 		EC12E798247933E900BF4AE6 /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC12E797247933E900BF4AE6 /* StatusView.swift */; };
-		EC13B6C424A5F771007ADDEF /* Points.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC13B6C324A5F771007ADDEF /* Points.swift */; };
+		EC13B6C424A5F771007ADDEF /* PointSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC13B6C324A5F771007ADDEF /* PointSet.swift */; };
 		EC13B6C624A62BDF007ADDEF /* Meander.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC13B6C524A62BDF007ADDEF /* Meander.swift */; };
 		EC14731B23B1EE9300385067 /* MovingObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14731A23B1EE9300385067 /* MovingObject.swift */; };
 		EC14732223B1F02200385067 /* MovingObjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC14732123B1F02200385067 /* MovingObjectView.swift */; };
@@ -53,7 +53,6 @@
 		ECB6B8F624A4178F002C4B04 /* SpanTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB6B8F524A4178F002C4B04 /* SpanTest.swift */; };
 		ECB6B8F824A41F1D002C4B04 /* VectorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB6B8F724A41F1D002C4B04 /* VectorTest.swift */; };
 		ECC51897247943CF007852E7 /* StatusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC51896247943CF007852E7 /* StatusLabel.swift */; };
-		ECCB449524B35E44005AA1F6 /* Rect.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCB449424B35E44005AA1F6 /* Rect.swift */; };
 		ECCB449724B36D7F005AA1F6 /* MissionPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCB449624B36D7F005AA1F6 /* MissionPolygon.swift */; };
 		ECD709A4244F3BB8004CB3B6 /* TableSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD709A3244F3BB8004CB3B6 /* TableSlider.swift */; };
 		ECD8AC1F2465A87900FCC8DB /* SectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD8AC1B2465A87900FCC8DB /* SectionData.swift */; };
@@ -87,7 +86,7 @@
 		8D6935011A9215A707673D56 /* libPods-AeroGlaz.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AeroGlaz.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC0ECE312449B9F5008B1479 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		EC0ECE332449EACE008B1479 /* TableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSection.swift; sourceTree = "<group>"; };
-		EC0F7D4524B51EDC005BB020 /* MutablePolygonTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutablePolygonTest.swift; sourceTree = "<group>"; };
+		EC0F7D4524B51EDC005BB020 /* MissionPolygonTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionPolygonTest.swift; sourceTree = "<group>"; };
 		EC12A714244B1DB200DEC7A6 /* ConsoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleView.swift; sourceTree = "<group>"; };
 		EC12A716244B316700DEC7A6 /* ConsoleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleViewController.swift; sourceTree = "<group>"; };
 		EC12E78C247531B500BF4AE6 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
@@ -96,7 +95,7 @@
 		EC12E7932477E4DF00BF4AE6 /* Dimensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dimensions.swift; sourceTree = "<group>"; };
 		EC12E79524792EFF00BF4AE6 /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
 		EC12E797247933E900BF4AE6 /* StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusView.swift; sourceTree = "<group>"; };
-		EC13B6C324A5F771007ADDEF /* Points.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Points.swift; sourceTree = "<group>"; };
+		EC13B6C324A5F771007ADDEF /* PointSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointSet.swift; sourceTree = "<group>"; };
 		EC13B6C524A62BDF007ADDEF /* Meander.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meander.swift; sourceTree = "<group>"; };
 		EC14731A23B1EE9300385067 /* MovingObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingObject.swift; sourceTree = "<group>"; };
 		EC14732123B1F02200385067 /* MovingObjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingObjectView.swift; sourceTree = "<group>"; };
@@ -136,7 +135,6 @@
 		ECB6B8F524A4178F002C4B04 /* SpanTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpanTest.swift; sourceTree = "<group>"; };
 		ECB6B8F724A41F1D002C4B04 /* VectorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorTest.swift; sourceTree = "<group>"; };
 		ECC51896247943CF007852E7 /* StatusLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusLabel.swift; sourceTree = "<group>"; };
-		ECCB449424B35E44005AA1F6 /* Rect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rect.swift; sourceTree = "<group>"; };
 		ECCB449624B36D7F005AA1F6 /* MissionPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionPolygon.swift; sourceTree = "<group>"; };
 		ECD709A3244F3BB8004CB3B6 /* TableSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSlider.swift; sourceTree = "<group>"; };
 		ECD8AC1B2465A87900FCC8DB /* SectionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionData.swift; sourceTree = "<group>"; };
@@ -193,7 +191,6 @@
 		EC12E78E2477E49800BF4AE6 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				ECD7148E2365B09800958956 /* MapOverlayGeometry */,
 				EC0ECE312449B9F5008B1479 /* Environment.swift */,
 				EC12E7932477E4DF00BF4AE6 /* Dimensions.swift */,
 				EC12E78F2477E4C800BF4AE6 /* Fonts.swift */,
@@ -214,6 +211,7 @@
 		EC14732023B1EFA600385067 /* MapAnnotationViews */ = {
 			isa = PBXGroup;
 			children = (
+				ECD7148E2365B09800958956 /* Geometry */,
 				EC14732123B1F02200385067 /* MovingObjectView.swift */,
 				EC14732523B1F07E00385067 /* MissionRenderer.swift */,
 			);
@@ -294,7 +292,7 @@
 				ECB6B8F724A41F1D002C4B04 /* VectorTest.swift */,
 				EC950E9B21B81EA700B3A03D /* HullTest.swift */,
 				EC302E9C24A6A74300F4389B /* MeanderTest.swift */,
-				EC0F7D4524B51EDC005BB020 /* MutablePolygonTest.swift */,
+				EC0F7D4524B51EDC005BB020 /* MissionPolygonTest.swift */,
 				EC950E9D21B81EA700B3A03D /* Info.plist */,
 			);
 			path = AeroGlazTests;
@@ -309,18 +307,17 @@
 			path = AeroGlazUITests;
 			sourceTree = "<group>";
 		};
-		ECD7148E2365B09800958956 /* MapOverlayGeometry */ = {
+		ECD7148E2365B09800958956 /* Geometry */ = {
 			isa = PBXGroup;
 			children = (
 				ECB6B8ED24A2442E002C4B04 /* Line.swift */,
 				EC14732923B1F63000385067 /* Vector.swift */,
 				ECB6B8F324A414CE002C4B04 /* Span.swift */,
-				ECCB449424B35E44005AA1F6 /* Rect.swift */,
 				EC14732723B1F62000385067 /* Hull.swift */,
 				EC13B6C524A62BDF007ADDEF /* Meander.swift */,
-				EC13B6C324A5F771007ADDEF /* Points.swift */,
+				EC13B6C324A5F771007ADDEF /* PointSet.swift */,
 			);
-			path = MapOverlayGeometry;
+			path = Geometry;
 			sourceTree = "<group>";
 		};
 		ECD8AC232465A88400FCC8DB /* TableDataSource */ = {
@@ -578,12 +575,11 @@
 				ECD8AC212465A87900FCC8DB /* IdPath.swift in Sources */,
 				ECB6B8EE24A2442E002C4B04 /* Line.swift in Sources */,
 				EC0ECE342449EACE008B1479 /* TableSection.swift in Sources */,
-				EC13B6C424A5F771007ADDEF /* Points.swift in Sources */,
+				EC13B6C424A5F771007ADDEF /* PointSet.swift in Sources */,
 				ECEEEEF4226BA5E7005A71C6 /* BaseService.swift in Sources */,
 				EC12A715244B1DB200DEC7A6 /* ConsoleView.swift in Sources */,
 				EC98D94524570BAC006BEA9F /* TableCommandCell.swift in Sources */,
 				ECD8AC1F2465A87900FCC8DB /* SectionData.swift in Sources */,
-				ECCB449524B35E44005AA1F6 /* Rect.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -596,7 +592,7 @@
 				ECB6B8F824A41F1D002C4B04 /* VectorTest.swift in Sources */,
 				EC302E9D24A6A74300F4389B /* MeanderTest.swift in Sources */,
 				ECB6B8F624A4178F002C4B04 /* SpanTest.swift in Sources */,
-				EC0F7D4624B51EDC005BB020 /* MutablePolygonTest.swift in Sources */,
+				EC0F7D4624B51EDC005BB020 /* MissionPolygonTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

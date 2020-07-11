@@ -14,19 +14,6 @@ class Meander : Equatable {
 
 // Public methods
 extension Meander {
-    func referenceLine(for hull: Hull, withTangent tangent: CGFloat?) -> Line? {
-        var referenceLines: [Line] = []
-        for point in hull.points {
-            referenceLines.append(Line(tangent: tangent, point: point))
-        }
-        if tangent == nil {
-            referenceLines.sort(by: { $0.x! < $1.x! })
-        } else {
-            referenceLines.sort(by: { tangent! > 0 ? $0.b! > $1.b! : $0.b! < $1.b! })
-        }
-        return referenceLines.first
-    }
-
     func compute(_ hull: Hull, _ delta: CGFloat, _ tangent: CGFloat?) {
         if delta != 0.0 {
             if let line = referenceLine(for: hull, withTangent: tangent) {
@@ -60,6 +47,19 @@ extension Meander {
                 } while !intersectionPoints.isEmpty
             }
         }
+    }
+
+    func referenceLine(for hull: Hull, withTangent tangent: CGFloat?) -> Line? {
+        var referenceLines: [Line] = []
+        for point in hull.points {
+            referenceLines.append(Line(tangent: tangent, point: point))
+        }
+        if tangent == nil {
+            referenceLines.sort(by: { $0.x! < $1.x! })
+        } else {
+            referenceLines.sort(by: { tangent! > 0 ? $0.b! > $1.b! : $0.b! < $1.b! })
+        }
+        return referenceLines.first
     }
 }
 

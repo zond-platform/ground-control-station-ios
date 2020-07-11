@@ -30,19 +30,26 @@ class MissionRenderer : MKOverlayRenderer {
     static let waypointRadius: CGFloat = 20.0
 
     // Stored properties
-    private var pointSet = Points()
+    private var pointSet = PointSet()
     private var redrawTriggered = false
     private var lastAircraftPoint: CGPoint?
+    private var context: CGContext?
+    private var zoomScale: MKZoomScale?
 
     // Computed properties
     var pixelsPerMeter: CGFloat {
-        let lowermostPoint = CGPoint(x: 0, y: pointSet.rect.minY)
-        let uppermostPoint = CGPoint(x: 0, y: pointSet.rect.maxY)
-        let lowermostMapPoint = MKMapPoint(x: 0, y: self.mapPoint(for: lowermostPoint).y)
-        let uppermostMapPoint = MKMapPoint(x: 0, y: self.mapPoint(for: uppermostPoint).y)
-        let pixelHeight = abs(pointSet.rect.maxY - pointSet.rect.minY)
-        let meterHeight = CGFloat(lowermostMapPoint.distance(to: uppermostMapPoint))
+        let minY = pointSet.points.min{ left, right in left.y < right.y }!.y
+        let maxY = pointSet.points.max{ left, right in left.y < right.y }!.y
+        let minPoint = CGPoint(x: 0, y: minY)
+        let maxPoint = CGPoint(x: 0, y: maxY)
+        let minMapPoint = MKMapPoint(x: 0, y: self.mapPoint(for: minPoint).y)
+        let maxMapPoint = MKMapPoint(x: 0, y: self.mapPoint(for: maxPoint).y)
+        let pixelHeight = abs(maxY - minY)
+        let meterHeight = CGFloat(minMapPoint.distance(to: maxMapPoint))
         return pixelHeight / meterHeight
+    }
+    var canDraw: Bool {
+        return context != nil && zoomScale != nil && pointSet.isComputed
     }
     var liveAircraftPoint: CGPoint? {
         let polygon = self.overlay as? MissionPolygon
@@ -81,22 +88,18 @@ class MissionRenderer : MKOverlayRenderer {
     override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
         let polygon = self.overlay as? MissionPolygon
         if polygon != nil && polygon!.missionState != nil {
-            calculateRawPoints(from: polygon!.coordinates)
-            switch polygon!.missionState! {
-                case .editing:
-                    drawPolygon(in: context)
-                    drawVerticies(in: context, for: zoomScale)
-                    drawGrid(in: context, for: zoomScale)
-                    drawWaypoints(in: context, for: zoomScale)
-                    drawAircraftLine(in: context, for: zoomScale, and: liveAircraftPoint)
-                case .uploaded:
-                    drawGrid(in: context, for: zoomScale)
-                    drawWaypoints(in: context, for: zoomScale)
-                    drawAircraftLine(in: context, for: zoomScale, and: liveAircraftPoint)
-                default:
-                    drawGrid(in: context, for: zoomScale)
-                    drawWaypoints(in: context, for: zoomScale)
-                    drawAircraftLine(in: context, for: zoomScale, and: lastAircraftPoint)
+            self.context = context
+            self.zoomScale = zoomScale
+            computeGeometries(from: polygon!.coordinates)
+            if canDraw {
+                // Draw only for editing state
+                if polygon!.missionState! == .editing {
+                    drawHull()
+                    drawVertices()
+                }
+                // Draw for all states
+                drawMeander()
+                drawAircraftLine()
             }
         }
     }
@@ -105,12 +108,10 @@ class MissionRenderer : MKOverlayRenderer {
 // Public methods
 extension MissionRenderer {
     func redrawRenderer() {
-        // The polygon renderer shall be redrawn every time the vertex position
-        // changes. Though, the position change rate is way too fast for heavy
-        // computations associated with the renderer update to keep up. As a result,
-        // computationally expensive operations are queued which slows down the
-        // entire application. Thus, limit the update rate to make redrawing smooth
-        // and unnoticable to the user (as much as possible).
+        // The refresh rate is way too fast for heavy computations associated
+        // with the renderer update to keep up. As a result, computationally
+        // expensive operations are queued which slows down the entire application.
+        // Thus, limit the update rate to make redrawing smooth (as much as possible).
         if !redrawTriggered {
             redrawTriggered = true
             setNeedsDisplay()
@@ -123,12 +124,14 @@ extension MissionRenderer {
 
 // Private utility methods
 extension MissionRenderer {
-    private func calculateRawPoints(from coordinates: [CLLocationCoordinate2D]) {
-        pointSet.points.removeAll(keepingCapacity: true)
+    private func computeGeometries(from coordinates: [CLLocationCoordinate2D]) {
+        var points: [CGPoint] = []
         for coordinate in coordinates {
-            pointSet.points.append(point(for: MKMapPoint(coordinate)))
+            points.append(point(for: MKMapPoint(coordinate)))
         }
-        pointSet.recomputeShapes(liveGridDelta, liveGridTangent)
+        pointSet.set(points: points)
+        pointSet.computeHull()
+        pointSet.computeMeander(liveGridDelta, liveGridTangent)
     }
 
     private func computeRadius(for map: [MKZoomScale:CGFloat], with zoomScale: MKZoomScale) -> CGFloat {
@@ -142,72 +145,64 @@ extension MissionRenderer {
 
 // Private drawing methods
 extension MissionRenderer {
-    private func drawPolygon(in context: CGContext) {
-        if !pointSet.hull.points.isEmpty {
-            let path = CGMutablePath()
-            path.addLines(between: pointSet.hull.points)
-            path.addLine(to: pointSet.hull.points.first!)
-            context.addPath(path)
-            context.setFillColor(red: 86.0, green: 167.0, blue: 20.0, alpha: 0.5)
-            context.drawPath(using: .fill)
-        }
+    private func drawHull() {
+        let path = CGMutablePath()
+        path.addLines(between: pointSet.hull.points)
+        path.addLine(to: pointSet.hull.points.first!)
+        context!.addPath(path)
+        context!.setFillColor(red: 86.0, green: 167.0, blue: 20.0, alpha: 0.5)
+        context!.drawPath(using: .fill)
     }
 
-    private func drawVerticies(in context: CGContext, for zoomScale: MKZoomScale) {
+    private func drawVertices() {
         for point in pointSet.points {
-            let meterRadius = computeRadius(for: zoomScaleToVertexRadiusMap, with: zoomScale)
+            let meterRadius = computeRadius(for: zoomScaleToVertexRadiusMap, with: zoomScale!)
             (self.overlay as? MissionPolygon)?.vertexRadius = Double(meterRadius)
             let path = CGMutablePath()
             let pixelRadius = meterRadius * pixelsPerMeter
             let circleOrigin = CGPoint(x: point.x - pixelRadius, y: point.y - pixelRadius)
             let circleSize = CGSize(width: pixelRadius * CGFloat(2.0), height: pixelRadius * CGFloat(2.0))
             path.addEllipse(in: CGRect.init(origin: circleOrigin, size: circleSize))
-            context.addPath(path)
-            context.setFillColor(red: 86.0, green: 167.0, blue: 20.0, alpha: 0.5)
-            context.drawPath(using: .fill)
+            context!.addPath(path)
+            context!.setFillColor(red: 86.0, green: 167.0, blue: 20.0, alpha: 0.5)
+            context!.drawPath(using: .fill)
         }
     }
 
-    private func drawGrid(in context: CGContext, for zoomScale: MKZoomScale) {
-        if !pointSet.meander.points.isEmpty {
-            let lineWidth = MKRoadWidthAtZoomScale(zoomScale) * 0.5
+    private func drawMeander() {
+        // Meander
+        let lineWidth = MKRoadWidthAtZoomScale(zoomScale!) * 0.5
+        let meanderPath = CGMutablePath()
+        meanderPath.addLines(between: pointSet.meander.points)
+        context!.setStrokeColor(UIColor.yellow.cgColor)
+        context!.setLineWidth(lineWidth)
+        context!.addPath(meanderPath)
+        context!.drawPath(using: .stroke)
+
+        // Start and finish points
+        let pointsPath = CGMutablePath()
+        let radius = computeRadius(for: zoomScaleToWaypointRadiusMap, with: zoomScale!)
+        let size = CGSize(width: radius * CGFloat(2.0), height: radius * CGFloat(2.0))
+        let startOrigin = CGPoint(x: pointSet.meander.points.first!.x - radius, y: pointSet.meander.points.first!.y - radius)
+        pointsPath.addEllipse(in: CGRect.init(origin: startOrigin, size: size))
+        let finishOrigin = CGPoint(x: pointSet.meander.points.last!.x - radius, y: pointSet.meander.points.last!.y - radius)
+        pointsPath.addEllipse(in: CGRect.init(origin: finishOrigin, size: size))
+        context!.setFillColor(UIColor.yellow.cgColor)
+        context!.addPath(pointsPath)
+        context!.drawPath(using: .fill)
+    }
+
+    private func drawAircraftLine() {
+        if let aircraftLocation = liveAircraftPoint {
+            let lineWidth = MKRoadWidthAtZoomScale(zoomScale!) * 0.5
             let path = CGMutablePath()
-            path.addLines(between: pointSet.meander.points)
-            context.setStrokeColor(UIColor.yellow.cgColor)
-            context.setLineWidth(lineWidth)
-            context.addPath(path)
-            context.drawPath(using: .stroke)
-        }
-    }
-
-    private func drawWaypoints(in context: CGContext, for zoomScale: MKZoomScale) {
-        if !pointSet.meander.points.isEmpty {
-            let path = CGMutablePath()
-            let radius = computeRadius(for: zoomScaleToWaypointRadiusMap, with: zoomScale)
-            let size = CGSize(width: radius * CGFloat(2.0), height: radius * CGFloat(2.0))
-            let startOrigin = CGPoint(x: pointSet.meander.points.first!.x - radius, y: pointSet.meander.points.first!.y - radius)
-            path.addEllipse(in: CGRect.init(origin: startOrigin, size: size))
-            let finishOrigin = CGPoint(x: pointSet.meander.points.last!.x - radius, y: pointSet.meander.points.last!.y - radius)
-            path.addEllipse(in: CGRect.init(origin: finishOrigin, size: size))
-            context.setFillColor(UIColor.yellow.cgColor)
-            context.addPath(path)
-            context.drawPath(using: .fill)
-        }
-    }
-
-    private func drawAircraftLine(in context: CGContext, for zoomScale: MKZoomScale, and location: CGPoint?) {
-        if let aircraftLocation = location {
-            if !pointSet.meander.points.isEmpty {
-                let lineWidth = MKRoadWidthAtZoomScale(zoomScale) * 0.5
-                let path = CGMutablePath()
-                path.move(to: aircraftLocation)
-                path.addLine(to: pointSet.meander.points.first!)
-                context.setStrokeColor(UIColor.yellow.cgColor)
-                context.setLineWidth(lineWidth)
-                context.setLineDash(phase: 0.0, lengths: [40, 40])
-                context.addPath(path)
-                context.drawPath(using: .stroke)
-            }
+            path.move(to: aircraftLocation)
+            path.addLine(to: pointSet.meander.points.first!)
+            context!.setStrokeColor(UIColor.yellow.cgColor)
+            context!.setLineWidth(lineWidth)
+            context!.setLineDash(phase: 0.0, lengths: [40, 40])
+            context!.addPath(path)
+            context!.drawPath(using: .stroke)
         }
     }
 }

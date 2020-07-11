@@ -1,5 +1,5 @@
 //
-//  MutablePolygonTest.swift
+//  MissionPolygonTest.swift
 //  AeroGlazTests
 //
 //  Created by Evgeny Agamirzov on 07.07.20.
@@ -11,7 +11,7 @@ import MapKit
 import XCTest
 @testable import AeroGlaz
 
-class MutablePolygonTest : XCTestCase {
+class MissionPolygonTest : XCTestCase {
     let coordinates = [
         CLLocationCoordinate2D(latitude: 10, longitude: 10),
         CLLocationCoordinate2D(latitude: 10, longitude: 15),
