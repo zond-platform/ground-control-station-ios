@@ -33,6 +33,10 @@ class MissionPolygon : MKPolygon {
             return nil
         }
     }
+    // Region to be drawn by the renderer
+    override var boundingMapRect: MKMapRect {
+        MKMapRect.world
+    }
 
     // Observer properties
     var gridDistance: CGFloat? {
@@ -131,12 +135,9 @@ extension MissionPolygon {
 
     func bodyContains(coordinate: CLLocationCoordinate2D) -> Bool {
         if coordinates.count > 0 {
-            let minLat = coordinates.min{ $0.latitude < $1.latitude }!.latitude
-            let minLon = coordinates.min{ $0.longitude < $1.longitude }!.longitude
-            let dLat = coordinates.max{ $0.latitude < $1.latitude }!.latitude - minLat
-            let dLon = coordinates.max{ $0.longitude < $1.longitude }!.longitude - minLon
-            return coordinate.latitude >= minLat && coordinate.latitude <= minLat + dLat
-                   && coordinate.longitude >= minLon && coordinate.longitude <= minLon + dLon
+            let rects = coordinates.lazy.map { MKMapRect(origin: MKMapPoint($0), size: MKMapSize()) }
+            let rect = rects.reduce(MKMapRect.null) { $0.union($1) }
+            return rect.contains(MKMapPoint(coordinate))
         } else {
             os_log("Cannot detect point inside polygon. No vertices.", type: .debug)
             return false
