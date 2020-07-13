@@ -20,6 +20,12 @@ class VectorTest : XCTestCase {
         XCTAssertEqual(u.norm, sqrt(9))
         XCTAssertEqual(v.dot(u), 6)
         XCTAssertEqual(v.theta(u), CGFloat.pi / 4, accuracy: eps)
+        v = Vector(CGPoint(x: 0, y: 0), CGPoint(x: 2, y: 2))
+        u = Vector(CGPoint(x: 3, y: 0), CGPoint(x: 0, y: 0))
+        XCTAssertEqual(v.norm, sqrt(8))
+        XCTAssertEqual(u.norm, sqrt(9))
+        XCTAssertEqual(v.dot(u), -6)
+        XCTAssertEqual(v.theta(u), 3 * CGFloat.pi / 4, accuracy: eps)
 
         // Edge case, parallel vectors
         v = Vector(CGPoint(x: 0, y: 0), CGPoint(x: 2, y: 0))

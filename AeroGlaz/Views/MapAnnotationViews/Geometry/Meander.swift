@@ -11,8 +11,6 @@ import CoreGraphics
 class Meander : Equatable {
     private(set) var points: [CGPoint] = []
     private var intersectionPoints: [CGPoint] = []
-    private var v1: Vector?
-    private var v2: Vector?
 }
 
 // Public methods
@@ -45,10 +43,10 @@ extension Meander {
                     }
 
                     // Align points on turn
-                    if points.count > 1 && intersectionPoints.count == 2 {
-                        v1 = Vector(points[points.count - 1], points[points.count - 2])
-                        v2 = Vector(intersectionPoints[0], intersectionPoints[1])
-                        alignedTurn(&points[points.count - 1], &intersectionPoints[0], tangent)
+                    if points.count >= 2 && intersectionPoints.count == 2 {
+                        let v1 = Vector(points[points.count - 2], points[points.count - 1])
+                        let v2 = Vector(intersectionPoints[0], intersectionPoints[1])
+                        alignTurn(&points[points.count - 1], &intersectionPoints[0], v1, v2, tangent, delta, direction)
                     }
 
                     // Accumulate the result
@@ -74,36 +72,35 @@ extension Meander {
         return referenceLines.first
     }
 
-    func alignedTurn(_ p1: inout CGPoint,
-                     _ p2: inout CGPoint,
-                     _ tangent: CGFloat?) {
-        // Meander lines through turn points
+    func alignTurn(_ p1: inout CGPoint,
+                   _ p2: inout CGPoint,
+                   _ v1: Vector,
+                   _ v2: Vector,
+                   _ tangent: CGFloat?,
+                   _ delta: CGFloat,
+                   _ direction: Bool) {
+        // Meander lines to transition between
         let l1 = Line(tangent: tangent, point: p1)
         let l2 = Line(tangent: tangent, point: p2)
 
-        // Perpendicular meander lines through turn points
-        let flippedTangent = flipTangent(tangent)
-        let l_1 = Line(tangent: flippedTangent, point: p1)
-        let l_2 = Line(tangent: flippedTangent, point: p2)
+        // Build perpendicular line on farthest turn point
+        let v = Vector(p1, p2)
+        let l = v.theta(v1) > v.theta(v2) ? Line(tangent: flipTangent(tangent), point: p1)
+                                          : Line(tangent: flipTangent(tangent), point: p2)
 
-        // Find projection points
-        let p_1 = intersection(l1, l_2)!
-        let p_2 = intersection(l2, l_1)!
+        // Move perpendicular line farther to increase turn space
+        tangent == 0 ? l.move(for: direction ? delta / 2 : -delta / 2)
+                     : l.move(for: direction ? -delta / 2 : delta / 2)
 
-        // Check which projection is beyond polygon boundaries
-        if let contains = v1?.span.contains(p_1) {
-            if !contains {
-                p1 = p_1
-            }
-        }
-        if let contains = v2?.span.contains(p_2) {
-            if !contains {
-                p2 = p_2
-            }
-        }
+        // Assign aligned turn points
+        p1 = intersectionPoint(l1, l)
+        p2 = intersectionPoint(l2, l)
     }
+}
 
-    func flipTangent(_ tangent: CGFloat?) -> CGFloat? {
+// Private functions
+extension Meander {
+    private func flipTangent(_ tangent: CGFloat?) -> CGFloat? {
         if tangent == nil {
             return 0
         } else if tangent! == 0 {
@@ -113,13 +110,8 @@ extension Meander {
         }
     }
 
-    func intersection(_ l1: Line, _ l2: Line) -> CGPoint? {
-        switch l1.intersectionPoint(with: l2) {
-            case .success(let point):
-                return point
-            case .failure:
-                return nil
-        }
+    private func intersectionPoint(_ l1: Line, _ l2: Line) -> CGPoint {
+        return try! l1.intersectionPoint(with: l2).get()
     }
 }
 
