@@ -169,6 +169,7 @@ extension MissionViewController {
         switch idPath{
             case IdPath(.editor, .gridDistance):
                 Environment.mapViewController.missionPolygon?.gridDistance = CGFloat(value)
+                Environment.commandService.missionParameters.turnRadius = (Float(value) / 2) - 10e-6
             case IdPath(.editor, .gridAngle):
                 Environment.mapViewController.missionPolygon?.gridAngle = CGFloat(value)
             case IdPath(.editor, .altitude):

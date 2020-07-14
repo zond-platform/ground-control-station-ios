@@ -92,14 +92,19 @@ class MissionRenderer : MKOverlayRenderer {
             self.zoomScale = zoomScale
             computeGeometries(from: polygon!.coordinates)
             if canDraw {
+                let state = polygon!.missionState!
+
                 // Draw only for editing state
-                if polygon!.missionState! == .editing {
-                    drawHull()
+                if state == .editing {
                     drawVertices()
                 }
+
                 // Draw for all states
+                drawHull()
                 drawMeander()
-                drawAircraftLine()
+                drawAircraftLine(state == .running || state == .paused
+                                 ? lastAircraftPoint
+                                 : liveAircraftPoint)
             }
         }
     }
@@ -119,6 +124,14 @@ extension MissionRenderer {
                 self.redrawTriggered = false
             }
         }
+    }
+
+    func missionCoordinates() -> [CLLocationCoordinate2D] {
+        var coordnates: [CLLocationCoordinate2D] = []
+        for point in pointSet.meander.points {
+            coordnates.append(mapPoint(for: point).coordinate)
+        }
+        return coordnates
     }
 }
 
@@ -192,10 +205,14 @@ extension MissionRenderer {
         context!.drawPath(using: .fill)
     }
 
-    private func drawAircraftLine() {
-        if let aircraftLocation = liveAircraftPoint {
+    private func drawAircraftLine(_ aircraftLocation: CGPoint?) {
+        if let aircraftLocation = aircraftLocation {
             let lineWidth = MKRoadWidthAtZoomScale(zoomScale!) * 0.5
             let path = CGMutablePath()
+            let radius = computeRadius(for: zoomScaleToWaypointRadiusMap, with: zoomScale!)
+            let size = CGSize(width: radius * CGFloat(2.0), height: radius * CGFloat(2.0))
+            let startOrigin = CGPoint(x: aircraftLocation.x - radius, y: aircraftLocation.y - radius)
+            path.addEllipse(in: CGRect.init(origin: startOrigin, size: size))
             path.move(to: aircraftLocation)
             path.addLine(to: pointSet.meander.points.first!)
             context!.setStrokeColor(UIColor.yellow.cgColor)

@@ -33,7 +33,6 @@ class MissionPolygon : MKPolygon {
             return nil
         }
     }
-    // Region to be drawn by the renderer
     override var boundingMapRect: MKMapRect {
         MKMapRect.world
     }
@@ -55,8 +54,15 @@ class MissionPolygon : MKPolygon {
         }
     }
     var aircraftLocation: CLLocation? {
+        willSet {
+            if newValue == nil {
+                updated?()
+            }
+        }
         didSet {
-            updated?()
+            if oldValue == nil {
+                updated?()
+            }
         }
     }
 

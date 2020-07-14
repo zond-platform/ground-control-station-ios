@@ -109,8 +109,11 @@ extension MapViewController {
     }
 
     func missionCoordinates() -> [CLLocationCoordinate2D] {
-        os_log("Add mission coordinates getter!!!", type: .error)
-        return []
+        if let renderer = self.mapView.renderer(for: self.missionPolygon!) as? MissionRenderer {
+            return renderer.missionCoordinates()
+        } else {
+            return []
+        }
     }
 
     func repositionLegalLabels() {
@@ -254,8 +257,7 @@ extension MapViewController : MKMapViewDelegate {
     }
 
     internal func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        let renderer = MissionRenderer(overlay: overlay)
-        return renderer
+        return MissionRenderer(overlay: overlay)
     }
 
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {

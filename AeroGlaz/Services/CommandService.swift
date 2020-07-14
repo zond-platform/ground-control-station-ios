@@ -34,29 +34,10 @@ enum MissionCommandId {
 }
 
 struct MissionParameters {
-    var flightSpeed: Float = 10.0 {
-        didSet {
-            if flightSpeed <= Float(1.0) && flightSpeed >= Float(15.0) {
-                flightSpeed = Float(10.0)
-            }
-        }
-    }
-
-    var shootDistance: Float = 10.0 {
-        didSet {
-            if shootDistance <= Float(5.0) && shootDistance >= Float(50.0) {
-                shootDistance = Float(10.0)
-            }
-        }
-    }
-
-    var altitude: Float = 20.0 {
-        didSet {
-            if altitude <= Float(20.0) && altitude >= Float(200.0) {
-                altitude = Float(10.0)
-            }
-        }
-    }
+    var flightSpeed: Float = 10
+    var shootDistance: Float = 10
+    var altitude: Float = 20
+    var turnRadius: Float = 2
 }
 
 class CommandService : BaseService {
@@ -182,7 +163,7 @@ extension CommandService {
             waypoint.turnMode = .clockwise
             waypoint.gimbalPitch = -90
             waypoint.shootPhotoDistanceInterval = missionParameters.shootDistance
-            waypoint.cornerRadiusInMeters = 4
+            waypoint.cornerRadiusInMeters = missionParameters.turnRadius
             mission.add(waypoint)
         }
         return DJIWaypointMission(mission: mission)
