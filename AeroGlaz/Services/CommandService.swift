@@ -43,7 +43,6 @@ struct MissionParameters {
 class CommandService : BaseService {
     // Stored properties
     var currentWaypointIndex: Int?
-    var missionOperator: DJIWaypointMissionOperator?
     var missionParameters = MissionParameters()
 
     // Notifyer properties
@@ -67,6 +66,7 @@ extension CommandService {
     }
 
     func setMissionCoordinates(_ coordinates: [CLLocationCoordinate2D]) -> Bool {
+        let missionOperator = DJISDKManager.missionControl()?.waypointMissionOperator()
         let error = missionOperator?.load(waypointMissionFromCoordinates(coordinates))
         if error != nil {
             logConsole?("Mission load error: \(error!.localizedDescription)", .error)
@@ -81,6 +81,7 @@ extension CommandService {
             self.logConsole?("Failed to execute \(id.title) command. Aircraft not connected.", .error)
             return
         }
+        let missionOperator = DJISDKManager.missionControl()?.waypointMissionOperator()
         let callback = { (error: Error?) in
             let success = error == nil
             self.commandResponded?(id, success)
@@ -110,7 +111,7 @@ extension CommandService {
 // Private methods
 extension CommandService {
     private func subscribeToMissionEvents() {
-        missionOperator = DJISDKManager.missionControl()?.waypointMissionOperator()
+        let missionOperator = DJISDKManager.missionControl()?.waypointMissionOperator()
         missionOperator?.addListener(toUploadEvent: self, with: DispatchQueue.main, andBlock: { (event: DJIWaypointMissionUploadEvent) in
             if event.error != nil {
                 self.logConsole?("Mission upload error: \(event.error!.localizedDescription)", .error)
@@ -140,7 +141,7 @@ extension CommandService {
     }
 
     private func unsubscribeFromMissionEvents() {
-        missionOperator = nil
+        let missionOperator = DJISDKManager.missionControl()?.waypointMissionOperator()
         missionOperator?.removeAllListeners()
     }
 
