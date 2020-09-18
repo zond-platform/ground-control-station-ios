@@ -22,7 +22,7 @@ class MissionPolygonTest : XCTestCase {
     func testPolygonCreation() {
         let polygon = MissionPolygon(coordinates)
         XCTAssertTrue(polygon != nil)
-        XCTAssertEqual(polygon!.pointCount, 4)
+        XCTAssertEqual(polygon!.coordinates.count, 4)
         XCTAssertEqual(polygon!.center?.latitude, 12.5)
         XCTAssertEqual(polygon!.center?.longitude, 12.5)
     }
@@ -31,7 +31,7 @@ class MissionPolygonTest : XCTestCase {
         let polygon = MissionPolygon(coordinates)
         XCTAssertTrue(polygon != nil)
         polygon!.appendVetrex(with: CLLocationCoordinate2D(latitude: 15, longitude: 20))
-        XCTAssertEqual(polygon!.pointCount, 5)
+        XCTAssertEqual(polygon!.coordinates.count, 5)
     }
 
     func testPolygonContains() {
