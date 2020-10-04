@@ -46,43 +46,39 @@ class MissionView : UIView {
 
     init(_ tableHeight: CGFloat) {
         super.init(frame: CGRect())
-        frame = CGRect(
-            x: Dimensions.ContentView.x,
-            y: Dimensions.ContentView.y + yOffset,
-            width: MissionView.width,
-            height: buttonHeight + tableHeight
-        )
 
         self.tableHeight = tableHeight
 
         stackView.axis = .vertical
         stackView.distribution = .fill
-        stackView.alignment = .top
+        stackView.alignment = .leading
 
         button.isSelected = false
         button.backgroundColor = Colors.Overlay.primaryColor
         button.setTitle("Mission", for: .normal)
         button.titleLabel?.font = Fonts.titleFont
         button.addTarget(self, action: #selector(buttonPressed(_:)), for: .touchUpInside)
-        NSLayoutConstraint.activate([
-            button.widthAnchor.constraint(equalToConstant: MissionView.width),
-            button.heightAnchor.constraint(equalToConstant: buttonHeight)
-        ])
+//        NSLayoutConstraint.activate([
+//            button.widthAnchor.constraint(equalToConstant: MissionView.width),
+//            button.heightAnchor.constraint(equalToConstant: buttonHeight)
+//        ])
         stackView.addArrangedSubview(button)
 
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
         tableView.backgroundColor = Colors.Overlay.primaryColor
-        NSLayoutConstraint.activate([
-            tableView.widthAnchor.constraint(equalToConstant: MissionView.width)
-        ])
+//        NSLayoutConstraint.activate([
+//            tableView.widthAnchor.constraint(equalToConstant: MissionView.width)
+//        ])
         stackView.addArrangedSubview(tableView)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false;
         addSubview(stackView)
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            tableView.widthAnchor.constraint(equalToConstant: Dimensions.missionMenuWidth),
+            tableView.heightAnchor.constraint(equalTo: heightAnchor),
+            button.widthAnchor.constraint(equalToConstant: Dimensions.missionMenuWidth),
+            button.heightAnchor.constraint(equalToConstant: Dimensions.tileSize)
         ])
     }
 }
@@ -98,7 +94,6 @@ extension MissionView {
                 self.frame.origin.y = Dimensions.ContentView.y
                                       + self.yOffset
                                       - self.tableHeight
-                                      + Dimensions.viewSpacer
             } else {
                 self.frame.origin.y = Dimensions.ContentView.y
                                       + self.yOffset

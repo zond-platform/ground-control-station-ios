@@ -162,7 +162,7 @@ extension CommandService {
             waypoint.actionRepeatTimes = 1
             waypoint.actionTimeoutInSeconds = 60
             waypoint.turnMode = .clockwise
-            waypoint.gimbalPitch = -90
+            waypoint.gimbalPitch = -85
             waypoint.shootPhotoDistanceInterval = missionParameters.shootDistance
             waypoint.cornerRadiusInMeters = missionParameters.turnRadius
             mission.add(waypoint)

@@ -1,18 +1,16 @@
 //
-//  ConsoleView.swift
+//  StaticTelemetryView.swift
 //  Zond
 //
-//  Created by Evgeny Agamirzov on 18.04.20.
+//  Created by Evgeny Agamirzov on 23.05.20.
 //  Copyright © 2020 Evgeny Agamirzov. All rights reserved.
 //
 
-import os.log
-
 import UIKit
 
-class ConsoleView : UIView {
+class StaticTelemetryView : UIView {
     private var stackView = UIStackView()
-    private var messageLabel = InsetLabel()
+    private var labels: [TelemetryDataId:StaticTelemetryLabel] = [:]
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -24,18 +22,19 @@ class ConsoleView : UIView {
         backgroundColor = Colors.Overlay.primaryColor
 
         stackView.axis = .horizontal
-        stackView.distribution = .fill
+        stackView.distribution = .fillEqually
         stackView.alignment = .center
 
-        messageLabel.font = Fonts.titleFont
-        messageLabel.textColor = Colors.Text.mainTitle
-        stackView.addArrangedSubview(messageLabel)
+        for id in [TelemetryDataId.batteryCharge, TelemetryDataId.gpsSatellite, TelemetryDataId.flightMode] {
+            labels[id] = StaticTelemetryLabel(id)
+            labels[id]!.updateText(nil)
+            stackView.addArrangedSubview(labels[id]!)
+        }
 
         stackView.translatesAutoresizingMaskIntoConstraints = false;
         addSubview(stackView)
 
         NSLayoutConstraint.activate([
-            widthAnchor.constraint(equalToConstant: Dimensions.consoleWidth),
             heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
             stackView.widthAnchor.constraint(equalTo: widthAnchor),
             stackView.heightAnchor.constraint(equalTo: heightAnchor),
@@ -45,9 +44,10 @@ class ConsoleView : UIView {
 }
 
 // Public methods
-extension ConsoleView {
-    func logMessage(_ message: String, _ type: OSLogType) {
-        os_log("%@", type: type, message)
-        messageLabel.text = message
+extension StaticTelemetryView {
+    func updateData(_ id: TelemetryDataId, _ value: String?) {
+        if let label = labels[id] {
+            label.updateText(value)
+        }
     }
 }

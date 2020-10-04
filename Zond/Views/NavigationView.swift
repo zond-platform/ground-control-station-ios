@@ -25,7 +25,6 @@ class NavigationView : UIView {
     }
     private var height: CGFloat {
         return buttonHeight * CGFloat(NavigationButtonId.allCases.count)
-               + Dimensions.viewSpacer * CGFloat(NavigationButtonId.allCases.count - 1)
     }
 
     // Notifyer properties
@@ -47,7 +46,6 @@ class NavigationView : UIView {
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .center
-        stackView.spacing = Dimensions.viewSpacer
 
         for id in NavigationButtonId.allCases {
             buttons.append(NavigationButton(id))

@@ -1,5 +1,5 @@
 //
-//  StatusLabel.swift
+//  StaticTelemetryLabel.swift
 //  Zond
 //
 //  Created by Evgeny Agamirzov on 23.05.20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StatusLabel : InsetLabel {
+class StaticTelemetryLabel : InsetLabel {
     private(set) var id: TelemetryDataId!
 
     required init?(coder: NSCoder) {
@@ -18,19 +18,15 @@ class StatusLabel : InsetLabel {
     init(_ id: TelemetryDataId) {
         self.id = id
         super.init(frame: CGRect())
-        font = Fonts.telemetryFont
+        font = Fonts.titleFont
         textColor = Colors.Text.mainTitle
-        layer.shadowColor = Colors.Overlay.primaryColor.cgColor
-        layer.shadowRadius = 2.0
-        layer.shadowOpacity = 1.0
-        layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.masksToBounds = false
     }
 }
 
 // Public methods
-extension StatusLabel {
-    func updateText(_ temetryData: String?) {
-        text = (temetryData ?? id.defaultValue) + " " + id.unit
+extension StaticTelemetryLabel {
+    func updateText(_ teletryValue: String?) {
+        text = id.name + ": " + (teletryValue == nil ? "-" : teletryValue! + " " + id.unit)
     }
 }

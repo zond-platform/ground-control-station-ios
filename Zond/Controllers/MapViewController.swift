@@ -67,7 +67,6 @@ class MapViewController : UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        repositionLegalLabels()
     }
 }
 
@@ -114,10 +113,6 @@ extension MapViewController {
         } else {
             return []
         }
-    }
-
-    func repositionLegalLabels() {
-        mapView.repositionLegalLabels()
     }
 }
 
@@ -258,14 +253,6 @@ extension MapViewController : MKMapViewDelegate {
 
     internal func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         return MissionRenderer(overlay: overlay)
-    }
-
-    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
-        repositionLegalLabels()
-    }
-
-    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-       repositionLegalLabels()
     }
 }
 

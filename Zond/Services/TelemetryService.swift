@@ -15,33 +15,33 @@ enum TelemetryDataId {
     case altitude
     case velocity
 
+    var name: String {
+        switch self {
+            case .flightMode:
+                return "MOD"
+            case .gpsSatellite:
+                return "SAT"
+            case .batteryCharge:
+                return "BAT"
+            case .altitude:
+                return ""
+            case .velocity:
+                return ""
+        }
+    }
+
     var unit: String {
         switch self {
             case .flightMode:
                 return ""
             case .gpsSatellite:
-                return "sat"
+                return ""
             case .batteryCharge:
                 return "%"
             case .altitude:
                 return "m"
             case .velocity:
                 return "m/s"
-        }
-    }
-
-    var defaultValue: String {
-        switch self {
-            case .flightMode:
-                return "N/A"
-            case .gpsSatellite:
-                return "0"
-            case .batteryCharge:
-                return "0"
-            case .altitude:
-                return "0"
-            case .velocity:
-                return "0.0"
         }
     }
 }

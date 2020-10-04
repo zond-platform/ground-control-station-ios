@@ -2,7 +2,7 @@
 //  StatusViewController.swift
 //  Zond
 //
-//  Created by Evgeny Agamirzov on 23.05.20.
+//  Created by Evgeny Agamirzov on 04.10.20.
 //  Copyright © 2020 Evgeny Agamirzov. All rights reserved.
 //
 
@@ -18,20 +18,6 @@ class StatusViewController : UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         statusView = StatusView()
-        registerListeners()
         view = statusView
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-}
-
-// Private methods
-extension StatusViewController {
-    private func registerListeners() {
-        Environment.telemetryService.telemetryDataChanged = { id, value in
-            self.statusView.updateData(id, value)
-        }
     }
 }

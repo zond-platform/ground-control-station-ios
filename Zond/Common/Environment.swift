@@ -15,10 +15,11 @@ struct Environment {
     static let telemetryService  = TelemetryService()
 
     // Shared controllers
-    static let mapViewController        = MapViewController()
-    static let consoleViewController    = ConsoleViewController()
-    static let missionViewController    = MissionViewController()
-    static let navigationViewController = NavigationViewController()
-    static let statusViewController     = StatusViewController()
-    static let rootViewController       = RootViewController()
+    static let mapViewController             = MapViewController()
+    static let consoleViewController         = ConsoleViewController()
+    static let missionViewController         = MissionViewController()
+    static let navigationViewController      = NavigationViewController()
+    static let statusViewController          = StatusViewController()
+    static let staticTelemetryViewController = StaticTelemetryViewController()
+    static let rootViewController            = RootViewController()
 }
