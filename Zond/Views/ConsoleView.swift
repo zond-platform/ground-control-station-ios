@@ -21,7 +21,7 @@ class ConsoleView : UIView {
     init() {
         super.init(frame: CGRect())
 
-        backgroundColor = Colors.Overlay.primaryColor
+        backgroundColor = UIColor(red: 0.2588, green: 0.2863, blue: 0.2863, alpha: 0.7)
 
         stackView.axis = .horizontal
         stackView.distribution = .fill
@@ -35,7 +35,6 @@ class ConsoleView : UIView {
         addSubview(stackView)
 
         NSLayoutConstraint.activate([
-            widthAnchor.constraint(equalToConstant: Dimensions.consoleWidth),
             heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
             stackView.widthAnchor.constraint(equalTo: widthAnchor),
             stackView.heightAnchor.constraint(equalTo: heightAnchor),

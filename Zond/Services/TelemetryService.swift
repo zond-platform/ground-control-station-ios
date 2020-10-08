@@ -24,9 +24,9 @@ enum TelemetryDataId {
             case .batteryCharge:
                 return "BAT"
             case .altitude:
-                return ""
+                return "A"
             case .velocity:
-                return ""
+                return "HV"
         }
     }
 

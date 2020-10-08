@@ -9,8 +9,6 @@
 import UIKit
 
 class RootView : UIView {
-    private let stackView = UIStackView()
-
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -23,19 +21,10 @@ class RootView : UIView {
             height: Dimensions.screenHeight
         ))
 
-        stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.alignment = .center
-
-        stackView.addArrangedSubview(Environment.statusViewController.view)
-        stackView.setCustomSpacing(Dimensions.viewDivider, after: Environment.statusViewController.view)
-        stackView.addArrangedSubview(Environment.missionViewController.view)
-        stackView.translatesAutoresizingMaskIntoConstraints = false;
-
         addSubview(Environment.mapViewController.view)
-        addSubview(stackView)
-
-//        addSubview(Environment.missionViewController.view)
-//        addSubview(Environment.navigationViewController.view)
+        addSubview(Environment.statusViewController.view)
+        addSubview(Environment.missionViewController.view)
+        addSubview(Environment.commandViewController.view)
+        addSubview(Environment.locatorViewController.view)
     }
 }

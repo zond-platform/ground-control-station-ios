@@ -16,10 +16,11 @@ struct Environment {
 
     // Shared controllers
     static let mapViewController             = MapViewController()
-    static let consoleViewController         = ConsoleViewController()
-    static let missionViewController         = MissionViewController()
-    static let navigationViewController      = NavigationViewController()
     static let statusViewController          = StatusViewController()
+    static let consoleViewController         = ConsoleViewController()
     static let staticTelemetryViewController = StaticTelemetryViewController()
+    static let missionViewController         = MissionViewController()
+    static let commandViewController         = CommandViewController()
+    static let locatorViewController         = LocatorViewController()
     static let rootViewController            = RootViewController()
 }

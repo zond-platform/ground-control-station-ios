@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum CommandButtonId {
+enum UploadButtonId {
     case importJson
     case upload
     case edit
@@ -37,10 +37,10 @@ enum CommandButtonId {
     }
 }
 
-extension CommandButtonId : CaseIterable {}
+extension UploadButtonId : CaseIterable {}
 
 class CommandButton : UIButton {
-    var id: CommandButtonId = .upload {
+    var id: UploadButtonId = .upload {
         didSet {
             setTitle(id.title, for: .normal)
         }
@@ -59,7 +59,7 @@ class CommandButton : UIButton {
         super.init(coder: coder)
     }
 
-    init(_ id: CommandButtonId) {
+    init(_ id: UploadButtonId) {
         super.init(frame: CGRect())
         self.id = id
         setTitle(id.title, for: .normal)

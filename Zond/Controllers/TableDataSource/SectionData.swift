@@ -15,18 +15,18 @@ enum SectionId {
     var headerHeight: CGFloat {
         switch self {
             case .editor:
-                return MissionView.TableSection.Editor.headerHeight
+                return Dimensions.tileSize
             case .command:
-                return MissionView.TableSection.Command.headerHeight
+                return Dimensions.tileSize
         }
     }
 
     var footerHeight: CGFloat {
         switch self {
             case .editor:
-                return MissionView.TableSection.Editor.footerHeight
+                return 0.0
             case .command:
-                return MissionView.TableSection.Command.footerHeight
+                return 0.0
         }
     }
 }

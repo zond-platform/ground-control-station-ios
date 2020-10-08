@@ -97,12 +97,12 @@ class MissionViewController : UIViewController {
 
     init() {
         super.init(nibName: nil, bundle: nil)
-        missionView = MissionView(tableData.contentHeight)
-        missionView.tableView.dataSource = self
-        missionView.tableView.delegate = self
-        missionView.tableView.register(TableSection.self, forHeaderFooterViewReuseIdentifier: SectionType.spacer.reuseIdentifier)
-        missionView.tableView.register(TableCommandCell.self, forCellReuseIdentifier: RowType.command.reuseIdentifier)
-        missionView.tableView.register(TableSliderCell.self, forCellReuseIdentifier: RowType.slider.reuseIdentifier)
+        missionView = MissionView()
+        missionView.dataSource = self
+        missionView.delegate = self
+        missionView.register(TableSection.self, forHeaderFooterViewReuseIdentifier: SectionType.spacer.reuseIdentifier)
+        missionView.register(TableCommandCell.self, forCellReuseIdentifier: RowType.command.reuseIdentifier)
+        missionView.register(TableSliderCell.self, forCellReuseIdentifier: RowType.slider.reuseIdentifier)
         registerListeners()
         view = missionView
     }
@@ -112,16 +112,17 @@ class MissionViewController : UIViewController {
     }
 }
 
+// Public methods
+extension MissionViewController {
+    func setMissionState(_ state: MissionState?) {
+        missionView.showFromSide(state != nil && state! == .editing ? true : false)
+        self.missionState = state
+    }
+}
+
 // Private methods
 extension MissionViewController {
     private func registerListeners() {
-        missionView.missionButtonPressed = {
-            if self.missionState == nil {
-                self.missionState = MissionState.editing
-            } else if self.missionState == .editing {
-                self.missionState = nil
-            }
-        }
         Environment.commandService.commandResponded = { id, success in
             if success {
                 switch id {
@@ -157,7 +158,6 @@ extension MissionViewController {
             }
         })
         stateListeners.append({ state in
-            self.missionView.expand(for: state)
             if state != nil {
                 self.tableData.updateRow(at: IdPath(.command, .command), with: state!)
             }
@@ -183,7 +183,7 @@ extension MissionViewController {
         }
     }
 
-    private func buttonPressed(with id: CommandButtonId) {
+    private func buttonPressed(with id: UploadButtonId) {
         switch id {
             case .importJson:
                 let documentPicker = UIDocumentPickerViewController(documentTypes: [String(kUTTypeJSON)], in: .import)
@@ -279,11 +279,11 @@ extension MissionViewController : UITableViewDelegate {
     }
 
     internal func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return missionView.tableView.dequeueReusableHeaderFooterView(withIdentifier: SectionType.spacer.reuseIdentifier) as! TableSection
+        return missionView.dequeueReusableHeaderFooterView(withIdentifier: SectionType.spacer.reuseIdentifier) as! TableSection
     }
 
     internal func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return missionView.tableView.dequeueReusableHeaderFooterView(withIdentifier: SectionType.spacer.reuseIdentifier) as! TableSection
+        return missionView.dequeueReusableHeaderFooterView(withIdentifier: SectionType.spacer.reuseIdentifier) as! TableSection
     }
 }
 

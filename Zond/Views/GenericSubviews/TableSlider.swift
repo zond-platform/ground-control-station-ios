@@ -18,7 +18,7 @@ class TableSlider : UISlider {
     override init(frame: CGRect) {
         super.init(frame: frame)
         let thumbView = UIView()
-        let thumbRadius = MissionView.TableRow.height * CGFloat(0.6)
+        let thumbRadius = Dimensions.tileSize * CGFloat(0.6)
         thumbView.backgroundColor = Colors.Text.detailTitle
         thumbView.frame = CGRect(x: 0, y: 0, width: thumbRadius, height: thumbRadius)
         thumbView.layer.cornerRadius = thumbRadius * CGFloat(0.5)

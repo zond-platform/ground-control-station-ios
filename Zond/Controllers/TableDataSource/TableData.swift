@@ -10,18 +10,7 @@ import UIKit
 
 class TableData {
     private(set) var sections: [SectionData]
-
-    let rowHeight = MissionView.TableRow.height
-    var contentHeight: CGFloat {
-        var height = CGFloat(0)
-        for section in sections {
-            height += (section.id.headerHeight + section.id.footerHeight)
-            for _ in section.rows {
-                height += rowHeight
-            }
-        }
-        return height
-    }
+    let rowHeight = Dimensions.tileSize
 
     init(_ sections: [SectionData]) {
         self.sections = sections

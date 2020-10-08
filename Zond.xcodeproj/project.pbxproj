@@ -11,6 +11,8 @@
 		EC0ECE322449B9F5008B1479 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0ECE312449B9F5008B1479 /* Environment.swift */; };
 		EC0ECE342449EACE008B1479 /* TableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0ECE332449EACE008B1479 /* TableSection.swift */; };
 		EC0F7D4624B51EDC005BB020 /* MissionPolygonTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0F7D4524B51EDC005BB020 /* MissionPolygonTest.swift */; };
+		EC10BE32252F3F9E00D9A6B8 /* CommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC10BE31252F3F9E00D9A6B8 /* CommandViewController.swift */; };
+		EC10BE37252F400C00D9A6B8 /* CommandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC10BE36252F400C00D9A6B8 /* CommandView.swift */; };
 		EC12A715244B1DB200DEC7A6 /* ConsoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC12A714244B1DB200DEC7A6 /* ConsoleView.swift */; };
 		EC12A717244B316700DEC7A6 /* ConsoleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC12A716244B316700DEC7A6 /* ConsoleViewController.swift */; };
 		EC12E78D247531B500BF4AE6 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC12E78C247531B500BF4AE6 /* LocationService.swift */; };
@@ -33,10 +35,11 @@
 		EC15EAD8227498D20032ACB9 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EAD7227498D20032ACB9 /* MapView.swift */; };
 		EC15EADA2274E6BE0032ACB9 /* TelemetryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EAD92274E6BE0032ACB9 /* TelemetryService.swift */; };
 		EC15EAE02286FD530032ACB9 /* SimulatorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EADF2286FD530032ACB9 /* SimulatorService.swift */; };
-		EC1678E4244623AD00C71203 /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678E3244623AD00C71203 /* NavigationViewController.swift */; };
-		EC1678E6244625D500C71203 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678E5244625D500C71203 /* NavigationView.swift */; };
-		EC1678E924473DF400C71203 /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678E824473DF400C71203 /* NavigationButton.swift */; };
+		EC1678E4244623AD00C71203 /* LocatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678E3244623AD00C71203 /* LocatorViewController.swift */; };
+		EC1678E6244625D500C71203 /* LocatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678E5244625D500C71203 /* LocatorView.swift */; };
 		EC18EBC624630AA6001A29D1 /* CommandButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC18EBC524630AA6001A29D1 /* CommandButton.swift */; };
+		EC25DD9E252BCEA4004F5005 /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC25DD9D252BCEA4004F5005 /* ImageButton.swift */; };
+		EC25DDA6252D26CD004F5005 /* TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC25DDA5252D26CD004F5005 /* TextButton.swift */; };
 		EC302E9D24A6A74300F4389B /* MeanderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC302E9C24A6A74300F4389B /* MeanderTest.swift */; };
 		EC950E8721B81EA600B3A03D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8621B81EA600B3A03D /* AppDelegate.swift */; };
 		EC950E8921B81EA600B3A03D /* ConnectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8821B81EA600B3A03D /* ConnectionService.swift */; };
@@ -54,7 +57,7 @@
 		ECB6B8F424A414CE002C4B04 /* Span.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB6B8F324A414CE002C4B04 /* Span.swift */; };
 		ECB6B8F624A4178F002C4B04 /* SpanTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB6B8F524A4178F002C4B04 /* SpanTest.swift */; };
 		ECB6B8F824A41F1D002C4B04 /* VectorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB6B8F724A41F1D002C4B04 /* VectorTest.swift */; };
-		ECC51897247943CF007852E7 /* StaticTelemetryLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC51896247943CF007852E7 /* StaticTelemetryLabel.swift */; };
+		ECC51897247943CF007852E7 /* TelemetryLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC51896247943CF007852E7 /* TelemetryLabel.swift */; };
 		ECCB449724B36D7F005AA1F6 /* MissionPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCB449624B36D7F005AA1F6 /* MissionPolygon.swift */; };
 		ECD709A4244F3BB8004CB3B6 /* TableSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD709A3244F3BB8004CB3B6 /* TableSlider.swift */; };
 		ECD8AC1F2465A87900FCC8DB /* SectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD8AC1B2465A87900FCC8DB /* SectionData.swift */; };
@@ -91,6 +94,8 @@
 		EC0ECE312449B9F5008B1479 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		EC0ECE332449EACE008B1479 /* TableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSection.swift; sourceTree = "<group>"; };
 		EC0F7D4524B51EDC005BB020 /* MissionPolygonTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionPolygonTest.swift; sourceTree = "<group>"; };
+		EC10BE31252F3F9E00D9A6B8 /* CommandViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandViewController.swift; sourceTree = "<group>"; };
+		EC10BE36252F400C00D9A6B8 /* CommandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandView.swift; sourceTree = "<group>"; };
 		EC12A714244B1DB200DEC7A6 /* ConsoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleView.swift; sourceTree = "<group>"; };
 		EC12A716244B316700DEC7A6 /* ConsoleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleViewController.swift; sourceTree = "<group>"; };
 		EC12E78C247531B500BF4AE6 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
@@ -113,10 +118,11 @@
 		EC15EAD7227498D20032ACB9 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		EC15EAD92274E6BE0032ACB9 /* TelemetryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelemetryService.swift; sourceTree = "<group>"; };
 		EC15EADF2286FD530032ACB9 /* SimulatorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorService.swift; sourceTree = "<group>"; };
-		EC1678E3244623AD00C71203 /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
-		EC1678E5244625D500C71203 /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
-		EC1678E824473DF400C71203 /* NavigationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButton.swift; sourceTree = "<group>"; };
+		EC1678E3244623AD00C71203 /* LocatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocatorViewController.swift; sourceTree = "<group>"; };
+		EC1678E5244625D500C71203 /* LocatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocatorView.swift; sourceTree = "<group>"; };
 		EC18EBC524630AA6001A29D1 /* CommandButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandButton.swift; sourceTree = "<group>"; };
+		EC25DD9D252BCEA4004F5005 /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
+		EC25DDA5252D26CD004F5005 /* TextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextButton.swift; sourceTree = "<group>"; };
 		EC302E9C24A6A74300F4389B /* MeanderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeanderTest.swift; sourceTree = "<group>"; };
 		EC950E8321B81EA600B3A03D /* Zond.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zond.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC950E8621B81EA600B3A03D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -140,7 +146,7 @@
 		ECB6B8F324A414CE002C4B04 /* Span.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Span.swift; sourceTree = "<group>"; };
 		ECB6B8F524A4178F002C4B04 /* SpanTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpanTest.swift; sourceTree = "<group>"; };
 		ECB6B8F724A41F1D002C4B04 /* VectorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorTest.swift; sourceTree = "<group>"; };
-		ECC51896247943CF007852E7 /* StaticTelemetryLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticTelemetryLabel.swift; sourceTree = "<group>"; };
+		ECC51896247943CF007852E7 /* TelemetryLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelemetryLabel.swift; sourceTree = "<group>"; };
 		ECCB449624B36D7F005AA1F6 /* MissionPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionPolygon.swift; sourceTree = "<group>"; };
 		ECD709A3244F3BB8004CB3B6 /* TableSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSlider.swift; sourceTree = "<group>"; };
 		ECD8AC1B2465A87900FCC8DB /* SectionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionData.swift; sourceTree = "<group>"; };
@@ -233,11 +239,12 @@
 				EC14732023B1EFA600385067 /* MapAnnotationViews */,
 				EC15EAD52271CBF50032ACB9 /* RootView.swift */,
 				EC15EAD7227498D20032ACB9 /* MapView.swift */,
-				ECAAC8392299B83700FB360F /* MissionView.swift */,
-				EC12A714244B1DB200DEC7A6 /* ConsoleView.swift */,
-				EC1678E5244625D500C71203 /* NavigationView.swift */,
 				ECB121B52529F53B00C0C56F /* StatusView.swift */,
+				EC12A714244B1DB200DEC7A6 /* ConsoleView.swift */,
 				EC12E797247933E900BF4AE6 /* StaticTelemetryView.swift */,
+				ECAAC8392299B83700FB360F /* MissionView.swift */,
+				EC10BE36252F400C00D9A6B8 /* CommandView.swift */,
+				EC1678E5244625D500C71203 /* LocatorView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -246,8 +253,9 @@
 			isa = PBXGroup;
 			children = (
 				EC98D9402455EBE6006BEA9F /* InsetLabel.swift */,
-				ECC51896247943CF007852E7 /* StaticTelemetryLabel.swift */,
-				EC1678E824473DF400C71203 /* NavigationButton.swift */,
+				ECC51896247943CF007852E7 /* TelemetryLabel.swift */,
+				EC25DD9D252BCEA4004F5005 /* ImageButton.swift */,
+				EC25DDA5252D26CD004F5005 /* TextButton.swift */,
 				EC18EBC524630AA6001A29D1 /* CommandButton.swift */,
 				ECD709A3244F3BB8004CB3B6 /* TableSlider.swift */,
 				EC98D94624570FE7006BEA9F /* TableSliderCell.swift */,
@@ -347,11 +355,12 @@
 				ECD8AC232465A88400FCC8DB /* TableDataSource */,
 				EC15EAD32270E0B80032ACB9 /* RootViewController.swift */,
 				EC15EAD1227080250032ACB9 /* MapViewController.swift */,
-				ECDF4B7122593AC600C98F71 /* MissionViewController.swift */,
-				EC12A716244B316700DEC7A6 /* ConsoleViewController.swift */,
-				EC1678E3244623AD00C71203 /* NavigationViewController.swift */,
 				ECB121BA2529F60C00C0C56F /* StatusViewController.swift */,
+				EC12A716244B316700DEC7A6 /* ConsoleViewController.swift */,
 				EC12E79524792EFF00BF4AE6 /* StaticTelemetryViewController.swift */,
+				ECDF4B7122593AC600C98F71 /* MissionViewController.swift */,
+				EC10BE31252F3F9E00D9A6B8 /* CommandViewController.swift */,
+				EC1678E3244623AD00C71203 /* LocatorViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -550,9 +559,8 @@
 				EC12A717244B316700DEC7A6 /* ConsoleViewController.swift in Sources */,
 				ECD8AC222465A87900FCC8DB /* TableData.swift in Sources */,
 				EC14732623B1F07E00385067 /* MissionRenderer.swift in Sources */,
-				EC1678E924473DF400C71203 /* NavigationButton.swift in Sources */,
 				EC18EBC624630AA6001A29D1 /* CommandButton.swift in Sources */,
-				EC1678E4244623AD00C71203 /* NavigationViewController.swift in Sources */,
+				EC1678E4244623AD00C71203 /* LocatorViewController.swift in Sources */,
 				ECB121B62529F53B00C0C56F /* StatusView.swift in Sources */,
 				EC14732223B1F02200385067 /* MovingObjectView.swift in Sources */,
 				EC158057229B0A19000741DC /* CommandService.swift in Sources */,
@@ -566,6 +574,7 @@
 				ECAAC83A2299B83700FB360F /* MissionView.swift in Sources */,
 				EC98D9412455EBE6006BEA9F /* InsetLabel.swift in Sources */,
 				EC14732823B1F62000385067 /* Hull.swift in Sources */,
+				EC25DD9E252BCEA4004F5005 /* ImageButton.swift in Sources */,
 				EC15EAE02286FD530032ACB9 /* SimulatorService.swift in Sources */,
 				EC12E78D247531B500BF4AE6 /* LocationService.swift in Sources */,
 				EC12E798247933E900BF4AE6 /* StaticTelemetryView.swift in Sources */,
@@ -573,8 +582,9 @@
 				EC0ECE322449B9F5008B1479 /* Environment.swift in Sources */,
 				EC12E7942477E4DF00BF4AE6 /* Dimensions.swift in Sources */,
 				ECB6B8F424A414CE002C4B04 /* Span.swift in Sources */,
-				EC1678E6244625D500C71203 /* NavigationView.swift in Sources */,
-				ECC51897247943CF007852E7 /* StaticTelemetryLabel.swift in Sources */,
+				EC1678E6244625D500C71203 /* LocatorView.swift in Sources */,
+				EC25DDA6252D26CD004F5005 /* TextButton.swift in Sources */,
+				ECC51897247943CF007852E7 /* TelemetryLabel.swift in Sources */,
 				ECDF4B7222593AC600C98F71 /* MissionViewController.swift in Sources */,
 				EC12E79624792EFF00BF4AE6 /* StaticTelemetryViewController.swift in Sources */,
 				EC13B6C624A62BDF007ADDEF /* Meander.swift in Sources */,
@@ -590,7 +600,9 @@
 				ECEEEEF4226BA5E7005A71C6 /* BaseService.swift in Sources */,
 				ECB121BB2529F60C00C0C56F /* StatusViewController.swift in Sources */,
 				EC12A715244B1DB200DEC7A6 /* ConsoleView.swift in Sources */,
+				EC10BE32252F3F9E00D9A6B8 /* CommandViewController.swift in Sources */,
 				EC98D94524570BAC006BEA9F /* TableCommandCell.swift in Sources */,
+				EC10BE37252F400C00D9A6B8 /* CommandView.swift in Sources */,
 				ECD8AC1F2465A87900FCC8DB /* SectionData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

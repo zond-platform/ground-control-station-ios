@@ -8,105 +8,29 @@
 
 import UIKit
 
-class MissionView : UIView {
-    // Static properties
-    static let width = Dimensions.ContentView.width * Dimensions.ContentView.Ratio.h[0]
-    struct TableRow {
-        static let height = Dimensions.ContentView.height * Dimensions.ContentView.Ratio.v[0]
-    }
-    struct TableSection {
-        struct Editor {
-            static let headerHeight = CGFloat(0.0)
-            static let footerHeight = TableRow.height * CGFloat(0.5)
-        }
-        struct Command {
-            static let headerHeight = TableRow.height * CGFloat(0.5)
-            static let footerHeight = TableRow.height * CGFloat(0.5)
-        }
-    }
-
-    // Stored properties
-    var tableView = UITableView(frame: CGRect(), style: .grouped)
-    private var stackView = UIStackView()
-    private var button = UIButton()
-    private var buttonHeight = MissionView.TableRow.height
-    private var tableHeight = CGFloat(0)
-
-    // Computed properties
-    private var yOffset: CGFloat {
-        return Dimensions.ContentView.height * Dimensions.ContentView.Ratio.v[1]
-    }
-
-    // Notifyer properties
-    var missionButtonPressed: (() -> Void)?
-
+class MissionView : UITableView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    init(_ tableHeight: CGFloat) {
-        super.init(frame: CGRect())
-
-        self.tableHeight = tableHeight
-
-        stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.alignment = .leading
-
-        button.isSelected = false
-        button.backgroundColor = Colors.Overlay.primaryColor
-        button.setTitle("Mission", for: .normal)
-        button.titleLabel?.font = Fonts.titleFont
-        button.addTarget(self, action: #selector(buttonPressed(_:)), for: .touchUpInside)
-//        NSLayoutConstraint.activate([
-//            button.widthAnchor.constraint(equalToConstant: MissionView.width),
-//            button.heightAnchor.constraint(equalToConstant: buttonHeight)
-//        ])
-        stackView.addArrangedSubview(button)
-
-        tableView.separatorStyle = .none
-        tableView.isScrollEnabled = false
-        tableView.backgroundColor = Colors.Overlay.primaryColor
-//        NSLayoutConstraint.activate([
-//            tableView.widthAnchor.constraint(equalToConstant: MissionView.width)
-//        ])
-        stackView.addArrangedSubview(tableView)
-
-        stackView.translatesAutoresizingMaskIntoConstraints = false;
-        addSubview(stackView)
-        NSLayoutConstraint.activate([
-            tableView.widthAnchor.constraint(equalToConstant: Dimensions.missionMenuWidth),
-            tableView.heightAnchor.constraint(equalTo: heightAnchor),
-            button.widthAnchor.constraint(equalToConstant: Dimensions.missionMenuWidth),
-            button.heightAnchor.constraint(equalToConstant: Dimensions.tileSize)
-        ])
+    init() {
+        super.init(frame: CGRect(
+            x: -Dimensions.missionMenuWidth,
+            y: Dimensions.tileSize,
+            width: Dimensions.missionMenuWidth,
+            height: Dimensions.screenHeight - Dimensions.tileSize
+        ), style: .grouped)
+        separatorStyle = .none
+        isScrollEnabled = false
+        backgroundColor = Colors.Overlay.primaryColor
     }
 }
 
 // Public methods
 extension MissionView {
-    func expand(for state: MissionState?) {
+    func showFromSide(_ show: Bool) {
         UIView.animate(withDuration: 0.3, animations: {
-            if state == nil {
-                self.frame.origin.y = Dimensions.ContentView.y
-                                      + self.yOffset
-            } else if state! == .editing {
-                self.frame.origin.y = Dimensions.ContentView.y
-                                      + self.yOffset
-                                      - self.tableHeight
-            } else {
-                self.frame.origin.y = Dimensions.ContentView.y
-                                      + self.yOffset
-                                      - TableRow.height
-                                      - TableSection.Command.footerHeight
-            }
+            self.frame.origin.x = show ? 0 : -Dimensions.missionMenuWidth
         })
-    }
-}
-
-// Handle control events
-extension MissionView {
-    @objc func buttonPressed(_: UIButton) {
-        missionButtonPressed?()
     }
 }

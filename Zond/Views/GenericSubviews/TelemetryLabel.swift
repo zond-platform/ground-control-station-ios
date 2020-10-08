@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StaticTelemetryLabel : InsetLabel {
+class TelemetryLabel : InsetLabel {
     private(set) var id: TelemetryDataId!
 
     required init?(coder: NSCoder) {
@@ -20,12 +20,11 @@ class StaticTelemetryLabel : InsetLabel {
         super.init(frame: CGRect())
         font = Fonts.titleFont
         textColor = Colors.Text.mainTitle
-        layer.masksToBounds = false
     }
 }
 
 // Public methods
-extension StaticTelemetryLabel {
+extension TelemetryLabel {
     func updateText(_ teletryValue: String?) {
         text = id.name + ": " + (teletryValue == nil ? "-" : teletryValue! + " " + id.unit)
     }

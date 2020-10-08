@@ -191,7 +191,7 @@ extension MapViewController {
         }
     }
 
-    func focusOnCoordinate(_ coordinate: CLLocationCoordinate2D) {
+    private func focusOnCoordinate(_ coordinate: CLLocationCoordinate2D) {
         let region = MKCoordinateRegion(center: coordinate,
                                         latitudinalMeters: CLLocationDistance(exactly: 400)!,
                                         longitudinalMeters: CLLocationDistance(exactly: 400)!)

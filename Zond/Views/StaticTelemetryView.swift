@@ -10,7 +10,7 @@ import UIKit
 
 class StaticTelemetryView : UIView {
     private var stackView = UIStackView()
-    private var labels: [TelemetryDataId:StaticTelemetryLabel] = [:]
+    private var labels: [TelemetryDataId:TelemetryLabel] = [:]
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -25,8 +25,8 @@ class StaticTelemetryView : UIView {
         stackView.distribution = .fillEqually
         stackView.alignment = .center
 
-        for id in [TelemetryDataId.batteryCharge, TelemetryDataId.gpsSatellite, TelemetryDataId.flightMode] {
-            labels[id] = StaticTelemetryLabel(id)
+        for id in [TelemetryDataId.flightMode, TelemetryDataId.batteryCharge, TelemetryDataId.gpsSatellite] {
+            labels[id] = TelemetryLabel(id)
             labels[id]!.updateText(nil)
             stackView.addArrangedSubview(labels[id]!)
         }
@@ -35,6 +35,7 @@ class StaticTelemetryView : UIView {
         addSubview(stackView)
 
         NSLayoutConstraint.activate([
+            widthAnchor.constraint(equalToConstant: Dimensions.staticTelemetryWidth),
             heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
             stackView.widthAnchor.constraint(equalTo: widthAnchor),
             stackView.heightAnchor.constraint(equalTo: heightAnchor),

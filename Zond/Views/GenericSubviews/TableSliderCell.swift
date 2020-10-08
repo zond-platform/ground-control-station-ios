@@ -35,12 +35,12 @@ class TableSliderCell : UITableViewCell {
 
         title.font = Fonts.titleFont
         NSLayoutConstraint.activate([
-            title.widthAnchor.constraint(equalToConstant: MissionView.width * CGFloat(0.4))
+            title.widthAnchor.constraint(equalToConstant: Dimensions.missionMenuWidth * CGFloat(0.4))
         ])
         stackView.addArrangedSubview(title)
 
         NSLayoutConstraint.activate([
-            slider.widthAnchor.constraint(equalToConstant: MissionView.width * CGFloat(0.35))
+            slider.widthAnchor.constraint(equalToConstant: Dimensions.missionMenuWidth * CGFloat(0.35))
         ])
         stackView.addArrangedSubview(slider)
 

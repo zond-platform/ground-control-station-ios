@@ -1,5 +1,5 @@
 //
-//  TableViewButtonCell.swift
+//  TableCommandCell.swift
 //  Zond
 //
 //  Created by Evgeny Agamirzov on 27.04.20.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-fileprivate let missionStateMap: [MissionState:[CommandButtonId]] = [
-    .uploaded : [CommandButtonId.importJson, CommandButtonId.edit,   CommandButtonId.start,  CommandButtonId.stop],
-    .running  : [CommandButtonId.importJson, CommandButtonId.edit,   CommandButtonId.pause,  CommandButtonId.stop],
-    .paused   : [CommandButtonId.importJson, CommandButtonId.edit,   CommandButtonId.resume, CommandButtonId.stop],
-    .editing  : [CommandButtonId.importJson, CommandButtonId.upload, CommandButtonId.start,  CommandButtonId.stop],
+fileprivate let missionStateMap: [MissionState:[UploadButtonId]] = [
+    .uploaded : [UploadButtonId.importJson, UploadButtonId.edit,   UploadButtonId.start,  UploadButtonId.stop],
+    .running  : [UploadButtonId.importJson, UploadButtonId.edit,   UploadButtonId.pause,  UploadButtonId.stop],
+    .paused   : [UploadButtonId.importJson, UploadButtonId.edit,   UploadButtonId.resume, UploadButtonId.stop],
+    .editing  : [UploadButtonId.importJson, UploadButtonId.upload, UploadButtonId.start,  UploadButtonId.stop],
 ]
 
 class TableCommandCell : UITableViewCell {
@@ -21,7 +21,7 @@ class TableCommandCell : UITableViewCell {
     private var buttons: [CommandButton] = []
 
     // Notifyer properties
-    var buttonPressed: ((_ id: CommandButtonId) -> Void)?
+    var buttonPressed: ((_ id: UploadButtonId) -> Void)?
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -37,12 +37,12 @@ class TableCommandCell : UITableViewCell {
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.alignment = .center
-        stackView.spacing = Dimensions.textSpacer
+        stackView.spacing = Dimensions.spacer
         stackView.layoutMargins = UIEdgeInsets(
             top: 0.0,
-            left: Dimensions.textSpacer,
+            left: Dimensions.spacer,
             bottom: 0.0,
-            right: Dimensions.textSpacer
+            right: Dimensions.spacer
         )
         stackView.isLayoutMarginsRelativeArrangement = true
 
@@ -50,7 +50,7 @@ class TableCommandCell : UITableViewCell {
             buttons.append(CommandButton(id))
             buttons.last!.addTarget(self, action: #selector(onButtonPressed(_:)), for: .touchUpInside)
             NSLayoutConstraint.activate([
-                buttons.last!.heightAnchor.constraint(equalToConstant: MissionView.TableRow.height)
+                buttons.last!.heightAnchor.constraint(equalToConstant: Dimensions.tileSize)
             ])
             stackView.addArrangedSubview(buttons.last!)
         }

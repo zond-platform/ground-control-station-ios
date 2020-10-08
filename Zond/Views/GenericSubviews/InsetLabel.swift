@@ -12,9 +12,9 @@ class InsetLabel : UILabel {
     override func drawText(in rect: CGRect) {
         let insets = UIEdgeInsets(
             top: 0,
-            left: Dimensions.textSpacer,
+            left: Dimensions.spacer,
             bottom: 0,
-            right: Dimensions.textSpacer
+            right: 0
         )
         super.drawText(in: rect.inset(by: insets))
     }
