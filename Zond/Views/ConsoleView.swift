@@ -21,14 +21,14 @@ class ConsoleView : UIView {
     init() {
         super.init(frame: CGRect())
 
-        backgroundColor = UIColor(red: 0.2588, green: 0.2863, blue: 0.2863, alpha: 0.7)
+        backgroundColor = Colors.primaryTransparent
 
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .center
 
-        messageLabel.font = Fonts.titleFont
-        messageLabel.textColor = Colors.Text.mainTitle
+        messageLabel.font = Fonts.title
+        messageLabel.textColor = UIColor.white
         stackView.addArrangedSubview(messageLabel)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false;

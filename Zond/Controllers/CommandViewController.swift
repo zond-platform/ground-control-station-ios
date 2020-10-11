@@ -44,27 +44,30 @@ extension CommandViewController {
                     Environment.commandService.executeMissionCommand(.stop)
             }
         }
-        Environment.commandService.commandResponded = { id, success in
+        Environment.commandService.commandResponseListeners.append({ id, success in
             if success {
                 switch id {
                     case .start:
-                        Environment.missionViewController.setMissionState(.running)
+                        Environment.missionStateManager.state = .running
                     case .pause:
-                        Environment.missionViewController.setMissionState(.paused)
+                        Environment.missionStateManager.state = .paused
                     case .resume:
-                        Environment.missionViewController.setMissionState(.running)
+                        Environment.missionStateManager.state = .running
                     case .stop:
-                        Environment.missionViewController.setMissionState(.editing)
+                        Environment.missionStateManager.state = .editing
                     default:
                         break
                 }
             }
-        }
+        })
         Environment.commandService.missionFinished = { success in
-            Environment.missionViewController.setMissionState(nil)
+            Environment.missionStateManager.state = nil
         }
-        Environment.missionViewController.stateListeners.append({ state in
+        Environment.missionStateManager.stateListeners.append({ state in
             self.commandView.showFromSide(state == nil || state! == .editing ? false : true)
+            if let state = state {
+                self.commandView.setControls(for: state)
+            }
         })
     }
 }

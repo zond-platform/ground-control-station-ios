@@ -10,9 +10,9 @@ import UIKit
 
 class StatusView : UIView {
     // Stored properties
-    private let menuButton = ImageButton(#imageLiteral(resourceName: "menuBtn"), Colors.Text.selectedTitle)
+    private let menuButton = MenuButton()
     private let stackView = UIStackView()
-    private let simulatorButton = TextButton(Colors.Overlay.simulatorActiveColor)
+    private let simulatorButton = SimulatorButton()
 
     // Notifyer properties
     var menuButtonSelected: ((_ isSelected: Bool) -> Void)?
@@ -35,8 +35,9 @@ class StatusView : UIView {
         stackView.alignment = .center
 
         menuButton.addTarget(self, action: #selector(onMenuButtonPressed(_:)), for: .touchUpInside)
+        menuButton.isSelected = false
         simulatorButton.addTarget(self, action: #selector(onSimulatorButtonPressed(_:)), for: .touchUpInside)
-        simulatorButton.setTitle("Simulator Off", for: .normal)
+        simulatorButton.isSelected = false
 
         stackView.addArrangedSubview(menuButton)
         stackView.addArrangedSubview(Environment.consoleViewController.view)
@@ -47,10 +48,6 @@ class StatusView : UIView {
         addSubview(stackView)
 
         NSLayoutConstraint.activate([
-            menuButton.heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
-            menuButton.widthAnchor.constraint(equalToConstant: Dimensions.tileSize),
-            simulatorButton.heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
-            simulatorButton.widthAnchor.constraint(equalToConstant: Dimensions.simulatorButtonWidth),
             stackView.widthAnchor.constraint(equalTo: widthAnchor),
             stackView.heightAnchor.constraint(equalTo: heightAnchor),
             stackView.centerYAnchor.constraint(equalTo: centerYAnchor)
@@ -60,20 +57,22 @@ class StatusView : UIView {
 
 // Public methods
 extension StatusView {
+    func triggerMenuButtonSelection(_ select: Bool) {
+        menuButton.isSelected = select
+    }
+
     func triggerSimulatorButtonSelection(_ select: Bool) {
         simulatorButton.isSelected = select
-        simulatorButton.setTitle(select ? "Simulator On" : "Simulator Off", for: .normal)
     }
 }
 
 // Handle control events
 extension StatusView {
-    @objc func onMenuButtonPressed(_: ImageButton) {
-        menuButton.isSelected = !menuButton.isSelected
-        menuButtonSelected?(menuButton.isSelected)
+    @objc func onMenuButtonPressed(_: LocatorButton) {
+        menuButtonSelected?(!menuButton.isSelected)
     }
 
-    @objc func onSimulatorButtonPressed(_: TextButton) {
+    @objc func onSimulatorButtonPressed(_: SimulatorButton) {
         simulatorButtonSelected?(!simulatorButton.isSelected)
     }
 }

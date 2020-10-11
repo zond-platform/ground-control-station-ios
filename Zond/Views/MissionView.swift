@@ -9,20 +9,34 @@
 import UIKit
 
 class MissionView : UITableView {
+    private var x: CGFloat {
+        return 0
+    }
+    private var y: CGFloat {
+        return Dimensions.tileSize
+    }
+    private var width: CGFloat {
+        return Dimensions.missionMenuWidth
+    }
+    private var height: CGFloat {
+        return Dimensions.screenHeight - Dimensions.tileSize
+    }
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
     init() {
-        super.init(frame: CGRect(
-            x: -Dimensions.missionMenuWidth,
-            y: Dimensions.tileSize,
-            width: Dimensions.missionMenuWidth,
-            height: Dimensions.screenHeight - Dimensions.tileSize
-        ), style: .grouped)
+        super.init(frame: CGRect(), style: .grouped)
+        frame = CGRect(
+            x: -width,
+            y: y,
+            width: width,
+            height: height
+        )
         separatorStyle = .none
         isScrollEnabled = false
-        backgroundColor = Colors.Overlay.primaryColor
+        backgroundColor = Colors.primary
     }
 }
 
@@ -30,7 +44,7 @@ class MissionView : UITableView {
 extension MissionView {
     func showFromSide(_ show: Bool) {
         UIView.animate(withDuration: 0.3, animations: {
-            self.frame.origin.x = show ? 0 : -Dimensions.missionMenuWidth
+            self.frame.origin.x = show ? self.x : -self.width
         })
     }
 }

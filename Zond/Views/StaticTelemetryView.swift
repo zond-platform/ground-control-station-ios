@@ -19,7 +19,7 @@ class StaticTelemetryView : UIView {
     init() {
         super.init(frame: CGRect())
 
-        backgroundColor = Colors.Overlay.primaryColor
+        backgroundColor = Colors.primary
 
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually

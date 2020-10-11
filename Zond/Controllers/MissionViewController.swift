@@ -12,13 +12,6 @@ import DJISDK
 import MobileCoreServices
 import UIKit
 
-enum MissionState {
-    case uploaded
-    case running
-    case paused
-    case editing
-}
-
 struct Misson : Codable {
     struct Feature : Codable {
         struct Properties : Codable {
@@ -41,54 +34,29 @@ struct Misson : Codable {
     let features: [Feature]
 }
 
-fileprivate let allowedTransitions: KeyValuePairs<MissionState?,MissionState?> = [
-    nil             : .editing,
-    .editing        : nil,
-    .editing        : .uploaded,
-    .uploaded       : .editing,
-    .uploaded       : .running,
-    .running        : .editing,
-    .running        : .paused,
-    .paused         : .editing,
-    .paused         : .running
-]
-
 fileprivate var missionData = TableData([
     SectionData(
-        id: .command,
+        id: .actions,
         rows: [
-            RowData(id: .command,       type: .command, value: MissionState.editing, isEnabled: false)
-    ]),
+            RowData(id: .actions,       type: .actions, value: MissionState.editing, isEnabled: false)
+        ]),
     SectionData(
-        id: .editor,
+        id: .params,
         rows: [
             RowData(id: .gridDistance,  type: .slider,  value: Float(10.0),          isEnabled: true),
             RowData(id: .gridAngle,     type: .slider,  value: Float(0.0),           isEnabled: true),
             RowData(id: .shootDistance, type: .slider,  value: Float(10.0),          isEnabled: true),
             RowData(id: .altitude,      type: .slider,  value: Float(50.0),          isEnabled: true),
             RowData(id: .flightSpeed,   type: .slider,  value: Float(10.0),          isEnabled: true)
-        ]),
+        ])
 ])
 
 class MissionViewController : UIViewController {
     // Stored properties
     private var missionView: MissionView!
     private var tableData: TableData = missionData
-    private var previousMissionState: MissionState?
-
-    // Observer properties
-    private var missionState: MissionState? {
-        didSet {
-            if allowedTransitions.contains(where: { $0 == oldValue && $1 == missionState }) {
-                for listener in stateListeners {
-                    listener?(missionState)
-                }
-            }
-        }
-    }
 
     // Notyfier properties
-    var stateListeners: [((_ state: MissionState?) -> Void)?] = []
     var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
 
     required init?(coder: NSCoder) {
@@ -101,7 +69,7 @@ class MissionViewController : UIViewController {
         missionView.dataSource = self
         missionView.delegate = self
         missionView.register(TableSection.self, forHeaderFooterViewReuseIdentifier: SectionType.spacer.reuseIdentifier)
-        missionView.register(TableCommandCell.self, forCellReuseIdentifier: RowType.command.reuseIdentifier)
+        missionView.register(TableButtonsCell.self, forCellReuseIdentifier: RowType.actions.reuseIdentifier)
         missionView.register(TableSliderCell.self, forCellReuseIdentifier: RowType.slider.reuseIdentifier)
         registerListeners()
         view = missionView
@@ -112,78 +80,44 @@ class MissionViewController : UIViewController {
     }
 }
 
-// Public methods
-extension MissionViewController {
-    func setMissionState(_ state: MissionState?) {
-        missionView.showFromSide(state != nil && state! == .editing ? true : false)
-        self.missionState = state
-    }
-}
-
 // Private methods
 extension MissionViewController {
     private func registerListeners() {
-        Environment.commandService.commandResponded = { id, success in
-            if success {
-                switch id {
-                    case .upload:
-                        self.missionState = MissionState.uploaded
-                    case .start:
-                        self.missionState = MissionState.running
-                    case .pause:
-                        self.missionState = MissionState.paused
-                    case .resume:
-                        self.missionState = MissionState.running
-                    case .stop:
-                        self.missionState = MissionState.editing
-                }
-            } else {
-                self.missionState = MissionState.editing
-            }
-        }
-        Environment.commandService.missionFinished = { success in
-            self.missionState = MissionState.editing
-        }
-        Environment.connectionService.listeners.append({ model in
-            if model == nil {
-                self.tableData.enableRow(at: IdPath(.command, .command), false)
-                if self.missionState == .uploaded
-                    || self.missionState == .running
-                    || self.missionState == .paused {
-                    self.missionState = MissionState.editing
-                }
-            } else {
-                self.tableData.enableRow(at: IdPath(.command, .command), true)
-                self.tableData.updateRow(at: IdPath(.command, .command), with: MissionState.editing)
+        Environment.commandService.commandResponseListeners.append({ id, success in
+            if success && id == .upload {
+                Environment.missionStateManager.state = .uploaded
             }
         })
-        stateListeners.append({ state in
-            if state != nil {
-                self.tableData.updateRow(at: IdPath(.command, .command), with: state!)
-            }
+        Environment.connectionService.listeners.append({ model in
+            self.tableData.enableRow(at: IdPath(.actions, .actions), model == nil ? false : true)
+        })
+        Environment.missionStateManager.stateListeners.append({ state in
+            let isEditingState = state != nil && state! == .editing
+            Environment.statusViewController.triggerMenuButtonSelection(isEditingState)
+            self.missionView.showFromSide(isEditingState)
         })
     }
 
     private func sliderMoved(at idPath: IdPath, to value: Float) {
         tableData.updateRow(at: idPath, with: value)
         switch idPath{
-            case IdPath(.editor, .gridDistance):
+            case IdPath(.params, .gridDistance):
                 Environment.mapViewController.missionPolygon?.gridDistance = CGFloat(value)
                 Environment.commandService.missionParameters.turnRadius = (Float(value) / 2) - 10e-6
-            case IdPath(.editor, .gridAngle):
+            case IdPath(.params, .gridAngle):
                 Environment.mapViewController.missionPolygon?.gridAngle = CGFloat(value)
-            case IdPath(.editor, .altitude):
+            case IdPath(.params, .altitude):
                 Environment.commandService.missionParameters.altitude = Float(value)
-            case IdPath(.editor, .shootDistance):
+            case IdPath(.params, .shootDistance):
                 Environment.commandService.missionParameters.shootDistance = Float(value)
-            case IdPath(.editor, .flightSpeed):
+            case IdPath(.params, .flightSpeed):
                 Environment.commandService.missionParameters.flightSpeed = Float(value)
             default:
                 break
         }
     }
 
-    private func buttonPressed(with id: UploadButtonId) {
+    private func buttonPressed(with id: TableButtonId) {
         switch id {
             case .importJson:
                 let documentPicker = UIDocumentPickerViewController(documentTypes: [String(kUTTypeJSON)], in: .import)
@@ -196,21 +130,11 @@ extension MissionViewController {
                 if Environment.commandService.setMissionCoordinates(coordinates) {
                     Environment.commandService.executeMissionCommand(.upload)
                 }
-            case .start:
-                Environment.commandService.executeMissionCommand(.start)
-            case .edit:
-                self.missionState = MissionState.editing
-            case .pause:
-                Environment.commandService.executeMissionCommand(.pause)
-            case .resume:
-                Environment.commandService.executeMissionCommand(.resume)
-            case .stop:
-                Environment.commandService.executeMissionCommand(.stop)
         }
     }
 
-    private func commandCell(for rowData: RowData<Any>, at indexPath: IndexPath, in tableView: UITableView) -> TableCommandCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: rowData.type.reuseIdentifier, for: indexPath) as! TableCommandCell
+    private func actionsCell(for rowData: RowData<Any>, at indexPath: IndexPath, in tableView: UITableView) -> TableButtonsCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: rowData.type.reuseIdentifier, for: indexPath) as! TableButtonsCell
         cell.buttonPressed = { id in
             self.buttonPressed(with: id)
         }
@@ -227,7 +151,7 @@ extension MissionViewController {
         // respective components upon creation, thus simulate slider "move" to the
         // initial value which will notify a subscriber of the respective parameter.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.sliderMoved(at: IdPath(.editor, rowData.id), to: rowData.value as! Float)
+            self.sliderMoved(at: IdPath(.params, rowData.id), to: rowData.value as! Float)
         }
 
         cell.sliderMoved = { id , value in
@@ -254,8 +178,8 @@ extension MissionViewController : UITableViewDataSource {
         var cell: UITableViewCell
         let rowData = tableData.rowData(at: indexPath)
         switch rowData.type {
-            case .command:
-                cell = commandCell(for: rowData, at: indexPath, in: tableView)
+            case .actions:
+                cell = actionsCell(for: rowData, at: indexPath, in: tableView)
             case .slider:
                 cell = sliderCell(for: rowData, at: indexPath, in: tableView)
         }
@@ -298,11 +222,11 @@ extension MissionViewController : UIDocumentPickerDelegate {
                     let decoder = JSONDecoder()
                     let mission = try decoder.decode(Misson.self, from: jsonData).features[0]
 
-                    sliderMoved(at: IdPath(.editor, .gridDistance), to: mission.properties.distance)
-                    sliderMoved(at: IdPath(.editor, .gridAngle), to: mission.properties.angle)
-                    sliderMoved(at: IdPath(.editor, .shootDistance), to: mission.properties.shoot)
-                    sliderMoved(at: IdPath(.editor, .altitude), to: mission.properties.altitude)
-                    sliderMoved(at: IdPath(.editor, .flightSpeed), to: mission.properties.speed)
+                    sliderMoved(at: IdPath(.params, .gridDistance), to: mission.properties.distance)
+                    sliderMoved(at: IdPath(.params, .gridAngle), to: mission.properties.angle)
+                    sliderMoved(at: IdPath(.params, .shootDistance), to: mission.properties.shoot)
+                    sliderMoved(at: IdPath(.params, .altitude), to: mission.properties.altitude)
+                    sliderMoved(at: IdPath(.params, .flightSpeed), to: mission.properties.speed)
 
                     if mission.geometry.type == "Polygon"  && !mission.geometry.coordinates.isEmpty {
                         // First element of the geometry is always the outer polygon

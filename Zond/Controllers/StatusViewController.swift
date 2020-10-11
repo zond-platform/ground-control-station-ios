@@ -23,6 +23,13 @@ class StatusViewController : UIViewController {
     }
 }
 
+// Public methods
+extension StatusViewController {
+    func triggerMenuButtonSelection(_ select: Bool) {
+        statusView.triggerMenuButtonSelection(select)
+    }
+}
+
 // Private methods
 extension StatusViewController {
     private func registerListeners() {
@@ -39,7 +46,7 @@ extension StatusViewController {
             }
         }
         statusView.menuButtonSelected = { isSelected in
-            Environment.missionViewController.setMissionState(isSelected ? .editing : nil)
+            Environment.missionStateManager.state = isSelected ? .editing : nil
         }
         Environment.connectionService.listeners.append({ model in
             if model == nil {

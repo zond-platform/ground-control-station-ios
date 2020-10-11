@@ -9,23 +9,23 @@
 import CoreGraphics
 
 enum SectionId {
-    case editor
-    case command
+    case params
+    case actions
 
     var headerHeight: CGFloat {
         switch self {
-            case .editor:
+            case .params:
                 return Dimensions.tileSize
-            case .command:
+            case .actions:
                 return Dimensions.tileSize
         }
     }
 
     var footerHeight: CGFloat {
         switch self {
-            case .editor:
+            case .params:
                 return 0.0
-            case .command:
+            case .actions:
                 return 0.0
         }
     }

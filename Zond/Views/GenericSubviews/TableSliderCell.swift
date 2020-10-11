@@ -33,7 +33,7 @@ class TableSliderCell : UITableViewCell {
         stackView.distribution = .fill
         stackView.alignment = .center
 
-        title.font = Fonts.titleFont
+        title.font = Fonts.title
         NSLayoutConstraint.activate([
             title.widthAnchor.constraint(equalToConstant: Dimensions.missionMenuWidth * CGFloat(0.4))
         ])
@@ -44,8 +44,8 @@ class TableSliderCell : UITableViewCell {
         ])
         stackView.addArrangedSubview(slider)
 
-        value.font = Fonts.titleFont
-        value.textColor = Colors.Text.detailTitle
+        value.font = Fonts.title
+        value.textColor = UIColor.white
         stackView.addArrangedSubview(value)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false;
@@ -90,8 +90,8 @@ extension TableSliderCell {
         self.title.text = data.title
         self.value.text = String(format: "%.0f ", self.slider.value) + (data.id.unit ?? "")
 
-        self.title.textColor = data.isEnabled ? Colors.Text.mainTitle   : Colors.Text.inactiveTitle
-        self.value.textColor = data.isEnabled ? Colors.Text.detailTitle : Colors.Text.inactiveTitle
+        self.title.textColor = data.isEnabled ? UIColor.white : Colors.inactive
+        self.value.textColor = data.isEnabled ? UIColor.white : Colors.inactive
     }
 }
 

@@ -47,7 +47,7 @@ class CommandService : BaseService {
 
     // Notifyer properties
     var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
-    var commandResponded: ((_ id: MissionCommandId, _ success: Bool) -> Void)?
+    var commandResponseListeners: [((_ id: MissionCommandId, _ success: Bool) -> Void)?] = []
     var missionFinished: ((_ success: Bool) -> Void)?
 }
 
@@ -84,7 +84,9 @@ extension CommandService {
         let missionOperator = DJISDKManager.missionControl()?.waypointMissionOperator()
         let callback = { (error: Error?) in
             let success = error == nil
-            self.commandResponded?(id, success)
+            for listener in self.commandResponseListeners {
+                listener?(id, success)
+            }
             if success {
                 let message = "Mission \(id.title) succeeded"
                 self.logConsole?(message, .debug)

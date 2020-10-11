@@ -8,45 +8,24 @@
 
 import UIKit
 
-enum CommandButtonId: Int {
-    case start
-    case pause
-    case resume
-    case stop
-
-    var title: String {
-        switch self {
-            case .start:
-                return "Start"
-            case .pause:
-                return "Pause"
-            case .resume:
-                return "Resume"
-            case .stop:
-                return "Stop"
-        }
-    }
-}
-
-extension CommandButtonId : CaseIterable {}
-
 class CommandView : UIView {
     // Stored properties
     private let stackView = UIStackView()
-    private var buttons: [TextButton] = []
+    private var startButton = CommandButton(.start)
+    private var stopButton = CommandButton(.stop)
 
     // Computed properties
     private var x: CGFloat {
         return Dimensions.spacer
     }
     private var y: CGFloat {
-        return Dimensions.screenHeight * CGFloat(0.5) - Dimensions.tileSize
+        return Dimensions.screenHeight * CGFloat(0.5) - Dimensions.commandButtonDiameter - Dimensions.spacer * CGFloat(0.5)
     }
     private var width: CGFloat {
-        return Dimensions.simulatorButtonWidth
+        return Dimensions.commandButtonDiameter
     }
     private var height: CGFloat {
-        return Dimensions.tileSize * CGFloat(2)
+        return Dimensions.commandButtonDiameter * CGFloat(2)
     }
 
     // Notifyer properties
@@ -66,20 +45,15 @@ class CommandView : UIView {
         )
 
         stackView.axis = .vertical
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fill
         stackView.alignment = .center
 
-        for id in [CommandButtonId.start, CommandButtonId.stop] {
-            buttons.append(TextButton(id.rawValue, Colors.Overlay.userLocationColor))
-            buttons.last!.setTitle(id.title, for: .normal)
-            buttons.last!.addTarget(self, action: #selector(onButtonPressed(_:)), for: .touchUpInside)
-            NSLayoutConstraint.activate([
-                buttons.last!.widthAnchor.constraint(equalToConstant: Dimensions.simulatorButtonWidth),
-                buttons.last!.heightAnchor.constraint(equalToConstant: Dimensions.tileSize)
-            ])
-            stackView.addArrangedSubview(buttons.last!)
-            stackView.setCustomSpacing(Dimensions.spacer, after: buttons.last!)
-        }
+        startButton.addTarget(self, action: #selector(onButtonPressed(_:)), for: .touchUpInside)
+        stopButton.addTarget(self, action: #selector(onButtonPressed(_:)), for: .touchUpInside)
+
+        stackView.addArrangedSubview(startButton)
+        stackView.setCustomSpacing(Dimensions.spacer, after: startButton)
+        stackView.addArrangedSubview(stopButton)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false;
         addSubview(stackView)
@@ -88,6 +62,25 @@ class CommandView : UIView {
 
 // Public methods
 extension CommandView {
+    func setControls(for state: MissionState) {
+        switch state {
+            case .uploaded:
+                startButton.id = .start
+                stopButton.id = .stop
+                stopButton.isEnabled = false
+            case .paused:
+                startButton.id = .resume
+                stopButton.id = .stop
+                stopButton.isEnabled = true
+            case .running:
+                startButton.id = .pause
+                stopButton.id = .stop
+                stopButton.isEnabled = true
+            default:
+                break
+        }
+    }
+
     func showFromSide(_ show: Bool) {
         UIView.animate(withDuration: 0.3, animations: {
             self.frame.origin.x = show ? self.x : -self.width
@@ -97,11 +90,9 @@ extension CommandView {
 
 // Handle control events
 extension CommandView {
-    @objc func onButtonPressed(_ sender: TextButton) {
-        if let rawSenderId = sender.id {
-            if let senderId = CommandButtonId(rawValue: rawSenderId) {
-                buttonPressed?(senderId)
-            }
+    @objc func onButtonPressed(_ sender: CommandButton) {
+        if let id = sender.id {
+            buttonPressed?(id)
         }
     }
 }

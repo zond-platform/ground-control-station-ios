@@ -23,8 +23,8 @@ class RootView : UIView {
 
         addSubview(Environment.mapViewController.view)
         addSubview(Environment.statusViewController.view)
-        addSubview(Environment.missionViewController.view)
         addSubview(Environment.commandViewController.view)
+        addSubview(Environment.missionViewController.view)
         addSubview(Environment.locatorViewController.view)
     }
 }

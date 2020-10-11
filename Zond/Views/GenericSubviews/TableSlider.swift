@@ -19,13 +19,13 @@ class TableSlider : UISlider {
         super.init(frame: frame)
         let thumbView = UIView()
         let thumbRadius = Dimensions.tileSize * CGFloat(0.6)
-        thumbView.backgroundColor = Colors.Text.detailTitle
+        thumbView.backgroundColor = UIColor.white
         thumbView.frame = CGRect(x: 0, y: 0, width: thumbRadius, height: thumbRadius)
         thumbView.layer.cornerRadius = thumbRadius * CGFloat(0.5)
         let imageRenderer = UIGraphicsImageRenderer(bounds: thumbView.bounds)
         let thumbImage = imageRenderer.image { thumbView.layer.render(in: $0.cgContext) }
         setThumbImage(thumbImage, for: .normal)
-        minimumTrackTintColor = Colors.Text.detailTitle
-        maximumTrackTintColor = Colors.Text.inactiveTitle
+        minimumTrackTintColor = UIColor.white
+        maximumTrackTintColor = Colors.inactive
     }
 }

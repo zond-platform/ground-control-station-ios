@@ -131,7 +131,7 @@ extension MapViewController {
         Environment.locationService.homeLocationChanged = { location in
             self.showObject(self.home, location)
         }
-        Environment.missionViewController.stateListeners.append({ state in
+        Environment.missionStateManager.stateListeners.append({ state in
             self.missionPolygon?.missionState = state
             if state != nil && state == .editing {
                 self.enableMissionPolygonInteration(true)
@@ -207,13 +207,13 @@ extension MapViewController {
                         movingObjectView!.onHeadingChanged(heading)
                     }
                     let image = #imageLiteral(resourceName: "userPin")
-                    movingObjectView!.image = image.color(Colors.Overlay.userLocationColor)
+                    movingObjectView!.image = image.color(Colors.user)
                 case .aircraft:
                     movingObject.headingChanged = { heading in
                         movingObjectView!.onHeadingChanged(heading)
                     }
                     let image = #imageLiteral(resourceName: "aircraftPin")
-                    movingObjectView!.image = image.color(Colors.Overlay.aircraftLocationColor)
+                    movingObjectView!.image = image.color(Colors.aircraft)
                 case .home:
                     movingObjectView!.image = #imageLiteral(resourceName: "homePin")
             }

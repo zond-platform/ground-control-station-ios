@@ -14,7 +14,7 @@ enum RowId {
     case shootDistance
     case altitude
     case flightSpeed
-    case command
+    case actions
 
     var title: String {
         switch self {
@@ -28,8 +28,8 @@ enum RowId {
                 return "Altitude"
             case .flightSpeed:
                 return "Flight Speed"
-            case .command:
-                return "Command"
+            case .actions:
+                return ""
         }
     }
 
@@ -45,20 +45,20 @@ enum RowId {
                 return "m"
             case .flightSpeed:
                 return "m/s"
-            case .command:
+            case .actions:
                 return nil
         }
     }
 }
 
 enum RowType {
-    case command
+    case actions
     case slider
 
     var reuseIdentifier: String {
         switch self {
-            case .command:
-                return "commandCell"
+            case .actions:
+                return "actionsCell"
             case .slider:
                 return "sliderCell"
         }

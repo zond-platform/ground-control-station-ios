@@ -23,4 +23,7 @@ struct Environment {
     static let commandViewController         = CommandViewController()
     static let locatorViewController         = LocatorViewController()
     static let rootViewController            = RootViewController()
+
+    // Shared state
+    static let missionStateManager = MissionStateManager()
 }

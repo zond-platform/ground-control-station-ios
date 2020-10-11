@@ -37,16 +37,16 @@
 		EC15EAE02286FD530032ACB9 /* SimulatorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC15EADF2286FD530032ACB9 /* SimulatorService.swift */; };
 		EC1678E4244623AD00C71203 /* LocatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678E3244623AD00C71203 /* LocatorViewController.swift */; };
 		EC1678E6244625D500C71203 /* LocatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678E5244625D500C71203 /* LocatorView.swift */; };
-		EC18EBC624630AA6001A29D1 /* CommandButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC18EBC524630AA6001A29D1 /* CommandButton.swift */; };
-		EC25DD9E252BCEA4004F5005 /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC25DD9D252BCEA4004F5005 /* ImageButton.swift */; };
-		EC25DDA6252D26CD004F5005 /* TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC25DDA5252D26CD004F5005 /* TextButton.swift */; };
+		EC18EBC624630AA6001A29D1 /* TableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC18EBC524630AA6001A29D1 /* TableButton.swift */; };
+		EC25DD9E252BCEA4004F5005 /* LocatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC25DD9D252BCEA4004F5005 /* LocatorButton.swift */; };
+		EC25DDA6252D26CD004F5005 /* SimulatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC25DDA5252D26CD004F5005 /* SimulatorButton.swift */; };
 		EC302E9D24A6A74300F4389B /* MeanderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC302E9C24A6A74300F4389B /* MeanderTest.swift */; };
 		EC950E8721B81EA600B3A03D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8621B81EA600B3A03D /* AppDelegate.swift */; };
 		EC950E8921B81EA600B3A03D /* ConnectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8821B81EA600B3A03D /* ConnectionService.swift */; };
 		EC950E8E21B81EA700B3A03D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC950E8D21B81EA700B3A03D /* Assets.xcassets */; };
 		EC950E9C21B81EA700B3A03D /* HullTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E9B21B81EA700B3A03D /* HullTest.swift */; };
 		EC98D9412455EBE6006BEA9F /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98D9402455EBE6006BEA9F /* InsetLabel.swift */; };
-		EC98D94524570BAC006BEA9F /* TableCommandCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98D94424570BAC006BEA9F /* TableCommandCell.swift */; };
+		EC98D94524570BAC006BEA9F /* TableButtonsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98D94424570BAC006BEA9F /* TableButtonsCell.swift */; };
 		EC98D94724570FE7006BEA9F /* TableSliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98D94624570FE7006BEA9F /* TableSliderCell.swift */; };
 		ECAAC83A2299B83700FB360F /* MissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAAC8392299B83700FB360F /* MissionView.swift */; };
 		ECAE717A24979A6600B381F3 /* AeroGlazUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAE717924979A6600B381F3 /* AeroGlazUITests.swift */; };
@@ -59,6 +59,7 @@
 		ECB6B8F824A41F1D002C4B04 /* VectorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB6B8F724A41F1D002C4B04 /* VectorTest.swift */; };
 		ECC51897247943CF007852E7 /* TelemetryLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC51896247943CF007852E7 /* TelemetryLabel.swift */; };
 		ECCB449724B36D7F005AA1F6 /* MissionPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCB449624B36D7F005AA1F6 /* MissionPolygon.swift */; };
+		ECCECA732533374300433879 /* MenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCECA722533374300433879 /* MenuButton.swift */; };
 		ECD709A4244F3BB8004CB3B6 /* TableSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD709A3244F3BB8004CB3B6 /* TableSlider.swift */; };
 		ECD8AC1F2465A87900FCC8DB /* SectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD8AC1B2465A87900FCC8DB /* SectionData.swift */; };
 		ECD8AC202465A87900FCC8DB /* RowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD8AC1C2465A87900FCC8DB /* RowData.swift */; };
@@ -66,6 +67,8 @@
 		ECD8AC222465A87900FCC8DB /* TableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD8AC1E2465A87900FCC8DB /* TableData.swift */; };
 		ECDF4B7222593AC600C98F71 /* MissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDF4B7122593AC600C98F71 /* MissionViewController.swift */; };
 		ECEEEEF4226BA5E7005A71C6 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEEEEF3226BA5E7005A71C6 /* BaseService.swift */; };
+		ECEFC6F12533237200BA1B1B /* CommandButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEFC6F02533237200BA1B1B /* CommandButton.swift */; };
+		ECF5594C252FDB1100FFAEA9 /* MissionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF5594B252FDB1100FFAEA9 /* MissionState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,9 +123,9 @@
 		EC15EADF2286FD530032ACB9 /* SimulatorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorService.swift; sourceTree = "<group>"; };
 		EC1678E3244623AD00C71203 /* LocatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocatorViewController.swift; sourceTree = "<group>"; };
 		EC1678E5244625D500C71203 /* LocatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocatorView.swift; sourceTree = "<group>"; };
-		EC18EBC524630AA6001A29D1 /* CommandButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandButton.swift; sourceTree = "<group>"; };
-		EC25DD9D252BCEA4004F5005 /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
-		EC25DDA5252D26CD004F5005 /* TextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextButton.swift; sourceTree = "<group>"; };
+		EC18EBC524630AA6001A29D1 /* TableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableButton.swift; sourceTree = "<group>"; };
+		EC25DD9D252BCEA4004F5005 /* LocatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocatorButton.swift; sourceTree = "<group>"; };
+		EC25DDA5252D26CD004F5005 /* SimulatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorButton.swift; sourceTree = "<group>"; };
 		EC302E9C24A6A74300F4389B /* MeanderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeanderTest.swift; sourceTree = "<group>"; };
 		EC950E8321B81EA600B3A03D /* Zond.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zond.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC950E8621B81EA600B3A03D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -135,7 +138,7 @@
 		EC950EA221B81EA800B3A03D /* ZondUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZondUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC950EA821B81EA800B3A03D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC98D9402455EBE6006BEA9F /* InsetLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetLabel.swift; sourceTree = "<group>"; };
-		EC98D94424570BAC006BEA9F /* TableCommandCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCommandCell.swift; sourceTree = "<group>"; };
+		EC98D94424570BAC006BEA9F /* TableButtonsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableButtonsCell.swift; sourceTree = "<group>"; };
 		EC98D94624570FE7006BEA9F /* TableSliderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSliderCell.swift; sourceTree = "<group>"; };
 		ECAAC8392299B83700FB360F /* MissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionView.swift; sourceTree = "<group>"; };
 		ECAE717924979A6600B381F3 /* AeroGlazUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AeroGlazUITests.swift; sourceTree = "<group>"; };
@@ -148,6 +151,7 @@
 		ECB6B8F724A41F1D002C4B04 /* VectorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorTest.swift; sourceTree = "<group>"; };
 		ECC51896247943CF007852E7 /* TelemetryLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelemetryLabel.swift; sourceTree = "<group>"; };
 		ECCB449624B36D7F005AA1F6 /* MissionPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionPolygon.swift; sourceTree = "<group>"; };
+		ECCECA722533374300433879 /* MenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButton.swift; sourceTree = "<group>"; };
 		ECD709A3244F3BB8004CB3B6 /* TableSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSlider.swift; sourceTree = "<group>"; };
 		ECD8AC1B2465A87900FCC8DB /* SectionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionData.swift; sourceTree = "<group>"; };
 		ECD8AC1C2465A87900FCC8DB /* RowData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RowData.swift; sourceTree = "<group>"; };
@@ -155,6 +159,8 @@
 		ECD8AC1E2465A87900FCC8DB /* TableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableData.swift; sourceTree = "<group>"; };
 		ECDF4B7122593AC600C98F71 /* MissionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionViewController.swift; sourceTree = "<group>"; };
 		ECEEEEF3226BA5E7005A71C6 /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
+		ECEFC6F02533237200BA1B1B /* CommandButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandButton.swift; sourceTree = "<group>"; };
+		ECF5594B252FDB1100FFAEA9 /* MissionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,10 +211,9 @@
 		EC12E78E2477E49800BF4AE6 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				ECF55953252FDB1C00FFAEA9 /* Constants */,
 				EC0ECE312449B9F5008B1479 /* Environment.swift */,
-				EC12E7932477E4DF00BF4AE6 /* Dimensions.swift */,
-				EC12E78F2477E4C800BF4AE6 /* Fonts.swift */,
-				EC12E7912477E4D400BF4AE6 /* Colors.swift */,
+				ECF5594B252FDB1100FFAEA9 /* MissionState.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -242,8 +247,8 @@
 				ECB121B52529F53B00C0C56F /* StatusView.swift */,
 				EC12A714244B1DB200DEC7A6 /* ConsoleView.swift */,
 				EC12E797247933E900BF4AE6 /* StaticTelemetryView.swift */,
-				ECAAC8392299B83700FB360F /* MissionView.swift */,
 				EC10BE36252F400C00D9A6B8 /* CommandView.swift */,
+				ECAAC8392299B83700FB360F /* MissionView.swift */,
 				EC1678E5244625D500C71203 /* LocatorView.swift */,
 			);
 			path = Views;
@@ -254,12 +259,14 @@
 			children = (
 				EC98D9402455EBE6006BEA9F /* InsetLabel.swift */,
 				ECC51896247943CF007852E7 /* TelemetryLabel.swift */,
-				EC25DD9D252BCEA4004F5005 /* ImageButton.swift */,
-				EC25DDA5252D26CD004F5005 /* TextButton.swift */,
-				EC18EBC524630AA6001A29D1 /* CommandButton.swift */,
+				EC25DD9D252BCEA4004F5005 /* LocatorButton.swift */,
+				ECCECA722533374300433879 /* MenuButton.swift */,
+				EC25DDA5252D26CD004F5005 /* SimulatorButton.swift */,
+				ECEFC6F02533237200BA1B1B /* CommandButton.swift */,
 				ECD709A3244F3BB8004CB3B6 /* TableSlider.swift */,
 				EC98D94624570FE7006BEA9F /* TableSliderCell.swift */,
-				EC98D94424570BAC006BEA9F /* TableCommandCell.swift */,
+				EC18EBC524630AA6001A29D1 /* TableButton.swift */,
+				EC98D94424570BAC006BEA9F /* TableButtonsCell.swift */,
 				EC0ECE332449EACE008B1479 /* TableSection.swift */,
 			);
 			path = GenericSubviews;
@@ -358,8 +365,8 @@
 				ECB121BA2529F60C00C0C56F /* StatusViewController.swift */,
 				EC12A716244B316700DEC7A6 /* ConsoleViewController.swift */,
 				EC12E79524792EFF00BF4AE6 /* StaticTelemetryViewController.swift */,
-				ECDF4B7122593AC600C98F71 /* MissionViewController.swift */,
 				EC10BE31252F3F9E00D9A6B8 /* CommandViewController.swift */,
+				ECDF4B7122593AC600C98F71 /* MissionViewController.swift */,
 				EC1678E3244623AD00C71203 /* LocatorViewController.swift */,
 			);
 			path = Controllers;
@@ -376,6 +383,16 @@
 				EC15EAD92274E6BE0032ACB9 /* TelemetryService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		ECF55953252FDB1C00FFAEA9 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				EC12E7932477E4DF00BF4AE6 /* Dimensions.swift */,
+				EC12E78F2477E4C800BF4AE6 /* Fonts.swift */,
+				EC12E7912477E4D400BF4AE6 /* Colors.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -559,7 +576,7 @@
 				EC12A717244B316700DEC7A6 /* ConsoleViewController.swift in Sources */,
 				ECD8AC222465A87900FCC8DB /* TableData.swift in Sources */,
 				EC14732623B1F07E00385067 /* MissionRenderer.swift in Sources */,
-				EC18EBC624630AA6001A29D1 /* CommandButton.swift in Sources */,
+				EC18EBC624630AA6001A29D1 /* TableButton.swift in Sources */,
 				EC1678E4244623AD00C71203 /* LocatorViewController.swift in Sources */,
 				ECB121B62529F53B00C0C56F /* StatusView.swift in Sources */,
 				EC14732223B1F02200385067 /* MovingObjectView.swift in Sources */,
@@ -574,7 +591,9 @@
 				ECAAC83A2299B83700FB360F /* MissionView.swift in Sources */,
 				EC98D9412455EBE6006BEA9F /* InsetLabel.swift in Sources */,
 				EC14732823B1F62000385067 /* Hull.swift in Sources */,
-				EC25DD9E252BCEA4004F5005 /* ImageButton.swift in Sources */,
+				EC25DD9E252BCEA4004F5005 /* LocatorButton.swift in Sources */,
+				ECEFC6F12533237200BA1B1B /* CommandButton.swift in Sources */,
+				ECF5594C252FDB1100FFAEA9 /* MissionState.swift in Sources */,
 				EC15EAE02286FD530032ACB9 /* SimulatorService.swift in Sources */,
 				EC12E78D247531B500BF4AE6 /* LocationService.swift in Sources */,
 				EC12E798247933E900BF4AE6 /* StaticTelemetryView.swift in Sources */,
@@ -583,9 +602,10 @@
 				EC12E7942477E4DF00BF4AE6 /* Dimensions.swift in Sources */,
 				ECB6B8F424A414CE002C4B04 /* Span.swift in Sources */,
 				EC1678E6244625D500C71203 /* LocatorView.swift in Sources */,
-				EC25DDA6252D26CD004F5005 /* TextButton.swift in Sources */,
+				EC25DDA6252D26CD004F5005 /* SimulatorButton.swift in Sources */,
 				ECC51897247943CF007852E7 /* TelemetryLabel.swift in Sources */,
 				ECDF4B7222593AC600C98F71 /* MissionViewController.swift in Sources */,
+				ECCECA732533374300433879 /* MenuButton.swift in Sources */,
 				EC12E79624792EFF00BF4AE6 /* StaticTelemetryViewController.swift in Sources */,
 				EC13B6C624A62BDF007ADDEF /* Meander.swift in Sources */,
 				EC14732A23B1F63000385067 /* Vector.swift in Sources */,
@@ -601,7 +621,7 @@
 				ECB121BB2529F60C00C0C56F /* StatusViewController.swift in Sources */,
 				EC12A715244B1DB200DEC7A6 /* ConsoleView.swift in Sources */,
 				EC10BE32252F3F9E00D9A6B8 /* CommandViewController.swift in Sources */,
-				EC98D94524570BAC006BEA9F /* TableCommandCell.swift in Sources */,
+				EC98D94524570BAC006BEA9F /* TableButtonsCell.swift in Sources */,
 				EC10BE37252F400C00D9A6B8 /* CommandView.swift in Sources */,
 				ECD8AC1F2465A87900FCC8DB /* SectionData.swift in Sources */,
 			);

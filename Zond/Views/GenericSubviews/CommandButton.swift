@@ -2,16 +2,13 @@
 //  CommandButton.swift
 //  Zond
 //
-//  Created by Evgeny Agamirzov on 06.05.20.
+//  Created by Evgeny Agamirzov on 11.10.20.
 //  Copyright © 2020 Evgeny Agamirzov. All rights reserved.
 //
 
 import UIKit
 
-enum UploadButtonId {
-    case importJson
-    case upload
-    case edit
+enum CommandButtonId: Int {
     case start
     case pause
     case resume
@@ -19,12 +16,6 @@ enum UploadButtonId {
 
     var title: String {
         switch self {
-            case .importJson:
-                return "Import"
-            case .upload:
-                return "Upload"
-            case .edit:
-                return "Edit"
             case .start:
                 return "Start"
             case .pause:
@@ -35,23 +26,39 @@ enum UploadButtonId {
                 return "Stop"
         }
     }
-}
 
-extension UploadButtonId : CaseIterable {}
-
-class CommandButton : UIButton {
-    var id: UploadButtonId = .upload {
-        didSet {
-            setTitle(id.title, for: .normal)
+    var color: UIColor {
+        switch self {
+            case .start:
+                return Colors.success
+            case .pause:
+                return Colors.warning
+            case .resume:
+                return Colors.success
+            case .stop:
+                return Colors.error
         }
     }
+}
+
+extension CommandButtonId : CaseIterable {}
+
+class CommandButton : UIButton {
+    // Stored properties
+    var id: CommandButtonId? {
+        didSet {
+            if let id = id {
+                setTitle(id.title, for: .normal)
+                setTitleColor(id.color, for: .normal)
+                titleLabel!.font = Fonts.boldTitle
+            }
+        }
+    }
+
+    // Observer properties
     override var isEnabled: Bool {
         didSet {
-            if isEnabled {
-                backgroundColor = Colors.Overlay.userLocationColor
-            } else {
-                backgroundColor = Colors.Text.inactiveTitle
-            }
+            setTitleColor(isEnabled && id != nil ? id!.color : Colors.inactive, for: .normal)
         }
     }
 
@@ -59,12 +66,14 @@ class CommandButton : UIButton {
         super.init(coder: coder)
     }
 
-    init(_ id: UploadButtonId) {
+    init(_ id: CommandButtonId) {
         super.init(frame: CGRect())
         self.id = id
-        setTitle(id.title, for: .normal)
-        titleLabel!.font = Fonts.titleFont
-        setTitleColor(Colors.Text.mainTitle, for: .normal)
-        backgroundColor = Colors.Text.success
+        backgroundColor = Colors.primary
+        layer.cornerRadius = Dimensions.commandButtonDiameter * CGFloat(0.5)
+        NSLayoutConstraint.activate([
+            widthAnchor.constraint(equalToConstant: Dimensions.commandButtonDiameter),
+            heightAnchor.constraint(equalToConstant: Dimensions.commandButtonDiameter)
+        ])
     }
 }

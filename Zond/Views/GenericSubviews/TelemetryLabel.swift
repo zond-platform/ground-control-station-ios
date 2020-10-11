@@ -18,8 +18,8 @@ class TelemetryLabel : InsetLabel {
     init(_ id: TelemetryDataId) {
         self.id = id
         super.init(frame: CGRect())
-        font = Fonts.titleFont
-        textColor = Colors.Text.mainTitle
+        font = Fonts.title
+        textColor = UIColor.white
     }
 }
 

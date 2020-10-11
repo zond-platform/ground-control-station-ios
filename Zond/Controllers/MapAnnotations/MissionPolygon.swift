@@ -79,8 +79,6 @@ class MissionPolygon : MKPolygon {
         } else {
             return nil
         }
-
-
     }
 }
 
