@@ -26,8 +26,20 @@ class StaticTelemetryViewController : UIViewController {
 // Private methods
 extension StaticTelemetryViewController {
     private func registerListeners() {
-        Environment.telemetryService.telemetryDataChanged = { id, value in
-            self.staticTelemetryView.updateData(id, value)
+        Environment.telemetryService.flightModeChanged = { modeString in
+            self.staticTelemetryView.updateFlightMode(modeString)
+        }
+        Environment.telemetryService.gpsSignalStatusChanged = { signalStatus in
+            self.staticTelemetryView.updateGpsSignalStatus(signalStatus)
+        }
+        Environment.telemetryService.gpsSatCountChanged = { satCount in
+            self.staticTelemetryView.updateGpsSatCount(satCount)
+        }
+        Environment.telemetryService.linkSignalQualityChanged = { signalStrength in
+            self.staticTelemetryView.updateLinkSignalStrength(signalStrength)
+        }
+        Environment.telemetryService.batteryChargeChanged = { batteryPercentage in
+            self.staticTelemetryView.updateBatteryPercentage(batteryPercentage)
         }
     }
 }

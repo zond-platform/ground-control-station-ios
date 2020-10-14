@@ -12,8 +12,8 @@ class Vector : Equatable {
     let startPoint: CGPoint
     let endPoint: CGPoint
     let span: Span
-    let line: Line
     let norm: CGFloat
+    let line: Line
 
     // Create null vector
     convenience init(at point: CGPoint = CGPoint(x: 0, y: 0)) {

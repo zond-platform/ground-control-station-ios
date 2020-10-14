@@ -31,7 +31,7 @@ class BaseService : NSObject {
                 DJISDKManager.keyManager()?.getValueFor(key, withCompletion: {
                     (value: DJIKeyedValue?, error: Error?) in
                     if error != nil {
-                        os_log("%@", type: .error, error!.localizedDescription)
+                        os_log("Get value error: %@", type: .error, error!.localizedDescription)
                     } else {
                         keyActionPair.value(value, key)
                     }

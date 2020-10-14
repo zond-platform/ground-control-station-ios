@@ -10,7 +10,10 @@ import UIKit
 
 class StaticTelemetryView : UIView {
     private var stackView = UIStackView()
-    private var labels: [TelemetryDataId:TelemetryLabel] = [:]
+    private let flightModeWidget = FlightModeWidget()
+    private let gpsSignalWidget = GpsSignalWidget()
+    private let linkSignalWidget = LinkSignalWidget()
+    private let batteryWidget = BatteryWidget()
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -22,23 +25,30 @@ class StaticTelemetryView : UIView {
         backgroundColor = Colors.primary
 
         stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fill
         stackView.alignment = .center
+        stackView.layoutMargins = UIEdgeInsets(
+            top: 0,
+            left: Dimensions.spacer,
+            bottom: 0,
+            right: Dimensions.spacer
+        )
 
-        for id in [TelemetryDataId.flightMode, TelemetryDataId.batteryCharge, TelemetryDataId.gpsSatellite] {
-            labels[id] = TelemetryLabel(id)
-            labels[id]!.updateText(nil)
-            stackView.addArrangedSubview(labels[id]!)
-        }
+        stackView.addArrangedSubview(flightModeWidget)
+        stackView.setCustomSpacing(Dimensions.spacer, after: flightModeWidget)
+        stackView.addArrangedSubview(gpsSignalWidget)
+        stackView.setCustomSpacing(Dimensions.spacer, after: gpsSignalWidget)
+        stackView.addArrangedSubview(linkSignalWidget)
+        stackView.setCustomSpacing(Dimensions.spacer, after: linkSignalWidget)
+        stackView.addArrangedSubview(batteryWidget)
 
+        stackView.isLayoutMarginsRelativeArrangement = true
         stackView.translatesAutoresizingMaskIntoConstraints = false;
         addSubview(stackView)
 
         NSLayoutConstraint.activate([
-            widthAnchor.constraint(equalToConstant: Dimensions.staticTelemetryWidth),
             heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
             stackView.widthAnchor.constraint(equalTo: widthAnchor),
-            stackView.heightAnchor.constraint(equalTo: heightAnchor),
             stackView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
@@ -46,9 +56,23 @@ class StaticTelemetryView : UIView {
 
 // Public methods
 extension StaticTelemetryView {
-    func updateData(_ id: TelemetryDataId, _ value: String?) {
-        if let label = labels[id] {
-            label.updateText(value)
-        }
+    func updateFlightMode(_ modeString: String?) {
+        flightModeWidget.update(modeString)
+    }
+
+    func updateGpsSignalStatus(_ signalStatus: UInt?) {
+        gpsSignalWidget.update(signalStatus: signalStatus)
+    }
+
+    func updateGpsSatCount(_ satCount: UInt?) {
+        gpsSignalWidget.update(satCount: satCount)
+    }
+
+    func updateLinkSignalStrength(_ signalStrength: UInt?) {
+        linkSignalWidget.update(signalStrength)
+    }
+
+    func updateBatteryPercentage(_ batteryPercentage: UInt?) {
+        batteryWidget.update(batteryPercentage)
     }
 }
