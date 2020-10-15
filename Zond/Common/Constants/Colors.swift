@@ -16,10 +16,10 @@ struct Colors {
 
     static let success            = UIColor(hex: "#4CAF50FF")
     static let warning            = UIColor(hex: "#FFEB3BFF")
-    static let error              = UIColor(hex: "#FF5722FF")
+    static let error              = UIColor(hex: "#FF2222FF")
 
     static let user               = secondary
-    static let aircraft           = UIColor(hex: "#F57F17FF")
+    static let aircraft           = error
 }
 
 extension UIImage {

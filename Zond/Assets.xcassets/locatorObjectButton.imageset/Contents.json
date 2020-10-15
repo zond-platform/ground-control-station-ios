@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "define-location-16.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "define-location-32.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "define-location-48.png",
+      "filename" : "locator.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

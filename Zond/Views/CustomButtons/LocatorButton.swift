@@ -9,24 +9,34 @@
 import UIKit
 
 enum LocatorButtonId: Int {
+    case focus
     case user
     case aircraft
+    case home
 
     var image: UIImage {
         switch self {
+            case .focus:
+                return #imageLiteral(resourceName: "locatorObjectButton")
             case .user:
-                return #imageLiteral(resourceName: "userBtn")
+                return #imageLiteral(resourceName: "locatorObjectButton")
             case .aircraft:
-                return #imageLiteral(resourceName: "aircraftBtn")
+                return #imageLiteral(resourceName: "locatorObjectButton")
+            case .home:
+                return #imageLiteral(resourceName: "locatorHomeButton")
         }
     }
 
     var color: UIColor {
         switch self {
+            case .focus:
+                return UIColor.white
             case .user:
                 return Colors.user
             case .aircraft:
                 return Colors.aircraft
+            case .home:
+                return UIColor.white
         }
     }
 }
@@ -34,15 +44,11 @@ enum LocatorButtonId: Int {
 extension LocatorButtonId : CaseIterable {}
 
 class LocatorButton : UIButton {
-    // Stored properties
-    var id: LocatorButtonId?
-
-    // Observer properties
-    override var isSelected: Bool {
+    var id: LocatorButtonId? {
         didSet {
-            setImage(currentImage?.color(isSelected && id != nil ? id!.color
-                                                                 : UIColor.white),
-                     for: .normal)
+            if let id = id {
+                setImage(currentImage?.color(id.color), for: .normal)
+            }
         }
     }
 
@@ -53,7 +59,7 @@ class LocatorButton : UIButton {
     init(_ id: LocatorButtonId) {
         super.init(frame: CGRect())
         self.id = id
-        setImage(id.image.color(UIColor.white), for: .normal)
+        setImage(id.image.color(id.color), for: .normal)
         backgroundColor = Colors.primary
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: Dimensions.tileSize),

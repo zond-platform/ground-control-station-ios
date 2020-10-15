@@ -8,7 +8,7 @@
 
 import MapKit
 
-fileprivate let iconOrientationOffset = -45.0
+fileprivate let iconOrientationOffset = 0.0
 fileprivate let deviceOrientationOffset = UIDevice.current.orientation == .landscapeLeft ? 90.0 : -90.0
 
 class MovingObjectView : MKAnnotationView {

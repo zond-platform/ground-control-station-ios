@@ -28,25 +28,29 @@ class LocatorViewController : UIViewController {
 // Private methods
 extension LocatorViewController {
     func registerListeners() {
-        locatorView.buttonSelected = { id, isSelected in
+        locatorView.buttonPressed = { id in
             switch id {
+                case .focus:
+                    let trackSuccess = Environment.mapViewController.trackUser(true)
+                    let newId = trackSuccess ? LocatorButtonId.user : LocatorButtonId.focus
+                    self.locatorView.setLocateObjectButtonId(newId)
                 case .user:
-                    if Environment.mapViewController.trackUser(isSelected) {
-                        self.locatorView.deselectButton(with: .aircraft)
-                    } else {
-                        self.locatorView.deselectButton(with: .user)
-                    }
+                    let trackSuccess = Environment.mapViewController.trackAircraft(true)
+                    let newId = trackSuccess ? LocatorButtonId.aircraft : LocatorButtonId.focus
+                    self.locatorView.setLocateObjectButtonId(newId)
                 case .aircraft:
-                    if Environment.mapViewController.trackAircraft(isSelected) {
-                        self.locatorView.deselectButton(with: .user)
-                    } else {
-                        self.locatorView.deselectButton(with: .aircraft)
-                    }
+                    let _ = Environment.mapViewController.trackAircraft(false)
+                    self.locatorView.setLocateObjectButtonId(.focus)
+                case .home:
+                    let _ = Environment.mapViewController.trackUser(false)
+                    let _ = Environment.mapViewController.trackAircraft(false)
+                    self.locatorView.setLocateObjectButtonId(.focus)
+                    Environment.mapViewController.locateHome()
             }
         }
         Environment.locationService.aircraftLocationListeners.append({ location in
             if location == nil {
-                self.locatorView.deselectButton(with: .aircraft)
+                self.locatorView.setLocateObjectButtonId(.focus)
             }
         })
     }

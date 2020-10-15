@@ -77,7 +77,6 @@ extension MapViewController {
             let _ = trackObject(aircraft, false)
             return true
         } else {
-            logConsole?("Unable to track user. User location unknown", .error)
             return false
         }
     }
@@ -87,8 +86,13 @@ extension MapViewController {
             let _ = trackObject(user, false)
             return true
         } else {
-            logConsole?("Unable to track aircraft. Aircraft location unknown.", .error)
             return false
+        }
+    }
+
+    func locateHome() {
+        if objectPresentOnMap(home) {
+            focusOnCoordinate(home.coordinate)
         }
     }
 
@@ -206,14 +210,14 @@ extension MapViewController {
                     movingObject.headingChanged = { heading in
                         movingObjectView!.onHeadingChanged(heading)
                     }
-                    let image = #imageLiteral(resourceName: "userPin")
-                    movingObjectView!.image = image.color(Colors.user)
+                    let image = #imageLiteral(resourceName: "placemarkUser")
+                    movingObjectView!.image = image //.color(Colors.user)
                 case .aircraft:
                     movingObject.headingChanged = { heading in
                         movingObjectView!.onHeadingChanged(heading)
                     }
-                    let image = #imageLiteral(resourceName: "aircraftPin")
-                    movingObjectView!.image = image.color(Colors.aircraft)
+                    let image = #imageLiteral(resourceName: "placemarkAircraft")
+                    movingObjectView!.image = image //.color(Colors.aircraft)
                 case .home:
                     movingObjectView!.image = #imageLiteral(resourceName: "homePin")
             }
