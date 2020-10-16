@@ -9,15 +9,17 @@
 import UIKit
 
 fileprivate let defaultValue = "N/A"
+fileprivate let defaultIcon = UIImage(#imageLiteral(resourceName: "indicatorMode"))
 
 class FlightModeWidget : UIView {
     // Stored properties
-    private let icon = UIImageView(image: UIImage(#imageLiteral(resourceName: "indicatorMode")))
+    private let icon = UIImageView(image: defaultIcon)
     private let label = UILabel()
+    private let button = UIButton()
     private let stackView = UIStackView()
 
     // Computed properties
-    private var width: CGFloat {
+    var width: CGFloat {
         return Dimensions.telemetryIconSize + Dimensions.telemetrySpacer + Dimensions.telemetryLabelWidth
     }
 
@@ -56,7 +58,12 @@ class FlightModeWidget : UIView {
 
 // Public methods
 extension FlightModeWidget {
-    func update(_ modeString: String?) {
+    func update(modeString: String?) {
         label.text = modeString == nil ? defaultValue : modeString!
+    }
+
+    func update(isSimulatorOn: Bool) {
+        icon.image = isSimulatorOn ? UIImage(#imageLiteral(resourceName: "indicatorModeSimulator")) : defaultIcon
+        label.textColor = isSimulatorOn ? Colors.success : UIColor.white
     }
 }

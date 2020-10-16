@@ -33,25 +33,8 @@ extension StatusViewController {
 // Private methods
 extension StatusViewController {
     private func registerListeners() {
-        statusView.simulatorButtonSelected = { isSelected in
-            if isSelected {
-                let userLocation = Environment.mapViewController.userLocation
-                Environment.simulatorService.startSimulator(userLocation, { success in
-                    self.statusView.triggerSimulatorButtonSelection(success)
-                })
-            } else {
-                Environment.simulatorService.stopSimulator({ _ in
-                    self.statusView.triggerSimulatorButtonSelection(false)
-                })
-            }
-        }
         statusView.menuButtonSelected = { isSelected in
             Environment.missionStateManager.state = isSelected ? .editing : nil
         }
-        Environment.connectionService.listeners.append({ model in
-            if model == nil {
-                self.statusView.triggerSimulatorButtonSelection(false)
-            }
-        })
     }
 }

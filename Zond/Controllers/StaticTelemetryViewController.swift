@@ -41,5 +41,22 @@ extension StaticTelemetryViewController {
         Environment.telemetryService.batteryChargeChanged = { batteryPercentage in
             self.staticTelemetryView.updateBatteryPercentage(batteryPercentage)
         }
+        staticTelemetryView.simulatorButtonSelected = { isSelected in
+            if isSelected {
+                let userLocation = Environment.mapViewController.userLocation
+                Environment.simulatorService.startSimulator(userLocation, { success in
+                    self.staticTelemetryView.enableSimulatorVisualization(success)
+                })
+            } else {
+                Environment.simulatorService.stopSimulator({ _ in
+                    self.staticTelemetryView.enableSimulatorVisualization(false)
+                })
+            }
+        }
+        Environment.connectionService.listeners.append({ model in
+            if model == nil {
+                self.staticTelemetryView.enableSimulatorVisualization(false)
+            }
+        })
     }
 }

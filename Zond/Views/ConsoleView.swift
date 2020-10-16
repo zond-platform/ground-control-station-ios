@@ -21,7 +21,7 @@ class ConsoleView : UIView {
     init() {
         super.init(frame: CGRect())
 
-        backgroundColor = Colors.primaryTransparent
+        backgroundColor = Colors.primary
 
         stackView.axis = .horizontal
         stackView.distribution = .fill

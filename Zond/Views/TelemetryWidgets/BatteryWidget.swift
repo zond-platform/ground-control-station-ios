@@ -75,7 +75,7 @@ extension BatteryWidget {
             }
         } else {
             label.text = defaultValue
-            label.textColor = Colors.error
+            label.textColor = UIColor.white
             icon.image = defaultIcon
         }
     }

@@ -9,8 +9,7 @@
 import UIKit
 
 struct Colors {
-    static let primary            = UIColor(hex: "#263238EE")
-    static let primaryTransparent = UIColor(hex: "#263238AA")
+    static let primary            = UIColor(hex: "#263238DD")
     static let secondary          = UIColor(hex: "#039BE5FF")
     static let inactive           = UIColor(hex: "#535353FF")
 

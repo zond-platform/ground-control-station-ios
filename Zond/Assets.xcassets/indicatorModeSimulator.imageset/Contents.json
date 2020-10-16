@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "menu-4-16.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "menu-4-32.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "menu-4-48.png",
+      "filename" : "simulator.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

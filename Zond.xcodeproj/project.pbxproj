@@ -39,7 +39,6 @@
 		EC1678E6244625D500C71203 /* LocatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678E5244625D500C71203 /* LocatorView.swift */; };
 		EC18EBC624630AA6001A29D1 /* TableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC18EBC524630AA6001A29D1 /* TableButton.swift */; };
 		EC25DD9E252BCEA4004F5005 /* LocatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC25DD9D252BCEA4004F5005 /* LocatorButton.swift */; };
-		EC25DDA6252D26CD004F5005 /* SimulatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC25DDA5252D26CD004F5005 /* SimulatorButton.swift */; };
 		EC302E9D24A6A74300F4389B /* MeanderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC302E9C24A6A74300F4389B /* MeanderTest.swift */; };
 		EC950E8721B81EA600B3A03D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8621B81EA600B3A03D /* AppDelegate.swift */; };
 		EC950E8921B81EA600B3A03D /* ConnectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8821B81EA600B3A03D /* ConnectionService.swift */; };
@@ -128,7 +127,6 @@
 		EC1678E5244625D500C71203 /* LocatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocatorView.swift; sourceTree = "<group>"; };
 		EC18EBC524630AA6001A29D1 /* TableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableButton.swift; sourceTree = "<group>"; };
 		EC25DD9D252BCEA4004F5005 /* LocatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocatorButton.swift; sourceTree = "<group>"; };
-		EC25DDA5252D26CD004F5005 /* SimulatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorButton.swift; sourceTree = "<group>"; };
 		EC302E9C24A6A74300F4389B /* MeanderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeanderTest.swift; sourceTree = "<group>"; };
 		EC950E8321B81EA600B3A03D /* Zond.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zond.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC950E8621B81EA600B3A03D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -350,7 +348,6 @@
 			children = (
 				EC25DD9D252BCEA4004F5005 /* LocatorButton.swift */,
 				ECCECA722533374300433879 /* MenuButton.swift */,
-				EC25DDA5252D26CD004F5005 /* SimulatorButton.swift */,
 				ECEFC6F02533237200BA1B1B /* CommandButton.swift */,
 			);
 			path = CustomButtons;
@@ -628,7 +625,6 @@
 				EC12E7942477E4DF00BF4AE6 /* Dimensions.swift in Sources */,
 				ECB6B8F424A414CE002C4B04 /* Span.swift in Sources */,
 				EC1678E6244625D500C71203 /* LocatorView.swift in Sources */,
-				EC25DDA6252D26CD004F5005 /* SimulatorButton.swift in Sources */,
 				ECA224702536600C00A777AB /* LinkSignalWidget.swift in Sources */,
 				ECDF4B7222593AC600C98F71 /* MissionViewController.swift in Sources */,
 				ECCECA732533374300433879 /* MenuButton.swift in Sources */,

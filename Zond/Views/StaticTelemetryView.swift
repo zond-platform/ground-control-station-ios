@@ -9,11 +9,21 @@
 import UIKit
 
 class StaticTelemetryView : UIView {
-    private var stackView = UIStackView()
+    // Stored properties
+    private let stackView = UIStackView()
     private let flightModeWidget = FlightModeWidget()
     private let gpsSignalWidget = GpsSignalWidget()
     private let linkSignalWidget = LinkSignalWidget()
     private let batteryWidget = BatteryWidget()
+    private let simulatorButton = UIButton()
+
+    // Computed properties
+    private var doubleSpacer: CGFloat {
+        return Dimensions.spacer * CGFloat(2)
+    }
+
+    // Notifyer properties
+    var simulatorButtonSelected: ((_ isSelected: Bool) -> Void)?
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -29,22 +39,31 @@ class StaticTelemetryView : UIView {
         stackView.alignment = .center
         stackView.layoutMargins = UIEdgeInsets(
             top: 0,
-            left: Dimensions.spacer,
+            left: doubleSpacer,
             bottom: 0,
-            right: Dimensions.spacer
+            right: doubleSpacer
+        )
+
+        simulatorButton.addTarget(self, action: #selector(onSimulatorButtonSelected(_:)), for: .touchUpInside)
+        simulatorButton.frame = CGRect(
+            x: doubleSpacer,
+            y: 0,
+            width: flightModeWidget.width,
+            height: Dimensions.tileSize
         )
 
         stackView.addArrangedSubview(flightModeWidget)
         stackView.setCustomSpacing(Dimensions.spacer, after: flightModeWidget)
         stackView.addArrangedSubview(gpsSignalWidget)
-        stackView.setCustomSpacing(Dimensions.spacer, after: gpsSignalWidget)
+        stackView.setCustomSpacing(doubleSpacer, after: gpsSignalWidget)
         stackView.addArrangedSubview(linkSignalWidget)
-        stackView.setCustomSpacing(Dimensions.spacer, after: linkSignalWidget)
+        stackView.setCustomSpacing(doubleSpacer, after: linkSignalWidget)
         stackView.addArrangedSubview(batteryWidget)
 
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.translatesAutoresizingMaskIntoConstraints = false;
         addSubview(stackView)
+        addSubview(simulatorButton)
 
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
@@ -57,7 +76,7 @@ class StaticTelemetryView : UIView {
 // Public methods
 extension StaticTelemetryView {
     func updateFlightMode(_ modeString: String?) {
-        flightModeWidget.update(modeString)
+        flightModeWidget.update(modeString: modeString)
     }
 
     func updateGpsSignalStatus(_ signalStatus: UInt?) {
@@ -74,5 +93,20 @@ extension StaticTelemetryView {
 
     func updateBatteryPercentage(_ batteryPercentage: UInt?) {
         batteryWidget.update(batteryPercentage)
+    }
+}
+
+// Public methods
+extension StaticTelemetryView {
+    func enableSimulatorVisualization(_ enable: Bool) {
+        simulatorButton.isSelected = enable
+        flightModeWidget.update(isSimulatorOn: enable)
+    }
+}
+
+// Handle control events
+extension StaticTelemetryView {
+    @objc func onSimulatorButtonSelected(_: UIButton) {
+        simulatorButtonSelected?(!simulatorButton.isSelected)
     }
 }

@@ -22,6 +22,7 @@ class GpsSignalWidget : UIView {
     private var width: CGFloat {
         return Dimensions.telemetryIconSize + Dimensions.telemetrySpacer + Dimensions.telemetryIndicatorWidth
     }
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }

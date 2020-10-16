@@ -73,21 +73,13 @@ class MapViewController : UIViewController {
 // Public methods
 extension MapViewController {
     func trackUser(_ enable: Bool) -> Bool {
-        if trackObject(user, enable) {
-            let _ = trackObject(aircraft, false)
-            return true
-        } else {
-            return false
-        }
+        let _ = trackObject(aircraft, false)
+        return trackObject(user, enable)
     }
 
     func trackAircraft(_ enable: Bool) -> Bool {
-        if trackObject(aircraft, enable) {
-            let _ = trackObject(user, false)
-            return true
-        } else {
-            return false
-        }
+        let _ = trackObject(user, false)
+        return trackObject(aircraft, enable)
     }
 
     func locateHome() {
