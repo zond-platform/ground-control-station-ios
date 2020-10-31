@@ -20,10 +20,12 @@ class RootView : UIView {
             width: Dimensions.screenWidth,
             height: Dimensions.screenHeight
         ))
+
         addSubview(Environment.mapViewController.view)
-        addSubview(Environment.consoleViewController.view)
-        addSubview(Environment.missionViewController.view)
-        addSubview(Environment.navigationViewController.view)
         addSubview(Environment.statusViewController.view)
+        addSubview(Environment.commandViewController.view)
+        addSubview(Environment.missionViewController.view)
+        addSubview(Environment.dynamicTelemetryViewController.view)
+        addSubview(Environment.locatorViewController.view)
     }
 }
