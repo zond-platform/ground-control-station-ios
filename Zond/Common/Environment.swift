@@ -15,15 +15,20 @@ struct Environment {
     static let telemetryService  = TelemetryService()
 
     // Shared controllers
-    static let mapViewController             = MapViewController()
-    static let statusViewController          = StatusViewController()
-    static let consoleViewController         = ConsoleViewController()
-    static let staticTelemetryViewController = StaticTelemetryViewController()
-    static let missionViewController         = MissionViewController()
-    static let commandViewController         = CommandViewController()
-    static let locatorViewController         = LocatorViewController()
-    static let rootViewController            = RootViewController()
+    static let mapViewController              = MapViewController()
+    static let statusViewController           = StatusViewController()
+    static let consoleViewController          = ConsoleViewController()
+    static let staticTelemetryViewController  = StaticTelemetryViewController()
+    static let dynamicTelemetryViewController = DynamicTelemetryViewController()
+    static let missionViewController          = MissionViewController()
+    static let parametersViewController       = ParametersViewController()
+    static let importExportViewController     = ImportExportViewController()
+    static let commandViewController          = CommandViewController()
+    static let locatorViewController          = LocatorViewController()
+    static let rootViewController             = RootViewController()
 
-    // Shared state
+    // Shared mission objects
     static let missionStateManager = MissionStateManager()
+    static let missionParameters   = MissionParameters()
+    static let missionStorage      = MissionStorage()
 }

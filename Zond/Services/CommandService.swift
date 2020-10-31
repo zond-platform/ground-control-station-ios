@@ -33,17 +33,9 @@ enum MissionCommandId {
     }
 }
 
-struct MissionParameters {
-    var flightSpeed: Float = 10
-    var shootDistance: Float = 10
-    var altitude: Float = 20
-    var turnRadius: Float = 2
-}
-
 class CommandService : BaseService {
     // Stored properties
     var currentWaypointIndex: Int?
-    var missionParameters = MissionParameters()
 
     // Notifyer properties
     var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
@@ -150,7 +142,7 @@ extension CommandService {
     private func waypointMissionFromCoordinates(_ coordinates: [CLLocationCoordinate2D]) -> DJIWaypointMission {
         let mission = DJIMutableWaypointMission()
         mission.maxFlightSpeed = 15
-        mission.autoFlightSpeed = missionParameters.flightSpeed
+        mission.autoFlightSpeed = Environment.missionParameters.speed.value
         mission.finishedAction = .noAction
         mission.headingMode = .auto
         mission.flightPathMode = .curved
@@ -160,13 +152,13 @@ extension CommandService {
         mission.repeatTimes = 1
         for coordinate in coordinates {
             let waypoint = DJIWaypoint(coordinate: coordinate)
-            waypoint.altitude = missionParameters.altitude
+            waypoint.altitude = Environment.missionParameters.altitude.value
             waypoint.actionRepeatTimes = 1
             waypoint.actionTimeoutInSeconds = 60
             waypoint.turnMode = .clockwise
             waypoint.gimbalPitch = -85
-            waypoint.shootPhotoDistanceInterval = missionParameters.shootDistance
-            waypoint.cornerRadiusInMeters = missionParameters.turnRadius
+            waypoint.shootPhotoDistanceInterval = Environment.missionParameters.meanderStep.value
+            waypoint.cornerRadiusInMeters = (Environment.missionParameters.meanderStep.value / 2) - 10e-6
             mission.add(waypoint)
         }
         return DJIWaypointMission(mission: mission)

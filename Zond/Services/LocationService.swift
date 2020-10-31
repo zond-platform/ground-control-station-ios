@@ -10,7 +10,7 @@ import DJISDK
 
 class LocationService : BaseService {
     var aircraftLocationListeners: [((_ value: CLLocation?) -> Void)?] = []
-    var homeLocationChanged: ((_ value: CLLocation?) -> Void)?
+    var homeLocationListeners: [((_ value: CLLocation?) -> Void)?] = []
     var aircraftHeadingChanged: ((_ value: CLLocationDirection?) -> Void)?
 }
 
@@ -43,7 +43,9 @@ extension LocationService {
                     listener?(valuePresent ? (value!.value! as? CLLocation) : nil)
                 }
             case DJIFlightControllerParamHomeLocation:
-                homeLocationChanged?(valuePresent ? (value!.value! as? CLLocation) : nil)
+                for listener in homeLocationListeners {
+                    listener?(valuePresent ? (value!.value! as? CLLocation) : nil)
+                }
             case DJIFlightControllerParamCompassHeading:
                 aircraftHeadingChanged?(valuePresent ? (value!.value! as? CLLocationDirection) : nil)
             default:

@@ -27,7 +27,7 @@ class LocatorViewController : UIViewController {
 
 // Private methods
 extension LocatorViewController {
-    func registerListeners() {
+    private func registerListeners() {
         locatorView.buttonPressed = { id in
             switch id {
                 case .focus:
@@ -53,5 +53,23 @@ extension LocatorViewController {
                 self.locatorView.setLocateObjectButtonId(.focus)
             }
         })
+        Environment.missionStateManager.stateListeners.append({ _, newState in
+            if newState != nil && newState! == .editing {
+                self.toggleShowFromSideAnimated(show: false, delay: 0)
+            } else {
+                self.toggleShowFromSideAnimated(show: true, delay: Animations.defaultDelay)
+            }
+        })
+    }
+
+    private func toggleShowFromSideAnimated(show: Bool, delay: TimeInterval) {
+        UIView.animate(
+            withDuration: Animations.defaultDuration,
+            delay: delay,
+            options: [],
+            animations: {
+                self.locatorView.toggleShowFromSide(show)
+            }
+        )
     }
 }

@@ -25,6 +25,7 @@ class RootView : UIView {
         addSubview(Environment.statusViewController.view)
         addSubview(Environment.commandViewController.view)
         addSubview(Environment.missionViewController.view)
+        addSubview(Environment.dynamicTelemetryViewController.view)
         addSubview(Environment.locatorViewController.view)
     }
 }

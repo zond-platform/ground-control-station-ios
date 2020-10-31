@@ -63,11 +63,24 @@ extension CommandViewController {
         Environment.commandService.missionFinished = { success in
             Environment.missionStateManager.state = nil
         }
-        Environment.missionStateManager.stateListeners.append({ state in
-            self.commandView.showFromSide(state == nil || state! == .editing ? false : true)
-            if let state = state {
-                self.commandView.setControls(for: state)
+        Environment.missionStateManager.stateListeners.append({ _, newState in
+            if newState != nil && newState! != .editing {
+                self.commandView.setControls(for: newState!)
+                self.toggleShowFromSideAnimated(show: true, delay: Animations.defaultDelay)
+            } else {
+                self.toggleShowFromSideAnimated(show: false, delay: 0)
             }
         })
+    }
+
+    private func toggleShowFromSideAnimated(show: Bool, delay: TimeInterval) {
+        UIView.animate(
+            withDuration: Animations.defaultDuration,
+            delay: delay,
+            options: [],
+            animations: {
+                self.commandView.toggleShowFromSide(show)
+            }
+        )
     }
 }

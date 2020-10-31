@@ -9,16 +9,13 @@
 import UIKit
 
 struct Colors {
-    static let primary            = UIColor(hex: "#263238DD")
-    static let secondary          = UIColor(hex: "#039BE5FF")
-    static let inactive           = UIColor(hex: "#535353FF")
+    static let primary   = UIColor(hex: "#263238CC")
+    static let secondary = UIColor(hex: "#039BE5FF")
+    static let inactive  = UIColor(hex: "#535353FF")
 
-    static let success            = UIColor(hex: "#4CAF50FF")
-    static let warning            = UIColor(hex: "#FFEB3BFF")
-    static let error              = UIColor(hex: "#FF2222FF")
-
-    static let user               = secondary
-    static let aircraft           = error
+    static let success   = UIColor(hex: "#4CAF50FF")
+    static let warning   = UIColor(hex: "#FFEB3BFF")
+    static let error     = UIColor(hex: "#FF2222FF")
 }
 
 extension UIImage {
