@@ -126,7 +126,7 @@ extension MissionRenderer {
         }
     }
 
-    func missionCoordinates() -> [CLLocationCoordinate2D] {
+    func meanderCoordinates() -> [CLLocationCoordinate2D] {
         var coordnates: [CLLocationCoordinate2D] = []
         for point in pointSet.meander.points {
             coordnates.append(mapPoint(for: point).coordinate)

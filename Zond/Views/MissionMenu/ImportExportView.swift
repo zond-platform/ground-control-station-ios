@@ -8,16 +8,19 @@
 
 import UIKit
 
-fileprivate let buttonWidth = Dimensions.missionMenuWidth - Dimensions.spacer * CGFloat(2)
+fileprivate let width = Dimensions.missionMenuWidth
+fileprivate let height = Dimensions.tileSize + Dimensions.spacer
 
 class ImportExportView : UIView {
     // Stored properties
-    private let importButton = UIButton()
-    private let uploadButton = UIButton()
+    private let importButton = ImportExportButton(.importMission)
+    private let exportButton = ImportExportButton(.exportMission)
+    private let uploadButton = ImportExportButton(.uploadMission)
     private let stackView = UIStackView()
 
     // Notifyer properties
     var importButtonPressed: (() -> Void)?
+    var exportButtonPressed: (() -> Void)?
     var uploadButtonPressed: (() -> Void)?
 
     required init?(coder: NSCoder) {
@@ -27,8 +30,8 @@ class ImportExportView : UIView {
     init() {
         super.init(frame: CGRect())
 
-        stackView.axis = .vertical
-        stackView.distribution = .fill
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
         stackView.alignment = .center
         stackView.layoutMargins = UIEdgeInsets(
             top: 0,
@@ -37,22 +40,14 @@ class ImportExportView : UIView {
             right: Dimensions.spacer
         )
 
-        importButton.setTitle("Import", for: .normal)
-        importButton.setTitleColor(Colors.secondary, for: .normal)
-        importButton.titleLabel?.font = Fonts.title
-        importButton.layer.borderWidth = 1;
-        importButton.layer.borderColor = Colors.secondary.cgColor;
         importButton.addTarget(self, action: #selector(onImportButtonPressed(_:)), for: .touchUpInside)
-
-        uploadButton.setTitle("Upload", for: .normal)
-        uploadButton.setTitleColor(Colors.secondary, for: .normal)
-        uploadButton.titleLabel?.font = Fonts.title
-        uploadButton.layer.borderWidth = 1;
-        uploadButton.layer.borderColor = Colors.secondary.cgColor;
+        exportButton.addTarget(self, action: #selector(onExportButtonPressed(_:)), for: .touchUpInside)
         uploadButton.addTarget(self, action: #selector(onUploadButtonPressed(_:)), for: .touchUpInside)
 
         stackView.addArrangedSubview(importButton)
         stackView.setCustomSpacing(Dimensions.spacer, after: importButton)
+        stackView.addArrangedSubview(exportButton)
+        stackView.setCustomSpacing(Dimensions.spacer, after: exportButton)
         stackView.addArrangedSubview(uploadButton)
 
         stackView.isLayoutMarginsRelativeArrangement = true
@@ -60,11 +55,9 @@ class ImportExportView : UIView {
         addSubview(stackView)
 
         NSLayoutConstraint.activate([
-            widthAnchor.constraint(equalToConstant: Dimensions.missionMenuWidth),
-            importButton.widthAnchor.constraint(equalToConstant: buttonWidth),
-            importButton.heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
-            uploadButton.widthAnchor.constraint(equalToConstant: buttonWidth),
-            uploadButton.heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
+            widthAnchor.constraint(equalToConstant: width),
+            heightAnchor.constraint(equalToConstant: height),
+            stackView.widthAnchor.constraint(equalTo: widthAnchor),
             stackView.heightAnchor.constraint(equalTo: heightAnchor)
         ])
     }
@@ -84,6 +77,10 @@ extension ImportExportView {
 extension ImportExportView {
     @objc func onImportButtonPressed(_ : UIButton) {
         importButtonPressed?()
+    }
+
+    @objc func onExportButtonPressed(_ : UIButton) {
+        exportButtonPressed?()
     }
 
     @objc func onUploadButtonPressed(_ : UIButton) {

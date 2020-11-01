@@ -88,12 +88,12 @@ extension MapViewController {
         }
     }
 
-    func showMissionPolygon(_ rawCoordinates: [[Double]]) {
+    func setRawPolygonCoordinates(_ rawCoordinates: [[Double]]) {
         if let polygon = missionPolygon {
             var coordinates: [CLLocationCoordinate2D] = []
             for coordinate in rawCoordinates {
-                let lat = coordinate[1]
                 let lon = coordinate[0]
+                let lat = coordinate[1]
                 coordinates.append(CLLocationCoordinate2D(latitude: lat, longitude: lon))
             }
             polygon.replaceAllVertices(with: coordinates)
@@ -103,9 +103,21 @@ extension MapViewController {
         }
     }
 
-    func missionCoordinates() -> [CLLocationCoordinate2D] {
+    func rawPolygonCoordinates() -> [[Double]] {
+        if let polygon = missionPolygon {
+            var coordinates: [[Double]] = []
+            for coordinate in polygon.coordinates {
+                coordinates.append([Double(coordinate.longitude), Double(coordinate.latitude)])
+            }
+            return coordinates
+        } else {
+            return []
+        }
+    }
+
+    func meanderCoordinates() -> [CLLocationCoordinate2D] {
         if let renderer = self.mapView.renderer(for: self.missionPolygon!) as? MissionRenderer {
-            return renderer.missionCoordinates()
+            return renderer.meanderCoordinates()
         } else {
             return []
         }

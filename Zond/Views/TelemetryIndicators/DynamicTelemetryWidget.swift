@@ -86,7 +86,6 @@ class DynamicTelemetryWidget : UIView {
         NSLayoutConstraint.activate([
             titleLabel.widthAnchor.constraint(equalToConstant: Dimensions.tileSize),
             widthAnchor.constraint(equalToConstant: Dimensions.dynamicTelemetryWidgetWidth),
-            heightAnchor.constraint(equalToConstant: Dimensions.dynamicTelemetryWidgetHeight),
             stackView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
