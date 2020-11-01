@@ -47,6 +47,7 @@
 		EC3E809C253B599F0061DB33 /* ImportExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3E809B253B599F0061DB33 /* ImportExportViewController.swift */; };
 		EC3E80A2253B927E0061DB33 /* MissionParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3E80A1253B927E0061DB33 /* MissionParameters.swift */; };
 		EC5F3471254CC82200CF7A7B /* DynamicTelemetryWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5F3470254CC82200CF7A7B /* DynamicTelemetryWidget.swift */; };
+		EC5F3479254EE68000CF7A7B /* ImportExportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5F3478254EE68000CF7A7B /* ImportExportButton.swift */; };
 		EC6360B0253CF84C00C0B0D1 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6360AF253CF84C00C0B0D1 /* Animations.swift */; };
 		EC950E8721B81EA600B3A03D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8621B81EA600B3A03D /* AppDelegate.swift */; };
 		EC950E8921B81EA600B3A03D /* ConnectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC950E8821B81EA600B3A03D /* ConnectionService.swift */; };
@@ -137,6 +138,7 @@
 		EC3E809B253B599F0061DB33 /* ImportExportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportExportViewController.swift; sourceTree = "<group>"; };
 		EC3E80A1253B927E0061DB33 /* MissionParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionParameters.swift; sourceTree = "<group>"; };
 		EC5F3470254CC82200CF7A7B /* DynamicTelemetryWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicTelemetryWidget.swift; sourceTree = "<group>"; };
+		EC5F3478254EE68000CF7A7B /* ImportExportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportExportButton.swift; sourceTree = "<group>"; };
 		EC6360AF253CF84C00C0B0D1 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		EC950E8321B81EA600B3A03D /* Zond.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zond.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC950E8621B81EA600B3A03D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -376,6 +378,7 @@
 			children = (
 				ECAE70412539FE8C005EB6AD /* ParameterEditView.swift */,
 				EC3E807D253B51B60061DB33 /* ParametersView.swift */,
+				EC5F3478254EE68000CF7A7B /* ImportExportButton.swift */,
 				EC3E8096253B57FE0061DB33 /* ImportExportView.swift */,
 				ECAAC8392299B83700FB360F /* MissionView.swift */,
 			);
@@ -655,6 +658,7 @@
 				EC6360B0253CF84C00C0B0D1 /* Animations.swift in Sources */,
 				ECCB449724B36D7F005AA1F6 /* MissionPolygon.swift in Sources */,
 				EC15EAD2227080250032ACB9 /* MapViewController.swift in Sources */,
+				EC5F3479254EE68000CF7A7B /* ImportExportButton.swift in Sources */,
 				EC12E7902477E4C800BF4AE6 /* Fonts.swift in Sources */,
 				EC14731B23B1EE9300385067 /* MovingObject.swift in Sources */,
 				EC1CF4DC2549DEF2006A1BDE /* DynamicTelemetryLabel.swift in Sources */,

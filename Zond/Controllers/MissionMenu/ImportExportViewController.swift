@@ -36,8 +36,11 @@ extension ImportExportViewController {
         importExportView.importButtonPressed = {
             Environment.missionStorage.importMission()
         }
+        importExportView.exportButtonPressed = {
+            Environment.missionStorage.exportMission()
+        }
         importExportView.uploadButtonPressed = {
-            let coordinates = Environment.mapViewController.missionCoordinates()
+            let coordinates = Environment.mapViewController.meanderCoordinates()
             if Environment.commandService.setMissionCoordinates(coordinates) {
                 Environment.commandService.executeMissionCommand(.upload)
             }
