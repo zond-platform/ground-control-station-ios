@@ -16,7 +16,7 @@ class CommandView : UIView {
 
     // Computed properties
     private var x: CGFloat {
-        return Dimensions.spacer
+        return -Dimensions.commandButtonDiameter
     }
     private var y: CGFloat {
         return Dimensions.screenHeight * CGFloat(0.5) - Dimensions.commandButtonDiameter - Dimensions.spacer * CGFloat(0.5)
@@ -26,6 +26,9 @@ class CommandView : UIView {
     }
     private var height: CGFloat {
         return Dimensions.commandButtonDiameter * CGFloat(2)
+    }
+    private var shouldOffset: Bool {
+        Dimensions.isPhoneWithRoundedCorners && UIDevice.current.orientation == .landscapeLeft
     }
 
     // Notifyer properties
@@ -38,11 +41,13 @@ class CommandView : UIView {
     init() {
         super.init(frame: CGRect())
         frame = CGRect(
-            x: -width,
+            x: x,
             y: y,
             width: width,
             height: height
         )
+
+        isHidden = true
 
         stackView.axis = .vertical
         stackView.distribution = .fill
@@ -82,7 +87,16 @@ extension CommandView {
     }
 
     func toggleShowFromSide(_ show: Bool) {
-        self.frame.origin.x = show ? x : -width
+        let shownX = shouldOffset ? Dimensions.spacer + Dimensions.safeAreaOffset
+                                  : Dimensions.spacer
+        let notShownX = shouldOffset ? x + Dimensions.safeAreaOffset
+                                     : x
+        self.frame.origin.x = show ? shownX
+                                   : notShownX
+    }
+
+    func adaptToDeviceOrientation() {
+        toggleShowFromSide(!isHidden)
     }
 }
 

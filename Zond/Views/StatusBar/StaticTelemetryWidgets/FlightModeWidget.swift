@@ -11,17 +11,15 @@ import UIKit
 fileprivate let defaultValue = "N/A"
 fileprivate let defaultIcon = UIImage(#imageLiteral(resourceName: "indicatorMode"))
 
+fileprivate let width = Dimensions.telemetryIconSize +
+                        Dimensions.telemetrySpacer +
+                        Dimensions.staticTelemetryLabelWidth
+
 class FlightModeWidget : UIView {
-    // Stored properties
     private let icon = UIImageView(image: defaultIcon)
     private let label = UILabel()
     private let button = UIButton()
     private let stackView = UIStackView()
-
-    // Computed properties
-    var width: CGFloat {
-        return Dimensions.telemetryIconSize + Dimensions.telemetrySpacer + Dimensions.staticTelemetryLabelWidth
-    }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)

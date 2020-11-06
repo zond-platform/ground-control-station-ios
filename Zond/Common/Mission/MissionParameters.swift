@@ -97,7 +97,7 @@ class MissionParameter {
             case .meanderAngle:
                 self.range = MissionParameterRange(min: -90, max: 90, step: 1, defaultValue: id.defaultValue)
             case .altitude:
-                self.range = MissionParameterRange(min: 50, max: 100, step: 1, defaultValue: id.defaultValue)
+                self.range = MissionParameterRange(min: 50, max: 150, step: 1, defaultValue: id.defaultValue)
             case .speed:
                 self.range = MissionParameterRange(min: 5, max: 15, step: 1, defaultValue: id.defaultValue)
         }

@@ -8,7 +8,9 @@
 
 import UIKit
 
-fileprivate let doubleSpacer = Dimensions.spacer * CGFloat(2)
+fileprivate let flightModeWidgetWidth = Dimensions.telemetryIconSize +
+                                        Dimensions.telemetrySpacer +
+                                        Dimensions.staticTelemetryLabelWidth
 
 class StaticTelemetryView : UIView {
     // Stored properties
@@ -29,32 +31,30 @@ class StaticTelemetryView : UIView {
     init() {
         super.init(frame: CGRect())
 
-        backgroundColor = Colors.primary
-
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .center
         stackView.layoutMargins = UIEdgeInsets(
             top: 0,
-            left: doubleSpacer,
+            left: Dimensions.doubleSpacer,
             bottom: 0,
-            right: doubleSpacer
+            right: Dimensions.doubleSpacer
         )
 
         simulatorButton.addTarget(self, action: #selector(onSimulatorButtonSelected(_:)), for: .touchUpInside)
         simulatorButton.frame = CGRect(
-            x: doubleSpacer,
+            x: Dimensions.doubleSpacer,
             y: 0,
-            width: flightModeWidget.width,
+            width: flightModeWidgetWidth,
             height: Dimensions.tileSize
         )
 
         stackView.addArrangedSubview(flightModeWidget)
         stackView.setCustomSpacing(Dimensions.spacer, after: flightModeWidget)
         stackView.addArrangedSubview(gpsSignalWidget)
-        stackView.setCustomSpacing(doubleSpacer, after: gpsSignalWidget)
+        stackView.setCustomSpacing(Dimensions.doubleSpacer, after: gpsSignalWidget)
         stackView.addArrangedSubview(linkSignalWidget)
-        stackView.setCustomSpacing(doubleSpacer, after: linkSignalWidget)
+        stackView.setCustomSpacing(Dimensions.doubleSpacer, after: linkSignalWidget)
         stackView.addArrangedSubview(batteryWidget)
 
         stackView.isLayoutMarginsRelativeArrangement = true
@@ -65,6 +65,7 @@ class StaticTelemetryView : UIView {
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
             stackView.widthAnchor.constraint(equalTo: widthAnchor),
+            stackView.heightAnchor.constraint(equalTo: heightAnchor),
             stackView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }

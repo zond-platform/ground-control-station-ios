@@ -10,16 +10,14 @@ import UIKit
 
 fileprivate let defaultIndicator = UIImage(#imageLiteral(resourceName: "indicatorSignal0"))
 
+fileprivate let width = Dimensions.telemetryIconSize +
+                        Dimensions.telemetrySpacer +
+                        Dimensions.telemetryIndicatorWidth
+
 class LinkSignalWidget : UIView {
-    // Stored properties
     private let icon = UIImageView(image: UIImage(#imageLiteral(resourceName: "indicatorRemote")))
     private let indicator = UIImageView(image: defaultIndicator)
     private let stackView = UIStackView()
-
-    // Computed properties
-    private var width: CGFloat {
-        return Dimensions.telemetryIconSize + Dimensions.telemetrySpacer + Dimensions.telemetryIndicatorWidth
-    }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)

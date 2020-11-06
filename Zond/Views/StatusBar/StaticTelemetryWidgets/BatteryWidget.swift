@@ -11,16 +11,14 @@ import UIKit
 fileprivate let defaultValue = "N/A"
 fileprivate let defaultIcon = UIImage(#imageLiteral(resourceName: "indicatorBattery3"))
 
+fileprivate let width = Dimensions.telemetryIconSize +
+                        Dimensions.telemetrySpacer +
+                        Dimensions.staticTelemetryLabelWidth
+
 class BatteryWidget : UIView {
-    // Stored properties
     private let icon = UIImageView(image: defaultIcon)
     private let label = UILabel()
     private let stackView = UIStackView()
-
-    // Computed properties
-    private var width: CGFloat {
-        return Dimensions.telemetryIconSize + Dimensions.telemetrySpacer + Dimensions.staticTelemetryLabelWidth
-    }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)

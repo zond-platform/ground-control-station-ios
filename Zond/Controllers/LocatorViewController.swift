@@ -63,13 +63,28 @@ extension LocatorViewController {
     }
 
     private func toggleShowFromSideAnimated(show: Bool, delay: TimeInterval) {
+        if show {
+            self.locatorView.isHidden = false
+        }
         UIView.animate(
             withDuration: Animations.defaultDuration,
             delay: delay,
             options: [],
             animations: {
                 self.locatorView.toggleShowFromSide(show)
+            },
+            completion: { _ in
+                if !show {
+                    self.locatorView.isHidden = true
+                }
             }
         )
+    }
+}
+
+// Public methods
+extension LocatorViewController {
+    func deviceRotated() {
+        locatorView.adaptToDeviceOrientation()
     }
 }

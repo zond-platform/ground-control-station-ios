@@ -8,12 +8,15 @@
 
 import UIKit
 
+fileprivate let x = CGFloat(0)
+fileprivate let y = CGFloat(0)
+fileprivate let width = Dimensions.screenWidth
+fileprivate let height = Dimensions.tileSize
+
 class StatusView : UIView {
     // Stored properties
     private let menuButton = MenuButton()
     private let stackView = UIStackView()
-    private let y = CGFloat(0)
-    private let height = Dimensions.tileSize
 
     // Notifyer properties
     var menuButtonPressed: (() -> Void)?
@@ -24,20 +27,23 @@ class StatusView : UIView {
 
     init() {
         super.init(frame: CGRect(
-            x: 0,
+            x: x,
             y: y,
-            width: Dimensions.screenWidth,
-            height: Dimensions.tileSize
+            width: width,
+            height: height
         ))
+
+        backgroundColor = Colors.primary
 
         stackView.axis = .horizontal
         stackView.distribution = .fill
-        stackView.alignment = .center
+        stackView.alignment = .leading
 
         menuButton.addTarget(self, action: #selector(onMenuButtonPressed(_:)), for: .touchUpInside)
         menuButton.isSelected = false
 
         stackView.addArrangedSubview(menuButton)
+        stackView.setCustomSpacing(Dimensions.spacer, after: menuButton)
         stackView.addArrangedSubview(Environment.consoleViewController.view)
         stackView.addArrangedSubview(Environment.staticTelemetryViewController.view)
 
@@ -45,7 +51,8 @@ class StatusView : UIView {
         addSubview(stackView)
 
         NSLayoutConstraint.activate([
-            stackView.widthAnchor.constraint(equalTo: widthAnchor),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Dimensions.safeAreaOffset),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Dimensions.safeAreaOffset),
             stackView.heightAnchor.constraint(equalTo: heightAnchor),
             stackView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])

@@ -59,12 +59,20 @@ extension DynamicTelemetryViewController {
     }
 
     private func toggleShowFromBottomAnimated(show: Bool, delay: TimeInterval) {
+        if show {
+            self.dynamicTelemetryView.isHidden = false
+        }
         UIView.animate(
             withDuration: Animations.defaultDuration,
             delay: delay,
             options: [],
             animations: {
                 self.dynamicTelemetryView.toggleShowFromBottom(show)
+            },
+            completion: { _ in
+                if !show {
+                    self.dynamicTelemetryView.isHidden = true
+                }
             }
         )
     }
