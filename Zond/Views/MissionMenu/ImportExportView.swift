@@ -8,8 +8,7 @@
 
 import UIKit
 
-fileprivate let width = Dimensions.missionMenuWidth
-fileprivate let height = Dimensions.tileSize + Dimensions.spacer
+fileprivate let width = Dimensions.missionMenuWidth - Dimensions.safeAreaOffset - Dimensions.doubleSpacer * CGFloat(2)
 
 class ImportExportView : UIView {
     // Stored properties
@@ -33,12 +32,6 @@ class ImportExportView : UIView {
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.alignment = .center
-        stackView.layoutMargins = UIEdgeInsets(
-            top: 0,
-            left: Dimensions.spacer,
-            bottom: Dimensions.spacer,
-            right: Dimensions.spacer
-        )
 
         importButton.addTarget(self, action: #selector(onImportButtonPressed(_:)), for: .touchUpInside)
         exportButton.addTarget(self, action: #selector(onExportButtonPressed(_:)), for: .touchUpInside)
@@ -50,13 +43,11 @@ class ImportExportView : UIView {
         stackView.setCustomSpacing(Dimensions.spacer, after: exportButton)
         stackView.addArrangedSubview(uploadButton)
 
-        stackView.isLayoutMarginsRelativeArrangement = true
         stackView.translatesAutoresizingMaskIntoConstraints = false;
         addSubview(stackView)
 
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: width),
-            heightAnchor.constraint(equalToConstant: height),
             stackView.widthAnchor.constraint(equalTo: widthAnchor),
             stackView.heightAnchor.constraint(equalTo: heightAnchor)
         ])

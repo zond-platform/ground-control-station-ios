@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate let parameterNameWidth = Dimensions.missionMenuWidth * CGFloat(0.5)
+fileprivate let viewWidth = Dimensions.missionMenuWidth - Dimensions.safeAreaOffset - Dimensions.doubleSpacer * CGFloat(2)
 fileprivate let parameterValueWidth = Dimensions.tileSize * CGFloat(2)
 
 class ParameterEditView : UIView {
@@ -36,12 +36,6 @@ class ParameterEditView : UIView {
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .center
-        stackView.layoutMargins = UIEdgeInsets(
-            top: 0,
-            left: Dimensions.spacer,
-            bottom: 0,
-            right: Dimensions.spacer
-        )
 
         paramNameLabel.text = id.name
         paramNameLabel.textColor = UIColor.white
@@ -62,20 +56,19 @@ class ParameterEditView : UIView {
         stackView.addArrangedSubview(valueLabel)
         stackView.addArrangedSubview(incrementButton)
 
-        stackView.isLayoutMarginsRelativeArrangement = true
         stackView.translatesAutoresizingMaskIntoConstraints = false;
         addSubview(stackView)
 
         NSLayoutConstraint.activate([
-            heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
-            widthAnchor.constraint(equalToConstant: Dimensions.missionMenuWidth),
-            valueLabel.heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
+            widthAnchor.constraint(equalToConstant: viewWidth),
             valueLabel.widthAnchor.constraint(equalToConstant: parameterValueWidth),
+            valueLabel.heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
             decrementButton.heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
             decrementButton.widthAnchor.constraint(equalToConstant: Dimensions.tileSize),
             incrementButton.heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
             incrementButton.widthAnchor.constraint(equalToConstant: Dimensions.tileSize),
-            stackView.widthAnchor.constraint(equalTo: widthAnchor)
+            stackView.widthAnchor.constraint(equalTo: widthAnchor),
+            stackView.heightAnchor.constraint(equalTo: heightAnchor)
         ])
     }
 }

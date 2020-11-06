@@ -8,8 +8,8 @@
 
 import os.log
 
-import MobileCoreServices
 import UIKit
+import UniformTypeIdentifiers
 
 fileprivate let activeMissionFileName: String = "active-mission.json"
 fileprivate let exportMissionFileName: String = "export-mission.json"
@@ -43,7 +43,7 @@ class MissionStorage : NSObject {
 // Public methods
 extension MissionStorage {
     func importMission() {
-        let documentPicker = UIDocumentPickerViewController(documentTypes: [String(kUTTypeJSON)], in: .import)
+        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.json], asCopy: true)
         documentPicker.delegate = self
         documentPicker.shouldShowFileExtensions = true
         documentPicker.allowsMultipleSelection = false
@@ -54,7 +54,7 @@ extension MissionStorage {
         if let dir = documentsDirectory() {
             let fileUrl = dir.appendingPathComponent(exportMissionFileName)
             storeMission(at: fileUrl)
-            let documentPicker = UIDocumentPickerViewController(url: fileUrl, in: UIDocumentPickerMode.exportToService)
+            let documentPicker = UIDocumentPickerViewController(forExporting: [fileUrl])
             documentPicker.shouldShowFileExtensions = true
             documentPicker.allowsMultipleSelection = false
             Environment.rootViewController.present(documentPicker, animated: true)

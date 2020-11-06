@@ -39,7 +39,7 @@ class ParametersView : UIView {
         registerListeners()
 
         NSLayoutConstraint.activate([
-            widthAnchor.constraint(equalToConstant: Dimensions.missionMenuWidth)
+            stackView.widthAnchor.constraint(equalTo: widthAnchor)
         ])
     }
 }

@@ -27,6 +27,9 @@ class LocatorView : UIView {
     private var height: CGFloat {
         return Dimensions.tileSize * CGFloat(2) + Dimensions.spacer
     }
+    private var shouldOffset: Bool {
+        Dimensions.isPhoneWithRoundedCorners && UIDevice.current.orientation == .landscapeRight
+    }
 
     // Notifyer properties
     var buttonPressed: ((_ id: LocatorButtonId) -> Void)?
@@ -67,7 +70,16 @@ extension LocatorView {
     }
 
     func toggleShowFromSide(_ show: Bool) {
-        self.frame.origin.x = show ? x : Dimensions.screenWidth
+        let shownX = shouldOffset ? x - Dimensions.safeAreaOffset
+                                  : x
+        let notShownX = shouldOffset ? Dimensions.screenWidth - Dimensions.safeAreaOffset
+                                     : Dimensions.screenWidth
+        self.frame.origin.x = show ? shownX
+                                   : notShownX
+    }
+
+    func adaptToDeviceOrientation() {
+        toggleShowFromSide(!isHidden)
     }
 }
 

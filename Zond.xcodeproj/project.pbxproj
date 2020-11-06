@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E76E600D4243CBBBA8401FF9 /* Pods_Zond.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE529CEEC6C656445DD565D0 /* Pods_Zond.framework */; };
+		4117DB194E39148ABA33BF72 /* Pods_Zond.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B430AE2679D472BEA253696C /* Pods_Zond.framework */; };
 		EC0ECE322449B9F5008B1479 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0ECE312449B9F5008B1479 /* Environment.swift */; };
 		EC0F7D4624B51EDC005BB020 /* MissionPolygonTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0F7D4524B51EDC005BB020 /* MissionPolygonTest.swift */; };
 		EC10BE32252F3F9E00D9A6B8 /* CommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC10BE31252F3F9E00D9A6B8 /* CommandViewController.swift */; };
@@ -60,7 +60,6 @@
 		ECAAC83A2299B83700FB360F /* MissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAAC8392299B83700FB360F /* MissionView.swift */; };
 		ECAE70282539F016005EB6AD /* MissionStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAE70272539F016005EB6AD /* MissionStorage.swift */; };
 		ECAE70422539FE8C005EB6AD /* ParameterEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAE70412539FE8C005EB6AD /* ParameterEditView.swift */; };
-		ECAE717A24979A6600B381F3 /* AeroGlazUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAE717924979A6600B381F3 /* AeroGlazUITests.swift */; };
 		ECB121B62529F53B00C0C56F /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB121B52529F53B00C0C56F /* StatusView.swift */; };
 		ECB121BB2529F60C00C0C56F /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB121BA2529F60C00C0C56F /* StatusViewController.swift */; };
 		ECB6B8EE24A2442E002C4B04 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB6B8ED24A2442E002C4B04 /* Line.swift */; };
@@ -84,13 +83,6 @@
 			remoteGlobalIDString = EC950E8221B81EA600B3A03D;
 			remoteInfo = DroneMap;
 		};
-		EC950EA321B81EA800B3A03D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EC950E7B21B81EA600B3A03D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EC950E8221B81EA600B3A03D;
-			remoteInfo = DroneMap;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -98,7 +90,7 @@
 		2DD44200430D5842EE531D6F /* Pods-Zond.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zond.release.xcconfig"; path = "Target Support Files/Pods-Zond/Pods-Zond.release.xcconfig"; sourceTree = "<group>"; };
 		7A605E403BFEFE2FCB6E2F85 /* Pods-AeroGlaz.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AeroGlaz.release.xcconfig"; path = "Target Support Files/Pods-AeroGlaz/Pods-AeroGlaz.release.xcconfig"; sourceTree = "<group>"; };
 		7E80D0AC8293367C6FC97F59 /* Pods-Zond.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zond.debug.xcconfig"; path = "Target Support Files/Pods-Zond/Pods-Zond.debug.xcconfig"; sourceTree = "<group>"; };
-		AE529CEEC6C656445DD565D0 /* Pods_Zond.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Zond.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B430AE2679D472BEA253696C /* Pods_Zond.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Zond.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC0ECE312449B9F5008B1479 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		EC0F7D4524B51EDC005BB020 /* MissionPolygonTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionPolygonTest.swift; sourceTree = "<group>"; };
 		EC10BE31252F3F9E00D9A6B8 /* CommandViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandViewController.swift; sourceTree = "<group>"; };
@@ -148,8 +140,6 @@
 		EC950E9721B81EA700B3A03D /* ZondTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZondTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC950E9B21B81EA700B3A03D /* HullTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HullTest.swift; sourceTree = "<group>"; };
 		EC950E9D21B81EA700B3A03D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EC950EA221B81EA800B3A03D /* ZondUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZondUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EC950EA821B81EA800B3A03D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ECA2244C2536394100A777AB /* BatteryWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryWidget.swift; sourceTree = "<group>"; };
 		ECA2246725365B4D00A777AB /* FlightModeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightModeWidget.swift; sourceTree = "<group>"; };
 		ECA2246F2536600C00A777AB /* LinkSignalWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkSignalWidget.swift; sourceTree = "<group>"; };
@@ -157,7 +147,6 @@
 		ECAAC8392299B83700FB360F /* MissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionView.swift; sourceTree = "<group>"; };
 		ECAE70272539F016005EB6AD /* MissionStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionStorage.swift; sourceTree = "<group>"; };
 		ECAE70412539FE8C005EB6AD /* ParameterEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterEditView.swift; sourceTree = "<group>"; };
-		ECAE717924979A6600B381F3 /* AeroGlazUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AeroGlazUITests.swift; sourceTree = "<group>"; };
 		ECB121B52529F53B00C0C56F /* StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusView.swift; sourceTree = "<group>"; };
 		ECB121BA2529F60C00C0C56F /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
 		ECB6B8ED24A2442E002C4B04 /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
@@ -178,18 +167,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E76E600D4243CBBBA8401FF9 /* Pods_Zond.framework in Frameworks */,
+				4117DB194E39148ABA33BF72 /* Pods_Zond.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		EC950E9421B81EA700B3A03D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EC950E9F21B81EA800B3A03D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -213,7 +195,7 @@
 		ABE370997E7D2DC38A5094D4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AE529CEEC6C656445DD565D0 /* Pods_Zond.framework */,
+				B430AE2679D472BEA253696C /* Pods_Zond.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -278,7 +260,6 @@
 			children = (
 				EC950E8521B81EA600B3A03D /* Zond */,
 				EC950E9A21B81EA700B3A03D /* ZondTests */,
-				EC950EA521B81EA800B3A03D /* ZondUITests */,
 				EC950E8421B81EA600B3A03D /* Products */,
 				918ECB132C2AC04D3D2E620F /* Pods */,
 				ABE370997E7D2DC38A5094D4 /* Frameworks */,
@@ -290,7 +271,6 @@
 			children = (
 				EC950E8321B81EA600B3A03D /* Zond.app */,
 				EC950E9721B81EA700B3A03D /* ZondTests.xctest */,
-				EC950EA221B81EA800B3A03D /* ZondUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -321,15 +301,6 @@
 				EC950E9D21B81EA700B3A03D /* Info.plist */,
 			);
 			path = ZondTests;
-			sourceTree = "<group>";
-		};
-		EC950EA521B81EA800B3A03D /* ZondUITests */ = {
-			isa = PBXGroup;
-			children = (
-				ECAE717924979A6600B381F3 /* AeroGlazUITests.swift */,
-				EC950EA821B81EA800B3A03D /* Info.plist */,
-			);
-			path = ZondUITests;
 			sourceTree = "<group>";
 		};
 		ECA2245225364EE900A777AB /* LocatorButtons */ = {
@@ -506,24 +477,6 @@
 			productReference = EC950E9721B81EA700B3A03D /* ZondTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		EC950EA121B81EA800B3A03D /* ZondUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = EC950EB121B81EA800B3A03D /* Build configuration list for PBXNativeTarget "ZondUITests" */;
-			buildPhases = (
-				EC950E9E21B81EA800B3A03D /* Sources */,
-				EC950E9F21B81EA800B3A03D /* Frameworks */,
-				EC950EA021B81EA800B3A03D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				EC950EA421B81EA800B3A03D /* PBXTargetDependency */,
-			);
-			name = ZondUITests;
-			productName = DroneMapUITests;
-			productReference = EC950EA221B81EA800B3A03D /* ZondUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -539,11 +492,6 @@
 						LastSwiftMigration = 1100;
 					};
 					EC950E9621B81EA700B3A03D = {
-						CreatedOnToolsVersion = 10.1;
-						LastSwiftMigration = 1100;
-						TestTargetID = EC950E8221B81EA600B3A03D;
-					};
-					EC950EA121B81EA800B3A03D = {
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1100;
 						TestTargetID = EC950E8221B81EA600B3A03D;
@@ -565,7 +513,6 @@
 			targets = (
 				EC950E8221B81EA600B3A03D /* Zond */,
 				EC950E9621B81EA700B3A03D /* ZondTests */,
-				EC950EA121B81EA800B3A03D /* ZondUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -580,13 +527,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		EC950E9521B81EA700B3A03D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EC950EA021B81EA800B3A03D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -716,14 +656,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EC950E9E21B81EA800B3A03D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				ECAE717A24979A6600B381F3 /* AeroGlazUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -731,11 +663,6 @@
 			isa = PBXTargetDependency;
 			target = EC950E8221B81EA600B3A03D /* Zond */;
 			targetProxy = EC950E9821B81EA700B3A03D /* PBXContainerItemProxy */;
-		};
-		EC950EA421B81EA800B3A03D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = EC950E8221B81EA600B3A03D /* Zond */;
-			targetProxy = EC950EA321B81EA800B3A03D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -792,7 +719,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -848,7 +775,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -871,7 +798,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Zond/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -897,7 +824,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Zond/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -918,7 +845,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JF2NVCP8SN;
 				INFOPLIST_FILE = ZondTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -940,7 +867,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JF2NVCP8SN;
 				INFOPLIST_FILE = ZondTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -951,48 +878,6 @@
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Zond.app/Zond";
-			};
-			name = Release;
-		};
-		EC950EB221B81EA800B3A03D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = JF2NVCP8SN;
-				INFOPLIST_FILE = ZondUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.company.ZondUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Zond;
-			};
-			name = Debug;
-		};
-		EC950EB321B81EA800B3A03D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = JF2NVCP8SN;
-				INFOPLIST_FILE = ZondUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.company.ZondUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Zond;
 			};
 			name = Release;
 		};
@@ -1022,15 +907,6 @@
 			buildConfigurations = (
 				EC950EAF21B81EA800B3A03D /* Debug */,
 				EC950EB021B81EA800B3A03D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		EC950EB121B81EA800B3A03D /* Build configuration list for PBXNativeTarget "ZondUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				EC950EB221B81EA800B3A03D /* Debug */,
-				EC950EB321B81EA800B3A03D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -58,6 +58,6 @@ extension ConsoleViewController {
     }
 
     private func logConsole(_ message: String, _ type: OSLogType) {
-        self.consoleView.logMessage(currentDateString() + "\t" + message, type)
+        self.consoleView.logMessage(message, type)
     }
 }

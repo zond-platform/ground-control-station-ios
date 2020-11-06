@@ -39,12 +39,20 @@ extension StatusViewController {
     }
 
     private func toggleShowFromTopAnimated(show: Bool, delay: TimeInterval) {
+        if show {
+            self.statusView.isHidden = false
+        }
         UIView.animate(
             withDuration: Animations.defaultDuration,
             delay: delay,
             options: [],
             animations: {
                 self.statusView.toggleShowFromTop(show)
+            },
+            completion: { _ in
+                if !show {
+                    self.statusView.isHidden = true
+                }
             }
         )
     }

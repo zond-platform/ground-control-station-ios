@@ -43,9 +43,9 @@ class MissionView : UIView {
         stackView.alignment = .leading
 
         stackView.addArrangedSubview(cancelButton)
-        stackView.setCustomSpacing(Dimensions.tileSize, after: cancelButton)
+        stackView.setCustomSpacing(Dimensions.doubleSpacer, after: cancelButton)
         stackView.addArrangedSubview(Environment.parametersViewController.view)
-        stackView.setCustomSpacing(Dimensions.tileSize, after: Environment.parametersViewController.view)
+        stackView.setCustomSpacing(Dimensions.doubleSpacer, after: Environment.parametersViewController.view)
         stackView.addArrangedSubview(Environment.importExportViewController.view)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false;
@@ -54,8 +54,10 @@ class MissionView : UIView {
         NSLayoutConstraint.activate([
             cancelButton.widthAnchor.constraint(equalToConstant: Dimensions.tileSize),
             cancelButton.heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
-            stackView.widthAnchor.constraint(equalTo: widthAnchor),
-            stackView.heightAnchor.constraint(equalTo: heightAnchor)
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Dimensions.safeAreaOffset + Dimensions.doubleSpacer),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Dimensions.doubleSpacer),
+            stackView.topAnchor.constraint(equalTo: topAnchor, constant: Dimensions.doubleSpacer),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Dimensions.doubleSpacer)
         ])
     }
 }

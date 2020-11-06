@@ -11,17 +11,15 @@ import UIKit
 fileprivate let defaultSatCount = "0"
 fileprivate let defaultIndicator = UIImage(#imageLiteral(resourceName: "indicatorSignal0"))
 
+fileprivate let width = Dimensions.telemetryIconSize +
+                        Dimensions.telemetrySpacer +
+                        Dimensions.telemetryIndicatorWidth
+
 class GpsSignalWidget : UIView {
-    // Stored properties
     private let icon = UIImageView(image: UIImage(#imageLiteral(resourceName: "indicatorGps")))
     private let indicator = UIImageView(image: defaultIndicator)
     private let label = UILabel()
     private let stackView = UIStackView()
-
-    // Computed properties
-    private var width: CGFloat {
-        return Dimensions.telemetryIconSize + Dimensions.telemetrySpacer + Dimensions.telemetryIndicatorWidth
-    }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
