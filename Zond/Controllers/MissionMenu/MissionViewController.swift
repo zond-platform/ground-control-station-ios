@@ -31,18 +31,23 @@ class MissionViewController : UIViewController {
 extension MissionViewController {
     private func registerListeners() {
         missionView.cancelButtonPressed = {
-            Environment.missionStateManager.state = nil
+            Environment.missionStateManager.state = .none
         }
         Environment.commandService.commandResponseListeners.append({ id, success in
             if success && id == .upload {
                 Environment.missionStateManager.state = .uploaded
             }
         })
-        Environment.missionStateManager.stateListeners.append({ oldState, newState in
-            if newState != nil && newState! == .editing {
+        Environment.missionStateManager.stateListeners.append({ newState in
+            if newState == .editing {
                 self.toggleShowFromSideAnimated(show: true, delay: Animations.defaultDelay)
             } else {
                 self.toggleShowFromSideAnimated(show: false, delay: 0)
+            }
+        })
+        Environment.connectionService.listeners.append({ model in
+            if model != nil && Environment.missionStorage.activeMissionPresent() {
+                // Set state based on DJI execution state
             }
         })
     }

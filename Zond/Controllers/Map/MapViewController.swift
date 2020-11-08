@@ -136,9 +136,9 @@ extension MapViewController {
         Environment.locationService.homeLocationListeners.append({ location in
             self.showObject(self.home, location)
         })
-        Environment.missionStateManager.stateListeners.append({ _, newState in
+        Environment.missionStateManager.stateListeners.append({ newState in
             self.missionPolygon?.missionState = newState
-            if newState != nil && newState == .editing {
+            if newState == .editing {
                 self.enableMissionPolygonInteration(true)
                 if self.missionPolygon != nil && self.missionPolygon!.center != nil {
                     self.focusOnCoordinate(self.missionPolygon!.center!)

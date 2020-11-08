@@ -47,7 +47,7 @@ class MissionPolygon : MKPolygon {
             updated?()
         }
     }
-    var missionState: MissionState? {
+    var missionState: MissionState = .none {
         didSet {
             updated?()
         }

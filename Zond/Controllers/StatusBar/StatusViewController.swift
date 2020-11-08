@@ -29,8 +29,8 @@ extension StatusViewController {
         statusView.menuButtonPressed = {
             Environment.missionStateManager.state = .editing
         }
-        Environment.missionStateManager.stateListeners.append({ oldState, newState in
-            if newState != nil && newState == .editing {
+        Environment.missionStateManager.stateListeners.append({ newState in
+            if newState == .editing {
                 self.toggleShowFromTopAnimated(show: false, delay: 0)
             } else {
                 self.toggleShowFromTopAnimated(show: true, delay: Animations.defaultDelay)

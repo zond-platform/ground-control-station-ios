@@ -61,11 +61,11 @@ extension CommandViewController {
             }
         })
         Environment.commandService.missionFinished = { success in
-            Environment.missionStateManager.state = nil
+            Environment.missionStateManager.state = .none
         }
-        Environment.missionStateManager.stateListeners.append({ _, newState in
-            if newState != nil && newState! != .editing {
-                self.commandView.setControls(for: newState!)
+        Environment.missionStateManager.stateListeners.append({ newState in
+            if newState != .none && newState != .editing {
+                self.commandView.setControls(for: newState)
                 self.toggleShowFromSideAnimated(show: true, delay: Animations.defaultDelay)
             } else {
                 self.toggleShowFromSideAnimated(show: false, delay: 0)

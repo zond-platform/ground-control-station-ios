@@ -87,12 +87,12 @@ class MissionRenderer : MKOverlayRenderer {
 
     override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
         let polygon = self.overlay as? MissionPolygon
-        if polygon != nil && polygon!.missionState != nil {
+        if polygon != nil && polygon!.missionState != .none {
             self.context = context
             self.zoomScale = zoomScale
             computeGeometries(from: polygon!.coordinates)
             if canDraw {
-                let state = polygon!.missionState!
+                let state = polygon!.missionState
 
                 // Draw only for editing state
                 if state == .editing {

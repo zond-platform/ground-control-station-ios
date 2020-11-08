@@ -53,8 +53,8 @@ extension LocatorViewController {
                 self.locatorView.setLocateObjectButtonId(.focus)
             }
         })
-        Environment.missionStateManager.stateListeners.append({ _, newState in
-            if newState != nil && newState! == .editing {
+        Environment.missionStateManager.stateListeners.append({ newState in
+            if newState == .editing {
                 self.toggleShowFromSideAnimated(show: false, delay: 0)
             } else {
                 self.toggleShowFromSideAnimated(show: true, delay: Animations.defaultDelay)
