@@ -8,6 +8,9 @@
 
 fileprivate let allowedStateTransitions: KeyValuePairs<MissionState,MissionState> = [
     .none     : .editing,
+    .none     : .uploaded,
+    .none     : .running,
+    .none     : .paused,
     .editing  : .none,
     .editing  : .uploaded,
     .uploaded : .editing,

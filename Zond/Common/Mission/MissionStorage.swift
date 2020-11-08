@@ -82,6 +82,7 @@ extension MissionStorage {
             let fileUrl = dir.appendingPathComponent(activeMissionFileName)
             do {
                 try FileManager.default.removeItem(at: fileUrl)
+                logConsole?("Active mission discarded", .info)
             } catch {
                 logConsole?("Remove active mission error: \(error)", .error)
             }
@@ -135,6 +136,7 @@ extension MissionStorage {
             ])
             try? FileManager.default.removeItem(at: fileUrl)
             try JSONEncoder().encode(mission).write(to: fileUrl)
+            logConsole?("Active mission recorded", .info)
         } catch {
             logConsole?("JSON encode error: \(error)", .error)
         }
