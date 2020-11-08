@@ -54,6 +54,7 @@ extension CommandViewController {
                     case .resume:
                         Environment.missionStateManager.state = .running
                     case .stop:
+                        Environment.missionStorage.removeActiveMission()
                         Environment.missionStateManager.state = .editing
                     default:
                         break
@@ -62,6 +63,7 @@ extension CommandViewController {
         })
         Environment.commandService.missionFinished = { success in
             Environment.missionStateManager.state = .none
+            Environment.missionStorage.removeActiveMission()
         }
         Environment.missionStateManager.stateListeners.append({ newState in
             if newState != .none && newState != .editing {

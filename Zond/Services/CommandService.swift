@@ -37,6 +37,11 @@ class CommandService : BaseService {
     // Stored properties
     var currentWaypointIndex: Int?
 
+    var activeExecutionState: DJIWaypointMissionState? {
+        let missionOperator = DJISDKManager.missionControl()?.waypointMissionOperator()
+        return missionOperator?.currentState
+    }
+
     // Notifyer properties
     var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
     var commandResponseListeners: [((_ id: MissionCommandId, _ success: Bool) -> Void)?] = []

@@ -36,6 +36,7 @@ extension MissionViewController {
         Environment.commandService.commandResponseListeners.append({ id, success in
             if success && id == .upload {
                 Environment.missionStateManager.state = .uploaded
+                Environment.missionStorage.writeActiveMission()
             }
         })
         Environment.missionStateManager.stateListeners.append({ newState in
@@ -47,7 +48,19 @@ extension MissionViewController {
         })
         Environment.connectionService.listeners.append({ model in
             if model != nil && Environment.missionStorage.activeMissionPresent() {
-                // Set state based on DJI execution state
+                Environment.missionStorage.restoreActiveMission()
+                if let executionState = Environment.commandService.activeExecutionState {
+                    switch executionState {
+                    case .readyToExecute:
+                        Environment.missionStateManager.state = .uploaded
+                    case .executing:
+                        Environment.missionStateManager.state = .running
+                    case .executionPaused:
+                        Environment.missionStateManager.state = .paused
+                    default:
+                        break
+                    }
+                }
             }
         })
     }

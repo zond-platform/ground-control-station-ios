@@ -53,7 +53,7 @@ extension MissionStorage {
     func exportMission() {
         if let dir = documentsDirectory() {
             let fileUrl = dir.appendingPathComponent(exportMissionFileName)
-            storeMission(at: fileUrl)
+            writeMission(at: fileUrl)
             let documentPicker = UIDocumentPickerViewController(forExporting: [fileUrl])
             documentPicker.shouldShowFileExtensions = true
             documentPicker.allowsMultipleSelection = false
@@ -61,14 +61,14 @@ extension MissionStorage {
         }
     }
 
-    func storeActiveMission() {
+    func writeActiveMission() {
         if let dir = documentsDirectory() {
             let fileUrl = dir.appendingPathComponent(activeMissionFileName)
-            storeMission(at: fileUrl)
+            writeMission(at: fileUrl)
         }
     }
 
-    func readActiveMission() {
+    func restoreActiveMission() {
         if let dir = documentsDirectory() {
             let fileUrl = dir.appendingPathComponent(activeMissionFileName)
             if let mission = readMission(from: fileUrl) {
@@ -114,7 +114,7 @@ extension MissionStorage {
         }
     }
 
-    private func storeMission(at fileUrl: URL) {
+    private func writeMission(at fileUrl: URL) {
         do {
             var coordinates = Environment.mapViewController.rawPolygonCoordinates()
             if let firstElement = coordinates.first {
