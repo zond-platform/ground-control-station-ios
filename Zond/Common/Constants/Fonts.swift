@@ -10,6 +10,7 @@ import UIKit
 
 struct Fonts {
     static let title = UIFont.systemFont(ofSize: 12, weight: .regular)
-    static let telemetry = UIFont.systemFont(ofSize: 18, weight: .light)
+    static let telemetryLabel = UIFont.systemFont(ofSize: 8, weight: .light)
+    static let telemetryValue = UIFont.systemFont(ofSize: 14, weight: .regular)
     static let indicator = UIFont.systemFont(ofSize: 6, weight: .light)
 }

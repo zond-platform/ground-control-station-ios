@@ -55,14 +55,14 @@ extension LocatorViewController {
         })
         Environment.missionStateManager.stateListeners.append({ newState in
             if newState == .editing {
-                self.toggleShowFromSideAnimated(show: false, delay: 0)
+                self.toggleShowView(show: false, delay: 0)
             } else {
-                self.toggleShowFromSideAnimated(show: true, delay: Animations.defaultDelay)
+                self.toggleShowView(show: true, delay: Animations.defaultDelay)
             }
         })
     }
 
-    private func toggleShowFromSideAnimated(show: Bool, delay: TimeInterval) {
+    private func toggleShowView(show: Bool, delay: TimeInterval) {
         if show {
             self.locatorView.isHidden = false
         }
@@ -71,7 +71,7 @@ extension LocatorViewController {
             delay: delay,
             options: [],
             animations: {
-                self.locatorView.toggleShowFromSide(show)
+                self.locatorView.toggleShow(show)
             },
             completion: { _ in
                 if !show {
@@ -79,12 +79,5 @@ extension LocatorViewController {
                 }
             }
         )
-    }
-}
-
-// Public methods
-extension LocatorViewController {
-    func deviceRotated() {
-        locatorView.adaptToDeviceOrientation()
     }
 }

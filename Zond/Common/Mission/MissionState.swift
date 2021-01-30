@@ -6,6 +6,8 @@
 //  Copyright © 2020 Evgeny Agamirzov. All rights reserved.
 //
 
+import os.log
+
 fileprivate let allowedStateTransitions: KeyValuePairs<MissionState,MissionState> = [
     .none     : .editing,
     .none     : .uploaded,
@@ -15,11 +17,13 @@ fileprivate let allowedStateTransitions: KeyValuePairs<MissionState,MissionState
     .editing  : .uploaded,
     .uploaded : .editing,
     .uploaded : .running,
+    .uploaded : .none,
     .running  : .editing,
     .running  : .paused,
     .running  : .none,
     .paused   : .editing,
-    .paused   : .running
+    .paused   : .running,
+    .paused   : .none
 ]
 
 enum MissionState {
@@ -38,10 +42,13 @@ class MissionStateManager {
                 for listener in stateListeners {
                     listener?(state)
                 }
+            } else {
+                logConsole?("Unexpected state transition requested", .error)
             }
         }
     }
 
     // Notifyer properties
     var stateListeners: [((_ newState: MissionState) -> Void)?] = []
+    var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
 }

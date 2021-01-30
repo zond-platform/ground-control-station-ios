@@ -15,7 +15,7 @@ class MenuButton : UIButton {
 
     init() {
         super.init(frame: CGRect())
-        setImage(#imageLiteral(resourceName: "buttonMissionMenu").color(UIColor.white), for: .normal)
+        setImage(#imageLiteral(resourceName: "buttonMenuShow").color(UIColor.white), for: .normal)
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
             widthAnchor.constraint(equalToConstant: Dimensions.tileSize)

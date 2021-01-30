@@ -37,9 +37,23 @@ class CommandService : BaseService {
     // Stored properties
     var currentWaypointIndex: Int?
 
-    var activeExecutionState: DJIWaypointMissionState? {
-        let missionOperator = DJISDKManager.missionControl()?.waypointMissionOperator()
-        return missionOperator?.currentState
+    // Observable properties
+    var activeExecutionState: DJIWaypointMissionState = .disconnected {
+        didSet {
+            if activeExecutionState != oldValue {
+                print("Active state: \(activeExecutionState.rawValue)")
+                switch activeExecutionState {
+                    case .executing:
+                        Environment.missionStateManager.state = .running
+                    case .executionPaused:
+                        Environment.missionStateManager.state = .paused
+                    case .readyToExecute:
+                        Environment.missionStateManager.state = .uploaded
+                    default:
+                        break
+                }
+            }
+        }
     }
 
     // Notifyer properties
@@ -102,7 +116,11 @@ extension CommandService {
             case .resume:
                 missionOperator?.resumeMission(completion: callback)
             case .stop:
-                missionOperator?.stopMission(completion: callback)
+                if activeExecutionState != .executing && activeExecutionState != .executionPaused {
+                    callback(nil)
+                } else {
+                    missionOperator?.stopMission(completion: callback)
+                }
         }
     }
 }
@@ -128,7 +146,8 @@ extension CommandService {
         missionOperator?.addListener(toExecutionEvent: self, with: DispatchQueue.main, andBlock: { (event: DJIWaypointMissionExecutionEvent) in
             if event.error != nil {
                 self.logConsole?("Mission execution listener error: \(event.error!.localizedDescription)", .error)
-            } else if let progress = event.progress {
+            }
+            if let progress = event.progress {
                 if self.currentWaypointIndex == nil || self.currentWaypointIndex != progress.targetWaypointIndex {
                     self.currentWaypointIndex = progress.targetWaypointIndex
                     if self.currentWaypointIndex != nil {
@@ -136,6 +155,7 @@ extension CommandService {
                     }
                 }
             }
+            self.activeExecutionState = event.currentState
         })
     }
 

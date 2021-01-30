@@ -8,6 +8,8 @@
 
 import UIKit
 
+fileprivate let xOffset = Dimensions.tileSize + Dimensions.roundedAreaOffsetOr(Dimensions.spacer)
+
 class LocatorView : UIView {
     // Stored properties
     private let stackView = UIStackView()
@@ -16,19 +18,16 @@ class LocatorView : UIView {
 
     // Computed properties
     private var x: CGFloat {
-        return Dimensions.screenWidth - Dimensions.tileSize - Dimensions.spacer
+        return Dimensions.screenWidth - xOffset
     }
     private var y: CGFloat {
-        return Dimensions.screenHeight * CGFloat(0.5) - Dimensions.tileSize - Dimensions.spacer * CGFloat(0.5)
+        return Dimensions.screenHeight * CGFloat(0.5) - Dimensions.tileSize - CGFloat(0.5)
     }
     private var width: CGFloat {
         return Dimensions.tileSize
     }
     private var height: CGFloat {
         return Dimensions.tileSize * CGFloat(2) + Dimensions.spacer
-    }
-    private var shouldOffset: Bool {
-        Dimensions.isPhoneWithRoundedCorners && UIDevice.current.orientation == .landscapeRight
     }
 
     // Notifyer properties
@@ -55,7 +54,7 @@ class LocatorView : UIView {
         locateHomeButton.addTarget(self, action: #selector(onButtonPressed(_:)), for: .touchUpInside)
 
         stackView.addArrangedSubview(locateObjectButton)
-        stackView.setCustomSpacing(Dimensions.spacer, after: locateObjectButton)
+        stackView.setCustomSpacing(1.0, after: locateObjectButton)
         stackView.addArrangedSubview(locateHomeButton)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false;
@@ -69,17 +68,8 @@ extension LocatorView {
         locateObjectButton.id = id
     }
 
-    func toggleShowFromSide(_ show: Bool) {
-        let shownX = shouldOffset ? x - Dimensions.safeAreaOffset
-                                  : x
-        let notShownX = shouldOffset ? Dimensions.screenWidth - Dimensions.safeAreaOffset
-                                     : Dimensions.screenWidth
-        self.frame.origin.x = show ? shownX
-                                   : notShownX
-    }
-
-    func adaptToDeviceOrientation() {
-        toggleShowFromSide(!isHidden)
+    func toggleShow(_ show: Bool) {
+        self.layer.opacity = show ? 1 : 0
     }
 }
 

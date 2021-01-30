@@ -38,7 +38,6 @@
 		EC1678E6244625D500C71203 /* LocatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1678E5244625D500C71203 /* LocatorView.swift */; };
 		EC1CF4CE2549DCC5006A1BDE /* DynamicTelemetryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1CF4CD2549DCC5006A1BDE /* DynamicTelemetryViewController.swift */; };
 		EC1CF4D72549DE57006A1BDE /* DynamicTelemetryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1CF4D62549DE57006A1BDE /* DynamicTelemetryView.swift */; };
-		EC1CF4DC2549DEF2006A1BDE /* DynamicTelemetryLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1CF4DB2549DEF2006A1BDE /* DynamicTelemetryLabel.swift */; };
 		EC25DD9E252BCEA4004F5005 /* LocatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC25DD9D252BCEA4004F5005 /* LocatorButton.swift */; };
 		EC302E9D24A6A74300F4389B /* MeanderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC302E9C24A6A74300F4389B /* MeanderTest.swift */; };
 		EC3E807E253B51B60061DB33 /* ParametersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3E807D253B51B60061DB33 /* ParametersView.swift */; };
@@ -121,7 +120,6 @@
 		EC1678E5244625D500C71203 /* LocatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocatorView.swift; sourceTree = "<group>"; };
 		EC1CF4CD2549DCC5006A1BDE /* DynamicTelemetryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicTelemetryViewController.swift; sourceTree = "<group>"; };
 		EC1CF4D62549DE57006A1BDE /* DynamicTelemetryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicTelemetryView.swift; sourceTree = "<group>"; };
-		EC1CF4DB2549DEF2006A1BDE /* DynamicTelemetryLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicTelemetryLabel.swift; sourceTree = "<group>"; };
 		EC25DD9D252BCEA4004F5005 /* LocatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocatorButton.swift; sourceTree = "<group>"; };
 		EC302E9C24A6A74300F4389B /* MeanderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeanderTest.swift; sourceTree = "<group>"; };
 		EC3E807D253B51B60061DB33 /* ParametersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParametersView.swift; sourceTree = "<group>"; };
@@ -238,7 +236,6 @@
 		EC1CF4D52549DE25006A1BDE /* TelemetryIndicators */ = {
 			isa = PBXGroup;
 			children = (
-				EC1CF4DB2549DEF2006A1BDE /* DynamicTelemetryLabel.swift */,
 				EC5F3470254CC82200CF7A7B /* DynamicTelemetryWidget.swift */,
 				EC1CF4D62549DE57006A1BDE /* DynamicTelemetryView.swift */,
 			);
@@ -601,7 +598,6 @@
 				EC5F3479254EE68000CF7A7B /* ImportExportButton.swift in Sources */,
 				EC12E7902477E4C800BF4AE6 /* Fonts.swift in Sources */,
 				EC14731B23B1EE9300385067 /* MovingObject.swift in Sources */,
-				EC1CF4DC2549DEF2006A1BDE /* DynamicTelemetryLabel.swift in Sources */,
 				EC3E80A2253B927E0061DB33 /* MissionParameters.swift in Sources */,
 				ECAAC83A2299B83700FB360F /* MissionView.swift in Sources */,
 				EC14732823B1F62000385067 /* Hull.swift in Sources */,

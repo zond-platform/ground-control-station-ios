@@ -45,11 +45,11 @@ enum DynamicTelemetryWidgetId: Int {
             case .horizontalSpeed:
                 fallthrough
             case .verticalSpeed:
-                return "0.0"
+                return "N/A"
             case .altitude:
                 fallthrough
             case .distance:
-                return "0"
+                return "N/A"
         }
     }
 }
@@ -57,8 +57,8 @@ enum DynamicTelemetryWidgetId: Int {
 class DynamicTelemetryWidget : UIView {
     private(set) var id: DynamicTelemetryWidgetId!
     private let stackView = UIStackView()
-    private var titleLabel = DynamicTelemetryLabel()
-    private var valueLabel = DynamicTelemetryLabel()
+    private var titleLabel = UILabel()
+    private var valueLabel = UILabel()
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -68,16 +68,20 @@ class DynamicTelemetryWidget : UIView {
         super.init(frame: CGRect())
         self.id = id
 
+        backgroundColor = Colors.primary
+
         stackView.axis = .horizontal
         stackView.distribution = .fill
-        stackView.alignment = .center
+        stackView.alignment = .bottom
 
         stackView.addArrangedSubview(titleLabel)
-        stackView.setCustomSpacing(Dimensions.spacer, after: titleLabel)
+        stackView.setCustomSpacing(Dimensions.separator, after: titleLabel)
         stackView.addArrangedSubview(valueLabel)
 
         titleLabel.text = id.title + ":"
         titleLabel.textAlignment = .right
+        titleLabel.font = Fonts.telemetryLabel
+        valueLabel.font = Fonts.telemetryValue
         updateValueLabel(nil)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false;
@@ -85,7 +89,9 @@ class DynamicTelemetryWidget : UIView {
 
         NSLayoutConstraint.activate([
             titleLabel.widthAnchor.constraint(equalToConstant: Dimensions.tileSize),
+            valueLabel.heightAnchor.constraint(equalToConstant: Fonts.telemetryValue.pointSize),
             widthAnchor.constraint(equalToConstant: Dimensions.dynamicTelemetryWidgetWidth),
+            heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
             stackView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
@@ -93,7 +99,11 @@ class DynamicTelemetryWidget : UIView {
 
 // Public methods
 extension DynamicTelemetryWidget {
-    func updateValueLabel(_ temetryData: String?) {
-        valueLabel.text = (temetryData ?? id.defaultValue) + " " + id.unit
+    func updateValueLabel(_ telemetryData: String?) {
+        if let data = telemetryData {
+            valueLabel.text = data + " " + id.unit
+        } else {
+            valueLabel.text = id.defaultValue
+        }
     }
 }

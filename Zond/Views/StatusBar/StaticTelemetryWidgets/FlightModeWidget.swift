@@ -58,6 +58,9 @@ class FlightModeWidget : UIView {
 extension FlightModeWidget {
     func update(modeString: String?) {
         label.text = modeString == nil ? defaultValue : modeString!
+        if modeString != nil {
+            print("Current mode \(modeString!)")
+        }
     }
 
     func update(isSimulatorOn: Bool) {

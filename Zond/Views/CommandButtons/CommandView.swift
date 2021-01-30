@@ -12,23 +12,21 @@ class CommandView : UIView {
     // Stored properties
     private let stackView = UIStackView()
     private var startButton = CommandButton(.start)
+    private var homeButton = CommandButton(.home)
     private var stopButton = CommandButton(.stop)
 
     // Computed properties
     private var x: CGFloat {
-        return -Dimensions.commandButtonDiameter
+        return Dimensions.roundedAreaOffsetOr(Dimensions.spacer)
     }
     private var y: CGFloat {
-        return Dimensions.screenHeight * CGFloat(0.5) - Dimensions.commandButtonDiameter - Dimensions.spacer * CGFloat(0.5)
+        return Dimensions.screenHeight * CGFloat(0.5) - Dimensions.tileSize - Dimensions.separator * CGFloat(0.5)
     }
     private var width: CGFloat {
-        return Dimensions.commandButtonDiameter
+        return Dimensions.tileSize
     }
     private var height: CGFloat {
-        return Dimensions.commandButtonDiameter * CGFloat(2)
-    }
-    private var shouldOffset: Bool {
-        Dimensions.isPhoneWithRoundedCorners && UIDevice.current.orientation == .landscapeLeft
+        return Dimensions.tileSize * CGFloat(3) + Dimensions.separator * CGFloat(2)
     }
 
     // Notifyer properties
@@ -57,7 +55,9 @@ class CommandView : UIView {
         stopButton.addTarget(self, action: #selector(onButtonPressed(_:)), for: .touchUpInside)
 
         stackView.addArrangedSubview(startButton)
-        stackView.setCustomSpacing(Dimensions.spacer, after: startButton)
+        stackView.setCustomSpacing(Dimensions.separator, after: startButton)
+        stackView.addArrangedSubview(homeButton)
+        stackView.setCustomSpacing(Dimensions.separator, after: homeButton)
         stackView.addArrangedSubview(stopButton)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false;
@@ -72,31 +72,19 @@ extension CommandView {
             case .uploaded:
                 startButton.id = .start
                 stopButton.id = .stop
-                stopButton.isEnabled = false
             case .paused:
                 startButton.id = .resume
                 stopButton.id = .stop
-                stopButton.isEnabled = true
             case .running:
                 startButton.id = .pause
                 stopButton.id = .stop
-                stopButton.isEnabled = true
             default:
                 break
         }
     }
 
-    func toggleShowFromSide(_ show: Bool) {
-        let shownX = shouldOffset ? Dimensions.spacer + Dimensions.safeAreaOffset
-                                  : Dimensions.spacer
-        let notShownX = shouldOffset ? x + Dimensions.safeAreaOffset
-                                     : x
-        self.frame.origin.x = show ? shownX
-                                   : notShownX
-    }
-
-    func adaptToDeviceOrientation() {
-        toggleShowFromSide(!isHidden)
+    func toggleShow(_ show: Bool) {
+        self.layer.opacity = show ? 1 : 0
     }
 }
 

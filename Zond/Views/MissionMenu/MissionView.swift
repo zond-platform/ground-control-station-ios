@@ -36,7 +36,7 @@ class MissionView : UIView {
         backgroundColor = Colors.primary
 
         cancelButton.addTarget(self, action: #selector(onCancelButtonPressed(_:)), for: .touchUpInside)
-        cancelButton.setImage(#imageLiteral(resourceName: "buttonCancel"), for: .normal)
+        cancelButton.setImage(#imageLiteral(resourceName: "buttonMenuCancel"), for: .normal)
 
         stackView.axis = .vertical
         stackView.distribution = .fill
@@ -54,10 +54,10 @@ class MissionView : UIView {
         NSLayoutConstraint.activate([
             cancelButton.widthAnchor.constraint(equalToConstant: Dimensions.tileSize),
             cancelButton.heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Dimensions.safeAreaOffset + Dimensions.doubleSpacer),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Dimensions.doubleSpacer),
-            stackView.topAnchor.constraint(equalTo: topAnchor, constant: Dimensions.doubleSpacer),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Dimensions.doubleSpacer)
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Dimensions.roundedAreaOffsetOr(0)),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            stackView.topAnchor.constraint(equalTo: topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Dimensions.tileSize)
         ])
     }
 }

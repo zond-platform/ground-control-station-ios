@@ -24,11 +24,18 @@ class ConsoleView : UIView {
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .center
+        stackView.layoutMargins = UIEdgeInsets(
+            top: 0,
+            left: Dimensions.doubleSpacer,
+            bottom: 0,
+            right: 0
+        )
 
         messageLabel.font = Fonts.title
         messageLabel.textColor = UIColor.white
         stackView.addArrangedSubview(messageLabel)
 
+        stackView.isLayoutMarginsRelativeArrangement = true
         stackView.translatesAutoresizingMaskIntoConstraints = false;
         addSubview(stackView)
 

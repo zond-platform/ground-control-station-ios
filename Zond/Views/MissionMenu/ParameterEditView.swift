@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate let viewWidth = Dimensions.missionMenuWidth - Dimensions.safeAreaOffset - Dimensions.doubleSpacer * CGFloat(2)
+fileprivate let viewWidth = Dimensions.missionMenuWidth - Dimensions.roundedAreaOffsetOr(0)
 fileprivate let parameterValueWidth = Dimensions.tileSize * CGFloat(2)
 
 class ParameterEditView : UIView {
@@ -46,9 +46,9 @@ class ParameterEditView : UIView {
         valueLabel.font = Fonts.title
         updateValueLabel(id.defaultValue)
 
-        decrementButton.setImage(#imageLiteral(resourceName: "buttonDecrement"), for: .normal)
+        decrementButton.setImage(#imageLiteral(resourceName: "buttonMenuDecrement"), for: .normal)
         decrementButton.addTarget(self, action: #selector(onValueDecrementPressed(_:)), for: .touchUpInside)
-        incrementButton.setImage(#imageLiteral(resourceName: "buttonIncrement"), for: .normal)
+        incrementButton.setImage(#imageLiteral(resourceName: "buttonMenuIncrement"), for: .normal)
         incrementButton.addTarget(self, action: #selector(onValueIncrementPressed(_:)), for: .touchUpInside)
 
         stackView.addArrangedSubview(paramNameLabel)
@@ -67,8 +67,10 @@ class ParameterEditView : UIView {
             decrementButton.widthAnchor.constraint(equalToConstant: Dimensions.tileSize),
             incrementButton.heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
             incrementButton.widthAnchor.constraint(equalToConstant: Dimensions.tileSize),
-            stackView.widthAnchor.constraint(equalTo: widthAnchor),
-            stackView.heightAnchor.constraint(equalTo: heightAnchor)
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Dimensions.spacer),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Dimensions.spacer),
+            stackView.topAnchor.constraint(equalTo: topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }

@@ -229,7 +229,7 @@ extension MapViewController {
                     let image = #imageLiteral(resourceName: "placemarkAircraft")
                     movingObjectView!.image = image //.color(Colors.aircraft)
                 case .home:
-                    movingObjectView!.image = #imageLiteral(resourceName: "homePin")
+                    movingObjectView!.image = #imageLiteral(resourceName: "placamarkHome")
             }
         }
         return movingObjectView

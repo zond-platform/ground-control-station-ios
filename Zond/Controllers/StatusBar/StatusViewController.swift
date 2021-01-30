@@ -31,14 +31,15 @@ extension StatusViewController {
         }
         Environment.missionStateManager.stateListeners.append({ newState in
             if newState == .editing {
-                self.toggleShowFromTopAnimated(show: false, delay: 0)
+                self.toggleShowView(show: false, delay: 0)
             } else {
-                self.toggleShowFromTopAnimated(show: true, delay: Animations.defaultDelay)
+                self.toggleShowView(show: true, delay: Animations.defaultDelay)
             }
+            self.statusView.enableMenuButton(newState == .none || newState == .editing || newState == .uploaded)
         })
     }
 
-    private func toggleShowFromTopAnimated(show: Bool, delay: TimeInterval) {
+    private func toggleShowView(show: Bool, delay: TimeInterval) {
         if show {
             self.statusView.isHidden = false
         }

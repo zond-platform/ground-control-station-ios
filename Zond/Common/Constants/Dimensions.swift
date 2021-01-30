@@ -15,15 +15,16 @@ struct Dimensions {
     static let screenHeight = UIScreen.main.bounds.height
 
     // Generic anchor sizes
-    static let tileSize = screenHeight * CGFloat(0.07)
+    static let tileSize = screenHeight * CGFloat(0.08)
+    static let separator = CGFloat(1)
     static let spacer = tileSize * CGFloat(0.25)
     static let doubleSpacer = tileSize * CGFloat(0.5)
-    static let safeAreaOffset = Dimensions.isPhoneWithRoundedCorners ? tileSize : 0
+    static let roundedAreaOffset = tileSize * CGFloat(1.2)
 
     // View sizes
-    static let missionMenuWidth = safeAreaOffset + tileSize * CGFloat(7)
-    static let dynamicTelemetryWidgetWidth = tileSize * CGFloat(4)
-    static let dynamicTelemetryWidgetHeight = Fonts.telemetry.pointSize
+    static let missionMenuWidth = roundedAreaOffsetOr(0) + tileSize * CGFloat(7)
+    static let dynamicTelemetryWidgetWidth = tileSize * CGFloat(3)
+    static let dynamicTelemetryWidgetHeight = tileSize
     static let commandButtonDiameter = tileSize * CGFloat(2)
 
     // Telemetry widgets
@@ -38,5 +39,8 @@ struct Dimensions {
         return deviceGuru.platform() == .iPhone &&
                deviceGuru.deviceVersion() != nil &&
                deviceGuru.deviceVersion()! > DeviceVersion(major: 10, minor: 3)
+    }
+    static func roundedAreaOffsetOr(_ value: CGFloat) -> CGFloat {
+        return Dimensions.isPhoneWithRoundedCorners ? roundedAreaOffset : value
     }
 }

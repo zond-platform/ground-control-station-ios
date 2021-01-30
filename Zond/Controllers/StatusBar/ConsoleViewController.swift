@@ -38,6 +38,9 @@ extension ConsoleViewController {
         Environment.mapViewController.logConsole = { message, type in
             self.logConsole(message, type)
         }
+        Environment.missionViewController.logConsole = { message, type in
+            self.logConsole(message, type)
+        }
         Environment.simulatorService.logConsole = { message, type in
             self.logConsole(message, type)
         }
@@ -45,6 +48,9 @@ extension ConsoleViewController {
             self.logConsole(message, type)
         }
         Environment.missionStorage.logConsole = { message, type in
+            self.logConsole(message, type)
+        }
+        Environment.missionStateManager.logConsole = {message, type in
             self.logConsole(message, type)
         }
     }

@@ -6,10 +6,16 @@
 //  Copyright © 2019 Evgeny Agamirzov. All rights reserved.
 //
 
+import os.log
+
 import UIKit
 
 class MissionViewController : UIViewController {
+    // Stored properties
     private var missionView: MissionView!
+
+    // Notifyer properties
+    var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -35,37 +41,39 @@ extension MissionViewController {
         }
         Environment.commandService.commandResponseListeners.append({ id, success in
             if success && id == .upload {
-                Environment.missionStateManager.state = .uploaded
-                Environment.missionStorage.writeActiveMission()
+//                Environment.missionStateManager.state = .uploaded
+//                Environment.missionStorage.writeActiveMission()
             }
         })
         Environment.missionStateManager.stateListeners.append({ newState in
             if newState == .editing {
-                self.toggleShowFromSideAnimated(show: true, delay: Animations.defaultDelay)
+                self.toggleShowView(show: true, delay: Animations.defaultDelay)
             } else {
-                self.toggleShowFromSideAnimated(show: false, delay: 0)
+                self.toggleShowView(show: false, delay: 0)
             }
         })
-        Environment.connectionService.listeners.append({ model in
+        Environment.connectionService.listeners.append({ [self] model in
             if model != nil && Environment.missionStorage.activeMissionPresent() {
-                Environment.missionStorage.restoreActiveMission()
-                if let executionState = Environment.commandService.activeExecutionState {
-                    switch executionState {
-                    case .readyToExecute:
-                        Environment.missionStateManager.state = .uploaded
-                    case .executing:
-                        Environment.missionStateManager.state = .running
-                    case .executionPaused:
-                        Environment.missionStateManager.state = .paused
-                    default:
-                        break
-                    }
-                }
+//                Environment.missionStorage.readActiveMission()
+//                switch Environment.commandService.activeExecutionState {
+//                    case .readyToExecute:
+//                        Environment.missionStateManager.state = .uploaded
+//                    case .executing:
+//                        Environment.missionStateManager.state = .running
+//                    case .executionPaused:
+//                        Environment.missionStateManager.state = .paused
+//                    case .unknown:
+//                        break
+//                    default:
+//                        logConsole?("Discarding active mission. Inactive execution state.", .debug)
+//                        Environment.missionStorage.dropActiveMission()
+//                        break
+//                }
             }
         })
     }
 
-    private func toggleShowFromSideAnimated(show: Bool, delay: TimeInterval) {
+    private func toggleShowView(show: Bool, delay: TimeInterval) {
         UIView.animate(
             withDuration: Animations.defaultDuration,
             delay: delay,

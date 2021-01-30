@@ -68,23 +68,21 @@ extension MissionStorage {
         }
     }
 
-    func restoreActiveMission() {
+    func readActiveMission() {
         if let dir = documentsDirectory() {
             let fileUrl = dir.appendingPathComponent(activeMissionFileName)
-            if let mission = readMission(from: fileUrl) {
-                updateMissionParameters(for: mission)
-            }
+            readMission(from: fileUrl)
         }
     }
 
-    func removeActiveMission() {
+    func dropActiveMission() {
         if let dir = documentsDirectory() {
             let fileUrl = dir.appendingPathComponent(activeMissionFileName)
             do {
                 try FileManager.default.removeItem(at: fileUrl)
-                logConsole?("Active mission discarded", .info)
+                logConsole?("Active mission dropped", .info)
             } catch {
-                logConsole?("Remove active mission error: \(error)", .error)
+                logConsole?("Drop active mission error: \(error)", .error)
             }
         }
     }
@@ -92,7 +90,9 @@ extension MissionStorage {
     func activeMissionPresent() -> Bool {
         if let dir = documentsDirectory() {
             let fileUrl = dir.appendingPathComponent(activeMissionFileName)
-            return FileManager.default.fileExists(atPath: fileUrl.path)
+            let missionPresent = FileManager.default.fileExists(atPath: fileUrl.path)
+            logConsole?("Active mission \(missionPresent ? "detected" : "not detected")", .info)
+            return missionPresent
         } else {
             return false
         }
@@ -116,6 +116,7 @@ extension MissionStorage {
     }
 
     private func writeMission(at fileUrl: URL) {
+        logConsole?("Writing mission to persistent location", .debug)
         do {
             var coordinates = Environment.mapViewController.rawPolygonCoordinates()
             if let firstElement = coordinates.first {
@@ -136,40 +137,33 @@ extension MissionStorage {
             ])
             try? FileManager.default.removeItem(at: fileUrl)
             try JSONEncoder().encode(mission).write(to: fileUrl)
-            logConsole?("Active mission recorded", .info)
         } catch {
             logConsole?("JSON encode error: \(error)", .error)
         }
     }
 
-    private func readMission(from fileUrl: URL) -> Mission? {
+    private func readMission(from fileUrl: URL) {
+        logConsole?("Reading mission from persistent location", .debug)
         do {
             let jsonFile = try String(contentsOf: fileUrl, encoding: .utf8)
             do {
                 let jsonData = jsonFile.data(using: .utf8)!
                 let decoder = JSONDecoder()
-                return try decoder.decode(Mission.self, from: jsonData)
+                let mission = try decoder.decode(Mission.self, from: jsonData).features[0]
+                Environment.missionParameters.meanderStep.value = mission.properties.meanderStep
+                Environment.missionParameters.meanderAngle.value = mission.properties.meanderAngle
+                Environment.missionParameters.altitude.value = mission.properties.altitude
+                Environment.missionParameters.speed.value = mission.properties.speed
+                if mission.geometry.type == "Polygon"  && !mission.geometry.coordinates.isEmpty {
+                    var rawCoordinates = mission.geometry.coordinates[0]
+                    rawCoordinates.removeLast()
+                    Environment.mapViewController.setRawPolygonCoordinates(rawCoordinates)
+                }
             } catch {
                 logConsole?("JSON decode error: \(error)", .error)
-                return nil
             }
         } catch {
             logConsole?("JSON read error: \(error)", .error)
-            return nil
-        }
-    }
-
-    private func updateMissionParameters(for mission: Mission) {
-        let mission = mission.features[0]
-        Environment.missionParameters.meanderStep.value = mission.properties.meanderStep
-        Environment.missionParameters.meanderAngle.value = mission.properties.meanderAngle
-        Environment.missionParameters.altitude.value = mission.properties.altitude
-        Environment.missionParameters.speed.value = mission.properties.speed
-        if mission.geometry.type == "Polygon"  && !mission.geometry.coordinates.isEmpty {
-            // First element of the geometry is always the outer polygon
-            var rawCoordinates = mission.geometry.coordinates[0]
-            rawCoordinates.removeLast()
-            Environment.mapViewController.setRawPolygonCoordinates(rawCoordinates)
         }
     }
 }
@@ -178,9 +172,7 @@ extension MissionStorage {
 extension MissionStorage : UIDocumentPickerDelegate {
     internal func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         if let jsonUrl = urls.first {
-            if let mission = readMission(from: jsonUrl) {
-                updateMissionParameters(for: mission)
-            }
+            readMission(from: jsonUrl)
         }
     }
 }

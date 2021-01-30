@@ -17,16 +17,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate {
         window!.rootViewController = Environment.rootViewController
         window!.makeKeyAndVisible()
         Environment.connectionService.start()
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(AppDelegate.rotated),
-                                               name: UIDevice.orientationDidChangeNotification,
-                                               object: nil)
         return true
-    }
-
-    @objc func rotated() {
-        Environment.locatorViewController.deviceRotated()
-        Environment.commandViewController.deviceRotated()
     }
 }
 
