@@ -136,7 +136,7 @@ extension MapViewController {
         Environment.locationService.homeLocationListeners.append({ location in
             self.showObject(self.home, location)
         })
-        Environment.missionStateManager.stateListeners.append({ newState in
+        Environment.missionStateManager.stateListeners.append({ _, newState in
             self.missionPolygon?.missionState = newState
             if newState == .editing {
                 self.enableMissionPolygonInteration(true)

@@ -29,7 +29,7 @@ extension StatusViewController {
         statusView.menuButtonPressed = {
             Environment.missionStateManager.state = .editing
         }
-        Environment.missionStateManager.stateListeners.append({ newState in
+        Environment.missionStateManager.stateListeners.append({ _, newState in
             if newState == .editing {
                 self.toggleShowView(show: false, delay: 0)
             } else {

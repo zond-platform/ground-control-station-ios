@@ -39,36 +39,11 @@ extension MissionViewController {
         missionView.cancelButtonPressed = {
             Environment.missionStateManager.state = .none
         }
-        Environment.commandService.commandResponseListeners.append({ id, success in
-            if success && id == .upload {
-//                Environment.missionStateManager.state = .uploaded
-//                Environment.missionStorage.writeActiveMission()
-            }
-        })
-        Environment.missionStateManager.stateListeners.append({ newState in
+        Environment.missionStateManager.stateListeners.append({ _, newState in
             if newState == .editing {
                 self.toggleShowView(show: true, delay: Animations.defaultDelay)
             } else {
                 self.toggleShowView(show: false, delay: 0)
-            }
-        })
-        Environment.connectionService.listeners.append({ [self] model in
-            if model != nil && Environment.missionStorage.activeMissionPresent() {
-//                Environment.missionStorage.readActiveMission()
-//                switch Environment.commandService.activeExecutionState {
-//                    case .readyToExecute:
-//                        Environment.missionStateManager.state = .uploaded
-//                    case .executing:
-//                        Environment.missionStateManager.state = .running
-//                    case .executionPaused:
-//                        Environment.missionStateManager.state = .paused
-//                    case .unknown:
-//                        break
-//                    default:
-//                        logConsole?("Discarding active mission. Inactive execution state.", .debug)
-//                        Environment.missionStorage.dropActiveMission()
-//                        break
-//                }
             }
         })
     }

@@ -32,6 +32,21 @@ enum MissionState {
     case uploaded
     case running
     case paused
+
+    var name: String {
+        switch self {
+            case .none:
+                return "none"
+            case .editing:
+                return "editing"
+            case .uploaded:
+                return "uploaded"
+            case .running:
+                return "running"
+            case .paused:
+                return "paused"
+        }
+    }
 }
 
 class MissionStateManager {
@@ -40,15 +55,15 @@ class MissionStateManager {
         didSet {
             if allowedStateTransitions.contains(where: { $0 == oldValue && $1 == state }) {
                 for listener in stateListeners {
-                    listener?(state)
+                    listener?(oldValue, state)
                 }
             } else {
-                logConsole?("Unexpected state transition requested", .error)
+                logConsole?("Unexpected state transition requested \(oldValue.name) - > \(state.name)", .error)
             }
         }
     }
 
     // Notifyer properties
-    var stateListeners: [((_ newState: MissionState) -> Void)?] = []
+    var stateListeners: [((_ oldState: MissionState, _ newState: MissionState) -> Void)?] = []
     var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
 }

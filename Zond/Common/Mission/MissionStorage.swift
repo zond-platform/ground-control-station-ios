@@ -42,6 +42,22 @@ class MissionStorage : NSObject {
 
 // Public methods
 extension MissionStorage {
+    func registerListeners() {
+        Environment.missionStateManager.stateListeners.append({ [self] oldState, newState in
+            if oldState == .uploaded && newState == .running {
+                writeActiveMission()
+            } else if oldState == .none && (newState == .running || newState == .paused) {
+                if activeMissionPresent() {
+                    readActiveMission()
+                }
+            } else if (oldState == .running || oldState == .paused) && newState == .none  {
+                if activeMissionPresent() {
+                    dropActiveMission()
+                }
+            }
+        })
+    }
+
     func importMission() {
         let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.json], asCopy: true)
         documentPicker.delegate = self

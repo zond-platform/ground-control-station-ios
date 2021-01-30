@@ -49,14 +49,7 @@ extension CommandViewController {
         Environment.commandService.commandResponseListeners.append({ id, success in
             if success {
                 switch id {
-//                    case .start:
-//                        Environment.missionStateManager.state = .running
-//                    case .pause:
-//                        Environment.missionStateManager.state = .paused
-//                    case .resume:
-//                        Environment.missionStateManager.state = .running
                     case .stop:
-                        Environment.missionStorage.dropActiveMission()
                         Environment.missionStateManager.state = .none
                     default:
                         break
@@ -65,9 +58,8 @@ extension CommandViewController {
         })
         Environment.commandService.missionFinished = { success in
             Environment.missionStateManager.state = .none
-            Environment.missionStorage.dropActiveMission()
         }
-        Environment.missionStateManager.stateListeners.append({ newState in
+        Environment.missionStateManager.stateListeners.append({ _, newState in
             if newState != .none && newState != .editing {
                 self.commandView.setControls(for: newState)
                 self.toggleShowView(show: true, delay: Animations.defaultDelay)

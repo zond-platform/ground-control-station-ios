@@ -57,7 +57,7 @@ extension DynamicTelemetryViewController {
         Environment.locationService.homeLocationListeners.append({ location in
             self.lastHomeLocation = location
         })
-        Environment.missionStateManager.stateListeners.append({ newState in
+        Environment.missionStateManager.stateListeners.append({ _, newState in
             if newState == .editing {
                 self.toggleShowFromBottomAnimated(show: false, delay: 0)
             } else {
