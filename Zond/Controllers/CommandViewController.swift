@@ -42,38 +42,34 @@ extension CommandViewController {
                     Environment.commandService.executeMissionCommand(.resume)
                 case .stop:
                     Environment.commandService.executeMissionCommand(.stop)
+                case .home:
+                    Environment.commandService.executeMissionCommand(.goHome)
             }
         }
         Environment.commandService.commandResponseListeners.append({ id, success in
             if success {
                 switch id {
-                    case .start:
-                        Environment.missionStateManager.state = .running
-                    case .pause:
-                        Environment.missionStateManager.state = .paused
-                    case .resume:
-                        Environment.missionStateManager.state = .running
                     case .stop:
-                        Environment.missionStateManager.state = .editing
+                        Environment.missionStateManager.state = .none
                     default:
                         break
                 }
             }
         })
         Environment.commandService.missionFinished = { success in
-            Environment.missionStateManager.state = nil
+            Environment.missionStateManager.state = .none
         }
         Environment.missionStateManager.stateListeners.append({ _, newState in
-            if newState != nil && newState! != .editing {
-                self.commandView.setControls(for: newState!)
-                self.toggleShowFromSideAnimated(show: true, delay: Animations.defaultDelay)
+            if newState != .none && newState != .editing {
+                self.commandView.setControls(for: newState)
+                self.toggleShowView(show: true, delay: Animations.defaultDelay)
             } else {
-                self.toggleShowFromSideAnimated(show: false, delay: 0)
+                self.toggleShowView(show: false, delay: 0)
             }
         })
     }
 
-    private func toggleShowFromSideAnimated(show: Bool, delay: TimeInterval) {
+    private func toggleShowView(show: Bool, delay: TimeInterval) {
         if show {
             self.commandView.isHidden = false
         }
@@ -82,7 +78,7 @@ extension CommandViewController {
             delay: delay,
             options: [],
             animations: {
-                self.commandView.toggleShowFromSide(show)
+                self.commandView.toggleShow(show)
             },
             completion: { _ in
                 if !show {
@@ -90,12 +86,5 @@ extension CommandViewController {
                 }
             }
         )
-    }
-}
-
-// Public methods
-extension CommandViewController {
-    func deviceRotated() {
-        commandView.adaptToDeviceOrientation()
     }
 }

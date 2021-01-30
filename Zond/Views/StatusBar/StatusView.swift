@@ -43,7 +43,6 @@ class StatusView : UIView {
         menuButton.isSelected = false
 
         stackView.addArrangedSubview(menuButton)
-        stackView.setCustomSpacing(Dimensions.spacer, after: menuButton)
         stackView.addArrangedSubview(Environment.consoleViewController.view)
         stackView.addArrangedSubview(Environment.staticTelemetryViewController.view)
 
@@ -51,8 +50,8 @@ class StatusView : UIView {
         addSubview(stackView)
 
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Dimensions.safeAreaOffset),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Dimensions.safeAreaOffset),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Dimensions.roundedAreaOffsetOr(0)),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Dimensions.roundedAreaOffsetOr(Dimensions.doubleSpacer)),
             stackView.heightAnchor.constraint(equalTo: heightAnchor),
             stackView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
@@ -63,6 +62,10 @@ class StatusView : UIView {
 extension StatusView {
     func toggleShowFromTop(_ show: Bool) {
         frame.origin.y = show ? y : -height
+    }
+
+    func enableMenuButton(_ enable: Bool) {
+        menuButton.isEnabled = enable
     }
 }
 

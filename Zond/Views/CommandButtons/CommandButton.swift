@@ -13,30 +13,35 @@ enum CommandButtonId: Int {
     case pause
     case resume
     case stop
+    case home
 
-    var title: String {
+    var image: UIImage {
         switch self {
             case .start:
-                return "Start"
+                return #imageLiteral(resourceName: "buttonCommandStart")
             case .pause:
-                return "Pause"
+                return #imageLiteral(resourceName: "buttonCommandPause")
             case .resume:
-                return "Resume"
+                return #imageLiteral(resourceName: "buttonCommandResume")
             case .stop:
-                return "Stop"
+                return #imageLiteral(resourceName: "buttonCommandStop")
+            case .home:
+                return #imageLiteral(resourceName: "buttonCommandGoHome")
         }
     }
 
     var color: UIColor {
         switch self {
             case .start:
-                return Colors.success
+                return UIColor.white
             case .pause:
-                return Colors.warning
+                return UIColor.white
             case .resume:
-                return Colors.success
+                return UIColor.white
             case .stop:
                 return Colors.error
+            case .home:
+                return UIColor.white
         }
     }
 }
@@ -48,17 +53,8 @@ class CommandButton : UIButton {
     var id: CommandButtonId? {
         didSet {
             if let id = id {
-                setTitle(id.title, for: .normal)
-                setTitleColor(id.color, for: .normal)
-                titleLabel!.font = Fonts.title
+                setImage(id.image.color(id.color), for: .normal)
             }
-        }
-    }
-
-    // Observer properties
-    override var isEnabled: Bool {
-        didSet {
-            setTitleColor(isEnabled && id != nil ? id!.color : Colors.inactive, for: .normal)
         }
     }
 
@@ -69,11 +65,11 @@ class CommandButton : UIButton {
     init(_ id: CommandButtonId) {
         super.init(frame: CGRect())
         self.id = id
+        setImage(id.image, for: .normal)
         backgroundColor = Colors.primary
-        layer.cornerRadius = Dimensions.commandButtonDiameter * CGFloat(0.5)
         NSLayoutConstraint.activate([
-            widthAnchor.constraint(equalToConstant: Dimensions.commandButtonDiameter),
-            heightAnchor.constraint(equalToConstant: Dimensions.commandButtonDiameter)
+            heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
+            widthAnchor.constraint(equalToConstant: Dimensions.tileSize)
         ])
     }
 }

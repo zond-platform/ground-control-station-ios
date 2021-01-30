@@ -9,6 +9,12 @@
 import CoreLocation
 import UIKit
 
+// DJI's z vector is originally pointed to the ground
+fileprivate func trimToZeroAndInvert(_ value: Double) -> Double {
+    let precision = 0.1
+    return (value < precision && value > -precision) ? 0.0 : -value
+}
+
 class DynamicTelemetryViewController : UIViewController {
     private var dynamicTelemetryView: DynamicTelemetryView!
     private var lastHomeLocation: CLLocation?
@@ -33,7 +39,7 @@ extension DynamicTelemetryViewController {
             self.dynamicTelemetryView.updateTelemetryValue(.horizontalSpeed, with: value)
         }
         Environment.telemetryService.verticalVelocityChanged = { verticalVelocity in
-            let value = verticalVelocity != nil ? String(format: "%.1f", verticalVelocity!) : nil
+            let value = verticalVelocity != nil ? String(format: "%.1f", trimToZeroAndInvert(verticalVelocity!)) : nil
             self.dynamicTelemetryView.updateTelemetryValue(.verticalSpeed, with: value)
         }
         Environment.telemetryService.altitudeChanged = { altitude in
@@ -44,13 +50,15 @@ extension DynamicTelemetryViewController {
             if location != nil && self.lastHomeLocation != nil {
                 let value = location!.distance(from: self.lastHomeLocation!)
                 self.dynamicTelemetryView.updateTelemetryValue(.distance, with: String(format: "%.0f", value))
+            } else {
+                self.dynamicTelemetryView.updateTelemetryValue(.distance, with: nil)
             }
         })
         Environment.locationService.homeLocationListeners.append({ location in
             self.lastHomeLocation = location
         })
         Environment.missionStateManager.stateListeners.append({ _, newState in
-            if newState != nil && newState! == .editing {
+            if newState == .editing {
                 self.toggleShowFromBottomAnimated(show: false, delay: 0)
             } else {
                 self.toggleShowFromBottomAnimated(show: true, delay: Animations.defaultDelay)
@@ -67,7 +75,7 @@ extension DynamicTelemetryViewController {
             delay: delay,
             options: [],
             animations: {
-                self.dynamicTelemetryView.toggleShowFromBottom(show)
+                self.dynamicTelemetryView.toggleShow(show)
             },
             completion: { _ in
                 if !show {

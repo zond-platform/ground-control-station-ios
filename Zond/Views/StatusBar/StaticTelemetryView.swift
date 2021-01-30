@@ -38,7 +38,7 @@ class StaticTelemetryView : UIView {
             top: 0,
             left: Dimensions.doubleSpacer,
             bottom: 0,
-            right: Dimensions.doubleSpacer
+            right: 0
         )
 
         simulatorButton.addTarget(self, action: #selector(onSimulatorButtonSelected(_:)), for: .touchUpInside)
@@ -64,7 +64,7 @@ class StaticTelemetryView : UIView {
 
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
-            stackView.widthAnchor.constraint(equalTo: widthAnchor),
+            widthAnchor.constraint(equalTo: stackView.widthAnchor),
             stackView.heightAnchor.constraint(equalTo: heightAnchor),
             stackView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])

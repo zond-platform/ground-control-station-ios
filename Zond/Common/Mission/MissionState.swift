@@ -6,38 +6,64 @@
 //  Copyright © 2020 Evgeny Agamirzov. All rights reserved.
 //
 
-fileprivate let allowedStateTransitions: KeyValuePairs<MissionState?,MissionState?> = [
-    nil             : .editing,
-    .editing        : nil,
-    .editing        : .uploaded,
-    .uploaded       : .editing,
-    .uploaded       : .running,
-    .running        : .editing,
-    .running        : .paused,
-    .running        : nil,
-    .paused         : .editing,
-    .paused         : .running
+import os.log
+
+fileprivate let allowedStateTransitions: KeyValuePairs<MissionState,MissionState> = [
+    .none     : .editing,
+    .none     : .uploaded,
+    .none     : .running,
+    .none     : .paused,
+    .editing  : .none,
+    .editing  : .uploaded,
+    .uploaded : .editing,
+    .uploaded : .running,
+    .uploaded : .none,
+    .running  : .editing,
+    .running  : .paused,
+    .running  : .none,
+    .paused   : .editing,
+    .paused   : .running,
+    .paused   : .none
 ]
 
 enum MissionState {
+    case none
+    case editing
     case uploaded
     case running
     case paused
-    case editing
+
+    var name: String {
+        switch self {
+            case .none:
+                return "none"
+            case .editing:
+                return "editing"
+            case .uploaded:
+                return "uploaded"
+            case .running:
+                return "running"
+            case .paused:
+                return "paused"
+        }
+    }
 }
 
 class MissionStateManager {
     // Observer properties
-    var state: MissionState? {
+    var state: MissionState = .none {
         didSet {
             if allowedStateTransitions.contains(where: { $0 == oldValue && $1 == state }) {
                 for listener in stateListeners {
                     listener?(oldValue, state)
                 }
+            } else {
+                logConsole?("Unexpected state transition requested \(oldValue.name) - > \(state.name)", .error)
             }
         }
     }
 
     // Notifyer properties
-    var stateListeners: [((_ oldState: MissionState?, _ newState: MissionState?) -> Void)?] = []
+    var stateListeners: [((_ oldState: MissionState, _ newState: MissionState) -> Void)?] = []
+    var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate let width = Dimensions.missionMenuWidth - Dimensions.safeAreaOffset - Dimensions.doubleSpacer * CGFloat(2)
+fileprivate let width = Dimensions.missionMenuWidth - Dimensions.roundedAreaOffsetOr(0)
 
 class ImportExportView : UIView {
     // Stored properties
@@ -48,8 +48,10 @@ class ImportExportView : UIView {
 
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: width),
-            stackView.widthAnchor.constraint(equalTo: widthAnchor),
-            stackView.heightAnchor.constraint(equalTo: heightAnchor)
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Dimensions.spacer),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Dimensions.doubleSpacer),
+            stackView.topAnchor.constraint(equalTo: topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }

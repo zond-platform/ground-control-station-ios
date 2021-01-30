@@ -29,16 +29,17 @@ extension StatusViewController {
         statusView.menuButtonPressed = {
             Environment.missionStateManager.state = .editing
         }
-        Environment.missionStateManager.stateListeners.append({ oldState, newState in
-            if newState != nil && newState == .editing {
-                self.toggleShowFromTopAnimated(show: false, delay: 0)
+        Environment.missionStateManager.stateListeners.append({ _, newState in
+            if newState == .editing {
+                self.toggleShowView(show: false, delay: 0)
             } else {
-                self.toggleShowFromTopAnimated(show: true, delay: Animations.defaultDelay)
+                self.toggleShowView(show: true, delay: Animations.defaultDelay)
             }
+            self.statusView.enableMenuButton(newState == .none || newState == .editing || newState == .uploaded)
         })
     }
 
-    private func toggleShowFromTopAnimated(show: Bool, delay: TimeInterval) {
+    private func toggleShowView(show: Bool, delay: TimeInterval) {
         if show {
             self.statusView.isHidden = false
         }

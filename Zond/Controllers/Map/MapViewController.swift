@@ -138,7 +138,7 @@ extension MapViewController {
         })
         Environment.missionStateManager.stateListeners.append({ _, newState in
             self.missionPolygon?.missionState = newState
-            if newState != nil && newState == .editing {
+            if newState == .editing {
                 self.enableMissionPolygonInteration(true)
                 if self.missionPolygon != nil && self.missionPolygon!.center != nil {
                     self.focusOnCoordinate(self.missionPolygon!.center!)
@@ -229,7 +229,7 @@ extension MapViewController {
                     let image = #imageLiteral(resourceName: "placemarkAircraft")
                     movingObjectView!.image = image //.color(Colors.aircraft)
                 case .home:
-                    movingObjectView!.image = #imageLiteral(resourceName: "homePin")
+                    movingObjectView!.image = #imageLiteral(resourceName: "placamarkHome")
             }
         }
         return movingObjectView

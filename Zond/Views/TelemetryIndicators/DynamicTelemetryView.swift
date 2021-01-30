@@ -20,16 +20,16 @@ class DynamicTelemetryView : UIView {
 
     // Computed properties
     private var x: CGFloat {
-        return (Dimensions.screenWidth) * CGFloat(0.5) - Dimensions.dynamicTelemetryWidgetWidth
+        return Dimensions.screenWidth - width - Dimensions.roundedAreaOffsetOr(Dimensions.spacer)
     }
     private var y: CGFloat {
         return Dimensions.screenHeight - height - Dimensions.spacer
     }
     private var width: CGFloat {
-        return Dimensions.dynamicTelemetryWidgetWidth * CGFloat(2)
+        return Dimensions.dynamicTelemetryWidgetWidth * CGFloat(2) + Dimensions.separator
     }
     private var height: CGFloat {
-        return Dimensions.dynamicTelemetryWidgetHeight * CGFloat(2) + Dimensions.spacer
+        return Dimensions.dynamicTelemetryWidgetHeight * CGFloat(2) + Dimensions.separator
     }
 
     required init?(coder: NSCoder) {
@@ -58,17 +58,19 @@ class DynamicTelemetryView : UIView {
         velocityStackView.distribution = .fillEqually
         velocityStackView.alignment = .center
         velocityStackView.addArrangedSubview(horizontalSpeedWidget)
+        velocityStackView.setCustomSpacing(Dimensions.separator, after: horizontalSpeedWidget)
         velocityStackView.addArrangedSubview(verticalSpeedWidget)
 
         distanceStackView.axis = .horizontal
         distanceStackView.distribution = .fillEqually
         distanceStackView.alignment = .center
         distanceStackView.addArrangedSubview(distanceWidget)
+        distanceStackView.setCustomSpacing(Dimensions.separator, after: distanceWidget)
         distanceStackView.addArrangedSubview(altitudeWidget)
 
-        stackView.addArrangedSubview(velocityStackView)
-        stackView.setCustomSpacing(Dimensions.spacer, after: velocityStackView)
         stackView.addArrangedSubview(distanceStackView)
+        stackView.setCustomSpacing(Dimensions.separator, after: distanceStackView)
+        stackView.addArrangedSubview(velocityStackView)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false;
         addSubview(stackView)
@@ -82,8 +84,8 @@ class DynamicTelemetryView : UIView {
 
 // Public methods
 extension DynamicTelemetryView {
-    func toggleShowFromBottom(_ show: Bool) {
-        self.frame.origin.y = show ? y : Dimensions.screenHeight
+    func toggleShow(_ show: Bool) {
+        self.layer.opacity = show ? 1 : 0
     }
 
     func updateTelemetryValue(_ id: DynamicTelemetryWidgetId, with value: String?) {

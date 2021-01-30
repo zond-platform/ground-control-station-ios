@@ -6,10 +6,16 @@
 //  Copyright © 2019 Evgeny Agamirzov. All rights reserved.
 //
 
+import os.log
+
 import UIKit
 
 class MissionViewController : UIViewController {
+    // Stored properties
     private var missionView: MissionView!
+
+    // Notifyer properties
+    var logConsole: ((_ message: String, _ type: OSLogType) -> Void)?
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -31,23 +37,18 @@ class MissionViewController : UIViewController {
 extension MissionViewController {
     private func registerListeners() {
         missionView.cancelButtonPressed = {
-            Environment.missionStateManager.state = nil
+            Environment.missionStateManager.state = .none
         }
-        Environment.commandService.commandResponseListeners.append({ id, success in
-            if success && id == .upload {
-                Environment.missionStateManager.state = .uploaded
-            }
-        })
-        Environment.missionStateManager.stateListeners.append({ oldState, newState in
-            if newState != nil && newState! == .editing {
-                self.toggleShowFromSideAnimated(show: true, delay: Animations.defaultDelay)
+        Environment.missionStateManager.stateListeners.append({ _, newState in
+            if newState == .editing {
+                self.toggleShowView(show: true, delay: Animations.defaultDelay)
             } else {
-                self.toggleShowFromSideAnimated(show: false, delay: 0)
+                self.toggleShowView(show: false, delay: 0)
             }
         })
     }
 
-    private func toggleShowFromSideAnimated(show: Bool, delay: TimeInterval) {
+    private func toggleShowView(show: Bool, delay: TimeInterval) {
         UIView.animate(
             withDuration: Animations.defaultDuration,
             delay: delay,

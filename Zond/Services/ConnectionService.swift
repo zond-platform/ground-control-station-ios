@@ -45,6 +45,7 @@ extension ConnectionService : DJISDKManagerDelegate {
             os_log("Connection error", type: .error)
         } else {
             os_log("Connected, starting services", type: .info)
+            Environment.missionStorage.registerListeners()
             Environment.simulatorService.registerListeners()
             Environment.commandService.registerListeners()
             Environment.locationService.registerListeners()
