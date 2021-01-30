@@ -42,8 +42,8 @@ extension CommandViewController {
                     Environment.commandService.executeMissionCommand(.resume)
                 case .stop:
                     Environment.commandService.executeMissionCommand(.stop)
-                default:
-                    break
+                case .home:
+                    Environment.commandService.executeMissionCommand(.goHome)
             }
         }
         Environment.commandService.commandResponseListeners.append({ id, success in

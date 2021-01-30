@@ -16,6 +16,7 @@ enum MissionCommandId {
     case pause
     case resume
     case stop
+    case goHome
 
     var title: String {
         switch self {
@@ -29,6 +30,8 @@ enum MissionCommandId {
                 return "resume"
             case .stop:
                 return "stop"
+            case .goHome:
+                return "goHome"
         }
     }
 }
@@ -41,7 +44,6 @@ class CommandService : BaseService {
     var activeExecutionState: DJIWaypointMissionState = .disconnected {
         didSet {
             if activeExecutionState != oldValue {
-                print("Active state: \(activeExecutionState.rawValue)")
                 switch activeExecutionState {
                     case .executing:
                         Environment.missionStateManager.state = .running
@@ -93,17 +95,17 @@ extension CommandService {
             return
         }
         let missionOperator = DJISDKManager.missionControl()?.waypointMissionOperator()
-        let callback = { (error: Error?) in
+        let callback = { [self]  (error: Error?) in
             let success = error == nil
-            for listener in self.commandResponseListeners {
+            for listener in commandResponseListeners {
                 listener?(id, success)
             }
             if success {
                 let message = "Mission \(id.title) succeeded"
-                self.logConsole?(message, .debug)
+                logConsole?(message, .debug)
             } else {
                 let message = "Mission \(id.title) error: \(error!.localizedDescription)"
-                self.logConsole?(message, .error)
+                logConsole?(message, .error)
             }
         }
         switch id {
@@ -121,6 +123,24 @@ extension CommandService {
                 } else {
                     missionOperator?.stopMission(completion: callback)
                 }
+            case .goHome:
+                missionOperator?.stopMission(completion: { [self] error in
+                    if error == nil {
+                        if let missionControl = DJISDKManager.missionControl() {
+                            missionControl.stopTimeline()
+                            missionControl.unscheduleEverything()
+                            missionControl.scheduleElement(DJIGoHomeAction())
+                            missionControl.startTimeline()
+                            Environment.missionStateManager.state = .none
+                        } else {
+                            let message = "Mission control \(id.title) error: \(error!.localizedDescription)"
+                            logConsole?(message, .error)
+                        }
+                    } else {
+                        let message = "Stop before \(id.title) error: \(error!.localizedDescription)"
+                        logConsole?(message, .error)
+                    }
+                })
         }
     }
 }
@@ -162,6 +182,9 @@ extension CommandService {
     private func unsubscribeFromMissionEvents() {
         let missionOperator = DJISDKManager.missionControl()?.waypointMissionOperator()
         missionOperator?.removeAllListeners()
+        let missionControl = DJISDKManager.missionControl()
+        missionControl?.stopTimeline()
+        missionControl?.unscheduleEverything()
     }
 
     private func waypointMissionFromCoordinates(_ coordinates: [CLLocationCoordinate2D]) -> DJIWaypointMission {

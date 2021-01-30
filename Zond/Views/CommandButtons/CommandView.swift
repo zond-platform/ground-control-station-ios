@@ -52,6 +52,7 @@ class CommandView : UIView {
         stackView.alignment = .center
 
         startButton.addTarget(self, action: #selector(onButtonPressed(_:)), for: .touchUpInside)
+        homeButton.addTarget(self, action: #selector(onButtonPressed(_:)), for: .touchUpInside)
         stopButton.addTarget(self, action: #selector(onButtonPressed(_:)), for: .touchUpInside)
 
         stackView.addArrangedSubview(startButton)
