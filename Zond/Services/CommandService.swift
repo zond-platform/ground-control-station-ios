@@ -204,7 +204,7 @@ extension CommandService {
             waypoint.actionRepeatTimes = 1
             waypoint.actionTimeoutInSeconds = 60
             waypoint.turnMode = .clockwise
-            waypoint.gimbalPitch = -85
+            waypoint.gimbalPitch = -90
             waypoint.shootPhotoDistanceInterval = Environment.missionParameters.meanderStep.value
             waypoint.cornerRadiusInMeters = (Environment.missionParameters.meanderStep.value / 2) - 10e-6
             mission.add(waypoint)
