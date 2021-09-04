@@ -9,13 +9,13 @@
 import UIKit
 
 struct Colors {
-    static let primary   = UIColor(hex: "#263238DD")
-    static let secondary = UIColor(hex: "#039BE5FF")
-    static let inactive  = UIColor(hex: "#535353FF")
+    static let primary   = UIColor(red: 0.15, green: 0.20, blue: 0.22, alpha: 0.8)
+    static let secondary = UIColor(red: 0.01, green: 0.61, blue: 0.90, alpha: 1.00)
+    static let inactive  = UIColor(red: 0.33, green: 0.33, blue: 0.33, alpha: 1.00)
 
-    static let success   = UIColor(hex: "#4CAF50FF")
-    static let warning   = UIColor(hex: "#FFEB3BFF")
-    static let error     = UIColor(hex: "#FF2222FF")
+    static let success   = UIColor(red: 0.30, green: 0.69, blue: 0.31, alpha: 1.00)
+    static let warning   = UIColor(red: 1.00, green: 0.92, blue: 0.23, alpha: 1.00)
+    static let error     = UIColor(red: 1.00, green: 0.13, blue: 0.13, alpha: 1.00)
 }
 
 extension UIImage {
@@ -26,23 +26,5 @@ extension UIImage {
             self.draw(at: .zero)
             context.fill(CGRect(x: 0, y: 0, width: size.width, height: size.height), blendMode: .sourceAtop)
         }
-    }
-}
-
-extension UIColor {
-    public convenience init(hex: String) {
-        var hexNumber: UInt64 = 0
-        let hexColor = String(hex[hex.index(hex.startIndex, offsetBy: 1)...])
-
-        assert(hex.hasPrefix("#"))
-        assert(hexColor.count == 8)
-        assert(Scanner(string: hexColor).scanHexInt64(&hexNumber))
-
-        let r = CGFloat((hexNumber & 0xff000000) >> 24) / 255
-        let g = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
-        let b = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
-        let a = CGFloat(hexNumber & 0x000000ff) / 255
-
-        self.init(red: r, green: g, blue: b, alpha: a)
     }
 }

@@ -787,6 +787,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JF2NVCP8SN;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
@@ -799,7 +800,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.31;
+				MARKETING_VERSION = 0.34;
 				PRODUCT_BUNDLE_IDENTIFIER = com.company.Zond;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -813,6 +814,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JF2NVCP8SN;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
@@ -825,7 +827,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.31;
+				MARKETING_VERSION = 0.34;
 				PRODUCT_BUNDLE_IDENTIFIER = com.company.Zond;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;

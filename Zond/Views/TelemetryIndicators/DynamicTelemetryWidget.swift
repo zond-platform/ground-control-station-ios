@@ -82,6 +82,8 @@ class DynamicTelemetryWidget : UIView {
         titleLabel.textAlignment = .right
         titleLabel.font = Fonts.telemetryLabel
         valueLabel.font = Fonts.telemetryValue
+        titleLabel.textColor = .white
+        valueLabel.textColor = .white
         updateValueLabel(nil)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false;
