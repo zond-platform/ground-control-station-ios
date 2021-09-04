@@ -159,7 +159,7 @@ extension CommandService {
                 self.logConsole?("Mission finished with error: \(error!.localizedDescription)", .error)
                 self.missionFinished?(false)
             } else {
-                self.logConsole?("Mission finished successfully", .debug)
+                self.logConsole?("Mission finished successfully, going home.", .debug)
                 self.missionFinished?(true)
             }
         })
@@ -191,7 +191,7 @@ extension CommandService {
         let mission = DJIMutableWaypointMission()
         mission.maxFlightSpeed = 15
         mission.autoFlightSpeed = Environment.missionParameters.speed.value
-        mission.finishedAction = .noAction
+        mission.finishedAction = .goHome
         mission.headingMode = .auto
         mission.flightPathMode = .curved
         mission.rotateGimbalPitch = true
