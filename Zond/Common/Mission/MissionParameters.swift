@@ -93,11 +93,11 @@ class MissionParameter {
     init(_ id: MissionParameterId) {
         switch id {
             case .meanderStep:
-                self.range = MissionParameterRange(min: 5, max: 50, step: 1, defaultValue: id.defaultValue)
+                self.range = MissionParameterRange(min: 5, max: 50, step: 5, defaultValue: id.defaultValue)
             case .meanderAngle:
-                self.range = MissionParameterRange(min: -90, max: 90, step: 1, defaultValue: id.defaultValue)
+                self.range = MissionParameterRange(min: -90, max: 90, step: 5, defaultValue: id.defaultValue)
             case .altitude:
-                self.range = MissionParameterRange(min: 50, max: 150, step: 1, defaultValue: id.defaultValue)
+                self.range = MissionParameterRange(min: 30, max: 300, step: 10, defaultValue: id.defaultValue)
             case .speed:
                 self.range = MissionParameterRange(min: 5, max: 15, step: 1, defaultValue: id.defaultValue)
         }
