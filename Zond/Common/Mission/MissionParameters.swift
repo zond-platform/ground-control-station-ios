@@ -11,6 +11,7 @@ enum MissionParameterId {
     case meanderAngle
     case altitude
     case speed
+    case crossGrid
 
     var name: String {
         switch self {
@@ -22,6 +23,8 @@ enum MissionParameterId {
                 return "Altitude"
             case .speed:
                 return "Speed"
+            case .crossGrid:
+                return "Cross Grid"
         }
     }
 
@@ -35,6 +38,8 @@ enum MissionParameterId {
                 return "m"
             case .speed:
                 return "m/s"
+            case .crossGrid:
+                return ""
         }
     }
 
@@ -48,6 +53,8 @@ enum MissionParameterId {
                 return 100
             case .speed:
                 return 10
+            case .crossGrid:
+                return 0
         }
     }
 }
@@ -100,6 +107,8 @@ class MissionParameter {
                 self.range = MissionParameterRange(min: 30, max: 300, step: 10, defaultValue: id.defaultValue)
             case .speed:
                 self.range = MissionParameterRange(min: 5, max: 15, step: 1, defaultValue: id.defaultValue)
+            case .crossGrid:
+                self.range = MissionParameterRange(min: 0, max: 1, step: 1, defaultValue: id.defaultValue)
         }
         self.value = self.range.defaultValue
     }
@@ -108,6 +117,8 @@ class MissionParameter {
         let newValue = value + range.step
         if range.contains(newValue) {
             value = newValue
+        } else {
+            value = range.min
         }
     }
 
@@ -115,6 +126,8 @@ class MissionParameter {
         let newValue = value - range.step
         if range.contains(newValue) {
             value = newValue
+        } else {
+            value = range.max
         }
     }
 }
@@ -125,4 +138,5 @@ class MissionParameters {
     var meanderAngle = MissionParameter(.meanderAngle)
     var altitude = MissionParameter(.altitude)
     var speed = MissionParameter(.speed)
+    var crossGrid = MissionParameter(.crossGrid)
 }

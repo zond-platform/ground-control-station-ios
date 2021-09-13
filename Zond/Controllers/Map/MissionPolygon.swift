@@ -47,6 +47,11 @@ class MissionPolygon : MKPolygon {
             updated?()
         }
     }
+    var crossGridEnabled: Bool = (MissionParameterId.crossGrid.defaultValue != 0.0) {
+        didSet {
+            updated?()
+        }
+    }
     var missionState: MissionState = .none {
         didSet {
             updated?()

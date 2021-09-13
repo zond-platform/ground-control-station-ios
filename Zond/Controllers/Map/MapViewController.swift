@@ -153,6 +153,9 @@ extension MapViewController {
         Environment.missionParameters.meanderAngle.valueListeners.append({ value in
             self.missionPolygon?.gridAngle = CGFloat(value)
         })
+        Environment.missionParameters.crossGrid.valueListeners.append({ value in
+            self.missionPolygon?.crossGridEnabled = (value != 0.0)
+        })
     }
 
     private func enableMissionPolygonInteration(_ enable: Bool) {

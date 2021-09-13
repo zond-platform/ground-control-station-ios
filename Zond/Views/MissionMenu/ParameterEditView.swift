@@ -14,13 +14,14 @@ fileprivate let parameterValueWidth = Dimensions.tileSize * CGFloat(2)
 class ParameterEditView : UIView {
     // Stored properties
     private var paramNameLabel = UILabel()
-    private var valueLabel = UILabel()
+    private var valueButton = UIButton()
     private var decrementButton = UIButton()
     private var incrementButton = UIButton()
     private var stackView = UIStackView()
     var id: MissionParameterId!
 
     // Notifyer properties
+    var parameterValuePressed: (() -> Void)?
     var parameterIncrementPressed: (() -> Void)?
     var parameterDecrementPressed: (() -> Void)?
 
@@ -41,19 +42,24 @@ class ParameterEditView : UIView {
         paramNameLabel.textColor = UIColor.white
         paramNameLabel.font = Fonts.title
 
-        valueLabel.textColor = UIColor.white
-        valueLabel.textAlignment = .center
-        valueLabel.font = Fonts.title
-        updateValueLabel(id.defaultValue)
+        valueButton.setTitleColor(UIColor.white, for: .normal)
+        valueButton.setTitleColor(Colors.secondary, for: .selected)
+        valueButton.titleLabel?.textAlignment = .center
+        valueButton.titleLabel?.font = Fonts.title
+        updateValueLabel(id, id.defaultValue)
 
-        decrementButton.setImage(#imageLiteral(resourceName: "buttonMenuDecrement"), for: .normal)
-        decrementButton.addTarget(self, action: #selector(onValueDecrementPressed(_:)), for: .touchUpInside)
-        incrementButton.setImage(#imageLiteral(resourceName: "buttonMenuIncrement"), for: .normal)
-        incrementButton.addTarget(self, action: #selector(onValueIncrementPressed(_:)), for: .touchUpInside)
+        if id == .crossGrid {
+            valueButton.addTarget(self, action: #selector(onValuePressed(_:)), for: .touchUpInside)
+        } else {
+            decrementButton.setImage(#imageLiteral(resourceName: "buttonMenuDecrement"), for: .normal)
+            decrementButton.addTarget(self, action: #selector(onValueDecrementPressed(_:)), for: .touchUpInside)
+            incrementButton.setImage(#imageLiteral(resourceName: "buttonMenuIncrement"), for: .normal)
+            incrementButton.addTarget(self, action: #selector(onValueIncrementPressed(_:)), for: .touchUpInside)
+        }
 
         stackView.addArrangedSubview(paramNameLabel)
         stackView.addArrangedSubview(decrementButton)
-        stackView.addArrangedSubview(valueLabel)
+        stackView.addArrangedSubview(valueButton)
         stackView.addArrangedSubview(incrementButton)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false;
@@ -61,8 +67,8 @@ class ParameterEditView : UIView {
 
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: viewWidth),
-            valueLabel.widthAnchor.constraint(equalToConstant: parameterValueWidth),
-            valueLabel.heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
+            valueButton.widthAnchor.constraint(equalToConstant: parameterValueWidth),
+            valueButton.heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
             decrementButton.heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
             decrementButton.widthAnchor.constraint(equalToConstant: Dimensions.tileSize),
             incrementButton.heightAnchor.constraint(equalToConstant: Dimensions.tileSize),
@@ -77,13 +83,23 @@ class ParameterEditView : UIView {
 
 // Public methods
 extension ParameterEditView {
-    func updateValueLabel(_ value: Float) {
-        valueLabel.text = String(format: "%.0f", value) + " " + id.unit
+    func updateValueLabel(_ id: MissionParameterId, _ value: Float) {
+        if id == .crossGrid {
+            let enabled = (value != 0.0)
+            valueButton.isSelected = enabled
+            valueButton.setTitle(enabled ? "On" : "Off", for: .normal)
+        } else {
+            valueButton.setTitle(String(format: "%.0f", value) + " " + id.unit, for: .normal)
+        }
     }
 }
 
 // Handle control events
 extension ParameterEditView {
+    @objc func onValuePressed(_ : UIButton) {
+        parameterValuePressed?()
+    }
+
     @objc func onValueDecrementPressed(_ : UIButton) {
         parameterDecrementPressed?()
     }

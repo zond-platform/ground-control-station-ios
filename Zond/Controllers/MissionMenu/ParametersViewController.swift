@@ -33,13 +33,15 @@ extension ParametersViewController {
         parametersView.parameterDecrementPressed = { id in
             switch id {
                 case .meanderStep:
-                    return Environment.missionParameters.meanderStep.decrement()
+                    Environment.missionParameters.meanderStep.decrement()
                 case .meanderAngle:
-                    return Environment.missionParameters.meanderAngle.decrement()
+                    Environment.missionParameters.meanderAngle.decrement()
                 case .altitude:
-                    return Environment.missionParameters.altitude.decrement()
+                    Environment.missionParameters.altitude.decrement()
                 case .speed:
-                    return Environment.missionParameters.speed.decrement()
+                    Environment.missionParameters.speed.decrement()
+                default:
+                    ()
             }
         }
         parametersView.parameterIncrementPressed = { id in
@@ -52,6 +54,16 @@ extension ParametersViewController {
                     return Environment.missionParameters.altitude.increment()
                 case .speed:
                     return Environment.missionParameters.speed.increment()
+                default:
+                    ()
+            }
+        }
+        parametersView.parameterValuePressed = { id in
+            switch id {
+                case .crossGrid:
+                    return Environment.missionParameters.crossGrid.increment()
+                default:
+                    ()
             }
         }
         Environment.missionParameters.meanderStep.valueListeners.append({ value in
@@ -65,6 +77,9 @@ extension ParametersViewController {
         })
         Environment.missionParameters.speed.valueListeners.append({ value in
             self.parametersView.updateValueLabel(for: .speed, with: value)
+        })
+        Environment.missionParameters.crossGrid.valueListeners.append({ value in
+            self.parametersView.updateValueLabel(for: .crossGrid, with: value)
         })
     }
 }

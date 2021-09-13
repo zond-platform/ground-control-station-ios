@@ -14,6 +14,7 @@ class ParametersView : UIView {
     private let stackView = UIStackView()
 
     // Notifyer properties
+    var parameterValuePressed: ((_ id: MissionParameterId) -> Void)?
     var parameterIncrementPressed: ((_ id: MissionParameterId) -> Void)?
     var parameterDecrementPressed: ((_ id: MissionParameterId) -> Void)?
 
@@ -54,11 +55,14 @@ extension ParametersView {
             parameterEditViews[i].parameterIncrementPressed = {
                 self.parameterIncrementPressed?(self.parameterEditViews[i].id)
             }
+            parameterEditViews[i].parameterValuePressed = {
+                self.parameterValuePressed?(self.parameterEditViews[i].id)
+            }
         }
     }
 
     func updateValueLabel(for id: MissionParameterId, with value: Float) {
         let index = parameterEditViews.firstIndex(where: { $0.id == id })!
-        parameterEditViews[index].updateValueLabel(value)
+        parameterEditViews[index].updateValueLabel(id, value)
     }
 }

@@ -70,6 +70,14 @@ class MissionRenderer : MKOverlayRenderer {
             return 0.0
         }
     }
+    var liveCrossGridEnabled: Bool {
+        let polygon = self.overlay as? MissionPolygon
+        if polygon != nil {
+            return polygon!.crossGridEnabled
+        } else {
+            return false
+        }
+    }
 
     override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
         let polygon = self.overlay as? MissionPolygon
@@ -148,7 +156,9 @@ extension MissionRenderer {
         pointSet.computeHull()
         pointSet.resetMeander()
         pointSet.computeMeander(liveGridDelta, liveGridTangent(false))
-        pointSet.computeMeander(liveGridDelta, liveGridTangent(true))
+        if liveCrossGridEnabled {
+            pointSet.computeMeander(liveGridDelta, liveGridTangent(true))
+        }
     }
 
     private func computeRadius(for map: [MKZoomScale:CGFloat], with zoomScale: MKZoomScale) -> CGFloat {
