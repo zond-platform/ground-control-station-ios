@@ -70,20 +70,6 @@ class MissionRenderer : MKOverlayRenderer {
             return 0.0
         }
     }
-    var liveGridTangent: CGFloat? {
-        let polygon = self.overlay as? MissionPolygon
-        if polygon != nil {
-            let angle = polygon!.gridAngle * (CGFloat.pi / 180)
-            if angle != 0 && angle.remainder(dividingBy: CGFloat.pi / 2) == 0 {
-                return nil
-            } else {
-                // Inverse tangent so that inclination is correct in the flipped coordinate system
-                return -tan(angle)
-            }
-        } else {
-            return 0.0
-        }
-    }
 
     override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
         let polygon = self.overlay as? MissionPolygon
@@ -137,6 +123,22 @@ extension MissionRenderer {
 
 // Private utility methods
 extension MissionRenderer {
+    private func liveGridTangent(_ flipped: Bool) -> CGFloat? {
+        let polygon = self.overlay as? MissionPolygon
+        if polygon != nil {
+            let degrees = !flipped ? (polygon!.gridAngle) : (polygon!.gridAngle + 90)
+            let angle = degrees * (CGFloat.pi / 180)
+            if angle != 0 && angle.remainder(dividingBy: CGFloat.pi / 2) == 0 {
+                return nil
+            } else {
+                // Inverse tangent so that inclination is correct in the flipped coordinate system
+                return -tan(angle)
+            }
+        } else {
+            return 0.0
+        }
+    }
+
     private func computeGeometries(from coordinates: [CLLocationCoordinate2D]) {
         var points: [CGPoint] = []
         for coordinate in coordinates {
@@ -144,7 +146,9 @@ extension MissionRenderer {
         }
         pointSet.set(points: points)
         pointSet.computeHull()
-        pointSet.computeMeander(liveGridDelta, liveGridTangent)
+        pointSet.resetMeander()
+        pointSet.computeMeander(liveGridDelta, liveGridTangent(false))
+        pointSet.computeMeander(liveGridDelta, liveGridTangent(true))
     }
 
     private func computeRadius(for map: [MKZoomScale:CGFloat], with zoomScale: MKZoomScale) -> CGFloat {

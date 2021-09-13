@@ -30,6 +30,10 @@ extension PointSet {
         hull.compute(points)
     }
 
+    func resetMeander() {
+        meander.reset()
+    }
+
     func computeMeander(_ delta: CGFloat, _ tangent: CGFloat?) {
         meander.compute(hull, delta, tangent)
     }

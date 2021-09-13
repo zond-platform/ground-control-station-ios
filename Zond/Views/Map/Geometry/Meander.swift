@@ -10,7 +10,7 @@ import CoreGraphics
 
 class Meander : Equatable {
     private(set) var points: [CGPoint] = []
-    private var intersectionPoints: [CGPoint] = []
+    private(set) var intersectionPoints: [CGPoint] = []
 }
 
 // Public methods
@@ -19,12 +19,12 @@ extension Meander {
         if delta != 0.0 {
             if let line = referenceLine(for: hull, withTangent: tangent) {
                 // Reset and initialize
-                points.removeAll(keepingCapacity: true)
                 intersectionPoints.removeAll(keepingCapacity: true)
-                var direction = true
 
                 // Move reference line to an offset
-                let offset = delta / 2
+                var direction = false
+                var pts: [CGPoint] = []
+                let offset = delta / CGFloat(2.0)
                 line.move(for: (tangent == nil || tangent! <= 0) ? offset : -offset)
 
                 // Move reference line through the hull
@@ -43,20 +43,27 @@ extension Meander {
                     }
 
                     // Align points on turn
-                    if points.count >= 2 && intersectionPoints.count == 2 {
-                        let v1 = Vector(points[points.count - 2], points[points.count - 1])
+                    if pts.count >= 2 && intersectionPoints.count == 2 {
+                        let v1 = Vector(pts[pts.count - 2], pts[pts.count - 1])
                         let v2 = Vector(intersectionPoints[0], intersectionPoints[1])
-                        alignTurn(&points[points.count - 1], &intersectionPoints[0], v1, v2, tangent, delta, direction)
+                        alignTurn(&pts[pts.count - 1], &intersectionPoints[0], v1, v2, tangent, delta, direction)
                     }
 
                     // Accumulate the result
-                    points.append(contentsOf: intersectionPoints)
+                    pts.append(contentsOf: intersectionPoints)
 
                     // Reverse meander direction
                     direction = !direction
                 } while !intersectionPoints.isEmpty
+
+                // Append member
+                points.append(contentsOf: pts)
             }
         }
+    }
+
+    func reset() {
+        points.removeAll(keepingCapacity: true)
     }
 
     func referenceLine(for hull: Hull, withTangent tangent: CGFloat?) -> Line? {
@@ -71,8 +78,11 @@ extension Meander {
         }
         return referenceLines.first
     }
+}
 
-    func alignTurn(_ p1: inout CGPoint,
+// Private functions
+extension Meander {
+    private func alignTurn(_ p1: inout CGPoint,
                    _ p2: inout CGPoint,
                    _ v1: Vector,
                    _ v2: Vector,
@@ -96,10 +106,7 @@ extension Meander {
         p1 = intersectionPoint(l1, l)
         p2 = intersectionPoint(l2, l)
     }
-}
 
-// Private functions
-extension Meander {
     private func flipTangent(_ tangent: CGFloat?) -> CGFloat? {
         if tangent == nil {
             return 0
