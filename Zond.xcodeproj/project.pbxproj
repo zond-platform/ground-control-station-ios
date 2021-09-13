@@ -796,7 +796,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.35;
+				MARKETING_VERSION = 0.36;
 				PRODUCT_BUNDLE_IDENTIFIER = com.company.Zond;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -823,7 +823,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.35;
+				MARKETING_VERSION = 0.36;
 				PRODUCT_BUNDLE_IDENTIFIER = com.company.Zond;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
